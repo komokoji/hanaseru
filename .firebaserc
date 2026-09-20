@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "komori-clinic-platform"
+  },
+  "targets": {
+    "komori-clinic-platform": {
+      "hosting": {
+        "hanaseru": [
+          "hanaseru"
+        ]
+      }
+    }
+  }
+}
