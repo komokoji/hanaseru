@@ -34,34 +34,47 @@ window.HANASERU_CARDS = [
   { id: "med-rev-3", domain: "medical", ja: "これだけは救急へ：横になって全く眠れない。", en: "Go straight to the ER if she simply can't sleep lying down." },
   { id: "med-rev-4", domain: "medical", ja: "肩やお腹を使って息をしている。目がうつろ。", en: "…or she's using her shoulders or belly to breathe, or her eyes look dazed." },
 
-  // ── 旅行・日常 ─────────────────────────────
-  { id: "tr-axis-1", domain: "travel", ja: "すみません、少し助けてもらえますか？", en: "Excuse me, could you help me for a second?" },
-  { id: "tr-axis-2", domain: "travel", ja: "英語を練習中なので、少しゆっくりお願いします。", en: "I'm practicing my English, so could you speak a little slower?" },
-  { id: "tr-axis-3", domain: "travel", ja: "よく分からなかったので、もう少し詳しく教えてください。", en: "I'm not sure I follow — could you explain a bit more?" },
-  { id: "tr-axis-4", domain: "travel", ja: "もう一つ、念のため確認させてください。", en: "One more thing, just to make sure —" },
-  { id: "tr-imm-1", domain: "travel", ja: "観光で来ました。滞在は10日間です。", en: "I'm here for tourism, for ten days." },
-  { id: "tr-imm-2", domain: "travel", ja: "家族と一緒に来ています。", en: "I'm traveling with my family." },
-  { id: "tr-imm-3", domain: "travel", ja: "日本で子どもの医者をしています。", en: "I'm a children's doctor in Japan." },
-  { id: "tr-hotel-1", domain: "travel", ja: "チェックインをお願いします。予約は小森です。", en: "I'd like to check in. The reservation is under Komori." },
-  { id: "tr-hotel-2", domain: "travel", ja: "エレベーターでカードキーがうまく使えません。直してもらえますか？", en: "My key card isn't working in the elevator. Could you fix it for me?" },
-  { id: "tr-hotel-3", domain: "travel", ja: "朝食は何時からですか？", en: "What time does breakfast start?" },
-  { id: "tr-air-1", domain: "travel", ja: "この便の搭乗ゲートはどこですか？", en: "Which gate is this flight boarding from?" },
-  { id: "tr-air-2", domain: "travel", ja: "乗り継ぎがあります。時間は間に合いますか？", en: "I have a connecting flight — will I make it in time?" },
-  { id: "tr-bag-1", domain: "travel", ja: "スーツケースは羽田までスルーで預けてありますか？それともここで一度受け取りますか？", en: "Is my suitcase checked all the way through to Haneda, or do I need to pick it up here?" },
-  { id: "tr-bag-2", domain: "travel", ja: "乗り継ぎの間、荷物は自動で運ばれますか？私が何かする必要は？", en: "Will my bag be transferred automatically, or do I need to do anything myself?" },
-  { id: "tr-bag-3", domain: "travel", ja: "もし荷物が間に合わなくても、羽田で受け取れますか？", en: "If my bag doesn't make it in time, can I still receive it at Haneda?" },
+  // ── 旅行・日常（口語・テンポ重視）──────────────
+  // つなぎ言葉（口語のリズムを作る）
+  { id: "tr-fill-1", domain: "travel", ja: "（切り出し）で、〜なんですけど。", en: "So, ..." },
+  { id: "tr-fill-2", domain: "travel", ja: "へえ、いいですね！", en: "Oh, nice!" },
+  { id: "tr-fill-3", domain: "travel", ja: "えーと、そうですね…", en: "Well, let me think..." },
+  { id: "tr-fill-4", domain: "travel", ja: "ですよね？（同意をうながす）", en: "You know what I mean?" },
+  // 軸（強がらない・深掘り）
+  { id: "tr-axis-1", domain: "travel", ja: "ちょっと助けてもらえますか？", en: "Could you help me out real quick?" },
+  { id: "tr-axis-2", domain: "travel", ja: "英語まだ勉強中で。少しゆっくり話してもらえますか？", en: "I'm still learning English — could you slow down a little?" },
+  { id: "tr-axis-3", domain: "travel", ja: "うまく聞き取れなくて。もう一回いいですか？", en: "Sorry, I didn't quite catch that — could you say it again?" },
+  { id: "tr-axis-4", domain: "travel", ja: "念のため、もう一つだけ確認させて。", en: "Just to be sure — one more thing." },
+  // 入国審査
+  { id: "tr-imm-1", domain: "travel", ja: "観光で来ました。10日くらいです。", en: "I'm here as a tourist, for about ten days." },
+  { id: "tr-imm-2", domain: "travel", ja: "家族と一緒です。", en: "I'm with my family." },
+  { id: "tr-imm-3", domain: "travel", ja: "日本で子どもの医者をしています。", en: "I'm a children's doctor back in Japan." },
+  // ホテル
+  { id: "tr-hotel-1", domain: "travel", ja: "チェックインお願いします。小森で予約してます。", en: "Hi, I'd like to check in — it's under Komori." },
+  { id: "tr-hotel-2", domain: "travel", ja: "エレベーターでカードキーが反応しないんです。直してもらえますか？", en: "My key card isn't working in the elevator — could you sort it out for me?" },
+  { id: "tr-hotel-3", domain: "travel", ja: "朝食って何時からですか？", en: "What time's breakfast?" },
+  // 空港
+  { id: "tr-air-1", domain: "travel", ja: "この便のゲートはどこですか？", en: "Which gate does this flight leave from?" },
+  { id: "tr-air-2", domain: "travel", ja: "乗り継ぎなんですが、間に合いますか？", en: "I've got a connecting flight — will I make it?" },
+  // 荷物（深く確認）
+  { id: "tr-bag-1", domain: "travel", ja: "荷物は羽田までスルーですか？それともここで受け取り？", en: "Is my bag checked through to Haneda, or do I grab it here?" },
+  { id: "tr-bag-2", domain: "travel", ja: "乗り継ぎの間、荷物は勝手に運ばれます？何かやることは？", en: "Does my bag get transferred automatically, or do I need to do anything?" },
+  { id: "tr-bag-3", domain: "travel", ja: "もし間に合わなくても、羽田で受け取れますか？", en: "If it doesn't make it, can I still pick it up at Haneda?" },
+  // 支払い・買い物・食事
   { id: "tr-pay-1", domain: "travel", ja: "カードで払えますか？", en: "Can I pay by card?" },
-  { id: "tr-pay-2", domain: "travel", ja: "おすすめは何ですか？", en: "What would you recommend?" },
-  { id: "tr-pay-3", domain: "travel", ja: "お会計をお願いします。", en: "Could I have the check, please?" },
-  { id: "tr-beer-1", domain: "travel", ja: "ビールはどんな種類がありますか？軽めとしっかりめ、どちらがおすすめ？", en: "What kinds of beer do you have? Would you recommend something light, or something fuller?" },
-  { id: "tr-beer-2", domain: "travel", ja: "地元のビールはありますか？違いは何ですか？", en: "Do you have any local beers? What's the difference between them?" },
-  { id: "tr-chat-1", domain: "travel", ja: "こんにちは、どちらから来たんですか？", en: "Hi — where are you traveling from?" },
-  { id: "tr-chat-2", domain: "travel", ja: "ここへは何をしに？", en: "What brings you here?" },
-  { id: "tr-chat-3", domain: "travel", ja: "それ、面白いですね。もう少し聞かせてください。", en: "That's really interesting — tell me more." },
-  { id: "tr-chat-4", domain: "travel", ja: "私は日本から。子どもの医者で、お腹と栄養を診ています。", en: "I'm from Japan — a children's doctor, working on gut health and nutrition." },
-  { id: "tr-chat-5", domain: "travel", ja: "また会えたら嬉しいです。連絡先を交換しませんか？", en: "I'd love to stay in touch — shall we swap contacts?" },
-  { id: "tr-chat-6", domain: "travel", ja: "お会いできてよかった。良い旅を。", en: "It was great meeting you. Have a wonderful trip." },
-  { id: "tr-rec-1", domain: "travel", ja: "すみません、もう一度言ってもらえますか？", en: "Sorry, could you say that again?" },
-  { id: "tr-rec-2", domain: "travel", ja: "つまり、◯◯ということですか？", en: "So, do you mean ___?" },
-  { id: "tr-rec-3", domain: "travel", ja: "その言葉の意味を教えてもらえますか？", en: "What does that word mean?" }
+  { id: "tr-pay-2", domain: "travel", ja: "おすすめは？", en: "What do you recommend?" },
+  { id: "tr-pay-3", domain: "travel", ja: "お会計お願いします。", en: "Can we get the check?" },
+  { id: "tr-beer-1", domain: "travel", ja: "ビール何がありますか？軽めのと、しっかりめ、どっちがいい？", en: "What beers do you have? Something light, or something stronger?" },
+  { id: "tr-beer-2", domain: "travel", ja: "地元のビールってあります？何が違うんですか？", en: "Got any local beers? What's the difference?" },
+  // 旅仲間との雑談
+  { id: "tr-chat-1", domain: "travel", ja: "どちらから来たんですか？", en: "So, where are you from?" },
+  { id: "tr-chat-2", domain: "travel", ja: "何しに来たんですか？（旅の目的）", en: "What brings you here?" },
+  { id: "tr-chat-3", domain: "travel", ja: "へえ、面白い！もっと聞かせて。", en: "Oh nice — tell me more!" },
+  { id: "tr-chat-4", domain: "travel", ja: "日本から来ました。子どもの医者で、お腹と栄養が専門です。", en: "I'm from Japan — a kids' doctor, I focus on gut health and nutrition." },
+  { id: "tr-chat-5", domain: "travel", ja: "また連絡取れたら。番号交換しません？", en: "Let's keep in touch — want to swap numbers?" },
+  { id: "tr-chat-6", domain: "travel", ja: "会えてよかった。良い旅を！", en: "Really nice meeting you — safe travels!" },
+  // 聞き取れない時
+  { id: "tr-rec-1", domain: "travel", ja: "ごめん、もう一回いい？", en: "Sorry, say that again?" },
+  { id: "tr-rec-2", domain: "travel", ja: "つまり、〜ってこと？", en: "So you mean ___, right?" },
+  { id: "tr-rec-3", domain: "travel", ja: "それ、どういう意味ですか？", en: "What does that mean?" }
 ];

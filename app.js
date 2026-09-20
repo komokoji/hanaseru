@@ -25,6 +25,8 @@
   if (!state.cards) state.cards = {};        // id -> {box, due(dayNum)}
   if (state.streak == null) state.streak = 0;
   if (state.lastDone == null) state.lastDone = null; // 最後にセッション完了した dayNum
+  if (!state.rate) state.rate = "slow";      // 音声速度 slow/fast
+  if (!state.captures) state.captures = [];  // その場で貯めた「言いたいこと」（日本語・未英訳）
 
   function cardState(id) {
     if (!state.cards[id]) state.cards[id] = { box: 0, due: dayNum() };
@@ -80,7 +82,7 @@
     try {
       if (!window.speechSynthesis) return;
       var u = new SpeechSynthesisUtterance(String(text).replace(/___/g, "…"));
-      u.lang = "en-US"; u.rate = 0.95;
+      u.lang = "en-US"; u.rate = (state.rate === "fast") ? 1.05 : 0.85;
       window.speechSynthesis.cancel(); window.speechSynthesis.speak(u);
     } catch (e) {}
   }
@@ -114,6 +116,7 @@
   function reveal() {
     revealed = true;
     show(el.cardFront, false); show(el.cardBack, true);
+    updateRateBtn();
     speak(queue[idx].en);
   }
 
@@ -143,9 +146,52 @@
   function renderSetup() {
     el.streak.textContent = "連続 " + state.streak + " 日";
     el.progress.textContent = "身についた：" + mastered("all") + " / " + totalIn("all");
+    capToggle(false); renderCaptures();
   }
 
   function show(node, on) { if (node) node.hidden = !on; }
+
+  // ---- 音声速度トグル ----
+  function updateRateBtn() {
+    var b = document.getElementById("rateBtn");
+    if (b) b.textContent = (state.rate === "fast") ? "🐇 実速" : "🐢 ゆっくり";
+  }
+  function toggleRate() {
+    state.rate = (state.rate === "fast") ? "slow" : "fast";
+    save(state); updateRateBtn();
+    if (revealed) speak(queue[idx].en);
+  }
+
+  // ---- 「＋言いたいこと」捕獲（その場は日本語で貯めるだけ） ----
+  function capToggle(on) { var box = document.getElementById("capBox"); if (box) box.hidden = !on; }
+  function capOpen() { capToggle(true); renderCaptures(); var i = document.getElementById("capInput"); if (i) i.focus(); }
+  function capSave() {
+    var i = document.getElementById("capInput"); if (!i) return;
+    var v = (i.value || "").trim(); if (!v) return;
+    state.captures.push({ ja: v, ts: Date.now() }); save(state);
+    i.value = ""; renderCaptures();
+  }
+  function capDelete(k) { state.captures.splice(k, 1); save(state); renderCaptures(); }
+  function capCopy() {
+    var txt = state.captures.map(function (c) { return c.ja; }).join("\n");
+    try {
+      navigator.clipboard.writeText(txt);
+      var b = document.getElementById("capCopyBtn");
+      if (b) { var o = b.textContent; b.textContent = "📋 コピーしました"; setTimeout(function () { b.textContent = o; }, 1500); }
+    } catch (e) {}
+  }
+  function escapeHtml(s) { return String(s).replace(/[&<>"']/g, function (m) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]; }); }
+  function renderCaptures() {
+    var list = document.getElementById("capList"); if (!list) return;
+    if (!state.captures.length) {
+      list.innerHTML = '<p class="muted" style="margin:8px 0">まだありません。日本語で「これ言いたい」を書いて「ためる」。あとで私（Claude）が英語にして辞書に入れます。</p>';
+    } else {
+      list.innerHTML = state.captures.map(function (c, k) {
+        return '<div class="capitem"><span>' + escapeHtml(c.ja) + '</span><button class="capx" data-action="capDel" data-idx="' + k + '">×</button></div>';
+      }).join("");
+    }
+    var btn = document.getElementById("capCopyBtn"); if (btn) btn.hidden = !state.captures.length;
+  }
 
   // ---- イベント ----
   document.addEventListener("click", function (e) {
@@ -158,6 +204,12 @@
     else if (a === "ng") answer(false);
     else if (a === "speak") speak(queue[idx].en);
     else if (a === "home") backToSetup();
+    else if (a === "rate") toggleRate();
+    else if (a === "capOpen") capOpen();
+    else if (a === "capCancel") capToggle(false);
+    else if (a === "capSave") capSave();
+    else if (a === "capCopy") capCopy();
+    else if (a === "capDel") capDelete(+t.getAttribute("data-idx"));
   });
   // カード表面はどこをタップしても英語を出す
   if (el.cardFront) el.cardFront.addEventListener("click", function () { if (!revealed) reveal(); });
