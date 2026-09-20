@@ -1,0 +1,67 @@
+/* Hanaseru 辞書データ（Vault 20_診療英語 / 21_旅行日常 から抽出）
+   1カード = { id, domain, ja, en, note }
+   domain: sign(署名フレーズ) / medical(診療) / travel(旅行・日常)
+   ※ 辞書を育てたら、この配列に足す（または Vault からの変換で再生成）。 */
+window.HANASERU_CARDS = [
+  // ── 署名フレーズ（辞書の背骨・軸）────────────────
+  { id: "sign-01", domain: "sign", ja: "ご心配ですよね。お気持ちわかります。", en: "I understand you must be worried." },
+  { id: "sign-02", domain: "sign", ja: "まず、安心してください。", en: "First, I want to reassure you." },
+  { id: "sign-03", domain: "sign", ja: "これは子どもによくあることです。", en: "This is very common in children." },
+  { id: "sign-04", domain: "sign", ja: "本当の◯◯ではありません。むしろ△△です。", en: "It isn't true ___. Rather, it's ___." },
+  { id: "sign-05", domain: "sign", ja: "一番大事なのは、〜です。", en: "The most important thing is that ___." },
+  { id: "sign-06", domain: "sign", ja: "その都度、しっかり治していきましょう。", en: "Let's treat it properly each time." },
+  { id: "sign-07", domain: "sign", ja: "一緒に様子を見ていきましょう。", en: "Let's see how she's doing — together." },
+  { id: "sign-08", domain: "sign", ja: "ですから、心配いりません。", en: "So, there's no need to worry." },
+  { id: "sign-09", domain: "sign", ja: "何かあれば、いつでも来てください。", en: "If anything comes up, please come back anytime." },
+  { id: "sign-10", domain: "sign", ja: "焦らず、少しずつ良くしていきましょう。", en: "Let's take it step by step and get her better." },
+
+  // ── 診療英語 ───────────────────────────────
+  { id: "med-intro-1", domain: "medical", ja: "私は小児外科医です。子どものお腹と栄養を診ています。", en: "I'm a pediatric surgeon. I look after children's gut health and nutrition." },
+  { id: "med-intro-2", domain: "medical", ja: "今日はお子さんの状態を説明して、一緒に方針を決めましょう。", en: "Today I'll explain how your child is doing, and we'll decide the plan together." },
+  { id: "med-ast-1", domain: "medical", ja: "熱と咳、ゼーゼーが続いて、ご心配ですよね。", en: "The fever, the cough, the wheezing — I know this is worrying." },
+  { id: "med-ast-2", domain: "medical", ja: "まず安心してください。RSウイルスの検査は陰性でした。", en: "First, some reassurance: the RS virus test came back negative." },
+  { id: "med-ast-3", domain: "medical", ja: "子どもは風邪をひくと、気道が敏感になってゼーゼーします。", en: "When children catch a cold, their airways get sensitive and they wheeze." },
+  { id: "med-ast-4", domain: "medical", ja: "喘息のように聞こえますが、本当の喘息ではありません。", en: "It sounds like asthma, but it isn't true asthma." },
+  { id: "med-ast-5", domain: "medical", ja: "酸素の値は問題ありません。ただ、ゼーゼーで夜眠りにくくなります。", en: "Her oxygen levels are fine, but the wheezing can make it hard to sleep at night." },
+  { id: "med-ast-6", domain: "medical", ja: "クリニックで吸入をしました。気道を広げて楽にする薬です。", en: "We gave her an inhalation here — it opens the airways and makes breathing easier." },
+  { id: "med-ast-7", domain: "medical", ja: "長く続く治療は要りません。風邪のたびにしっかり治すことが大事です。", en: "She doesn't need long-term treatment. What matters is treating each cold thoroughly." },
+  { id: "med-med-1", domain: "medical", ja: "今の風邪薬は続けてください。今日、追加でお出しします。", en: "Please keep giving the current cold medicine — I'll refill it today." },
+  { id: "med-med-2", domain: "medical", ja: "熱が数日続いて、中耳炎と軽い気管支炎が出ています。", en: "The fever has lasted a few days, so she's developed an ear infection and mild bronchitis." },
+  { id: "med-med-3", domain: "medical", ja: "なので抗生物質を新しく足します。両方きちんと飲ませてください。", en: "So I'm adding an antibiotic. Please give both as prescribed." },
+  { id: "med-med-4", domain: "medical", ja: "まずは熱が下がるか、鼻や胸の症状が良くなるかを見ていきましょう。", en: "First, let's see the fever come down and the runny nose and congestion improve." },
+  { id: "med-rev-1", domain: "medical", ja: "熱が下がらなければ、木曜か金曜にまた来てください。", en: "If the fever doesn't come down, please come back this Thursday or Friday." },
+  { id: "med-rev-2", domain: "medical", ja: "夜、咳がひどい時は、予約なしで吸入に来られます。この特急券をどうぞ。", en: "If the cough is bad at night, you can come for an inhalation without an appointment — here's an express ticket." },
+  { id: "med-rev-3", domain: "medical", ja: "これだけは救急へ：横になって全く眠れない。", en: "Go straight to the ER if she simply can't sleep lying down." },
+  { id: "med-rev-4", domain: "medical", ja: "肩やお腹を使って息をしている。目がうつろ。", en: "…or she's using her shoulders or belly to breathe, or her eyes look dazed." },
+
+  // ── 旅行・日常 ─────────────────────────────
+  { id: "tr-axis-1", domain: "travel", ja: "すみません、少し助けてもらえますか？", en: "Excuse me, could you help me for a second?" },
+  { id: "tr-axis-2", domain: "travel", ja: "英語を練習中なので、少しゆっくりお願いします。", en: "I'm practicing my English, so could you speak a little slower?" },
+  { id: "tr-axis-3", domain: "travel", ja: "よく分からなかったので、もう少し詳しく教えてください。", en: "I'm not sure I follow — could you explain a bit more?" },
+  { id: "tr-axis-4", domain: "travel", ja: "もう一つ、念のため確認させてください。", en: "One more thing, just to make sure —" },
+  { id: "tr-imm-1", domain: "travel", ja: "観光で来ました。滞在は10日間です。", en: "I'm here for tourism, for ten days." },
+  { id: "tr-imm-2", domain: "travel", ja: "家族と一緒に来ています。", en: "I'm traveling with my family." },
+  { id: "tr-imm-3", domain: "travel", ja: "日本で子どもの医者をしています。", en: "I'm a children's doctor in Japan." },
+  { id: "tr-hotel-1", domain: "travel", ja: "チェックインをお願いします。予約は小森です。", en: "I'd like to check in. The reservation is under Komori." },
+  { id: "tr-hotel-2", domain: "travel", ja: "エレベーターでカードキーがうまく使えません。直してもらえますか？", en: "My key card isn't working in the elevator. Could you fix it for me?" },
+  { id: "tr-hotel-3", domain: "travel", ja: "朝食は何時からですか？", en: "What time does breakfast start?" },
+  { id: "tr-air-1", domain: "travel", ja: "この便の搭乗ゲートはどこですか？", en: "Which gate is this flight boarding from?" },
+  { id: "tr-air-2", domain: "travel", ja: "乗り継ぎがあります。時間は間に合いますか？", en: "I have a connecting flight — will I make it in time?" },
+  { id: "tr-bag-1", domain: "travel", ja: "スーツケースは羽田までスルーで預けてありますか？それともここで一度受け取りますか？", en: "Is my suitcase checked all the way through to Haneda, or do I need to pick it up here?" },
+  { id: "tr-bag-2", domain: "travel", ja: "乗り継ぎの間、荷物は自動で運ばれますか？私が何かする必要は？", en: "Will my bag be transferred automatically, or do I need to do anything myself?" },
+  { id: "tr-bag-3", domain: "travel", ja: "もし荷物が間に合わなくても、羽田で受け取れますか？", en: "If my bag doesn't make it in time, can I still receive it at Haneda?" },
+  { id: "tr-pay-1", domain: "travel", ja: "カードで払えますか？", en: "Can I pay by card?" },
+  { id: "tr-pay-2", domain: "travel", ja: "おすすめは何ですか？", en: "What would you recommend?" },
+  { id: "tr-pay-3", domain: "travel", ja: "お会計をお願いします。", en: "Could I have the check, please?" },
+  { id: "tr-beer-1", domain: "travel", ja: "ビールはどんな種類がありますか？軽めとしっかりめ、どちらがおすすめ？", en: "What kinds of beer do you have? Would you recommend something light, or something fuller?" },
+  { id: "tr-beer-2", domain: "travel", ja: "地元のビールはありますか？違いは何ですか？", en: "Do you have any local beers? What's the difference between them?" },
+  { id: "tr-chat-1", domain: "travel", ja: "こんにちは、どちらから来たんですか？", en: "Hi — where are you traveling from?" },
+  { id: "tr-chat-2", domain: "travel", ja: "ここへは何をしに？", en: "What brings you here?" },
+  { id: "tr-chat-3", domain: "travel", ja: "それ、面白いですね。もう少し聞かせてください。", en: "That's really interesting — tell me more." },
+  { id: "tr-chat-4", domain: "travel", ja: "私は日本から。子どもの医者で、お腹と栄養を診ています。", en: "I'm from Japan — a children's doctor, working on gut health and nutrition." },
+  { id: "tr-chat-5", domain: "travel", ja: "また会えたら嬉しいです。連絡先を交換しませんか？", en: "I'd love to stay in touch — shall we swap contacts?" },
+  { id: "tr-chat-6", domain: "travel", ja: "お会いできてよかった。良い旅を。", en: "It was great meeting you. Have a wonderful trip." },
+  { id: "tr-rec-1", domain: "travel", ja: "すみません、もう一度言ってもらえますか？", en: "Sorry, could you say that again?" },
+  { id: "tr-rec-2", domain: "travel", ja: "つまり、◯◯ということですか？", en: "So, do you mean ___?" },
+  { id: "tr-rec-3", domain: "travel", ja: "その言葉の意味を教えてもらえますか？", en: "What does that word mean?" }
+];
