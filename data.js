@@ -47,6 +47,28 @@ window.HANASERU_CARDS = [
   { id: "med-fev-8", domain: "medical", ja: "咳だけ長く残るのは、気道が敏感になっているからです。つらいときは炎症をしっかり取ります。", en: "A lingering cough means her airways have become sensitive. When it's hard on her, we treat the inflammation properly." },
   { id: "med-fev-9", domain: "medical", ja: "どうか、ご自分を責めないでください。お父さん・お母さんの体調も大切にしてください。", en: "Please don't blame yourself — and take care of your own health too." },
   { id: "med-fev-10", domain: "medical", ja: "何度風邪をひいても大丈夫。少しずつ、強くなっていきます。", en: "However many colds she catches, she'll be okay. Little by little, she's getting stronger." },
+  // 胃腸炎
+  { id: "med-gi-1", domain: "medical", ja: "胃腸炎で一番こわいのは脱水です。", en: "With a stomach bug, the thing we worry about most is dehydration." },
+  { id: "med-gi-2", domain: "medical", ja: "吐き気が強い間（半日ほど）は、無理に飲ませないでください。", en: "While the nausea is strong — usually about half a day — don't force fluids." },
+  { id: "med-gi-3", domain: "medical", ja: "落ち着いてきたら、スプーン一杯を5〜15分おきに、点滴みたいに少しずつ。", en: "Once it settles, give a spoonful every 5 to 15 minutes — like a slow drip." },
+  { id: "med-gi-4", domain: "medical", ja: "一気に飲ませると、また吐きやすいので、少しずつ。", en: "If she drinks a lot at once, she'll likely throw up again — so little by little." },
+  { id: "med-gi-5", domain: "medical", ja: "水分が取れたら、お粥やうどんなど消化のいいものから。", en: "Once she can keep fluids down, start with easy foods like rice porridge or noodles." },
+  { id: "med-gi-6", domain: "medical", ja: "下痢の間は、牛乳や乳製品は控えめに。", en: "Go easy on milk and dairy while she has diarrhea." },
+  { id: "med-gi-7", domain: "medical", ja: "数日食べられなくても、水分と塩分・糖分が取れていれば大丈夫です。", en: "Even if she can't eat for a few days, she's fine as long as she's getting fluids, salt, and sugar." },
+  { id: "med-gi-8", domain: "medical", ja: "下痢でお尻がかぶれます。赤くなる前にワセリンで守りましょう。", en: "Diarrhea can make her bottom sore — protect it with Vaseline before it turns red." },
+  { id: "med-gi-9", domain: "medical", ja: "もし吐いても、焦らなくて大丈夫。少し戻して、また少しずつで大丈夫です。", en: "If she throws up, don't worry — just ease off and start slow again." },
+  { id: "med-gi-10", domain: "medical", ja: "ぐったり、目がうつろ、8〜10時間おしっこが出ない——これは夜でも救急へ。", en: "If she's very limp, her eyes look vacant, or she hasn't peed in 8 to 10 hours, go to the ER, even at night." },
+  // 便秘
+  { id: "med-con-1", domain: "medical", ja: "便が硬いこと＝便秘、とは限りません。大事なのは、すっきり出し切れているかです。", en: "Hard stool doesn't always mean constipation. What matters is whether she can empty out completely." },
+  { id: "med-con-2", domain: "medical", ja: "まず、直腸にたまったうんちを、しっかり出し切ることから始めます。", en: "We start by fully emptying the stool that's built up in the rectum." },
+  { id: "med-con-3", domain: "medical", ja: "そのために、浣腸を主役に使います。", en: "To do that, we use enemas as the main tool." },
+  { id: "med-con-4", domain: "medical", ja: "浣腸は癖になりません。安心してください。", en: "Enemas are not habit-forming — please don't worry about that." },
+  { id: "med-con-5", domain: "medical", ja: "浣腸は、その日のうんちを出すためだけのものではありません。", en: "An enema isn't just about passing today's stool." },
+  { id: "med-con-6", domain: "medical", ja: "毎日しっかり出すことで、腸のセンサーと押し出す力を取り戻します。", en: "By emptying every day, her bowel gets its sensation and pushing power back." },
+  { id: "med-con-7", domain: "medical", ja: "お薬を減らせたら治った、ではありません。毎日すっきり出せる習慣が本当のゴールです。", en: "Cutting back the medicine isn't the goal. The real goal is a daily habit of emptying comfortably." },
+  { id: "med-con-8", domain: "medical", ja: "これは長期戦です。焦らず、少しずつ進めましょう。", en: "This is a long game — let's take it step by step, without rushing." },
+  { id: "med-con-9", domain: "medical", ja: "硬い便で切れると、痛くて我慢して、もっと便秘になります。その悪循環を断ちます。", en: "When hard stool causes a tear, it hurts, she holds it in, and it gets worse — we break that cycle." },
+  { id: "med-con-10", domain: "medical", ja: "今、お子さんがどのステップにいるかを見ながら進めます。", en: "We move forward while checking which step she's at right now." },
 
   // ── 旅行・日常（口語・テンポ重視）──────────────
   // つなぎ言葉（口語のリズムを作る）
