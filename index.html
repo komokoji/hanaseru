@@ -58,6 +58,15 @@
   .capitem{ display:flex; justify-content:space-between; align-items:center; gap:8px; background:#fff; border:1px solid var(--line); border-radius:10px; padding:8px 12px; margin-top:6px; font-size:15px; }
   .capitem span{ flex:1; }
   .capx{ background:none; color:var(--sub); font-size:18px; padding:2px 8px; line-height:1; }
+  .chips{ display:flex; gap:8px; flex-wrap:wrap; }
+  .chip{ background:#fff; border:1px solid var(--line); border-radius:999px; padding:8px 14px; font-size:14px; color:var(--sub); }
+  .chip.on{ background:var(--teal); color:#fff; border-color:var(--teal); }
+  .clrow{ display:flex; align-items:flex-start; gap:10px; background:#fff; border:1px solid var(--line); border-radius:12px; padding:10px 12px; margin-top:6px; }
+  .clcheck{ background:none; font-size:22px; line-height:1.2; color:var(--sub); padding:0 2px; }
+  .clcheck.on{ color:var(--teal); }
+  .cltext{ flex:1; cursor:pointer; }
+  .clja{ font-size:16px; }
+  .clen{ font-size:16px; font-weight:700; color:var(--teal-d); margin-top:4px; }
 </style>
 </head>
 <body>
@@ -79,6 +88,7 @@
       <button class="choice" data-action="start" data-domain="all"><span>まとめて</span><b>ぜんぶ ▸</b></button>
     </div>
     <div class="grid" style="margin-top:10px">
+      <button class="choice" data-action="checklist"><span>覚えたかでなく、見た所にチェック</span><b>📋 チェックリスト ▸</b></button>
       <button class="choice" data-action="capOpen"><span>思いついたら貯める</span><b>＋ 言いたいこと ▸</b></button>
     </div>
     <div id="capBox" hidden style="margin-top:8px">
@@ -126,6 +136,20 @@
     <div class="grid">
       <button class="big" data-action="home">範囲を選ぶ</button>
     </div>
+  </section>
+
+  <!-- チェックリスト -->
+  <section id="checklist" hidden>
+    <div id="clChips" class="chips">
+      <button class="chip" data-action="clDomain" data-domain="travel">旅行</button>
+      <button class="chip" data-action="clDomain" data-domain="medical">診療</button>
+      <button class="chip" data-action="clDomain" data-domain="sign">署名</button>
+      <button class="chip" data-action="clDomain" data-domain="all">ぜんぶ</button>
+    </div>
+    <p class="stat" id="clCount" style="margin:8px 0 2px"></p>
+    <p class="muted" style="font-size:13px">タップで英語＋音声。チェックは「見た・練習した」印です（覚えたかのテストではありません）。</p>
+    <div id="clList"></div>
+    <div class="bar"><button class="link" data-action="home">← 範囲を選ぶ</button></div>
   </section>
 </div>
 

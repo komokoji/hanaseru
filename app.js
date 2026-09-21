@@ -99,6 +99,7 @@
     queue = buildQueue(domain);
     idx = 0;
     if (queue.length === 0) { showDone(true); return; }
+    var cl = document.getElementById("checklist"); if (cl) cl.hidden = true;
     show(el.setup, false); show(el.done, false); show(el.study, true);
     renderCard();
   }
@@ -139,6 +140,7 @@
   }
 
   function backToSetup() {
+    var c = document.getElementById("checklist"); if (c) c.hidden = true;
     show(el.study, false); show(el.done, false); show(el.setup, true);
     renderSetup();
   }
@@ -193,6 +195,41 @@
     var btn = document.getElementById("capCopyBtn"); if (btn) btn.hidden = !state.captures.length;
   }
 
+  // ---- チェックリスト（覚えたかのテストでなく「見た・練習した」を潰す） ----
+  var clDomain = "all";
+  function cardById(id) { for (var i = 0; i < CARDS.length; i++) if (CARDS[i].id === id) return CARDS[i]; return null; }
+  function openChecklist() {
+    show(el.setup, false); show(el.study, false); show(el.done, false);
+    var c = document.getElementById("checklist"); if (c) c.hidden = false;
+    renderChecklist();
+  }
+  function setClDomain(d) { clDomain = d; renderChecklist(); }
+  function renderChecklist() {
+    var list = document.getElementById("clList"); if (!list) return;
+    var pool = CARDS.filter(function (c) { return clDomain === "all" || c.domain === clDomain; });
+    var done = pool.filter(function (c) { var s = state.cards[c.id]; return s && s.practiced; }).length;
+    var cnt = document.getElementById("clCount"); if (cnt) cnt.textContent = "見た所：" + done + " / " + pool.length;
+    list.innerHTML = pool.map(function (c) {
+      var s = state.cards[c.id]; var on = s && s.practiced;
+      return '<div class="clrow">'
+        + '<button class="clcheck' + (on ? ' on' : '') + '" data-action="clCheck" data-id="' + c.id + '">' + (on ? '☑' : '☐') + '</button>'
+        + '<div class="cltext" data-action="clShow" data-id="' + c.id + '">'
+        + '<div class="clja">' + escapeHtml(c.ja) + '</div>'
+        + '<div class="clen" id="clen-' + c.id + '" hidden>' + escapeHtml(c.en) + '</div>'
+        + '</div></div>';
+    }).join("");
+    var chips = document.querySelectorAll("#clChips [data-domain]");
+    for (var i = 0; i < chips.length; i++) {
+      chips[i].classList.toggle("on", chips[i].getAttribute("data-domain") === clDomain);
+    }
+  }
+  function clCheck(id) { var s = cardState(id); s.practiced = !s.practiced; save(state); renderChecklist(); }
+  function clShow(id) {
+    var e = document.getElementById("clen-" + id); if (!e) return;
+    e.hidden = !e.hidden;
+    if (!e.hidden) { var c = cardById(id); if (c) speak(c.en); }
+  }
+
   // ---- イベント ----
   document.addEventListener("click", function (e) {
     var t = e.target.closest("[data-action]");
@@ -210,6 +247,10 @@
     else if (a === "capSave") capSave();
     else if (a === "capCopy") capCopy();
     else if (a === "capDel") capDelete(+t.getAttribute("data-idx"));
+    else if (a === "checklist") openChecklist();
+    else if (a === "clDomain") setClDomain(t.getAttribute("data-domain"));
+    else if (a === "clCheck") clCheck(t.getAttribute("data-id"));
+    else if (a === "clShow") clShow(t.getAttribute("data-id"));
   });
   // カード表面はどこをタップしても英語を出す
   if (el.cardFront) el.cardFront.addEventListener("click", function () { if (!revealed) reveal(); });
