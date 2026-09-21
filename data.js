@@ -218,6 +218,14 @@ window.HANASERU_CARDS = [
   { id: "tr-var-2", domain: "travel", ja: "（ありがとう・くだけて）ほんと助かりました！", en: "Thanks so much — you're a lifesaver!" },
   { id: "tr-var-3", domain: "travel", ja: "（ごめん・軽く）あ、すみません！", en: "Oh, sorry about that!" },
   { id: "tr-var-4", domain: "travel", ja: "（もう一回・くだけて）ごめん、なんて言った？", en: "Sorry, what was that?" },
+  // 道案内をする（人を助ける側）— 羽田→成田
+  { id: "tr-dir-1", domain: "travel", ja: "はい、この電車で大丈夫です。方向も合っていますよ。", en: "Yes, this train is fine — you're heading the right way." },
+  { id: "tr-dir-2", domain: "travel", ja: "ただ、快速と各駅停車があります。早く行きたいなら快速に乗ってください。", en: "There are rapid and local trains, though — if you want to get there faster, take the rapid one." },
+  { id: "tr-dir-3", domain: "travel", ja: "まず浜松町まで行って、そこで山手線に乗り換えます。", en: "First, go to Hamamatsuchō and change to the Yamanote Line there." },
+  { id: "tr-dir-4", domain: "travel", ja: "山手線で、上野方面に乗って日暮里まで行きます。", en: "Take the Yamanote Line toward Ueno, and go as far as Nippori." },
+  { id: "tr-dir-5", domain: "travel", ja: "日暮里で、成田空港行きの電車（京成線）に乗り換えます。", en: "At Nippori, change to the train for Narita Airport — the Keisei Line." },
+  { id: "tr-dir-6", domain: "travel", ja: "全部で1時間半くらいです。", en: "It takes about an hour and a half in all." },
+  { id: "tr-dir-7", domain: "travel", ja: "乗り換えが少ない方がよければ、京急線のエアポート快特が一本で行けます。", en: "If you'd rather have fewer transfers, the Keikyu Airport Rapid gets you there more directly." },
 
   // ── 🔖 保存（院長が「これ英語で」と言い、Claudeが英訳して入れたもの）──
   { id: "mine-1", domain: "mine", ja: "後ろから人が来てるから、少し早く歩こう。", en: "Someone's coming up behind us — let's walk a little faster." }
