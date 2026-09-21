@@ -202,5 +202,8 @@ window.HANASERU_CARDS = [
   { id: "tr-var-1", domain: "travel", ja: "（お会計・別の言い方）お勘定お願いします。", en: "Just the bill, please." },
   { id: "tr-var-2", domain: "travel", ja: "（ありがとう・くだけて）ほんと助かりました！", en: "Thanks so much — you're a lifesaver!" },
   { id: "tr-var-3", domain: "travel", ja: "（ごめん・軽く）あ、すみません！", en: "Oh, sorry about that!" },
-  { id: "tr-var-4", domain: "travel", ja: "（もう一回・くだけて）ごめん、なんて言った？", en: "Sorry, what was that?" }
+  { id: "tr-var-4", domain: "travel", ja: "（もう一回・くだけて）ごめん、なんて言った？", en: "Sorry, what was that?" },
+
+  // ── 🔖 保存（院長が「これ英語で」と言い、Claudeが英訳して入れたもの）──
+  { id: "mine-1", domain: "mine", ja: "後ろから人が来てるから、少し早く歩こう。", en: "Someone's coming up behind us — let's walk a little faster." }
 ];
