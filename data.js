@@ -89,6 +89,21 @@ window.HANASERU_CARDS = [
   { id: "med-sz-6", domain: "medical", ja: "初めてのけいれんや、怖いと思ったら、迷わず救急車で大丈夫です。", en: "If it's her first seizure, or you feel scared, don't hesitate to call an ambulance." },
   { id: "med-sz-7", domain: "medical", ja: "けいれんの後、意識が戻らない・反応が鈍いときも、すぐ受診を。", en: "If she doesn't come around or stays unresponsive afterward, get her seen right away." },
   { id: "med-sz-8", domain: "medical", ja: "可能なら、けいれんの長さと様子を覚えておいてください。", en: "If you can, note how long it lasted and what it looked like." },
+  // 診察室のワンシーン ①子どもへの声かけ（やさしく）
+  { id: "med-exam-1", domain: "medical", ja: "（子へ）これから、お体を診させてね。", en: "Let me take a look at you, okay?" },
+  { id: "med-exam-2", domain: "medical", ja: "（子へ）もしもし、させてね。ちょっと冷たいよ。", en: "Let me listen to your chest — it might feel a little cold." },
+  { id: "med-exam-3", domain: "medical", ja: "（子へ）大きく息を吸って。はい、吐いて。", en: "Take a big breath in… and out." },
+  { id: "med-exam-4", domain: "medical", ja: "（子へ）お口を開けて、あーん。", en: "Open wide and say 'ahh.'" },
+  { id: "med-exam-5", domain: "medical", ja: "（子へ）お喉を見せてね。上手だね！", en: "Let me see your throat — good job!" },
+  { id: "med-exam-6", domain: "medical", ja: "（子へ）今度はお耳を見るね。じっとしててね。", en: "Now let me check your ears — hold still for me." },
+  { id: "med-exam-7", domain: "medical", ja: "（子へ）はい、おしまい！よく頑張ったね。", en: "All done — you did so well!" },
+  // 診察室のワンシーン ②お父さんへの説明（安心できるように）
+  { id: "med-exp-1", domain: "medical", ja: "（親へ）肺の音はきれいです。問題ありません。", en: "Her lungs sound clear — no problems there." },
+  { id: "med-exp-2", domain: "medical", ja: "（親へ）耳も見ましたが、中耳炎はありません。", en: "I checked her ears too, and there's no ear infection." },
+  { id: "med-exp-3", domain: "medical", ja: "（親へ）診断は、いわゆる風邪です。", en: "The diagnosis is a common cold." },
+  { id: "med-exp-4", domain: "medical", ja: "（親へ）風邪のお薬を出しておきますね。", en: "I'll give you some cold medicine to help her feel better." },
+  { id: "med-exp-5", domain: "medical", ja: "（親へ）心配はいりませんよ。", en: "There's really nothing to worry about." },
+  { id: "med-exp-6", domain: "medical", ja: "（親へ）保育園も、行って大丈夫です。", en: "And she's fine to go to daycare." },
 
   // ── 旅行・日常（口語・テンポ重視）──────────────
   // つなぎ言葉（口語のリズムを作る）
