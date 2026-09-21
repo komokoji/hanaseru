@@ -69,6 +69,26 @@ window.HANASERU_CARDS = [
   { id: "med-con-8", domain: "medical", ja: "これは長期戦です。焦らず、少しずつ進めましょう。", en: "This is a long game — let's take it step by step, without rushing." },
   { id: "med-con-9", domain: "medical", ja: "硬い便で切れると、痛くて我慢して、もっと便秘になります。その悪循環を断ちます。", en: "When hard stool causes a tear, it hurts, she holds it in, and it gets worse — we break that cycle." },
   { id: "med-con-10", domain: "medical", ja: "今、お子さんがどのステップにいるかを見ながら進めます。", en: "We move forward while checking which step she's at right now." },
+  // 発熱ホームケア
+  { id: "med-hf-1", domain: "medical", ja: "高い熱だけで、脳がダメになることはありません。", en: "A high fever on its own won't harm her brain." },
+  { id: "med-hf-2", domain: "medical", ja: "熱は、体が病原体と戦っている証拠です。", en: "The fever is a sign that her body is fighting off the infection." },
+  { id: "med-hf-3", domain: "medical", ja: "解熱剤は病気を治す薬ではなく、つらさを和らげるものです。", en: "Fever medicine doesn't cure the illness — it just eases the discomfort." },
+  { id: "med-hf-4", domain: "medical", ja: "何度で使うかより、「つらそうかどうか」で決めてください。", en: "Rather than a set temperature, go by whether she looks miserable." },
+  { id: "med-hf-5", domain: "medical", ja: "水分が取れないくらいつらい時、眠れない時に使ってください。", en: "Use it when she's too miserable to drink, or when she can't sleep." },
+  { id: "med-hf-6", domain: "medical", ja: "高熱でも元気そうなら、使わなくて大丈夫です。", en: "If she has a high fever but still seems fine, you don't need to give it." },
+  { id: "med-hf-7", domain: "medical", ja: "解熱剤は6時間以上あけて、1日3回までです。", en: "Give the fever medicine at least six hours apart, up to three times a day." },
+  { id: "med-hf-8", domain: "medical", ja: "坐薬と飲み薬、効き目は同じです。吐く子は坐薬でどうぞ。", en: "Suppository or syrup — they work the same. Use the suppository if she tends to vomit." },
+  { id: "med-hf-9", domain: "medical", ja: "生後3ヶ月未満で38度以上の熱は、夜でもすぐ受診してください。", en: "For a baby under three months with a fever over 38°C, please see a doctor right away, even at night." },
+  { id: "med-hf-10", domain: "medical", ja: "数字に振り回されず、お子さんの様子を見てあげてください。", en: "Try not to chase the number — watch how she actually looks." },
+  // けいれん（応急）
+  { id: "med-sz-1", domain: "medical", ja: "けいれんが起きても、まず落ち着いて。大丈夫です。", en: "If she has a seizure, first stay calm — it's going to be okay." },
+  { id: "med-sz-2", domain: "medical", ja: "多くは数分で止まります。横に寝かせて、見守ってあげてください。", en: "Most seizures stop within a few minutes. Lay her on her side and just watch over her." },
+  { id: "med-sz-3", domain: "medical", ja: "吐いたら、窒息しないよう、体ごと顔を横向きに。", en: "If she vomits, turn her whole body so her face is to the side, so she doesn't choke." },
+  { id: "med-sz-4", domain: "medical", ja: "口に何かを入れたり、押さえつけたりは絶対にしないでください。", en: "Never put anything in her mouth, and don't hold her down." },
+  { id: "med-sz-5", domain: "medical", ja: "5分以上止まらないときは、救急車を呼んでください。", en: "If it doesn't stop within five minutes, call an ambulance." },
+  { id: "med-sz-6", domain: "medical", ja: "初めてのけいれんや、怖いと思ったら、迷わず救急車で大丈夫です。", en: "If it's her first seizure, or you feel scared, don't hesitate to call an ambulance." },
+  { id: "med-sz-7", domain: "medical", ja: "けいれんの後、意識が戻らない・反応が鈍いときも、すぐ受診を。", en: "If she doesn't come around or stays unresponsive afterward, get her seen right away." },
+  { id: "med-sz-8", domain: "medical", ja: "可能なら、けいれんの長さと様子を覚えておいてください。", en: "If you can, note how long it lasted and what it looked like." },
 
   // ── 旅行・日常（口語・テンポ重視）──────────────
   // つなぎ言葉（口語のリズムを作る）
@@ -146,5 +166,41 @@ window.HANASERU_CARDS = [
   { id: "tr-trb-1", domain: "travel", ja: "荷物が出てこないんです。", en: "My bag hasn't come out." },
   { id: "tr-trb-2", domain: "travel", ja: "財布をなくしました。", en: "I've lost my wallet." },
   { id: "tr-trb-3", domain: "travel", ja: "飛行機が遅れています。どうすればいいですか？", en: "My flight is delayed — what should I do?" },
-  { id: "tr-trb-4", domain: "travel", ja: "助けてください。", en: "I need some help." }
+  { id: "tr-trb-4", domain: "travel", ja: "助けてください。", en: "I need some help." },
+  // 交通（電車・バス・地下鉄）
+  { id: "tr-trn-1", domain: "travel", ja: "この電車、〜に行きますか？", en: "Does this train go to ___?" },
+  { id: "tr-trn-2", domain: "travel", ja: "切符はどこで買えますか？", en: "Where can I buy a ticket?" },
+  { id: "tr-trn-3", domain: "travel", ja: "〜へは、何番線ですか？", en: "Which platform is it for ___?" },
+  { id: "tr-trn-4", domain: "travel", ja: "次のバスは何時ですか？", en: "What time's the next bus?" },
+  { id: "tr-trn-5", domain: "travel", ja: "〜で降りたいんです。着いたら教えてもらえますか？", en: "I want to get off at ___ — could you let me know when we're there?" },
+  // 観光・チケット・写真
+  { id: "tr-sight-1", domain: "travel", ja: "大人2枚、子ども1枚ください。", en: "Two adults and one child, please." },
+  { id: "tr-sight-2", domain: "travel", ja: "何時まで開いていますか？", en: "How late are you open?" },
+  { id: "tr-sight-3", domain: "travel", ja: "中で写真を撮ってもいいですか？", en: "Is it okay to take photos inside?" },
+  { id: "tr-sight-4", domain: "travel", ja: "写真を撮ってもらえますか？", en: "Could you take a photo of us?" },
+  // お金・両替・チップ
+  { id: "tr-money-1", domain: "travel", ja: "これを両替できますか？", en: "Can I exchange this?" },
+  { id: "tr-money-2", domain: "travel", ja: "近くにATMはありますか？", en: "Is there an ATM nearby?" },
+  { id: "tr-money-3", domain: "travel", ja: "チップは必要ですか？", en: "Do I need to leave a tip?" },
+  // レストラン（予約・詳細）
+  { id: "tr-rest-1", domain: "travel", ja: "今夜、2名で予約できますか？", en: "Can I book a table for two tonight?" },
+  { id: "tr-rest-2", domain: "travel", ja: "窓際の席はありますか？", en: "Could we get a table by the window?" },
+  { id: "tr-rest-3", domain: "travel", ja: "これ、ナッツは入っていますか？", en: "Does this have any nuts in it?" },
+  { id: "tr-rest-4", domain: "travel", ja: "取り分け用の小皿をもらえますか？", en: "Could we get some small plates to share?" },
+  { id: "tr-rest-5", domain: "travel", ja: "これ、持ち帰りできますか？", en: "Can I get this to go?" },
+  // カフェ・Wi-Fi
+  { id: "tr-cafe-1", domain: "travel", ja: "Wi-Fiは使えますか？パスワードは？", en: "Do you have Wi-Fi? What's the password?" },
+  { id: "tr-cafe-2", domain: "travel", ja: "ここ、少し座ってもいいですか？", en: "Is it okay if I sit here for a bit?" },
+  // 緊急・紛失
+  { id: "tr-emg-1", domain: "travel", ja: "警察を呼んでもらえますか？", en: "Could you call the police?" },
+  { id: "tr-emg-2", domain: "travel", ja: "日本大使館はどこですか？", en: "Where is the Japanese embassy?" },
+  // 雑談・つかみ
+  { id: "tr-sm-1", domain: "travel", ja: "今日はいい天気ですね。", en: "Lovely weather today, isn't it?" },
+  { id: "tr-sm-2", domain: "travel", ja: "このあたりで、おすすめの場所はありますか？", en: "Any spots around here you'd recommend?" },
+  { id: "tr-sm-3", domain: "travel", ja: "写真、撮りましょうか？", en: "Want me to take a photo for you?" },
+  // 言い回しのバリエーション（同じ意図・別の言い方）
+  { id: "tr-var-1", domain: "travel", ja: "（お会計・別の言い方）お勘定お願いします。", en: "Just the bill, please." },
+  { id: "tr-var-2", domain: "travel", ja: "（ありがとう・くだけて）ほんと助かりました！", en: "Thanks so much — you're a lifesaver!" },
+  { id: "tr-var-3", domain: "travel", ja: "（ごめん・軽く）あ、すみません！", en: "Oh, sorry about that!" },
+  { id: "tr-var-4", domain: "travel", ja: "（もう一回・くだけて）ごめん、なんて言った？", en: "Sorry, what was that?" }
 ];
