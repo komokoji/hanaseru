@@ -80,5 +80,23 @@ window.HANASERU_CARDS = [
   // 聞き取れない時
   { id: "tr-rec-1", domain: "travel", ja: "ごめん、もう一回いい？", en: "Sorry, say that again?" },
   { id: "tr-rec-2", domain: "travel", ja: "つまり、〜ってこと？", en: "So you mean ___, right?" },
-  { id: "tr-rec-3", domain: "travel", ja: "それ、どういう意味ですか？", en: "What does that mean?" }
+  { id: "tr-rec-3", domain: "travel", ja: "それ、どういう意味ですか？", en: "What does that mean?" },
+  // 機内（客室乗務員とのやりとり）
+  { id: "tr-cabin-1", domain: "travel", ja: "毛布をもらえますか？", en: "Could I get a blanket?" },
+  { id: "tr-cabin-2", domain: "travel", ja: "お水をもらえますか？", en: "Could I get some water?" },
+  { id: "tr-cabin-3", domain: "travel", ja: "食事はチキンとビーフ、どちらがありますか？", en: "For the meal, do you have chicken or beef?" },
+  { id: "tr-cabin-4", domain: "travel", ja: "すみません、通してもらえますか？", en: "Excuse me, could I get through?" },
+  { id: "tr-cabin-5", domain: "travel", ja: "席を倒してもいいですか？", en: "Is it okay if I recline my seat?" },
+  { id: "tr-cabin-6", domain: "travel", ja: "入国カードをもう一枚もらえますか？", en: "Could I get another arrival card?" },
+  // ショップ（買い物）
+  { id: "tr-shop-1", domain: "travel", ja: "これ、試着できますか？", en: "Can I try this on?" },
+  { id: "tr-shop-2", domain: "travel", ja: "もう少し大きいサイズはありますか？", en: "Do you have this in a bigger size?" },
+  { id: "tr-shop-3", domain: "travel", ja: "これ、いくらですか？", en: "How much is this?" },
+  { id: "tr-shop-4", domain: "travel", ja: "見ているだけです、ありがとう。", en: "I'm just looking, thanks." },
+  { id: "tr-shop-5", domain: "travel", ja: "別の色はありますか？", en: "Do you have this in another color?" },
+  { id: "tr-shop-6", domain: "travel", ja: "プレゼント用に包んでもらえますか？", en: "Could you gift-wrap this for me?" },
+  // 道・移動・タクシー
+  { id: "tr-way-1", domain: "travel", ja: "駅はどっちですか？", en: "Which way is the station?" },
+  { id: "tr-way-2", domain: "travel", ja: "（タクシーで）この住所までお願いします。", en: "Could you take me to this address?" },
+  { id: "tr-way-3", domain: "travel", ja: "ここで停めてください。", en: "You can stop here, please." }
 ];
