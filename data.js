@@ -37,6 +37,16 @@ window.HANASERU_CARDS = [
   { id: "med-rev-2", domain: "medical", ja: "夜、咳がひどい時は、予約なしで吸入に来られます。この特急券をどうぞ。", en: "If the cough is bad at night, you can come for an inhalation without an appointment — here's an express ticket." },
   { id: "med-rev-3", domain: "medical", ja: "これだけは救急へ：横になって全く眠れない。", en: "Go straight to the ER if she simply can't sleep lying down." },
   { id: "med-rev-4", domain: "medical", ja: "肩やお腹を使って息をしている。目がうつろ。", en: "…or she's using her shoulders or belly to breathe, or her eyes look dazed." },
+  { id: "med-fev-1", domain: "medical", ja: "集団生活を始めた子が、毎週のように風邪をひくのは、異常ではありません。", en: "It's completely normal for a child who's just started daycare to catch colds almost every week." },
+  { id: "med-fev-2", domain: "medical", ja: "今は、体が初めてのウイルスに出会って、免疫を一つずつ学んでいる最中です。", en: "Right now her body is meeting new viruses for the first time and learning its immunity, one by one." },
+  { id: "med-fev-3", domain: "medical", ja: "3ヶ月から半年ほどで、少しずつ強くなって山を越えます。", en: "Over about three to six months, she'll gradually get stronger and turn the corner." },
+  { id: "med-fev-4", domain: "medical", ja: "完治を狙わなくて大丈夫。つらい症状を楽にしながら、根気よく付き合いましょう。", en: "We don't need to aim for a perfect cure. Let's ease the tough symptoms and stay patient together." },
+  { id: "med-fev-5", domain: "medical", ja: "熱が続くときは、元気そうでも3日目あたりに一度受診してください。", en: "If the fever lasts, please come in around the third day, even if she seems fine." },
+  { id: "med-fev-6", domain: "medical", ja: "熱が下がるまでは、一緒に経過を見せてください。風邪以外の原因も見逃さないためです。", en: "Until the fever comes down, let's follow it together — so we don't miss anything other than a simple cold." },
+  { id: "med-fev-7", domain: "medical", ja: "解熱して24時間たって元気なら、登園できます。", en: "She can go back to daycare once she's been fever-free for 24 hours and feels well." },
+  { id: "med-fev-8", domain: "medical", ja: "咳だけ長く残るのは、気道が敏感になっているからです。つらいときは炎症をしっかり取ります。", en: "A lingering cough means her airways have become sensitive. When it's hard on her, we treat the inflammation properly." },
+  { id: "med-fev-9", domain: "medical", ja: "どうか、ご自分を責めないでください。お父さん・お母さんの体調も大切にしてください。", en: "Please don't blame yourself — and take care of your own health too." },
+  { id: "med-fev-10", domain: "medical", ja: "何度風邪をひいても大丈夫。少しずつ、強くなっていきます。", en: "However many colds she catches, she'll be okay. Little by little, she's getting stronger." },
 
   // ── 旅行・日常（口語・テンポ重視）──────────────
   // つなぎ言葉（口語のリズムを作る）
@@ -98,5 +108,21 @@ window.HANASERU_CARDS = [
   // 道・移動・タクシー
   { id: "tr-way-1", domain: "travel", ja: "駅はどっちですか？", en: "Which way is the station?" },
   { id: "tr-way-2", domain: "travel", ja: "（タクシーで）この住所までお願いします。", en: "Could you take me to this address?" },
-  { id: "tr-way-3", domain: "travel", ja: "ここで停めてください。", en: "You can stop here, please." }
+  { id: "tr-way-3", domain: "travel", ja: "ここで停めてください。", en: "You can stop here, please." },
+  // 体調不良を伝える（旅先）
+  { id: "tr-sick-1", domain: "travel", ja: "気分が悪いんです。", en: "I'm not feeling well." },
+  { id: "tr-sick-2", domain: "travel", ja: "頭が痛いです。", en: "I have a headache." },
+  { id: "tr-sick-3", domain: "travel", ja: "お腹を壊しました。", en: "I have an upset stomach." },
+  { id: "tr-sick-4", domain: "travel", ja: "子どもが熱があります。", en: "My child has a fever." },
+  { id: "tr-sick-5", domain: "travel", ja: "近くに病院か薬局はありますか？", en: "Is there a hospital or a pharmacy nearby?" },
+  { id: "tr-sick-6", domain: "travel", ja: "ナッツのアレルギーがあります。", en: "I have a nut allergy." },
+  // 薬局
+  { id: "tr-pharm-1", domain: "travel", ja: "頭痛に効くものはありますか？", en: "Do you have anything for a headache?" },
+  { id: "tr-pharm-2", domain: "travel", ja: "子ども用の解熱剤はありますか？", en: "Do you have fever medicine for kids?" },
+  { id: "tr-pharm-3", domain: "travel", ja: "これは1日何回飲みますか？", en: "How many times a day do I take this?" },
+  // トラブル（紛失・遅延）
+  { id: "tr-trb-1", domain: "travel", ja: "荷物が出てこないんです。", en: "My bag hasn't come out." },
+  { id: "tr-trb-2", domain: "travel", ja: "財布をなくしました。", en: "I've lost my wallet." },
+  { id: "tr-trb-3", domain: "travel", ja: "飛行機が遅れています。どうすればいいですか？", en: "My flight is delayed — what should I do?" },
+  { id: "tr-trb-4", domain: "travel", ja: "助けてください。", en: "I need some help." }
 ];

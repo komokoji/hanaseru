@@ -99,8 +99,8 @@
     queue = buildQueue(domain);
     idx = 0;
     if (queue.length === 0) { showDone(true); return; }
-    var cl = document.getElementById("checklist"); if (cl) cl.hidden = true;
-    show(el.setup, false); show(el.done, false); show(el.study, true);
+    hideMain();
+    show(el.study, true);
     renderCard();
   }
 
@@ -140,8 +140,8 @@
   }
 
   function backToSetup() {
-    var c = document.getElementById("checklist"); if (c) c.hidden = true;
-    show(el.study, false); show(el.done, false); show(el.setup, true);
+    hideMain();
+    show(el.setup, true);
     renderSetup();
   }
 
@@ -155,9 +155,45 @@
 
   // ---- 音声速度トグル ----
   function updateRateBtn() {
-    var b = document.getElementById("rateBtn");
-    if (b) b.textContent = (state.rate === "fast") ? "🐇 実速" : "🐢 ゆっくり";
+    var bs = document.querySelectorAll(".rateBtn");
+    for (var i = 0; i < bs.length; i++) bs[i].textContent = (state.rate === "fast") ? "🐇 実速" : "🐢 ゆっくり";
   }
+  function highlightChips(sel, dom) {
+    var chips = document.querySelectorAll(sel + " [data-domain]");
+    for (var i = 0; i < chips.length; i++) chips[i].classList.toggle("on", chips[i].getAttribute("data-domain") === dom);
+  }
+  function hideMain() {
+    show(el.setup, false); show(el.study, false); show(el.done, false);
+    var c = document.getElementById("checklist"); if (c) c.hidden = true;
+    var s = document.getElementById("shadow"); if (s) s.hidden = true;
+  }
+
+  // ---- 🎧 シャドーイング（手本を聞いて追いかける＝シャドテンの核） ----
+  var shQueue = [], shIdx = 0, shDomain = "all";
+  function openShadow() {
+    hideMain();
+    var s = document.getElementById("shadow"); if (s) s.hidden = false;
+    buildShadow();
+  }
+  function setShadowDomain(d) { shDomain = d; buildShadow(); }
+  function buildShadow() {
+    shQueue = CARDS.filter(function (c) { return shDomain === "all" || c.domain === shDomain; });
+    shuffle(shQueue); shIdx = 0;
+    highlightChips("#shChips", shDomain);
+    renderShadow();
+  }
+  function renderShadow() {
+    if (!shQueue.length) return;
+    var c = shQueue[shIdx];
+    var en = document.getElementById("shEn"); if (en) en.textContent = String(c.en).replace(/___/g, "…");
+    var ja = document.getElementById("shJa"); if (ja) ja.textContent = c.ja;
+    var cn = document.getElementById("shCounter"); if (cn) cn.textContent = (shIdx + 1) + " / " + shQueue.length;
+    updateRateBtn();
+    speak(c.en);
+  }
+  function shadowReplay() { if (shQueue[shIdx]) speak(shQueue[shIdx].en); }
+  function shadowNext() { if (shIdx < shQueue.length - 1) { shIdx++; renderShadow(); } else backToSetup(); }
+  function shadowPrev() { if (shIdx > 0) { shIdx--; renderShadow(); } }
   function toggleRate() {
     state.rate = (state.rate === "fast") ? "slow" : "fast";
     save(state); updateRateBtn();
@@ -199,7 +235,7 @@
   var clDomain = "all";
   function cardById(id) { for (var i = 0; i < CARDS.length; i++) if (CARDS[i].id === id) return CARDS[i]; return null; }
   function openChecklist() {
-    show(el.setup, false); show(el.study, false); show(el.done, false);
+    hideMain();
     var c = document.getElementById("checklist"); if (c) c.hidden = false;
     renderChecklist();
   }
@@ -251,6 +287,11 @@
     else if (a === "clDomain") setClDomain(t.getAttribute("data-domain"));
     else if (a === "clCheck") clCheck(t.getAttribute("data-id"));
     else if (a === "clShow") clShow(t.getAttribute("data-id"));
+    else if (a === "shadow") openShadow();
+    else if (a === "shDomain") setShadowDomain(t.getAttribute("data-domain"));
+    else if (a === "shadowReplay") shadowReplay();
+    else if (a === "shadowNext") shadowNext();
+    else if (a === "shadowPrev") shadowPrev();
   });
   // カード表面はどこをタップしても英語を出す
   if (el.cardFront) el.cardFront.addEventListener("click", function () { if (!revealed) reveal(); });

@@ -88,6 +88,7 @@
       <button class="choice" data-action="start" data-domain="all"><span>まとめて</span><b>ぜんぶ ▸</b></button>
     </div>
     <div class="grid" style="margin-top:10px">
+      <button class="choice" data-action="shadow"><span>手本を聞いて追いかける</span><b>🎧 シャドーイング ▸</b></button>
       <button class="choice" data-action="checklist"><span>覚えたかでなく、見た所にチェック</span><b>📋 チェックリスト ▸</b></button>
       <button class="choice" data-action="capOpen"><span>思いついたら貯める</span><b>＋ 言いたいこと ▸</b></button>
     </div>
@@ -117,7 +118,7 @@
       <div class="en" id="en"></div>
       <div class="speakrow">
         <button class="speak" data-action="speak">🔊 もう一度きく</button>
-        <button class="speak" data-action="rate" id="rateBtn">🐢 ゆっくり</button>
+        <button class="speak rateBtn" data-action="rate" id="rateBtn">🐢 ゆっくり</button>
       </div>
       <div class="row">
         <button class="ng" data-action="ng">まだ</button>
@@ -149,6 +150,31 @@
     <p class="stat" id="clCount" style="margin:8px 0 2px"></p>
     <p class="muted" style="font-size:13px">タップで英語＋音声。チェックは「見た・練習した」印です（覚えたかのテストではありません）。</p>
     <div id="clList"></div>
+    <div class="bar"><button class="link" data-action="home">← 範囲を選ぶ</button></div>
+  </section>
+
+  <!-- シャドーイング -->
+  <section id="shadow" hidden>
+    <div id="shChips" class="chips">
+      <button class="chip" data-action="shDomain" data-domain="travel">旅行</button>
+      <button class="chip" data-action="shDomain" data-domain="medical">診療</button>
+      <button class="chip" data-action="shDomain" data-domain="sign">署名</button>
+      <button class="chip" data-action="shDomain" data-domain="all">ぜんぶ</button>
+    </div>
+    <div class="counter" id="shCounter"></div>
+    <div class="card" style="justify-content:center">
+      <div class="en" id="shEn" style="text-align:center"></div>
+      <div class="ja-sm" id="shJa" style="text-align:center; margin-top:10px"></div>
+      <p class="muted" style="text-align:center; margin-top:18px; font-size:13px">手本を聞いて、少し遅れて追いかけて声に出す（シャドーイング）。<br>スピーキング力＋訛りに強くなる。</p>
+      <div class="speakrow" style="justify-content:center; margin-top:10px">
+        <button class="speak" data-action="shadowReplay">🔊 もう一度</button>
+        <button class="speak rateBtn" data-action="rate">🐢 ゆっくり</button>
+      </div>
+    </div>
+    <div class="row">
+      <button class="ng" data-action="shadowPrev">← 前</button>
+      <button class="ok" data-action="shadowNext">次 →</button>
+    </div>
     <div class="bar"><button class="link" data-action="home">← 範囲を選ぶ</button></div>
   </section>
 </div>
