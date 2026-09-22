@@ -9,7 +9,7 @@
   var CARDS = window.HANASERU_CARDS || [];
   var KEY = "hanaseru.v1";
   var SESSION_SIZE = 12;              // 1日の枚数
-  var INTERVALS = [0, 1, 2, 4, 8, 16]; // ボックス→次に出るまでの日数
+  var INTERVALS = [0, 1, 3, 7, 14, 30, 90]; // ボックス→次に出るまでの日数（記憶が伸びる節目：翌日→3日→1週→2週→1ヶ月→3ヶ月）
 
   // ---- 日付（ローカル真夜中基準の通し番号） ----
   function dayNum(d) { d = d || new Date(); return Math.floor(new Date(d).setHours(0, 0, 0, 0) / 86400000); }
