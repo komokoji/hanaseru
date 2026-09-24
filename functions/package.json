@@ -1,0 +1,17 @@
+{
+  "name": "hanaseru-functions",
+  "version": "1.0.0",
+  "description": "Hanaseru Cloud Functions — AI会話（ロールプレイ＋言い直しFB）と英訳コーチ。院長のGoogleアカウントだけが呼べる",
+  "main": "index.js",
+  "engines": { "node": "22" },
+  "scripts": {
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log --only hanaseruChat"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.92.0",
+    "firebase-functions": "^6.4.0",
+    "zod": "^3.25.0"
+  },
+  "private": true
+}

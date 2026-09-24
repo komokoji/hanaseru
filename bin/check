@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Hanaseru 点検 — 「ちゃんと動いている？」に記憶で答えないための1本（exit 0=OK / 1=要対応）
+#   ① 本番サイトが開く  ② Firebase CLI のログインが生きている（デプロイできる）
+#   ③ Firestore ルールに Hanaseru の枠がある（clinic-ops が正本）  ④ Polaris が読む要約が公開で取れる
+#   ⑤ AI会話の Functions が応答する（未デプロイなら要対応として出す）
+set -u
+cd "$(dirname "$0")/.."
+ng=0
+ok()  { printf '  ✅ %s\n' "$1"; }
+bad() { printf '  ❌ %s\n     → %s\n' "$1" "$2"; ng=1; }
+
+echo "🗣 Hanaseru 点検（$(date '+%Y-%m-%d %H:%M')）"
+
+code=$(curl -s -o /dev/null -w '%{http_code}' https://hanaseru.web.app/ || echo 000)
+[ "$code" = 200 ] && ok "本番 https://hanaseru.web.app が開く" || bad "本番サイトが $code" "firebase deploy --only hosting"
+
+if firebase projects:list >/dev/null 2>&1; then ok "Firebase CLI ログイン有効"
+else bad "Firebase CLI のログインが切れている（デプロイ不可）" "firebase login --reauth"; fi
+
+rules=../clinic-ops/firestore.rules
+if grep -q "hanaseru_public" "$rules" 2>/dev/null; then ok "Firestore ルールに Hanaseru の枠がある（clinic-ops/firestore.rules）"
+else bad "ルールに Hanaseru の枠がない" "clinic-ops/firestore.rules に hanaseru_users / hanaseru_public を追加"; fi
+
+sum=$(curl -s -o /dev/null -w '%{http_code}' "https://firestore.googleapis.com/v1/projects/komori-clinic-platform/databases/(default)/documents/hanaseru_public/summary" || echo 000)
+case "$sum" in
+  200) ok "Polaris 用の要約（hanaseru_public/summary）が公開で読める" ;;
+  404) bad "ルールは通っているが、まだ1回も同期していない" "アプリで Google ログイン → 1セッション完了" ;;
+  403) bad "要約が公開になっていない（ルール未反映）" "cd ~/Developer/clinic-ops && firebase deploy --only firestore:rules" ;;
+  *)   bad "要約の取得が $sum" "ネットワーク／Firestore を確認" ;;
+esac
+
+fn=$(curl -s -o /dev/null -w '%{http_code}' -X POST -H 'Content-Type: application/json' -d '{"data":{}}' https://asia-northeast1-komori-clinic-platform.cloudfunctions.net/hanaseruChat || echo 000)
+case "$fn" in
+  401|400) ok "AI会話の Functions（hanaseruChat）が応答する（未ログインは弾く）" ;;
+  404|000) bad "AI会話の Functions が未デプロイ" "cd ~/Developer/hanaseru && firebase deploy --only functions" ;;
+  *)   bad "hanaseruChat が $fn" "firebase functions:log --only hanaseruChat" ;;
+esac
+
+[ $ng = 0 ] && echo "→ すべてOK" || echo "→ 要対応あり"
+exit $ng

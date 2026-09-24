@@ -67,6 +67,16 @@
   .cltext{ flex:1; cursor:pointer; }
   .clja{ font-size:16px; }
   .clen{ font-size:16px; font-weight:700; color:var(--teal-d); margin-top:4px; }
+  .tklog{ flex:1; overflow:auto; display:flex; flex-direction:column; gap:8px; min-height:200px; max-height:52dvh; padding:4px 0; }
+  .bubble{ max-width:92%; border-radius:16px; padding:10px 14px; font-size:16px; line-height:1.5; }
+  .bubble.ai{ align-self:flex-start; background:#fff; border:1px solid var(--line); }
+  .bubble.me{ align-self:flex-end; background:var(--teal); color:#fff; }
+  .bubble .speak{ padding:4px 10px; font-size:13px; margin-top:6px; }
+  .fb{ background:#fff8ec; color:var(--ink); border:1px solid #f1e2c4; border-radius:12px; padding:8px 10px; margin-top:8px; font-size:14px; }
+  .fbline b{ color:var(--teal-d); display:block; font-size:16px; }
+  .fbja{ color:var(--sub); font-size:13px; display:block; }
+  .fbtip{ color:var(--amber); font-size:13px; margin-top:4px; }
+  .fbok{ color:var(--teal-d); font-weight:700; }
 </style>
 </head>
 <body>
@@ -87,10 +97,14 @@
       <button class="choice" data-action="start" data-domain="sign"><span>院長の型</span><b>署名フレーズ ▸</b></button>
       <button class="choice" data-action="start" data-domain="all"><span>まとめて</span><b>ぜんぶ ▸</b></button>
       <button class="choice" data-action="start" data-domain="mine"><span>私が保存した言い方</span><b>🔖 保存フレーズ ▸</b></button>
+      <button class="choice" data-action="start" data-domain="listen"><span>実際に聞いた英語の定型句</span><b>👂 聞いた英語 ▸</b></button>
     </div>
     <div class="grid" style="margin-top:10px">
       <button class="choice" data-action="shadow"><span>手本を聞いて追いかける</span><b>🎧 シャドーイング ▸</b></button>
+      <button class="choice" data-action="listen"><span>機内アナウンスなど、その場の音</span><b>👂 聞き取り（実際に聞いた英語） ▸</b></button>
       <button class="choice" data-action="checklist"><span>覚えたかでなく、見た所にチェック</span><b>📋 チェックリスト ▸</b></button>
+      <button class="choice" data-action="talk"><span>AIを相手に数往復＋言い直しFB</span><b>🗣 AI会話 ▸</b></button>
+      <button class="choice" data-action="coach"><span>「こう言いたい」を自然な英語に</span><b>✍️ 英訳コーチ ▸</b></button>
       <button class="choice" data-action="capOpen"><span>思いついたら貯める</span><b>＋ 言いたいこと ▸</b></button>
     </div>
     <div id="capBox" hidden style="margin-top:8px">
@@ -102,7 +116,11 @@
       <div id="capList"></div>
       <button class="link" id="capCopyBtn" data-action="capCopy" hidden>📋 ためた分を全部コピー（Claudeに貼って英語化）</button>
     </div>
-    <footer>この端末にだけ進捗を保存（オフラインOK）</footer>
+    <footer>
+      <div id="cloudStatus">☁️ この端末だけに保存（ログイン前）</div>
+      <button class="link" data-action="cloud" id="cloudBtn">Google でログインして同期</button>
+      <div class="muted" style="font-size:11px">ログインすると PC と iPhone で同じ進捗になります（オフラインでも動きます）</div>
+    </footer>
   </section>
 
   <!-- 学習 -->
@@ -147,11 +165,69 @@
       <button class="chip" data-action="clDomain" data-domain="medical">診療</button>
       <button class="chip" data-action="clDomain" data-domain="sign">署名</button>
       <button class="chip" data-action="clDomain" data-domain="mine">🔖保存</button>
+      <button class="chip" data-action="clDomain" data-domain="listen">👂聞いた</button>
       <button class="chip" data-action="clDomain" data-domain="all">ぜんぶ</button>
     </div>
     <p class="stat" id="clCount" style="margin:8px 0 2px"></p>
     <p class="muted" style="font-size:13px">タップで英語＋音声。チェックは「見た・練習した」印です（覚えたかのテストではありません）。</p>
     <div id="clList"></div>
+    <div class="bar"><button class="link" data-action="home">← 範囲を選ぶ</button></div>
+  </section>
+
+  <!-- 🗣 AI会話 -->
+  <section id="talk" hidden>
+    <div id="tkChips" class="chips">
+      <button class="chip on" data-scene="clinic">診察室（親役）</button>
+      <button class="chip" data-scene="travel">旅先の雑談</button>
+      <button class="chip" data-scene="service">店・受付・空港</button>
+      <button class="chip" data-scene="free">自由</button>
+    </div>
+    <p class="muted" style="font-size:13px; margin:8px 0 4px">相手役が英語で話しかけます。声か文字で返すと、続きと「こう言うと自然」が返ります。気に入った言い方は 🔖 で保存→リピート練習へ。</p>
+    <div id="tkLog" class="tklog"></div>
+    <p class="stat" id="tkNote"></p>
+    <textarea id="tkInput" rows="2" placeholder="英語で返す（日本語でも可＝英語にして返します）"></textarea>
+    <div class="row" style="margin-top:8px">
+      <button class="ng" data-action="tkMic" id="tkMic">🎤 話す</button>
+      <button class="ok" data-action="tkSend" id="tkSend">送る</button>
+    </div>
+    <div class="bar"><button class="link" data-action="home">← 範囲を選ぶ</button><button class="link" data-action="tkRestart">↻ 場面をやり直す</button></div>
+  </section>
+
+  <!-- ✍️ 英訳コーチ -->
+  <section id="coach" hidden>
+    <h2>✍️ 英訳コーチ</h2>
+    <p class="muted" style="font-size:13px">日本語で「こう言いたい」（場面や相手を（ ）で添えると精度が上がります）。自然な英語＋別の言い方＋ニュアンスが返ります。</p>
+    <textarea id="trInput" rows="3" placeholder="例：（診察室・親へ）熱は高いけど、水分が取れていれば今夜は様子を見て大丈夫です。"></textarea>
+    <div class="row" style="margin-top:8px"><button class="ok" data-action="trGo">英語にする</button></div>
+    <div id="trOut" style="margin-top:10px"></div>
+    <div class="bar"><button class="link" data-action="home">← 範囲を選ぶ</button></div>
+  </section>
+
+  <!-- 🎧 聞き取り -->
+  <section id="listen" hidden>
+    <h2 id="lsTitle"></h2>
+    <p class="muted" id="lsScene" style="font-size:13px"></p>
+    <div class="counter" id="lsCounter"></div>
+    <div class="card" style="justify-content:flex-start">
+      <div class="ja" id="lsPassage" style="font-size:18px"></div>
+      <p class="muted" style="font-size:13px; margin:8px 0 0">① 英文を見ずに1回聞く → ② 何の話か自分で言ってみる → ③ 英文と要点を見る（全文は訳さない）→ ④ 定型句を3回口に出す</p>
+      <div class="speakrow" style="margin-top:12px">
+        <button class="speak" data-action="lsPlay">🔊 聞く</button>
+        <button class="speak rateBtn" data-action="rate">🐢 ゆっくり</button>
+        <button class="speak" data-action="lsShow">📖 英文を見る</button>
+      </div>
+      <div id="lsBody" hidden style="margin-top:14px">
+        <div id="lsEn" style="font-size:16px; line-height:1.7"></div>
+        <p class="stat" id="lsJa" style="margin-top:10px"></p>
+        <ul id="lsPick" class="muted" style="font-size:13px; padding-left:18px; margin:6px 0 0"></ul>
+      </div>
+    </div>
+    <h2 style="margin-top:14px">口に出す定型句（タップで音声）</h2>
+    <div id="lsPhrases"></div>
+    <div class="row">
+      <button class="ng" data-action="lsPrev">← 前</button>
+      <button class="ok" data-action="lsNext">次 →</button>
+    </div>
     <div class="bar"><button class="link" data-action="home">← 範囲を選ぶ</button></div>
   </section>
 
@@ -162,6 +238,7 @@
       <button class="chip" data-action="shDomain" data-domain="medical">診療</button>
       <button class="chip" data-action="shDomain" data-domain="sign">署名</button>
       <button class="chip" data-action="shDomain" data-domain="mine">🔖保存</button>
+      <button class="chip" data-action="shDomain" data-domain="listen">👂聞いた</button>
       <button class="chip" data-action="shDomain" data-domain="all">ぜんぶ</button>
     </div>
     <div class="counter" id="shCounter"></div>
@@ -183,6 +260,9 @@
 </div>
 
 <script src="data.js"></script>
+<script src="listen.js"></script>
 <script src="app.js"></script>
+<script type="module" src="cloud.js"></script>
+<script type="module" src="talk.js"></script>
 </body>
 </html>

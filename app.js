@@ -6,7 +6,8 @@
 (function () {
   "use strict";
 
-  var CARDS = window.HANASERU_CARDS || [];
+  var LISTEN = window.HANASERU_LISTEN || [];
+  var CARDS = (window.HANASERU_CARDS || []).concat(LISTEN.reduce(function (a, u) { return a.concat(u.phrases || []); }, []));
   var KEY = "hanaseru.v1";
   var SESSION_SIZE = 12;              // 1日の枚数
   var INTERVALS = [0, 1, 3, 7, 14, 30, 90]; // ボックス→次に出るまでの日数（記憶が伸びる節目：翌日→3日→1週→2週→1ヶ月→3ヶ月）
@@ -19,7 +20,10 @@
     try { return JSON.parse(localStorage.getItem(KEY)) || {}; }
     catch (e) { return {}; }
   }
-  function save(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {} }
+  function save(s) {
+    try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {}
+    saveListeners.forEach(function (f) { try { f(); } catch (e) {} });
+  }
 
   var state = load();
   if (!state.cards) state.cards = {};        // id -> {box, due(dayNum)}
@@ -27,6 +31,11 @@
   if (state.lastDone == null) state.lastDone = null; // 最後にセッション完了した dayNum
   if (!state.rate) state.rate = "slow";      // 音声速度 slow/fast
   if (!state.captures) state.captures = [];  // その場で貯めた「言いたいこと」（日本語・未英訳）
+  if (!state.mine) state.mine = [];          // 🔖 アプリ内で保存したフレーズ（AI会話・英訳コーチから）{id, ja, en, ts}
+  var saveListeners = [];
+  function allCards() {                      // 辞書（data.js）＋院長が保存したフレーズ（state.mine）
+    return CARDS.concat(state.mine.map(function (m) { return { id: m.id, domain: "mine", ja: m.ja, en: m.en }; }));
+  }
 
   function cardState(id) {
     if (!state.cards[id]) state.cards[id] = { box: 0, due: dayNum() };
@@ -36,7 +45,7 @@
   // ---- 今日の出題を組む ----
   function buildQueue(domain) {
     var today = dayNum();
-    var pool = CARDS.filter(function (c) { return domain === "all" || c.domain === domain; });
+    var pool = allCards().filter(function (c) { return domain === "all" || c.domain === domain; });
     var due = [], fresh = [];
     pool.forEach(function (c) {
       var st = state.cards[c.id];
@@ -61,12 +70,12 @@
 
   // ---- 進捗 ----
   function mastered(domain) {
-    return CARDS.filter(function (c) {
+    return allCards().filter(function (c) {
       if (domain !== "all" && c.domain !== domain) return false;
       var st = state.cards[c.id]; return st && st.box >= 4;
     }).length;
   }
-  function totalIn(domain) { return CARDS.filter(function (c) { return domain === "all" || c.domain === domain; }).length; }
+  function totalIn(domain) { return allCards().filter(function (c) { return domain === "all" || c.domain === domain; }).length; }
 
   function finishSession() {
     var today = dayNum();
@@ -78,11 +87,13 @@
   }
 
   // ---- 音声（英語の手本） ----
-  function speak(text) {
+  function speak(text, lang) {
     try {
       if (!window.speechSynthesis) return;
       var u = new SpeechSynthesisUtterance(String(text).replace(/___/g, "…"));
-      u.lang = "en-US"; u.rate = (state.rate === "fast") ? 1.05 : 0.85;
+      u.lang = lang || "en-US"; u.rate = (state.rate === "fast") ? 1.05 : 0.85;
+      var vs = window.speechSynthesis.getVoices().filter(function (v) { return v.lang.replace("_", "-") === u.lang; });
+      if (vs.length) u.voice = vs[0];   // 英国訛りなど、指定の訛りの声があれば使う
       window.speechSynthesis.cancel(); window.speechSynthesis.speak(u);
     } catch (e) {}
   }
@@ -166,7 +177,37 @@
     show(el.setup, false); show(el.study, false); show(el.done, false);
     var c = document.getElementById("checklist"); if (c) c.hidden = true;
     var s = document.getElementById("shadow"); if (s) s.hidden = true;
+    var l = document.getElementById("listen"); if (l) l.hidden = true;
+    var tk = document.getElementById("talk"); if (tk) tk.hidden = true;
+    var co = document.getElementById("coach"); if (co) co.hidden = true;
   }
+
+  // ---- 🎧 聞き取り（実際に耳にした英語を、聞く→意味→英文→口に出す の順で） ----
+  var lsUnit = 0, lsIdx = 0, lsShown = false;
+  function openListen() { hideMain(); var l = document.getElementById("listen"); if (l) l.hidden = false; lsIdx = 0; renderListen(); }
+  function renderListen() {
+    var u = LISTEN[lsUnit]; if (!u) return;
+    var p = u.passages[lsIdx];
+    lsShown = false;
+    var t = document.getElementById("lsTitle"); if (t) t.textContent = u.title;
+    var sc = document.getElementById("lsScene"); if (sc) sc.textContent = u.scene;
+    var pt = document.getElementById("lsPassage"); if (pt) pt.textContent = p.title;
+    var cn = document.getElementById("lsCounter"); if (cn) cn.textContent = (lsIdx + 1) + " / " + u.passages.length;
+    var body = document.getElementById("lsBody"); if (body) body.hidden = true;
+    var en = document.getElementById("lsEn"); if (en) en.textContent = p.en;
+    var ja = document.getElementById("lsJa"); if (ja) ja.textContent = "要点：" + p.ja;
+    var pk = document.getElementById("lsPick"); if (pk) pk.innerHTML = (p.pick || []).map(function (x) { return "<li>" + escapeHtml(x) + "</li>"; }).join("");
+    var ph = document.getElementById("lsPhrases");
+    if (ph) ph.innerHTML = u.phrases.map(function (c) {
+      return '<div class="clrow"><div class="cltext" data-action="lsSpeak" data-id="' + c.id + '">'
+        + '<div class="clen" style="margin-top:0">' + escapeHtml(c.en) + '</div><div class="clja" style="font-size:14px;color:var(--sub)">' + escapeHtml(c.ja) + '</div></div></div>';
+    }).join("");
+    updateRateBtn();
+  }
+  function listenPlay() { var u = LISTEN[lsUnit]; if (u) speak(u.passages[lsIdx].en, u.voice); }
+  function listenShow() { var b = document.getElementById("lsBody"); if (b) { b.hidden = !b.hidden; lsShown = !b.hidden; } }
+  function listenNext() { var u = LISTEN[lsUnit]; if (lsIdx < u.passages.length - 1) { lsIdx++; renderListen(); } else backToSetup(); }
+  function listenPrev() { if (lsIdx > 0) { lsIdx--; renderListen(); } }
 
   // ---- 🎧 シャドーイング（手本を聞いて追いかける＝シャドテンの核） ----
   var shQueue = [], shIdx = 0, shDomain = "all";
@@ -177,7 +218,7 @@
   }
   function setShadowDomain(d) { shDomain = d; buildShadow(); }
   function buildShadow() {
-    shQueue = CARDS.filter(function (c) { return shDomain === "all" || c.domain === shDomain; });
+    shQueue = allCards().filter(function (c) { return shDomain === "all" || c.domain === shDomain; });
     shuffle(shQueue); shIdx = 0;
     highlightChips("#shChips", shDomain);
     renderShadow();
@@ -197,7 +238,7 @@
   function toggleRate() {
     state.rate = (state.rate === "fast") ? "slow" : "fast";
     save(state); updateRateBtn();
-    if (revealed) speak(queue[idx].en);
+    if (revealed && !el.study.hidden) speak(queue[idx].en);
   }
 
   // ---- 「＋言いたいこと」捕獲（その場は日本語で貯めるだけ） ----
@@ -233,7 +274,7 @@
 
   // ---- チェックリスト（覚えたかのテストでなく「見た・練習した」を潰す） ----
   var clDomain = "all";
-  function cardById(id) { for (var i = 0; i < CARDS.length; i++) if (CARDS[i].id === id) return CARDS[i]; return null; }
+  function cardById(id) { var cs = allCards(); for (var i = 0; i < cs.length; i++) if (cs[i].id === id) return cs[i]; return null; }
   function openChecklist() {
     hideMain();
     var c = document.getElementById("checklist"); if (c) c.hidden = false;
@@ -242,7 +283,7 @@
   function setClDomain(d) { clDomain = d; renderChecklist(); }
   function renderChecklist() {
     var list = document.getElementById("clList"); if (!list) return;
-    var pool = CARDS.filter(function (c) { return clDomain === "all" || c.domain === clDomain; });
+    var pool = allCards().filter(function (c) { return clDomain === "all" || c.domain === clDomain; });
     var done = pool.filter(function (c) { var s = state.cards[c.id]; return s && s.practiced; }).length;
     var cnt = document.getElementById("clCount"); if (cnt) cnt.textContent = "見た所：" + done + " / " + pool.length;
     list.innerHTML = pool.map(function (c) {
@@ -292,9 +333,42 @@
     else if (a === "shadowReplay") shadowReplay();
     else if (a === "shadowNext") shadowNext();
     else if (a === "shadowPrev") shadowPrev();
+    else if (a === "listen") openListen();
+    else if (a === "talk") { hideMain(); document.getElementById("talk").hidden = false; }   // 会話の中身は talk.js
+    else if (a === "coach") { hideMain(); document.getElementById("coach").hidden = false; }
+    else if (a === "lsPlay") listenPlay();
+    else if (a === "lsShow") listenShow();
+    else if (a === "lsNext") listenNext();
+    else if (a === "lsPrev") listenPrev();
+    else if (a === "lsSpeak") { var lc = cardById(t.getAttribute("data-id")); if (lc) speak(lc.en, LISTEN[lsUnit] && LISTEN[lsUnit].voice); }
   });
   // カード表面はどこをタップしても英語を出す
   if (el.cardFront) el.cardFront.addEventListener("click", function () { if (!revealed) reveal(); });
+
+  // ---- ☁️ クラウド同期への公開口（cloud.js が使う） ----
+  window.Hanaseru = {
+    getState: function () { return state; },
+    applyRemote: function (merged) {
+      Object.keys(state).forEach(function (k) { delete state[k]; });
+      Object.keys(merged).forEach(function (k) { state[k] = merged[k]; });
+      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+      if (!el.setup.hidden) renderSetup();
+    },
+    onChange: function (f) { saveListeners.push(f); },
+    summary: function () {
+      return { streak: state.streak, lastDone: state.lastDone,
+               lastDoneISO: state.lastDone ? new Date(state.lastDone * 86400000).toISOString().slice(0, 10) : null,
+               mastered: mastered("all"), total: totalIn("all") };
+    },
+    // 🔖 保存フレーズを足す（AI会話・英訳コーチから）。同じ英文は二重に入れない
+    addMine: function (ja, en) {
+      var e = String(en).trim(), j = String(ja).trim(); if (!e) return false;
+      if (state.mine.some(function (m) { return m.en === e; })) return false;
+      state.mine.push({ id: "mine-" + Date.now().toString(36), ja: j, en: e, ts: Date.now() });
+      save(state); return true;
+    },
+    speak: function (t) { speak(t); }
+  };
 
   renderSetup();
 

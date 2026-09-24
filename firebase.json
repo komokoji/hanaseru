@@ -7,22 +7,35 @@
       ".firebaserc",
       "**/.*",
       "**/node_modules/**",
-      "README.md"
+      "README.md",
+      "functions/**",
+      ".claude/**",
+      "bin/**"
     ],
     "headers": [
       {
         "source": "**",
         "headers": [
-          { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+          {
+            "key": "X-Robots-Tag",
+            "value": "noindex, nofollow"
+          }
         ]
       },
       {
         "source": "/sw.js",
         "headers": [
-          { "key": "Cache-Control", "value": "no-cache" }
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
         ]
       }
     ],
     "target": "hanaseru"
+  },
+  "functions": {
+    "source": "functions",
+    "runtime": "nodejs22"
   }
 }
