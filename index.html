@@ -77,6 +77,14 @@
   .fbja{ color:var(--sub); font-size:13px; display:block; }
   .fbtip{ color:var(--amber); font-size:13px; margin-top:4px; }
   .fbok{ color:var(--teal-d); font-weight:700; }
+  .xp{ margin-top:12px; background:#f6fbfa; border:1px solid var(--line); border-radius:12px; padding:10px 12px; font-size:14px; }
+  .xpchunks{ display:flex; flex-wrap:wrap; gap:6px 10px; }
+  .xpc{ display:flex; flex-direction:column; min-width:120px; }
+  .xpc b{ color:var(--teal-d); font-size:15px; }
+  .xpc span{ color:var(--ink); }
+  .xpc em{ color:var(--sub); font-style:normal; font-size:12px; }
+  .xpg{ margin-top:8px; color:var(--ink); font-size:13px; }
+  .speakrow{ flex-wrap:wrap; }
 </style>
 </head>
 <body>
@@ -138,7 +146,9 @@
       <div class="speakrow">
         <button class="speak" data-action="speak">🔊 もう一度きく</button>
         <button class="speak rateBtn" data-action="rate" id="rateBtn">🐢 ゆっくり</button>
+        <button class="speak" data-action="explain" data-where="study" data-box="xpStudy">❓ 解説</button>
       </div>
+      <div id="xpStudy" hidden></div>
       <div class="row">
         <button class="ng" data-action="ng">まだ</button>
         <button class="ok" data-action="ok">言えた</button>
@@ -196,7 +206,7 @@
   <!-- ✍️ 英訳コーチ -->
   <section id="coach" hidden>
     <h2>✍️ 英訳コーチ</h2>
-    <p class="muted" style="font-size:13px">日本語で「こう言いたい」（場面や相手を（ ）で添えると精度が上がります）。自然な英語＋別の言い方＋ニュアンスが返ります。</p>
+    <p class="muted" style="font-size:13px">日本語で「こう言いたい」（場面や相手を（ ）で添えると精度が上がります）。王道の言い方（丁寧だけれど口語・誰もが使う）＋もう一つ＋ていねい版とニュアンスが返ります。</p>
     <textarea id="trInput" rows="3" placeholder="例：（診察室・親へ）熱は高いけど、水分が取れていれば今夜は様子を見て大丈夫です。"></textarea>
     <div class="row" style="margin-top:8px"><button class="ok" data-action="trGo">英語にする</button></div>
     <div id="trOut" style="margin-top:10px"></div>
@@ -249,7 +259,9 @@
       <div class="speakrow" style="justify-content:center; margin-top:10px">
         <button class="speak" data-action="shadowReplay">🔊 もう一度</button>
         <button class="speak rateBtn" data-action="rate">🐢 ゆっくり</button>
+        <button class="speak" data-action="explain" data-where="shadow" data-box="xpShadow">❓ 解説</button>
       </div>
+      <div id="xpShadow" hidden style="text-align:left"></div>
     </div>
     <div class="row">
       <button class="ng" data-action="shadowPrev">← 前</button>

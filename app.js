@@ -122,6 +122,7 @@
     el.en.textContent = c.en;
     var jb = document.getElementById("jaBack"); if (jb) jb.textContent = c.ja;
     el.counter.textContent = (idx + 1) + " / " + queue.length;
+    var xb = document.getElementById("xpStudy"); if (xb) { xb.hidden = true; xb.dataset.id = ""; }
     show(el.cardBack, false); show(el.cardFront, true);
   }
 
@@ -229,6 +230,7 @@
     var en = document.getElementById("shEn"); if (en) en.textContent = String(c.en).replace(/___/g, "…");
     var ja = document.getElementById("shJa"); if (ja) ja.textContent = c.ja;
     var cn = document.getElementById("shCounter"); if (cn) cn.textContent = (shIdx + 1) + " / " + shQueue.length;
+    var xb = document.getElementById("xpShadow"); if (xb) { xb.hidden = true; xb.dataset.id = ""; }
     updateRateBtn();
     speak(c.en);
   }
@@ -367,7 +369,11 @@
       state.mine.push({ id: "mine-" + Date.now().toString(36), ja: j, en: e, ts: Date.now() });
       save(state); return true;
     },
-    speak: function (t) { speak(t); }
+    speak: function (t) { speak(t); },
+    current: function (where) {           // ❓解説用：いま画面に出ているカード
+      if (where === "shadow") return shQueue[shIdx] || null;
+      return queue[idx] || null;
+    }
   };
 
   renderSetup();

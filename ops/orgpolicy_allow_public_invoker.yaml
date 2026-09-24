@@ -1,0 +1,8 @@
+# komori-clinic-platform だけ「ドメイン制限共有」を解除する（プロジェクト単位の例外）。
+# なぜ：Cloud Functions（onCall）は Cloud Run の呼び出し口に allUsers（誰でも呼べる）を付ける必要がある。
+#       組織ポリシー iam.allowedPolicyMemberDomains が組織外メンバーを禁じているため付けられず 403 になっていた。
+#       呼び出し自体は関数の中で Firebase Auth（院長の Google アカウント）を検査するので、公開で問題ない。
+# 適用：gcloud resource-manager org-policies set-policy ops/orgpolicy_allow_public_invoker.yaml --project komori-clinic-platform
+constraint: constraints/iam.allowedPolicyMemberDomains
+listPolicy:
+  allValues: ALLOW

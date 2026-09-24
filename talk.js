@@ -5,6 +5,7 @@
 import { getApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-functions.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
 const H = window.Hanaseru;
 const call = httpsCallable(getFunctions(getApp(), "asia-northeast1"), "hanaseruChat");
@@ -113,7 +114,7 @@ async function translate() {
     const r = res.data.result;
     const row = (label, en) => '<div class="clrow"><div class="cltext"><div class="clja" style="font-size:12px;color:var(--sub)">' + label + '</div><div class="clen" style="margin-top:0">' + esc(en) + '</div>'
       + '<div class="speakrow" style="margin-top:6px"><button class="speak" data-say="' + esc(en) + '">🔊</button><button class="speak" data-save-en="' + esc(en) + '" data-save-ja="' + esc(text) + '">🔖 保存</button></div></div></div>';
-    out.innerHTML = row("いちばん自然", r.en) + row("くだけて", r.casual) + row("ていねいに", r.polite)
+    out.innerHTML = row("王道（まずこれ）", r.en) + row("もう一つの王道", r.alt) + row("ていねいに", r.polite)
       + '<p class="stat" style="white-space:pre-wrap;margin-top:10px">' + esc(r.nuance_ja) + '</p>';
     H.speak(r.en);
   } catch (e) {
@@ -121,8 +122,42 @@ async function translate() {
   } finally { setBusy(false); }
 }
 
+// ---- ❓ 解説（かたまりの意味＋文法＋言い換え）。一度出したら Firestore hanaseru_notes/{cardId} に保存＝次から即・端末共通 ----
+const db = getFirestore(getApp());
+const noteCache = {};
+function explainHtml(r) {
+  return '<div class="xp">'
+    + '<div class="xpchunks">' + r.chunks.map((c) => '<div class="xpc"><b>' + esc(c.en) + '</b><span>' + esc(c.ja) + '</span>' + (c.note ? '<em>' + esc(c.note) + '</em>' : '') + '</div>').join("") + '</div>'
+    + (r.grammar ? '<div class="xpg">📐 ' + esc(r.grammar) + '</div>' : '')
+    + (r.swap && r.swap.en ? '<div class="xpg">🔁 別の言い方：<b>' + esc(r.swap.en) + '</b>　' + esc(r.swap.ja) + ' <button class="speak" data-say="' + esc(r.swap.en) + '" style="padding:2px 8px;font-size:12px">🔊</button></div>' : '')
+    + '</div>';
+}
+async function explain(box, id, ja, en) {
+  if (!box) return;
+  if (!box.hidden && box.dataset.id === id) { box.hidden = true; return; }   // 2回目のタップで閉じる
+  box.hidden = false; box.dataset.id = id;
+  if (noteCache[id]) { box.innerHTML = explainHtml(noteCache[id]); return; }
+  box.innerHTML = '<p class="muted">解説を用意しています…</p>';
+  try {
+    if (getAuth(getApp()).currentUser) {
+      const snap = await getDoc(doc(db, "hanaseru_notes", id));
+      if (snap.exists() && snap.data().en === en) { noteCache[id] = snap.data().note; box.innerHTML = explainHtml(noteCache[id]); return; }
+    } else { box.innerHTML = '<p class="muted">解説は Google ログイン後に使えます（画面下のボタン）。</p>'; return; }
+    const res = await call({ mode: "explain", ja, en });
+    noteCache[id] = res.data.result;
+    box.innerHTML = explainHtml(noteCache[id]);
+    setDoc(doc(db, "hanaseru_notes", id), { en, ja, note: noteCache[id], updatedAt: serverTimestamp() }).catch(() => {});
+  } catch (e) {
+    box.innerHTML = '<p class="muted">解説を取れませんでした：' + esc(e && (e.message || e.code) || e) + '</p>';
+  }
+}
+
 document.addEventListener("click", (e) => {
   const t = e.target.closest("[data-say],[data-save-en],[data-action],[data-scene]"); if (!t) return;
+  if (t.getAttribute("data-action") === "explain") {
+    const c = H.current(t.getAttribute("data-where")); if (!c) return;
+    explain($(t.getAttribute("data-box")), c.id, c.ja, c.en); return;
+  }
   if (t.hasAttribute("data-say")) { H.speak(t.getAttribute("data-say")); return; }
   if (t.hasAttribute("data-save-en")) {
     const ok = H.addMine(t.getAttribute("data-save-ja"), t.getAttribute("data-save-en"));

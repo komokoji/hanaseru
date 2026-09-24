@@ -20,7 +20,12 @@ const WHO = `The learner is Dr. Komori, a Japanese pediatric surgeon who runs a 
 (gut health and nutrition). He is warm, precise, and reassuring with parents. His English goal:
 speak what he already has inside — to parents in his clinic, and to people he meets while traveling —
 without being flattened by language. He wants natural spoken English (not textbook), with British and
-American both fine.`;
+American both fine.
+
+REGISTER RULE (applies to every English line you produce): give him the "royal road" — the most
+standard, widely used way fluent speakers actually say it: polite but conversational, natural,
+nothing that would sound odd anywhere. No slang, no overly casual or regional idioms, nothing stiff
+or textbook-formal either. Simple and standard first; variety only within that register.`;
 
 const SCENES = {
   clinic: `ROLE: You are a worried English-speaking parent in his exam room in Tokyo (pick a plausible
@@ -57,8 +62,8 @@ const TRANSLATE_SYSTEM = `${WHO}
 He gives you something he wants to say (Japanese, or rough English), often with context in brackets.
 Return:
 - en: the single most natural spoken-English version, in his voice (warm, clear, not stiff).
-- casual: a more relaxed / friendly way to say it.
-- polite: a more careful / professional way to say it (e.g. to a parent, staff, official).
+- alt: a second, equally standard everyday way to say it (different wording, same register).
+- polite: a slightly more careful version for a parent, staff member, or official — still spoken, not stiff.
 - nuance_ja: 2–3 short Japanese notes: which to use when, and one word/phrase worth noticing.
 Keep every English line short enough to say in one breath. No explanations in English.`;
 
@@ -69,9 +74,29 @@ const ChatOut = z.object({
   tip: z.string(),
   ended: z.boolean()
 });
+const EXPLAIN_SYSTEM = `${WHO}
+
+He shows you one English line from his own phrasebook (with the Japanese meaning he intends). He is
+an intermediate learner: the meaning is his, but some words, phrasal verbs, or grammar are unfamiliar.
+Explain in Japanese, briefly, so he can say the line with understanding:
+- chunks: split the sentence into 3–6 meaningful chunks in order. For each: the chunk (en), its Japanese
+  meaning (ja), and, only when useful, a short note (note) on why this word/phrase is used or a nuance
+  (phrasal verb, idiom, register, British vs American). Keep note empty when nothing is worth saying.
+- grammar: ONE sentence in Japanese on the sentence's structure or key grammar point (e.g. imperative with
+  "go easy on", "while + present"). Skip trivia.
+- swap: one other standard, widely used way to say the same thing (same polite-spoken register), and
+  its Japanese gloss.
+Japanese should be plain (敬体でなくて良い), no lecturing, 200字以内 total for notes+grammar.`;
+
+const ExplainOut = z.object({
+  chunks: z.array(z.object({ en: z.string(), ja: z.string(), note: z.string() })),
+  grammar: z.string(),
+  swap: z.object({ en: z.string(), ja: z.string() })
+});
+
 const TranslateOut = z.object({
   en: z.string(),
-  casual: z.string(),
+  alt: z.string(),
   polite: z.string(),
   nuance_ja: z.string()
 });
@@ -92,7 +117,7 @@ function cleanMessages(raw) {
 }
 
 exports.hanaseruChat = onCall(
-  { region: "asia-northeast1", secrets: ["ANTHROPIC_API_KEY"], cors: true, timeoutSeconds: 60, memory: "256MiB" },
+  { region: "asia-northeast1", secrets: ["ANTHROPIC_API_KEY"], cors: true, invoker: "public", timeoutSeconds: 60, memory: "256MiB" },
   async (request) => {
     const email = request.auth && request.auth.token && request.auth.token.email;
     if (!request.auth) throw new HttpsError("unauthenticated", "ログインが必要です");
@@ -100,7 +125,7 @@ exports.hanaseruChat = onCall(
 
     const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
     const data = request.data || {};
-    const mode = data.mode === "translate" ? "translate" : "chat";
+    const mode = data.mode === "translate" ? "translate" : data.mode === "explain" ? "explain" : "chat";
 
     try {
       if (mode === "translate") {
@@ -112,6 +137,21 @@ exports.hanaseruChat = onCall(
           system: [{ type: "text", text: TRANSLATE_SYSTEM, cache_control: { type: "ephemeral" } }],
           messages: [{ role: "user", content: text }],
           output_config: { effort: "low", format: zodOutputFormat(TranslateOut) }
+        });
+        if (!res.parsed_output) throw new HttpsError("internal", "AI の返答を読めませんでした");
+        return { mode, result: res.parsed_output };
+      }
+
+      if (mode === "explain") {
+        const en = String(data.en || "").trim().slice(0, MAX_CHARS);
+        const ja = String(data.ja || "").trim().slice(0, MAX_CHARS);
+        if (!en) throw new HttpsError("invalid-argument", "en が空です");
+        const res = await client.messages.parse({
+          model: MODEL,
+          max_tokens: 2000,
+          system: [{ type: "text", text: EXPLAIN_SYSTEM, cache_control: { type: "ephemeral" } }],
+          messages: [{ role: "user", content: `English: ${en}\nIntended meaning (Japanese): ${ja || "(none given)"}` }],
+          output_config: { effort: "low", format: zodOutputFormat(ExplainOut) }
         });
         if (!res.parsed_output) throw new HttpsError("internal", "AI の返答を読めませんでした");
         return { mode, result: res.parsed_output };
