@@ -87,13 +87,30 @@
   }
 
   // ---- 音声（英語の手本） ----
+  // Mac/iOS には英語扱いの"おもちゃ声"（Bubbles, Bells, Bahh…）が多数あり、言語だけで選ぶとそれを拾う。
+  // 質の良い声を名前の優先順で選び、見つからなければブラウザ既定（＝以前と同じ）に任せる。
+  var GOOD_VOICES = {
+    "en-US": ["Google US English", "Samantha", "Ava", "Allison", "Zoe", "Nicky", "Alex", "Evan", "Tom", "Microsoft Aria Online", "Microsoft Jenny Online"],
+    "en-GB": ["Google UK English Female", "Google UK English Male", "Daniel", "Kate", "Serena", "Oliver", "Jamie", "Stephanie", "Microsoft Sonia Online", "Microsoft Ryan Online"]
+  };
+  function pickVoice(lang) {
+    var all = window.speechSynthesis.getVoices();
+    var names = GOOD_VOICES[lang] || [];
+    for (var i = 0; i < names.length; i++) {
+      for (var j = 0; j < all.length; j++) {
+        if (all[j].name.indexOf(names[i]) === 0 && all[j].lang.replace("_", "-").indexOf(lang) === 0) return all[j];
+      }
+    }
+    if (lang !== "en-US") return pickVoice("en-US");   // 英国声が無ければ米国の良い声
+    return null;
+  }
+  if (window.speechSynthesis) window.speechSynthesis.getVoices();   // 一覧を先に読み込ませる（初回が空になる対策）
   function speak(text, lang) {
     try {
       if (!window.speechSynthesis) return;
       var u = new SpeechSynthesisUtterance(String(text).replace(/___/g, "…"));
       u.lang = lang || "en-US"; u.rate = (state.rate === "fast") ? 1.05 : 0.85;
-      var vs = window.speechSynthesis.getVoices().filter(function (v) { return v.lang.replace("_", "-") === u.lang; });
-      if (vs.length) u.voice = vs[0];   // 英国訛りなど、指定の訛りの声があれば使う
+      var v = pickVoice(u.lang); if (v) u.voice = v;   // 良い声だけを名前で選ぶ（おもちゃ声を拾わない）
       window.speechSynthesis.cancel(); window.speechSynthesis.speak(u);
     } catch (e) {}
   }
