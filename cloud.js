@@ -12,10 +12,12 @@ import {
   getFirestore, doc, getDoc, setDoc, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
-// 院長の既存プロジェクト（clinic-ops と同じ）。authDomain は本サイト＝Safari/PWA でもリダイレクト認証が通る。
+// 院長の既存プロジェクト（clinic-ops と同じ）。
+// authDomain は既定のまま（hanaseru.web.app にすると Google OAuth クライアント側に戻り先の登録が要り、
+// 未登録だと redirect_uri_mismatch で止まる＝2026-09-26 に実際に起きた）。
 const firebaseConfig = {
   apiKey: "AIzaSyDus7bf7ICiRwdCf8YzWhRHSfn7-5Mf3T0",
-  authDomain: "hanaseru.web.app",
+  authDomain: "komori-clinic-platform.firebaseapp.com",
   projectId: "komori-clinic-platform",
   storageBucket: "komori-clinic-platform.firebasestorage.app",
   messagingSenderId: "755736145972",
