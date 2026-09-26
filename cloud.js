@@ -59,8 +59,11 @@ function mergeStates(local, remote) {
     if (r.practiced) l.practiced = true;
   });
   // 連続日数＝より新しい完了日を持つ側を採用（同じ日なら大きい方）
-  if ((remote.lastDone || 0) > (out.lastDone || 0)) { out.lastDone = remote.lastDone; out.streak = remote.streak; }
+  if ((remote.lastDone || 0) > (out.lastDone || 0)) { out.lastDone = remote.lastDone; out.streak = remote.streak || 0; }
   else if (remote.lastDone === out.lastDone) out.streak = Math.max(out.streak || 0, remote.streak || 0);
+  if (out.streak == null) out.streak = 0;
+  if (out.lastDone === undefined) out.lastDone = null;
+  if (!out.rate) out.rate = "slow";
   // 言いたいこと（捕獲）＝時刻で和集合
   const seen = {};
   out.captures = (out.captures || []).concat(remote.captures || []).filter(function (c) {

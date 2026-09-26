@@ -7,7 +7,7 @@
 
 const { onCall, HttpsError } = require("firebase-functions/v2/https");
 const Anthropic = require("@anthropic-ai/sdk");
-const { z } = require("zod");
+const { z } = require("zod/v4");
 const { zodOutputFormat } = require("@anthropic-ai/sdk/helpers/zod");
 
 const OWNER_EMAIL = "komorikoji@lifecrescendo.com";

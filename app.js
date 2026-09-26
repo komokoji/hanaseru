@@ -370,6 +370,8 @@
     applyRemote: function (merged) {
       Object.keys(state).forEach(function (k) { delete state[k]; });
       Object.keys(merged).forEach(function (k) { state[k] = merged[k]; });
+      if (!state.cards) state.cards = {}; if (state.streak == null) state.streak = 0; if (state.lastDone === undefined) state.lastDone = null;
+      if (!state.rate) state.rate = "slow"; if (!state.captures) state.captures = []; if (!state.mine) state.mine = [];
       try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
       if (!el.setup.hidden) renderSetup();
     },
