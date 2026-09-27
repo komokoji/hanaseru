@@ -6,6 +6,21 @@
    正本＝Vault 22_アプリ開発/Hanaseru 語学トレーニング/30_聞き取り教材_BA機内アナウンス_ヒースロー→羽田_2026-09-21.md */
 window.HANASERU_LISTEN = [
   {
+    id: "clinic-wheeze",
+    title: "診察室：ゼーゼーと喘息の説明",
+    scene: "院長の説明をそのまま英語の流れにしたもの。まず通して聞き、シャドーイングで口に入れる。カードは診療英語（med-ast）にも1文ずつ入っている。",
+    voice: "en-US",
+    passages: [
+      {
+        title: "ゼーゼーは、ほとんどが一時的",
+        en: "Little children often start wheezing as soon as they catch a cold. She wheezes every time she catches a cold, doesn't she? It sounds like asthma, but in most cases, it isn't true asthma. If the wheezing happens three or more times and gets better with an inhaler that opens the airways, we call it childhood asthma, for now. But in most cases, it's temporary. Very few children go on to have true asthma. Each time, we properly treat the cold and the sensitive airways. If we keep the inflammation under control, most children grow out of it. Only a small number of children have true asthma and need long-term treatment.",
+        ja: "小さな子は風邪でゼーゼーしやすい → 3回以上で吸入が効けば「いったん小児喘息」 → でも多くは一時的 → その都度しっかり治療して炎症を取れば、成長とともに治る → ごく一部だけ本当の喘息で長期治療。",
+        pick: ["for now（いったん・今のところ＝暫定的に）", "go on to（その後〜になる）", "grow out of it（成長とともに治る）", "keep ～ under control（〜を抑えておく）"]
+      }
+    ],
+    phrases: []
+  },
+  {
     id: "arrival-dialogues",
     title: "到着の3場面（入国審査・税関・ホテル）",
     scene: "空港に着いてから部屋に入るまでに、ほぼ必ず出会う会話。聞かれる質問はどの国でもほぼ同じ＝先に耳に入れておけば、当日は答えるだけ。",
