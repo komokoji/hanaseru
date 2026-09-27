@@ -112,10 +112,14 @@ async function translate() {
   try {
     const res = await call({ mode: "translate", text });
     const r = res.data.result;
-    const row = (label, en) => '<div class="clrow"><div class="cltext"><div class="clja" style="font-size:12px;color:var(--sub)">' + label + '</div><div class="clen" style="margin-top:0">' + esc(en) + '</div>'
-      + '<div class="speakrow" style="margin-top:6px"><button class="speak" data-say="' + esc(en) + '">🔊</button><button class="speak" data-save-en="' + esc(en) + '" data-save-ja="' + esc(text) + '">🔖 保存</button></div></div></div>';
-    out.innerHTML = row("王道（まずこれ）", r.en) + row("もう一つの王道", r.alt) + row("ていねいに", r.polite)
-      + '<p class="stat" style="white-space:pre-wrap;margin-top:10px">' + esc(r.nuance_ja) + '</p>';
+    const row = (label, en, note, ja) => '<div class="clrow"><div class="cltext"><div class="clja" style="font-size:12px;color:var(--sub)">' + label + '</div><div class="clen" style="margin-top:0">' + esc(en) + '</div>'
+      + (note ? '<div class="clja" style="font-size:13px;color:var(--sub);margin-top:2px">' + esc(note) + '</div>' : '')
+      + '<div class="speakrow" style="margin-top:6px"><button class="speak" data-say="' + esc(en) + '">🔊</button><button class="speak" data-save-en="' + esc(en) + '" data-save-ja="' + esc(ja) + '">🔖 保存</button></div></div></div>';
+    // 院長の型：王道1本を覚える → 文法・ニュアンスを理解 → 類似2つは眺める
+    out.innerHTML = row("① 王道（まずこれを覚える）", r.en, "", text)
+      + explainHtml({ chunks: r.chunks || [], grammar: r.grammar, swap: null })
+      + '<p class="muted" style="font-size:12px;margin:12px 0 0">② 類似（眺めるだけでOK）</p>'
+      + row("もう一つの王道", r.alt, r.alt_ja, text) + row("ていねいに", r.polite, r.polite_ja, text);
     H.speak(r.en);
   } catch (e) {
     out.innerHTML = '<p class="muted">できませんでした：' + esc(e && (e.message || e.code) || e) + '</p>';

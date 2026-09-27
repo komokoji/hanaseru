@@ -60,20 +60,20 @@ and reply as if he had said it.`;
 const TRANSLATE_SYSTEM = `${WHO}
 
 He gives you something he wants to say (Japanese, or rough English), often with context in brackets.
+His learning format (his own words): memorize ONE royal-road sentence first — the one a Japanese adult
+with school English should learn because it is what people really say and it also trains the ear —
+understand its grammar and nuance, then glance at two alternatives for range.
 Return:
-- en: the single most natural spoken-English version, in his voice (warm, clear, not stiff).
-- alt: a second, equally standard everyday way to say it (different wording, same register).
-- polite: a slightly more careful version for a parent, staff member, or official — still spoken, not stiff.
-- nuance_ja: 2–3 short Japanese notes: which to use when, and one word/phrase worth noticing.
-Keep every English line short enough to say in one breath. No explanations in English.`;
+- en: that one royal-road sentence, in his voice (warm, clear, spoken, one breath if possible).
+- chunks: split "en" into 3–6 meaningful chunks in order; for each: en, ja (Japanese meaning), note
+  (short Japanese note on a phrasal verb / idiom / nuance / why this word; empty when nothing to say).
+- grammar: ONE Japanese sentence on the key grammar point of "en".
+- alt: a second standard way to say it (often shorter / easier to say), same register.
+- alt_ja: a short Japanese note on when alt fits better.
+- polite: a slightly more careful version for a parent, staff member, or official — still spoken.
+- polite_ja: a short Japanese note on when polite fits better.
+Japanese plain style (敬体でなくて良い), no lecturing.`;
 
-const ChatOut = z.object({
-  reply: z.string(),
-  better: z.string(),
-  better_ja: z.string(),
-  tip: z.string(),
-  ended: z.boolean()
-});
 const EXPLAIN_SYSTEM = `${WHO}
 
 He shows you one English line from his own phrasebook (with the Japanese meaning he intends). He is
@@ -96,9 +96,12 @@ const ExplainOut = z.object({
 
 const TranslateOut = z.object({
   en: z.string(),
+  chunks: z.array(z.object({ en: z.string(), ja: z.string(), note: z.string() })),
+  grammar: z.string(),
   alt: z.string(),
+  alt_ja: z.string(),
   polite: z.string(),
-  nuance_ja: z.string()
+  polite_ja: z.string()
 });
 
 function cleanMessages(raw) {
