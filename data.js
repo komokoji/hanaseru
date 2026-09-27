@@ -261,4 +261,9 @@ window.HANASERU_CARDS = [
   // ── 🔖 保存（院長が「これ英語で」と言い、Claudeが英訳して入れたもの）──
   { id: "mine-1", domain: "mine", ja: "後ろから人が来てるから、少し早く歩こう。", en: "Someone's coming up behind us — let's walk a little faster." },
   { id: "mine-2", domain: "mine", ja: "今日は一日曇りだけど、今日も含めて今週は雨が降りやすいみたいだよ。", en: "It's going to be cloudy all day today, but it looks like we're in for a rainy week — today included." },
+  // 乗り継ぎ便の荷物を途中（フランクフルト）で受け取る＝院長の実戦（2026-09-27）。2文をひとかたまりで覚える
+  { id: "mine-3", domain: "mine", ja: "この荷物はいったんフランクフルトで受け取りたいので、フランクフルトまで預けてください。", en: "We'd like to collect our baggage in Frankfurt first. So, please check our baggage only to Frankfurt." },
+  { id: "mine-4", domain: "mine", ja: "フランクフルトに2泊します。", en: "We're staying in Frankfurt for two nights." },
+  { id: "mine-5", domain: "mine", ja: "日本までスルーで預けないでください。", en: "Please don't check our baggage through to Japan." },
+  { id: "mine-6", domain: "mine", ja: "2個ともフランクフルトで受け取れますか？", en: "Can we collect both of our bags in Frankfurt?" },
 ];
