@@ -6,7 +6,7 @@
 (function () {
   "use strict";
 
-  var LISTEN = (window.HANASERU_VISIT_UNIT ? [window.HANASERU_VISIT_UNIT] : []).concat(window.HANASERU_LISTEN || []);
+  var LISTEN = (window.HANASERU_VISIT_UNITS || []).concat(window.HANASERU_LISTEN || []);
   var CARDS = (window.HANASERU_CARDS || []).concat(LISTEN.reduce(function (a, u) { return a.concat(u.phrases || []); }, []));
   var KEY = "hanaseru.v1";
   var SESSION_SIZE = 12;              // 1日の枚数
@@ -43,7 +43,7 @@
   }
 
   // ---- 今日の出題を組む ----
-  var ORDERED = { visit: true };   // 流れで覚える範囲＝並べた順に、全部出す（シャッフルしない）
+  var ORDERED = { visit: true, asthma: true };   // 流れで覚える範囲＝並べた順に、全部出す（シャッフルしない）
   function buildQueue(domain) {
     var today = dayNum();
     if (ORDERED[domain]) return allCards().filter(function (c) { return c.domain === domain; });

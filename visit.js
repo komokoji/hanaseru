@@ -31,22 +31,37 @@
     { id: "visit-17", domain: "visit", part: "⑧ おわり", ja: "何か質問はありますか？", en: "Do you have any questions?" },
     { id: "visit-18", domain: "visit", part: "⑧ おわり", ja: "お大事にしてください。", en: "I hope she feels better soon.", note: "『お大事に』に1語で当たる英語はない。Take care. でも可。" }
   ];
-  window.HANASERU_CARDS = (window.HANASERU_CARDS || []).concat(V);
+  // 🫁 喘息の予防薬を再開する（ステップアップ）— 院長 2026-09-27
+  var A = [
+    { id: "asth-01", domain: "asthma", part: "① いまの状態", ja: "しばらくは、落ち着いていましたね。", en: "She was doing well for a while." },
+    { id: "asth-02", domain: "asthma", part: "① いまの状態", ja: "でも、また咳き込みやゼーゼーが強くなってきました。", en: "But the coughing fits and wheezing have gotten worse again.", note: "coughing fits＝咳き込み（発作的な咳）。" },
+    { id: "asth-03", domain: "asthma", part: "② 予防薬を再開", ja: "なので、喘息の予防薬を、もう一度始めましょう。", en: "So let's restart her asthma prevention medicine.", note: "英国では preventer（予防薬）とも言う。発作止めは reliever。" },
+    { id: "asth-04", domain: "asthma", part: "② 予防薬を再開", ja: "まずは飲み薬を、毎日2週間続けてください。", en: "First, please give her the oral medicine every day for two weeks.", note: "oral medicine＝飲み薬。子どもの薬は give her ～ と言う（take ではなく）。" },
+    { id: "asth-05", domain: "asthma", part: "② 予防薬を再開", ja: "2週間したら、様子を見せに来てください。", en: "Then come back in two weeks so I can check how she's doing." },
+    { id: "asth-06", domain: "asthma", part: "③ 落ち着かないとき", ja: "それでも落ち着かないときは、ネブライザーの吸入を足します。", en: "If things still don't settle down, we'll add nebulizer treatments.", note: "settle down＝落ち着く。症状にも子どもにも使える。" },
+    { id: "asth-07", domain: "asthma", part: "③ 落ち着かないとき", ja: "ステロイドと、気管支を広げる薬を、一緒に吸入します。", en: "She'll breathe in a steroid together with a medicine that opens the airways.", note: "ステロイドに不安そうなら：It's a very low dose, and it's safe to use for a long time.（ごく少量で、長く使っても安全です）" },
+    { id: "asth-08", domain: "asthma", part: "③ 落ち着かないとき", ja: "少なくとも1日1回、夜寝る前にしてください。", en: "Please do it at least once a day, before bed." },
+    { id: "asth-09", domain: "asthma", part: "③ 落ち着かないとき", ja: "それでも落ち着かないときは、朝と夜の1日2回にしてください。", en: "If that's still not enough, do it twice a day, in the morning and at night." },
+    { id: "asth-10", domain: "asthma", part: "④ 安定したら", ja: "症状が安定したら、飲み薬だけに戻して大丈夫です。", en: "Once her symptoms are stable, you can go back to just the oral medicine." },
+    { id: "asth-11", domain: "asthma", part: "⑤ これから", ja: "しばらくは、様子を見ていきましょう。", en: "Let's keep an eye on her for a while.", note: "keep an eye on ～＝～を見守る・様子を見る。" },
+    { id: "asth-12", domain: "asthma", part: "⑤ これから", ja: "定期的にチェックしながら、お薬は続けていきましょう。", en: "We'll keep the medicine going and check on her regularly." }
+  ];
+  window.HANASERU_CARDS = (window.HANASERU_CARDS || []).concat(V, A);
 
-  // 聞き取り：パートごとに通して聞く
-  var parts = [];
-  V.forEach(function (c) {
-    var p = parts[parts.length - 1];
-    if (!p || p.title !== c.part) { p = { title: c.part, en: "", ja: "", pick: [] }; parts.push(p); }
-    p.en += (p.en ? " " : "") + c.en;
-    p.ja += (p.ja ? " " : "") + c.ja;
-  });
-  window.HANASERU_VISIT_UNIT = {
-    id: "clinic-visit-cold",
-    title: "診察室：風邪の診察（はじまり〜お大事に）",
-    scene: "診察の流れをパートごとに通して聞く。カードは 🩺 診察の流れ（風邪）に、同じ順番で入っている。",
-    voice: "en-US",
-    passages: parts,
-    phrases: []
-  };
+  // 聞き取り：流れごと・パートごとに通して聞く
+  function unit(id, title, cards) {
+    var parts = [];
+    cards.forEach(function (c) {
+      var p = parts[parts.length - 1];
+      if (!p || p.title !== c.part) { p = { title: c.part, en: "", ja: "", pick: [] }; parts.push(p); }
+      p.en += (p.en ? " " : "") + c.en;
+      p.ja += (p.ja ? " " : "") + c.ja;
+    });
+    return { id: id, title: title, voice: "en-US", passages: parts, phrases: [],
+      scene: "流れをパートごとに通して聞く。カードは同じ順番で入っている（ホームのボタン）。" };
+  }
+  window.HANASERU_VISIT_UNITS = [
+    unit("clinic-visit-cold", "診察室：風邪の診察（はじまり〜お大事に）", V),
+    unit("clinic-asthma-stepup", "診察室：喘息の予防薬を再開する", A)
+  ];
 })();
