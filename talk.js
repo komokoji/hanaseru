@@ -13,6 +13,7 @@ const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
 
 let scene = "clinic";
+let caseCtx = null;     // 🧩 組み立て練習の症例（scene "case" のときだけ）
 let history = [];       // {role, content}
 let busy = false;
 
@@ -68,7 +69,9 @@ async function start(newScene) {
   history = [];
   $("tkLog").innerHTML = "";
   document.querySelectorAll("#tkChips [data-scene]").forEach((c) => c.classList.toggle("on", c.getAttribute("data-scene") === scene));
-  setNote("");
+  if (scene !== "case") caseCtx = null;
+  setNote(caseCtx ? "症例：" + caseCtx.title + "（親役と話して、最後に 📋 ふり返り）" : "");
+  $("tkReview").hidden = !caseCtx;
   // 相手役に先に話してもらう（院長の最初の一言は "Hello." 扱い＝FBは出さない）
   history.push({ role: "user", content: "(The learner walks in and greets you. Start the scene with your first line.)" });
   await ask(true);
@@ -87,7 +90,7 @@ async function send() {
 async function ask(opening, said) {
   setBusy(true);
   try {
-    const res = await call({ mode: "chat", scene, messages: history });
+    const res = await call({ mode: "chat", scene, caseText: caseCtx ? caseCtx.parent : "", messages: history });
     const r = res.data.result;
     history.push({ role: "assistant", content: r.reply });
     if (!opening && said) {
@@ -156,6 +159,34 @@ async function explain(box, id, ja, en) {
   }
 }
 
+// ---- 🧩 症例の親役 → ふり返り（使えた部品・抜けた部品）----
+document.addEventListener("hanaseru:case", (e) => { caseCtx = e.detail; if (!SR) $("tkMic").hidden = true; start("case"); });
+async function review() {
+  if (busy || !caseCtx) return;
+  if (needLogin()) return;
+  const talk = history.slice(1);   // 先頭は「場面を始めて」の合図なので外す
+  if (talk.filter((m) => m.role === "user").length < 2) { setNote("もう少し話してから、ふり返りを押してください（院長の発言が2回以上）。"); return; }
+  setBusy(true); setNote("ふり返りをしています…");
+  try {
+    const transcript = talk.map((m) => (m.role === "user" ? "Doctor: " : "Parent: ") + m.content).join("\n");
+    const parts = H.parts().map((p) => ({ id: p.id, title: p.title, en: p.en.slice(0, 3) }));
+    const res = await call({ mode: "review", caseText: caseCtx.parent, facts: caseCtx.facts, model: caseCtx.model, parts, transcript });
+    const r = res.data.result;
+    const chip = (pid) => '<span class="chip on" style="font-size:12px;padding:4px 10px">' + esc(H.partTitle(pid)) + '</span>';
+    const missed = (r.missed || []).map((pid) => '<div style="margin-top:8px;font-weight:700;color:var(--amber)">⚠️ ' + esc(H.partTitle(pid)) + '</div>'
+      + H.partCards(pid).map((c) => '<div class="clrow"><div class="cltext"><div class="clen" style="margin-top:0">' + esc(c.en) + '</div><div class="clja" style="font-size:13px;color:var(--sub)">' + esc(c.ja) + '</div></div><button class="speak" data-say="' + esc(c.en) + '" style="padding:4px 10px">🔊</button></div>').join("")).join("");
+    const html = '<div class="xp"><div class="xpg" style="margin-top:0"><b>使えた部品</b></div><div class="chips" style="margin-top:4px">' + ((r.used || []).map(chip).join("") || '<span class="muted">なし</span>') + '</div>'
+      + '<div class="xpg">👍 ' + esc(r.good_ja) + '</div>'
+      + (missed ? '<div class="xpg"><b>この症例なら足したい部品</b>（王道の文）</div>' + missed : '<div class="xpg">抜けた部品はありません。</div>')
+      + '<div class="xpg">➡️ ' + esc(r.next_ja) + '</div></div>';
+    $("tkLog").insertAdjacentHTML("beforeend", html);
+    $("tkLog").scrollTop = $("tkLog").scrollHeight;
+    setNote("");
+  } catch (e) {
+    setNote("ふり返りができませんでした：" + (e && (e.message || e.code) || e));
+  } finally { setBusy(false); }
+}
+
 document.addEventListener("click", (e) => {
   const t = e.target.closest("[data-say],[data-save-en],[data-action],[data-scene]"); if (!t) return;
   if (t.getAttribute("data-action") === "explain") {
@@ -173,6 +204,7 @@ document.addEventListener("click", (e) => {
   else if (a === "tkSend") send();
   else if (a === "tkMic") micToggle();
   else if (a === "tkRestart") start(scene);
+  else if (a === "tkReview") review();
   else if (a === "trGo") translate();
 });
 $("tkInput") && $("tkInput").addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } });

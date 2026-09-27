@@ -65,21 +65,4 @@
   ];
   window.HANASERU_CARDS = (window.HANASERU_CARDS || []).concat(V, A, R);
 
-  // 聞き取り：流れごと・パートごとに通して聞く
-  function unit(id, title, cards) {
-    var parts = [];
-    cards.forEach(function (c) {
-      var p = parts[parts.length - 1];
-      if (!p || p.title !== c.part) { p = { title: c.part, en: "", ja: "", pick: [] }; parts.push(p); }
-      p.en += (p.en ? " " : "") + c.en;
-      p.ja += (p.ja ? " " : "") + c.ja;
-    });
-    return { id: id, title: title, voice: "en-US", passages: parts, phrases: [],
-      scene: "流れをパートごとに通して聞く。カードは同じ順番で入っている（ホームのボタン）。" };
-  }
-  window.HANASERU_VISIT_UNITS = [
-    unit("clinic-visit-cold", "診察室：風邪の診察（はじまり〜お大事に）", V),
-    unit("clinic-asthma-stepup", "診察室：喘息の予防薬を再開する", A),
-    unit("clinic-referral", "診察室：大きな病院（救急外来）へ紹介する", R)
-  ];
 })();

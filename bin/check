@@ -36,5 +36,8 @@ case "$fn" in
   *)   bad "hanaseruChat が $fn" "firebase functions:log --only hanaseruChat" ;;
 esac
 
+if node functions/selftest.js >/dev/null 2>&1; then ok "AI の型の自己点検（functions/selftest.js）"
+else bad "AI の型の自己点検が NG（どこかのモードが壊れている）" "node functions/selftest.js"; fi
+
 [ $ng = 0 ] && echo "→ すべてOK" || echo "→ 要対応あり"
 exit $ng

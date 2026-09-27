@@ -43,11 +43,28 @@
   }
 
   // ---- 今日の出題を組む ----
-  var ORDERED = { visit: true, asthma: true, refer: true };   // 流れで覚える範囲＝並べた順に、全部出す（シャッフルしない）
+  // ---- 🧩 部品と流れ（parts.js）----
+  var PARTS = window.HANASERU_PARTS || [], PART = window.HANASERU_PART_BY_ID || {};
+  var FLOWS = window.HANASERU_FLOWS || [], CASES = window.HANASERU_CASES || [];
+  function partCards(pid) {           // 部品の札（練習中に部品名を出すため part を付けた写し。採点は id で行う）
+    var p = PART[pid]; if (!p) return [];
+    return p.ids.map(function (id) { var c = cardById(id); return c ? { id: c.id, domain: c.domain, ja: c.ja, en: c.en, note: c.note, part: p.title } : null; }).filter(Boolean);
+  }
+  function flowById(id) { for (var i = 0; i < FLOWS.length; i++) if (FLOWS[i].id === id) return FLOWS[i]; return null; }
+  // 範囲の札：flow:◯◯＝流れの順／part:◯◯＝部品の順／flow:all＝部品の棚ぜんぶ／それ以外＝domain
+  function cardsFor(domain) {
+    if (domain.indexOf("flow:") === 0) {
+      var f = domain === "flow:all" ? { parts: PARTS.map(function (p) { return p.id; }) } : flowById(domain.slice(5));
+      return f ? [].concat.apply([], f.parts.map(partCards)) : [];
+    }
+    if (domain.indexOf("part:") === 0) return partCards(domain.slice(5));
+    return allCards().filter(function (c) { return domain === "all" || c.domain === domain; });
+  }
+  function isOrdered(domain) { return domain.indexOf(":") > 0; }   // 流れ・部品は並べた順に全部出す（シャッフルしない）
   function buildQueue(domain) {
     var today = dayNum();
-    if (ORDERED[domain]) return allCards().filter(function (c) { return c.domain === domain; });
-    var pool = allCards().filter(function (c) { return domain === "all" || c.domain === domain; });
+    if (isOrdered(domain)) return cardsFor(domain);
+    var pool = cardsFor(domain);
     var due = [], fresh = [];
     pool.forEach(function (c) {
       var st = state.cards[c.id];
@@ -72,12 +89,11 @@
 
   // ---- 進捗 ----
   function mastered(domain) {
-    return allCards().filter(function (c) {
-      if (domain !== "all" && c.domain !== domain) return false;
+    return cardsFor(domain).filter(function (c) {
       var st = state.cards[c.id]; return st && st.box >= 4;
     }).length;
   }
-  function totalIn(domain) { return allCards().filter(function (c) { return domain === "all" || c.domain === domain; }).length; }
+  function totalIn(domain) { return cardsFor(domain).length; }
 
   function finishSession() {
     var today = dayNum();
@@ -246,6 +262,7 @@
     var s = document.getElementById("shadow"); if (s) s.hidden = true;
     var l = document.getElementById("listen"); if (l) l.hidden = true;
     var tk = document.getElementById("talk"); if (tk) tk.hidden = true;
+    ["clinic", "build"].forEach(function (id) { var n = document.getElementById(id); if (n) n.hidden = true; });
     var co = document.getElementById("coach"); if (co) co.hidden = true;
   }
 
@@ -281,6 +298,63 @@
   function listenNext() { var u = LISTEN[lsUnit]; if (lsIdx < u.passages.length - 1) { lsIdx++; renderListen(); } else backToSetup(); }
   function listenPrev() { if (lsIdx > 0) { lsIdx--; renderListen(); } }
 
+  // ---- 🧩 診察の会話：① 流れ ② 部品 ③ 組み立て（症例）----
+  function openClinic() {
+    hideMain(); document.getElementById("clinic").hidden = false;
+    document.getElementById("flowBtns").innerHTML = FLOWS.map(function (f) {
+      return '<button class="choice" data-action="start" data-domain="flow:' + f.id + '"><span>' + f.parts.length + 'つの部品</span><b>' + escapeHtml(f.title) + ' ▸</b></button>';
+    }).join("");
+    document.getElementById("partChips").innerHTML = PARTS.map(function (p) {
+      return '<button class="chip" data-action="start" data-domain="part:' + p.id + '">' + escapeHtml(p.title) + '</button>';
+    }).join("");
+  }
+  var bCase = 0, bOrder = [];
+  function openBuild(i) {
+    hideMain(); document.getElementById("build").hidden = false;
+    if (i != null) { bCase = i; bOrder = []; }
+    renderBuild();
+  }
+  function curCase() { return CASES[bCase]; }
+  function renderBuild(result) {
+    var c = curCase(); if (!c) return;
+    document.getElementById("caseChips").innerHTML = CASES.map(function (x, i) {
+      return '<button class="chip' + (i === bCase ? ' on' : '') + '" data-action="bCase" data-idx="' + i + '">' + escapeHtml(x.title) + '</button>';
+    }).join("");
+    document.getElementById("bFacts").innerHTML = c.facts.map(function (f) { return "<li>" + escapeHtml(f) + "</li>"; }).join("");
+    document.getElementById("bPalette").innerHTML = PARTS.map(function (p) {
+      var on = bOrder.indexOf(p.id) >= 0;
+      return '<button class="chip' + (on ? ' on' : '') + '" data-action="bAdd" data-id="' + p.id + '">' + escapeHtml(p.title) + '</button>';
+    }).join("");
+    document.getElementById("bOrder").innerHTML = bOrder.length ? bOrder.map(function (pid, k) {
+      return '<div class="clrow"><span style="width:22px;color:var(--teal-d);font-weight:700">' + (k + 1) + '</span><div class="cltext">' + escapeHtml(PART[pid].title) + '</div>'
+        + '<button class="capx" data-action="bUp" data-idx="' + k + '" title="上へ">↑</button><button class="capx" data-action="bDel" data-idx="' + k + '">×</button></div>';
+    }).join("") : '<p class="muted" style="margin:6px 0">上の部品を、話す順にタップしてください。</p>';
+    document.getElementById("bResult").innerHTML = result || "";
+  }
+  function buildCheck() {
+    var c = curCase(), model = c.model;
+    var rows = model.map(function (pid) {
+      return '<li>' + (bOrder.indexOf(pid) >= 0 ? "✅ " : "⚠️ <b>抜け</b>：") + escapeHtml(PART[pid].title) + '</li>';
+    }).join("");
+    var extra = bOrder.filter(function (pid) { return model.indexOf(pid) < 0; });
+    var html = '<div class="xp"><div class="xpg" style="margin-top:0"><b>お手本の並べ方</b>（これだけが正解ではありません）</div><ol style="margin:6px 0 0;padding-left:20px">' + rows + '</ol>'
+      + (extra.length ? '<div class="xpg">➕ 追加した部品：' + extra.map(function (pid) { return escapeHtml(PART[pid].title); }).join("、") + '（この子に必要なら、あってよい）</div>' : "")
+      + '<div class="xpg">💡 ' + escapeHtml(c.tip) + '</div></div>';
+    renderBuild(html);
+  }
+  function buildRun() {     // 自分の並べ方で通す：日本語を見て声に出す → タップで英語と音声
+    var order = bOrder.length ? bOrder : curCase().model;
+    var html = '<div class="xp"><div class="xpg" style="margin-top:0">日本語を見て声に出す → タップで英語と音声。上から通して話します。</div>'
+      + order.map(function (pid) {
+        return '<div style="margin-top:10px;font-weight:700;color:var(--teal-d)">' + escapeHtml(PART[pid].title) + '</div>'
+          + partCards(pid).map(function (cd) {
+            return '<div class="clrow" data-action="bLine" data-id="' + cd.id + '" style="cursor:pointer"><div class="cltext"><div class="clja">' + escapeHtml(cd.ja) + '</div>'
+              + '<div class="clen" id="bl-' + cd.id + '" hidden>' + escapeHtml(cd.en) + '</div></div></div>';
+          }).join("");
+      }).join("") + '</div>';
+    renderBuild(html);
+  }
+
   // ---- 🎧 シャドーイング（手本を聞いて追いかける＝シャドテンの核） ----
   var shQueue = [], shIdx = 0, shDomain = "all";
   function openShadow() {
@@ -290,8 +364,8 @@
   }
   function setShadowDomain(d) { shDomain = d; buildShadow(); }
   function buildShadow() {
-    shQueue = allCards().filter(function (c) { return shDomain === "all" || c.domain === shDomain; });
-    if (!ORDERED[shDomain]) shuffle(shQueue); shIdx = 0;
+    shQueue = cardsFor(shDomain);
+    if (!isOrdered(shDomain)) shuffle(shQueue); shIdx = 0;
     highlightChips("#shChips", shDomain);
     renderShadow();
   }
@@ -356,7 +430,7 @@
   function setClDomain(d) { clDomain = d; renderChecklist(); }
   function renderChecklist() {
     var list = document.getElementById("clList"); if (!list) return;
-    var pool = allCards().filter(function (c) { return clDomain === "all" || c.domain === clDomain; });
+    var pool = cardsFor(clDomain);
     var done = pool.filter(function (c) { var s = state.cards[c.id]; return s && s.practiced; }).length;
     var cnt = document.getElementById("clCount"); if (cnt) cnt.textContent = "見た所：" + done + " / " + pool.length;
     list.innerHTML = pool.map(function (c) {
@@ -415,6 +489,17 @@
     else if (a === "shadowNext") shadowNext();
     else if (a === "shadowPrev") shadowPrev();
     else if (a === "listen") openListen();
+    else if (a === "clinic") openClinic();
+    else if (a === "buildOpen") openBuild(null);
+    else if (a === "bCase") openBuild(+t.getAttribute("data-idx"));
+    else if (a === "bAdd") { var pid = t.getAttribute("data-id"), k = bOrder.indexOf(pid); if (k >= 0) bOrder.splice(k, 1); else bOrder.push(pid); renderBuild(); }
+    else if (a === "bDel") { bOrder.splice(+t.getAttribute("data-idx"), 1); renderBuild(); }
+    else if (a === "bUp") { var i2 = +t.getAttribute("data-idx"); if (i2 > 0) { var tmp = bOrder[i2 - 1]; bOrder[i2 - 1] = bOrder[i2]; bOrder[i2] = tmp; } renderBuild(); }
+    else if (a === "bClear") { bOrder = []; renderBuild(); }
+    else if (a === "bCheck") buildCheck();
+    else if (a === "bRun") buildRun();
+    else if (a === "bLine") { var bl = document.getElementById("bl-" + t.getAttribute("data-id")); if (bl) { bl.hidden = !bl.hidden; if (!bl.hidden) { var bc = cardById(t.getAttribute("data-id")); if (bc) speak(bc.en); } } }
+    else if (a === "bTalk") { hideMain(); document.getElementById("talk").hidden = false; document.dispatchEvent(new CustomEvent("hanaseru:case", { detail: curCase() })); }
     else if (a === "talk") { hideMain(); document.getElementById("talk").hidden = false; }   // 会話の中身は talk.js
     else if (a === "coach") { hideMain(); document.getElementById("coach").hidden = false; }
     else if (a === "lsPlay") listenPlay();
@@ -452,6 +537,9 @@
       save(state); return true;
     },
     speak: function (t) { speak(t); },
+    parts: function () { return PARTS.map(function (p) { return { id: p.id, title: p.title, en: partCards(p.id).map(function (c) { return c.en; }) }; }); },
+    partCards: function (pid) { return partCards(pid); },
+    partTitle: function (pid) { return PART[pid] ? PART[pid].title : pid; },
     current: function (where) {           // ❓解説用：いま画面に出ているカード
       if (where === "shadow") return shQueue[shIdx] || null;
       return queue[idx] || null;

@@ -41,9 +41,14 @@ handle (a delayed bag, a card that doesn't work, no window seats left).`,
 about; ask one good follow-up question at a time.`
 };
 
-const CHAT_SYSTEM = (scene) => `${WHO}
+const caseRole = (caseText) => `ROLE: You are ${caseText} You are in Dr. Komori's pediatric clinic in Tokyo.
+Speak as this parent: natural, a little anxious, one question or reaction at a time (e.g. daycare or school, the
+medicine, when to come back, what to do if it gets worse). Let the doctor lead the explanation; do not explain
+medicine yourself.`;
 
-You are running a spoken-English roleplay. ${SCENES[scene] || SCENES.free}
+const CHAT_SYSTEM = (scene, caseText) => `${WHO}
+
+You are running a spoken-English roleplay. ${scene === "case" && caseText ? caseRole(caseText) : (SCENES[scene] || SCENES.free)}
 
 Each turn, produce:
 - reply: your next line in character. 1–3 short sentences, spoken English, end with something that
@@ -74,6 +79,14 @@ Return:
 - polite_ja: a short Japanese note on when polite fits better.
 Japanese plain style (敬体でなくて良い), no lecturing.`;
 
+const ChatOut = z.object({
+  reply: z.string(),
+  better: z.string(),
+  better_ja: z.string(),
+  tip: z.string(),
+  ended: z.boolean()
+});
+
 const EXPLAIN_SYSTEM = `${WHO}
 
 He shows you one English line from his own phrasebook (with the Japanese meaning he intends). He is
@@ -92,6 +105,24 @@ const ExplainOut = z.object({
   chunks: z.array(z.object({ en: z.string(), ja: z.string(), note: z.string() })),
   grammar: z.string(),
   swap: z.object({ en: z.string(), ja: z.string() })
+});
+
+const REVIEW_SYSTEM = `${WHO}
+
+He just practiced a consultation in English with a parent (roleplay). His clinic explanations are built from
+"parts" (a part library with ids). Judge by meaning, not exact wording:
+- used: ids of the parts he actually covered (even partly, even with different words).
+- missed: ids of parts from the model order (or clearly useful for THIS parent's questions) that he did not
+  cover. Only what would really help this parent — at most 4. Never list a part he covered.
+- good_ja: one warm, specific Japanese sentence on what went well (what he said that worked).
+- next_ja: one specific Japanese sentence on the single most useful thing to add or say differently next time.
+Use only ids from the library.`;
+
+const ReviewOut = z.object({
+  used: z.array(z.string()),
+  missed: z.array(z.string()),
+  good_ja: z.string(),
+  next_ja: z.string()
 });
 
 const TranslateOut = z.object({
@@ -128,7 +159,7 @@ exports.hanaseruChat = onCall(
 
     const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
     const data = request.data || {};
-    const mode = data.mode === "translate" ? "translate" : data.mode === "explain" ? "explain" : "chat";
+    const mode = ["translate", "explain", "review"].indexOf(data.mode) >= 0 ? data.mode : "chat";
 
     try {
       if (mode === "translate") {
@@ -160,12 +191,39 @@ exports.hanaseruChat = onCall(
         return { mode, result: res.parsed_output };
       }
 
+      if (mode === "review") {
+        const parts = (Array.isArray(data.parts) ? data.parts : []).slice(0, 60).map((p) => ({
+          id: String(p.id || "").slice(0, 40), title: String(p.title || "").slice(0, 60),
+          en: (Array.isArray(p.en) ? p.en : []).slice(0, 3).map((x) => String(x).slice(0, 200))
+        })).filter((p) => p.id);
+        const ids = parts.map((p) => p.id);
+        const model = (Array.isArray(data.model) ? data.model : []).map(String).filter((x) => ids.indexOf(x) >= 0);
+        const transcript = String(data.transcript || "").slice(0, 8000);
+        if (!transcript) throw new HttpsError("invalid-argument", "transcript が空です");
+        const lib = parts.map((p) => `- ${p.id}: ${p.title} — e.g. ${p.en.join(" / ")}`).join("\n");
+        const res = await client.messages.parse({
+          model: MODEL,
+          max_tokens: 2000,
+          system: [{ type: "text", text: REVIEW_SYSTEM, cache_control: { type: "ephemeral" } }],
+          messages: [{ role: "user", content:
+            `Case: ${String(data.caseText || "").slice(0, 600)}\nFacts (Japanese): ${(Array.isArray(data.facts) ? data.facts : []).join(" / ").slice(0, 600)}\n`
+            + `Model order of parts: ${model.join(", ")}\n\nPart library:\n${lib}\n\nTranscript:\n${transcript}` }],
+          output_config: { effort: "low", format: zodOutputFormat(ReviewOut) }
+        });
+        const r = res.parsed_output;
+        if (!r) throw new HttpsError("internal", "AI の返答を読めませんでした");
+        r.used = r.used.filter((x) => ids.indexOf(x) >= 0);
+        r.missed = r.missed.filter((x) => ids.indexOf(x) >= 0 && r.used.indexOf(x) < 0);
+        return { mode, result: r };
+      }
+
       const scene = String(data.scene || "free");
+      const caseText = String(data.caseText || "").slice(0, 600);
       const messages = cleanMessages(data.messages);
       const res = await client.messages.parse({
         model: MODEL,
         max_tokens: 2000,
-        system: [{ type: "text", text: CHAT_SYSTEM(scene), cache_control: { type: "ephemeral" } }],
+        system: [{ type: "text", text: CHAT_SYSTEM(scene, caseText), cache_control: { type: "ephemeral" } }],
         messages,
         output_config: { effort: "low", format: zodOutputFormat(ChatOut) }
       });

@@ -108,9 +108,7 @@
       <button class="choice" data-action="start" data-domain="trip"><span>12月の旅：まずここだけ（単語20＋15文）</span><b>✈️ 最優先35 ▸</b></button>
       <button class="choice" data-action="start" data-domain="trip2"><span>12月の旅：空港の場面と、雑談を広げる</span><b>✈️ 場面別と雑談 ▸</b></button>
       <button class="choice" data-action="start" data-domain="travel"><span>いま困っている</span><b>旅行・日常 ▸</b></button>
-      <button class="choice" data-action="start" data-domain="visit"><span>はじまり〜お大事に、順番どおり</span><b>🩺 診察の流れ（風邪） ▸</b></button>
-      <button class="choice" data-action="start" data-domain="asthma"><span>予防薬の再開〜ステップアップ、順番どおり</span><b>🫁 喘息の治療の流れ ▸</b></button>
-      <button class="choice" data-action="start" data-domain="refer"><span>状態が悪い時、順番どおり</span><b>🚑 大きな病院へ紹介 ▸</b></button>
+      <button class="choice" data-action="clinic"><span>流れ・部品・症例で組み立て・AIと本番</span><b>🧩 診察の会話 ▸</b></button>
       <button class="choice" data-action="start" data-domain="medical"><span>診察室で</span><b>診療英語 ▸</b></button>
       <button class="choice" data-action="start" data-domain="sign"><span>院長の型</span><b>署名フレーズ ▸</b></button>
       <button class="choice" data-action="start" data-domain="all"><span>まとめて</span><b>ぜんぶ ▸</b></button>
@@ -194,9 +192,7 @@
       <button class="chip" data-action="clDomain" data-domain="trip">✈️最優先</button>
       <button class="chip" data-action="clDomain" data-domain="trip2">✈️場面</button>
       <button class="chip" data-action="clDomain" data-domain="travel">旅行</button>
-      <button class="chip" data-action="clDomain" data-domain="visit">🩺流れ</button>
-      <button class="chip" data-action="clDomain" data-domain="asthma">🫁喘息</button>
-      <button class="chip" data-action="clDomain" data-domain="refer">🚑紹介</button>
+      <button class="chip" data-action="clDomain" data-domain="flow:all">🧩診察</button>
       <button class="chip" data-action="clDomain" data-domain="medical">診療</button>
       <button class="chip" data-action="clDomain" data-domain="sign">署名</button>
       <button class="chip" data-action="clDomain" data-domain="mine">🔖保存</button>
@@ -207,6 +203,43 @@
     <p class="muted" style="font-size:13px">タップで英語＋音声。チェックは「見た・練習した」印です（覚えたかのテストではありません）。</p>
     <div id="clList"></div>
     <div class="bar"><button class="link" data-action="home">← 範囲を選ぶ</button></div>
+  </section>
+
+  <!-- 🧩 診察の会話（入口） -->
+  <section id="clinic" hidden>
+    <h2>🧩 診察の会話</h2>
+    <p class="muted" style="font-size:13px">実際の診察は「部品を選んで並べる」。①部品を固める → ②症例で組み立てる → ③AIの親と本番、の順で。</p>
+    <h2 style="font-size:15px;margin-top:10px">① 流れで練習（よくある並べ方）</h2>
+    <div id="flowBtns" class="grid" style="margin-top:6px"></div>
+    <h2 style="font-size:15px;margin-top:14px">② 部品だけ練習</h2>
+    <div id="partChips" class="chips"></div>
+    <h2 style="font-size:15px;margin-top:14px">③ 組み立て練習（症例）</h2>
+    <div class="grid" style="margin-top:6px">
+      <button class="choice" data-action="buildOpen"><span>症例を見て、話す部品を選んで並べる</span><b>🧩 組み立てる ▸</b></button>
+    </div>
+    <div class="bar"><button class="link" data-action="home">← 範囲を選ぶ</button></div>
+  </section>
+
+  <!-- 🧩 組み立て練習 -->
+  <section id="build" hidden>
+    <div id="caseChips" class="chips"></div>
+    <div class="card" style="flex:none;padding:14px 16px;margin-top:10px">
+      <div class="muted" style="font-size:12px">症例</div>
+      <ul id="bFacts" style="margin:4px 0 0;padding-left:18px;font-size:15px"></ul>
+    </div>
+    <h2 style="font-size:15px;margin-top:12px">話す部品を、話す順にタップ</h2>
+    <div id="bPalette" class="chips"></div>
+    <h2 style="font-size:15px;margin-top:12px">あなたの並べ方</h2>
+    <div id="bOrder"></div>
+    <div class="navrow">
+      <button class="speak" data-action="bRun">🗣 声に出して通す</button>
+      <button class="speak" data-action="bCheck">✓ お手本と比べる</button>
+    </div>
+    <div class="grid" style="margin-top:8px">
+      <button class="choice" data-action="bTalk"><span>この症例の親役と、英語で本番</span><b>🗣 AIの親と話す ▸</b></button>
+    </div>
+    <div id="bResult"></div>
+    <div class="bar"><button class="link" data-action="clinic">← 診察の会話へ</button><button class="link" data-action="bClear">並べ方を消す</button></div>
   </section>
 
   <!-- 🗣 AI会話 -->
@@ -225,6 +258,7 @@
       <button class="ng" data-action="tkMic" id="tkMic">🎤 話す</button>
       <button class="ok" data-action="tkSend" id="tkSend">送る</button>
     </div>
+    <div class="grid" style="margin-top:8px"><button class="big" data-action="tkReview" id="tkReview" hidden>📋 ふり返り（使えた部品・抜けた部品）</button></div>
     <div class="bar"><button class="link" data-action="home">← 範囲を選ぶ</button><button class="link" data-action="tkRestart">↻ 場面をやり直す</button></div>
   </section>
 
@@ -273,9 +307,7 @@
       <button class="chip" data-action="shDomain" data-domain="trip">✈️最優先</button>
       <button class="chip" data-action="shDomain" data-domain="trip2">✈️場面</button>
       <button class="chip" data-action="shDomain" data-domain="travel">旅行</button>
-      <button class="chip" data-action="shDomain" data-domain="visit">🩺流れ</button>
-      <button class="chip" data-action="shDomain" data-domain="asthma">🫁喘息</button>
-      <button class="chip" data-action="shDomain" data-domain="refer">🚑紹介</button>
+      <button class="chip" data-action="shDomain" data-domain="flow:all">🧩診察</button>
       <button class="chip" data-action="shDomain" data-domain="medical">診療</button>
       <button class="chip" data-action="shDomain" data-domain="sign">署名</button>
       <button class="chip" data-action="shDomain" data-domain="mine">🔖保存</button>
@@ -305,6 +337,7 @@
 <script src="data.js"></script>
 <script src="trip.js"></script>
 <script src="visit.js"></script>
+<script src="parts.js"></script>
 <script src="listen.js"></script>
 <script src="app.js"></script>
 <script type="module" src="cloud.js"></script>
