@@ -78,5 +78,33 @@
     { id: "nut-23", domain: "nutri", ja: "いつから始めても、遅すぎることはありません。", en: "It's never too late to start." },
     { id: "nut-24", domain: "nutri", ja: "完璧を目指さず、できそうなことを一つ試してみましょう。", en: "Don't aim for perfect. Let's just try one thing you can do." }
   ];
-  window.HANASERU_CARDS = (window.HANASERU_CARDS || []).concat(G, N);
+  // 2026-09-28 追加：便秘の典型6型（Vault 🟤便秘シリーズ/10_症例パターンカタログ）から C1・C3・C4・C6
+  G.push(
+    { id: "gut-29", domain: "gut", ja: "ここまで、本当によく頑張ってこられましたね。", en: "You've both worked so hard to get this far.", note: "長く困ってきた親子への最初の一言。過去の頑張りを認める。" },
+    { id: "gut-30", domain: "gut", ja: "今日はまず、たまっているうんちを出しましょう。", en: "Let's start by getting the stool out today." },
+    { id: "gut-31", domain: "gut", ja: "痛いから出したくないのは、自然な反応です。怠けではありません。", en: "Holding it in because it hurts is a natural reaction. She isn't being lazy." },
+    { id: "gut-32", domain: "gut", ja: "切れたところを治す塗り薬と、うんちを柔らかくするお薬を出します。", en: "I'll give you an ointment to heal the tear, and medicine to soften her stool.", note: "切れ痔＝anal fissure だが、親には a tear（切れた所）で通じる。" },
+    { id: "gut-33", domain: "gut", ja: "まずは、痛くなく出る体験を作りましょう。", en: "First, let's help her have a poop that doesn't hurt." },
+    { id: "gut-34", domain: "gut", ja: "痛みがなくなったら、必ず教えてください。", en: "Please let me know as soon as the pain goes away.", note: "次の段階（リズム作り）へ進む合図になる。" },
+    { id: "gut-35", domain: "gut", ja: "（子へ）学校でうんちをするのって、すごく勇気がいるよね。", en: "Pooping at school takes a lot of courage, doesn't it?" },
+    { id: "gut-36", domain: "gut", ja: "おうちを、安心して出せる場所にするのが一番大事です。学校はそのあとで大丈夫です。", en: "The most important thing is making home a safe place to go. School can come later." },
+    { id: "gut-37", domain: "gut", ja: "毎日、家で必ず出せる時間を作りましょう。", en: "Let's set a time every day when she can go at home." },
+    { id: "gut-38", domain: "gut", ja: "赤ちゃんは、いきむのがまだ下手なだけです。病気ではありません。", en: "Babies just haven't learned how to push yet. It's not an illness." },
+    { id: "gut-39", domain: "gut", ja: "綿棒でお尻をやさしく刺激して、出す練習をしてあげましょう。", en: "Let's help her practice by gently stimulating her bottom with a cotton swab." },
+    { id: "gut-40", domain: "gut", ja: "大きくなるにつれて、上手になっていきます。", en: "She'll get better at it as she grows." }
+  );
+  // 栄養の典型6型（🟢栄養シリーズ/05_症例パターンカタログ）から P1（頭痛）・P2（夜間低血糖・朝起きられない）
+  N.push(
+    { id: "nut-25", domain: "nutri", ja: "夜中に血糖が下がって、朝起きる力が出ないのかもしれません。", en: "Her blood sugar may be dropping during the night, so she has no energy to get up in the morning." },
+    { id: "nut-26", domain: "nutri", ja: "寝る前のジュースやゼリーは、やめてみましょう。", en: "Let's try cutting out juice and jelly before bed." },
+    { id: "nut-27", domain: "nutri", ja: "寝る前は、甘いものの代わりに豆乳などにしてみましょう。", en: "Before bed, try something like soy milk instead of something sweet." },
+    { id: "nut-28", domain: "nutri", ja: "最初は、保険の採血からで大丈夫です。", en: "We can start with a basic blood test covered by insurance." },
+    { id: "nut-29", domain: "nutri", ja: "頭痛も、鉄が足りないことと関係していることがあります。", en: "Headaches can sometimes be linked to low iron." }
+  );
+  // 一般小児科の症例用（熱性けいれん・次の発熱）
+  var X = [
+    { id: "gen-01", domain: "medical", ja: "熱性けいれんの多くは数分で止まり、後に何も残りません。", en: "Most febrile seizures stop within a few minutes and don't cause any lasting harm.", note: "febrile seizure＝熱性けいれん。まずこれで親を落ち着かせる。" },
+    { id: "gen-02", domain: "medical", ja: "次に熱が出たときの目安を、お伝えしておきますね。", en: "Let me tell you what to watch for the next time she has a fever." }
+  ];
+  window.HANASERU_CARDS = (window.HANASERU_CARDS || []).concat(G, N, X);
 })();

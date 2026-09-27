@@ -317,12 +317,17 @@
   function curCase() { return CASES[bCase]; }
   function renderBuild(result) {
     var c = curCase(); if (!c) return;
-    document.getElementById("caseChips").innerHTML = CASES.map(function (x, i) {
-      return '<button class="chip' + (i === bCase ? ' on' : '') + '" data-action="bCase" data-idx="' + i + '">' + escapeHtml(x.title) + '</button>';
+    // 症例を 一般／便秘／栄養 に分けて見せる
+    document.getElementById("caseChips").innerHTML = ["一般", "便秘", "栄養"].map(function (cat) {
+      var chips = CASES.map(function (x, i) {
+        if ((x.cat || "一般") !== cat) return "";
+        return '<button class="chip' + (i === bCase ? ' on' : '') + '" data-action="bCase" data-idx="' + i + '">' + escapeHtml(x.title) + '</button>';
+      }).join("");
+      return chips ? '<div class="muted" style="font-size:12px;margin:8px 0 4px;width:100%">' + cat + '</div>' + chips : "";
     }).join("");
     document.getElementById("bFacts").innerHTML = c.facts.map(function (f) { return "<li>" + escapeHtml(f) + "</li>"; }).join("");
     // 部品の棚を3つに分けて見せる（共通・診療／便秘／栄養）。題名の「便秘：」「栄養：」は棚の見出しに回す
-    var groups = [["共通・診療", ""], ["🟤 便秘", "便秘："], ["🟢 栄養", "栄養："]];
+    var groups = [["共通・診療", ""], ["🟤 便秘", "便秘："], ["🟢 栄養", "栄養："]];   // 胃腸炎・発熱・けいれん等は「共通・診療」
     document.getElementById("bPalette").innerHTML = groups.map(function (g) {
       var ps = PARTS.filter(function (p) { return g[1] ? p.title.indexOf(g[1]) === 0 : !/^(便秘|栄養)：/.test(p.title); });
       return '<div class="muted" style="font-size:12px;margin:8px 0 4px;width:100%">' + g[0] + '</div>' + ps.map(function (p) {
