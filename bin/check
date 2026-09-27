@@ -36,6 +36,9 @@ case "$fn" in
   *)   bad "hanaseruChat が $fn" "firebase functions:log --only hanaseruChat" ;;
 esac
 
+if node -e "global.window={};['data','trip','visit','gutnutri','parts','listen'].forEach(f=>require('./'+f+'.js'));const ix={};window.HANASERU_CARDS.forEach(c=>ix[c.id]=(ix[c.id]||0)+1);const P=window.HANASERU_PART_BY_ID;const bad=Object.keys(ix).filter(k=>ix[k]>1).concat(window.HANASERU_PARTS.flatMap(p=>p.ids.filter(i=>!ix[i])),window.HANASERU_FLOWS.flatMap(f=>f.parts).concat(window.HANASERU_CASES.flatMap(k=>k.model)).filter(p=>!P[p]));if(bad.length){console.log(bad.join(' '));process.exit(1)}" >/dev/null 2>&1; then ok "辞書・部品・流れ・症例のつながり（id の重複・参照切れなし）"
+else bad "辞書・部品・流れ・症例のどこかで id が重複／参照切れ" "bin/check の該当行の node -e を手で実行して、出た id を直す"; fi
+
 if node functions/selftest.js >/dev/null 2>&1; then ok "AI の型の自己点検（functions/selftest.js）"
 else bad "AI の型の自己点検が NG（どこかのモードが壊れている）" "node functions/selftest.js"; fi
 

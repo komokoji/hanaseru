@@ -321,9 +321,14 @@
       return '<button class="chip' + (i === bCase ? ' on' : '') + '" data-action="bCase" data-idx="' + i + '">' + escapeHtml(x.title) + '</button>';
     }).join("");
     document.getElementById("bFacts").innerHTML = c.facts.map(function (f) { return "<li>" + escapeHtml(f) + "</li>"; }).join("");
-    document.getElementById("bPalette").innerHTML = PARTS.map(function (p) {
-      var on = bOrder.indexOf(p.id) >= 0;
-      return '<button class="chip' + (on ? ' on' : '') + '" data-action="bAdd" data-id="' + p.id + '">' + escapeHtml(p.title) + '</button>';
+    // 部品の棚を3つに分けて見せる（共通・診療／便秘／栄養）。題名の「便秘：」「栄養：」は棚の見出しに回す
+    var groups = [["共通・診療", ""], ["🟤 便秘", "便秘："], ["🟢 栄養", "栄養："]];
+    document.getElementById("bPalette").innerHTML = groups.map(function (g) {
+      var ps = PARTS.filter(function (p) { return g[1] ? p.title.indexOf(g[1]) === 0 : !/^(便秘|栄養)：/.test(p.title); });
+      return '<div class="muted" style="font-size:12px;margin:8px 0 4px;width:100%">' + g[0] + '</div>' + ps.map(function (p) {
+        var on = bOrder.indexOf(p.id) >= 0;
+        return '<button class="chip' + (on ? ' on' : '') + '" data-action="bAdd" data-id="' + p.id + '">' + escapeHtml(g[1] ? p.title.slice(g[1].length) : p.title) + '</button>';
+      }).join("");
     }).join("");
     document.getElementById("bOrder").innerHTML = bOrder.length ? bOrder.map(function (pid, k) {
       return '<div class="clrow"><span style="width:22px;color:var(--teal-d);font-weight:700">' + (k + 1) + '</span><div class="cltext">' + escapeHtml(PART[pid].title) + '</div>'
