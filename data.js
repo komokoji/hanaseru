@@ -228,5 +228,6 @@ window.HANASERU_CARDS = [
   { id: "tr-dir-7", domain: "travel", ja: "乗り換えが少ない方がよければ、京急線のエアポート快特が一本で行けます。", en: "If you'd rather have fewer transfers, the Keikyu Airport Rapid gets you there more directly." },
 
   // ── 🔖 保存（院長が「これ英語で」と言い、Claudeが英訳して入れたもの）──
-  { id: "mine-1", domain: "mine", ja: "後ろから人が来てるから、少し早く歩こう。", en: "Someone's coming up behind us — let's walk a little faster." }
+  { id: "mine-1", domain: "mine", ja: "後ろから人が来てるから、少し早く歩こう。", en: "Someone's coming up behind us — let's walk a little faster." },
+  { id: "mine-2", domain: "mine", ja: "今日は一日曇りだけど、今日も含めて今週は雨が降りやすいみたいだよ。", en: "It's going to be cloudy all day today, but it looks like we're in for a rainy week — today included." },
 ];
