@@ -207,6 +207,10 @@
     var u = LISTEN[lsUnit]; if (!u) return;
     var p = u.passages[lsIdx];
     lsShown = false;
+    var ch = document.getElementById("lsUnits");
+    if (ch) ch.innerHTML = LISTEN.map(function (x, i) {
+      return '<button class="chip' + (i === lsUnit ? ' on' : '') + '" data-action="lsUnit" data-idx="' + i + '">' + escapeHtml(x.title) + '</button>';
+    }).join("");
     var t = document.getElementById("lsTitle"); if (t) t.textContent = u.title;
     var sc = document.getElementById("lsScene"); if (sc) sc.textContent = u.scene;
     var pt = document.getElementById("lsPassage"); if (pt) pt.textContent = p.title;
@@ -215,6 +219,7 @@
     var en = document.getElementById("lsEn"); if (en) en.textContent = p.en;
     var ja = document.getElementById("lsJa"); if (ja) ja.textContent = "要点：" + p.ja;
     var pk = document.getElementById("lsPick"); if (pk) pk.innerHTML = (p.pick || []).map(function (x) { return "<li>" + escapeHtml(x) + "</li>"; }).join("");
+    var phh = document.getElementById("lsPhrasesH"); if (phh) phh.hidden = !u.phrases.length;
     var ph = document.getElementById("lsPhrases");
     if (ph) ph.innerHTML = u.phrases.map(function (c) {
       return '<div class="clrow"><div class="cltext" data-action="lsSpeak" data-id="' + c.id + '">'
@@ -359,6 +364,7 @@
     else if (a === "lsShow") listenShow();
     else if (a === "lsNext") listenNext();
     else if (a === "lsPrev") listenPrev();
+    else if (a === "lsUnit") { lsUnit = +t.getAttribute("data-idx"); lsIdx = 0; renderListen(); }
     else if (a === "lsSpeak") { var lc = cardById(t.getAttribute("data-id")); if (lc) speak(lc.en, LISTEN[lsUnit] && LISTEN[lsUnit].voice); }
   });
   // カード表面はどこをタップしても英語を出す

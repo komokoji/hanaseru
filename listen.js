@@ -6,6 +6,33 @@
    正本＝Vault 22_アプリ開発/Hanaseru 語学トレーニング/30_聞き取り教材_BA機内アナウンス_ヒースロー→羽田_2026-09-21.md */
 window.HANASERU_LISTEN = [
   {
+    id: "arrival-dialogues",
+    title: "到着の3場面（入国審査・税関・ホテル）",
+    scene: "空港に着いてから部屋に入るまでに、ほぼ必ず出会う会話。聞かれる質問はどの国でもほぼ同じ＝先に耳に入れておけば、当日は答えるだけ。",
+    voice: "en-GB",
+    passages: [
+      {
+        title: "① 入国審査",
+        en: "Good morning. May I see your passport, please? Thank you. What's the purpose of your visit? — I'm here on vacation with my family. — How long are you staying? — About a week. — Where are you staying? — At a hotel near Paddington. Here's the booking. — And what do you do for a living? — I'm a pediatrician. I run a children's clinic in Tokyo. — Do you have a return ticket? — Yes, here's my return flight. — Great. Enjoy your stay. — Thank you.",
+        ja: "パスポート → 目的 → 期間 → 滞在先 → 職業 → 帰りの便。この順でほぼ決まっている。答えは短くて良い。",
+        pick: ["purpose of your visit（渡航の目的）", "What do you do for a living?（お仕事は？）", "Enjoy your stay.（良い滞在を）"]
+      },
+      {
+        title: "② 税関",
+        en: "Do you have anything to declare? — No, nothing to declare. — Are you carrying any food, plants, or meat? — Just some snacks — they're still sealed. — Could you open your bag, please? — Sure, go ahead. — What's this? — It's medicine for my child. I have the prescription. — That's fine. You can go ahead.",
+        ja: "申告の有無 → 食品・植物・肉 → 開けて見せる → これは何？ 薬は処方箋を見せれば通る。",
+        pick: ["anything to declare（申告するもの）", "sealed（未開封）", "You can go ahead.（どうぞ進んでください）"]
+      },
+      {
+        title: "③ ホテルのチェックイン",
+        en: "Hi, welcome. Checking in? — Yes, it's under Komori. — Thank you. Could I see your passport and a credit card for incidentals? — Sure, here you go. Is breakfast included? — Yes, breakfast is served from seven to ten on the ground floor. You're in room 512, on the fifth floor. — What time is checkout? — Checkout is at eleven. — Could we get a late checkout? — Let me check... Twelve o'clock is fine. — Great, thank you.",
+        ja: "名前で予約確認 → パスポートとカード（追加料金用）→ 朝食・部屋・チェックアウト。",
+        pick: ["It's under Komori.（小森で予約しています）", "incidentals（ミニバー等の追加料金用）", "ground floor（英国の1階。first floor は2階）"]
+      }
+    ],
+    phrases: []
+  },
+  {
     id: "ba-lhr-hnd-2026-09-21",
     title: "BA 機内アナウンス（ヒースロー→羽田）",
     scene: "2026-09-21 着陸前後・英国訛り・定型で速い。ここが「考えずに分かる」になれば、空港・機内・ホテルの案内はほぼ通る。",

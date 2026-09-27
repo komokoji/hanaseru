@@ -215,6 +215,7 @@
 
   <!-- 🎧 聞き取り -->
   <section id="listen" hidden>
+    <div id="lsUnits" class="chips" style="margin-bottom:6px"></div>
     <h2 id="lsTitle"></h2>
     <p class="muted" id="lsScene" style="font-size:13px"></p>
     <div class="counter" id="lsCounter"></div>
@@ -232,7 +233,7 @@
         <ul id="lsPick" class="muted" style="font-size:13px; padding-left:18px; margin:6px 0 0"></ul>
       </div>
     </div>
-    <h2 style="margin-top:14px">口に出す定型句（タップで音声）</h2>
+    <h2 style="margin-top:14px" id="lsPhrasesH">口に出す定型句（タップで音声）</h2>
     <div id="lsPhrases"></div>
     <div class="row">
       <button class="ng" data-action="lsPrev">← 前</button>
