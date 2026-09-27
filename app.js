@@ -43,7 +43,7 @@
   }
 
   // ---- 今日の出題を組む ----
-  var ORDERED = { visit: true, asthma: true };   // 流れで覚える範囲＝並べた順に、全部出す（シャッフルしない）
+  var ORDERED = { visit: true, asthma: true, refer: true };   // 流れで覚える範囲＝並べた順に、全部出す（シャッフルしない）
   function buildQueue(domain) {
     var today = dayNum();
     if (ORDERED[domain]) return allCards().filter(function (c) { return c.domain === domain; });

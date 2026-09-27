@@ -46,7 +46,24 @@
     { id: "asth-11", domain: "asthma", part: "⑤ これから", ja: "しばらくは、様子を見ていきましょう。", en: "Let's keep an eye on her for a while.", note: "keep an eye on ～＝～を見守る・様子を見る。" },
     { id: "asth-12", domain: "asthma", part: "⑤ これから", ja: "定期的にチェックしながら、お薬は続けていきましょう。", en: "We'll keep the medicine going and check on her regularly." }
   ];
-  window.HANASERU_CARDS = (window.HANASERU_CARDS || []).concat(V, A);
+  // 🚑 大きな病院（救急外来）へ紹介する — 院長 2026-09-27
+  var R = [
+    { id: "refer-01", domain: "refer", part: "① いまの状態", ja: "今の状態が、とても心配です。", en: "I'm really worried about how she's doing right now.", note: "『具合が悪い』を直接言うより、医師が心配していると伝える方が保護者に届く。" },
+    { id: "refer-02", domain: "refer", part: "① いまの状態", ja: "（例）酸素の値が低く、呼吸がとても苦しそうです。", en: "Her oxygen level is low, and she's working hard to breathe.", note: "working hard to breathe＝呼吸がしんどそう（努力呼吸）。理由は場面に合わせて入れ替える。" },
+    { id: "refer-03", domain: "refer", part: "② 紹介する", ja: "ここでできる治療では足りないので、大きな病院に紹介します。", en: "She needs more care than we can give here, so I'm going to refer her to a bigger hospital.", note: "refer＝紹介する（referral＝紹介）。三次医療機関は医師同士なら tertiary care hospital だが、保護者には a bigger hospital で十分。" },
+    { id: "refer-04", domain: "refer", part: "② 紹介する", ja: "〇〇医療センターの救急外来です。", en: "It's the ER at ___ Medical Center.", note: "ER は米国の言い方。英国では A&E（Accident and Emergency）。" },
+    { id: "refer-05", domain: "refer", part: "② 紹介する", ja: "重い病気の子どもを、24時間診られる病院です。", en: "It's a hospital that can take care of seriously ill children, 24 hours a day.", note: "『三次医療機関』を保護者向けに言い換えるとこれ。" },
+    { id: "refer-06", domain: "refer", part: "③ 連絡済み", ja: "私から病院に電話して、もう伝えてあります。", en: "I've already called the hospital and let them know you're coming." },
+    { id: "refer-07", domain: "refer", part: "③ 連絡済み", ja: "これが紹介状です。病院の受付で渡してください。", en: "Here's a referral letter. Please give it to the reception desk at the hospital." },
+    { id: "refer-08", domain: "refer", part: "④ 向かい方", ja: "今すぐ向かってください。", en: "Please head there right away.", note: "head＝向かう。go より『今すぐ出発』の感じが出る。" },
+    { id: "refer-09", domain: "refer", part: "④ 向かい方", ja: "救急車を呼びます。", en: "I'm going to call an ambulance." },
+    { id: "refer-10", domain: "refer", part: "④ 向かい方", ja: "ご自分の車で連れて行けますか？", en: "Can you drive her there yourself?" },
+    { id: "refer-11", domain: "refer", part: "④ 向かい方", ja: "途中で具合が悪くなったら、すぐ救急車を呼んでください。日本では119番です。", en: "If she gets worse on the way, call an ambulance right away. The number in Japan is 119.", note: "外国の方は 911（米）や 999（英）が頭にあるので、番号を必ず伝える。" },
+    { id: "refer-12", domain: "refer", part: "⑤ 安心してもらう", ja: "急なことで、驚かれたと思います。", en: "I know this is sudden, and it must be scary." },
+    { id: "refer-13", domain: "refer", part: "⑤ 安心してもらう", ja: "でも、早めに行くのが一番安全です。", en: "But getting there early is the safest thing to do." },
+    { id: "refer-14", domain: "refer", part: "⑤ 安心してもらう", ja: "心配なことがあれば、いつでもクリニックに連絡してください。", en: "If you're worried about anything, please call us anytime." }
+  ];
+  window.HANASERU_CARDS = (window.HANASERU_CARDS || []).concat(V, A, R);
 
   // 聞き取り：流れごと・パートごとに通して聞く
   function unit(id, title, cards) {
@@ -62,6 +79,7 @@
   }
   window.HANASERU_VISIT_UNITS = [
     unit("clinic-visit-cold", "診察室：風邪の診察（はじまり〜お大事に）", V),
-    unit("clinic-asthma-stepup", "診察室：喘息の予防薬を再開する", A)
+    unit("clinic-asthma-stepup", "診察室：喘息の予防薬を再開する", A),
+    unit("clinic-referral", "診察室：大きな病院（救急外来）へ紹介する", R)
   ];
 })();
