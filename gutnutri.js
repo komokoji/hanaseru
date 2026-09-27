@@ -19,7 +19,7 @@
     { id: "gut-09", domain: "gut", ja: "出すことと、治すことは、別のものです。", en: "Getting the stool out and fixing the problem are two different things." },
     // 便秘：浣腸
     { id: "gut-10", domain: "gut", ja: "浣腸なら5分以内に出ます。飲み薬は、いつ出るか分かりません。", en: "An enema works within five minutes. With medicine by mouth, you never know when it'll come." },
-    { id: "gut-11", domain: "gut", ja: "毎日同じ時間に、30mlの浣腸をしてください。", en: "Please give her a 30 ml enema at the same time every day." },
+    { id: "gut-11", domain: "gut", ja: "（例）毎日同じ時間に、30mlの浣腸をしてください。", en: "Please give her a 30 ml enema at the same time every day.", note: "浣腸の量は年齢・体重で変わる。数字はその子に合わせて入れ替える。" },
     // 便秘：飲み薬
     { id: "gut-12", domain: "gut", ja: "お薬と浣腸は、メガネや補助輪のようなものです。", en: "The medicine and the enemas are like glasses or training wheels.", note: "training wheels＝（自転車の）補助輪。『今は助けを借りる時期』を伝える比喩。" },
     { id: "gut-13", domain: "gut", ja: "このお薬は、年単位で飲むように作られています。", en: "This medicine is designed to be taken for years.", note: "モビコール（英国でも Movicol）の説明。" },
@@ -38,7 +38,7 @@
     { id: "gut-23", domain: "gut", ja: "波があって当然です。淡々と続けるのが、一番の近道です。", en: "Ups and downs are normal. Just keep going steadily. That's the fastest way there." },
     { id: "gut-24", domain: "gut", ja: "本当に大きな前進です。これからも一緒に見ていきましょう。", en: "That's real progress. Let's keep working on it together." },
     // 便秘：よくある質問への答え
-    { id: "gut-25", domain: "gut", ja: "（Q 長く飲んで大丈夫？）腎臓に問題がなければ心配いりません。効かなくなることもなく、採血も要りません。", en: "As long as her kidneys are fine, there's nothing to worry about. It won't stop working, and she doesn't need blood tests.", note: "酸化マグネシウムの長期内服への質問。" },
+    { id: "gut-25", domain: "gut", ja: "（Q 長く飲んで大丈夫？）腎臓に問題がなければ心配いりません。効かなくなることもなく、ふだんは採血も要りません。", en: "As long as her kidneys are fine, there's nothing to worry about. It won't stop working, and she usually doesn't need blood tests.", note: "酸化マグネシウムの長期内服への質問。" },
     { id: "gut-26", domain: "gut", ja: "（Q 食事で治せない？）食事や水分だけでは、頑張ったほどの効果は出ません。無理はしなくていいですよ。", en: "Food and fluids alone won't help as much as you'd hope. You don't need to push yourself." },
     { id: "gut-27", domain: "gut", ja: "（Q かわいそう）終わったあとにケロッとしていれば、トラウマにはなりません。", en: "If she's fine right afterwards, it won't be traumatic for her." },
     { id: "gut-28", domain: "gut", ja: "（Q トイトレ）うんちは焦らなくて大丈夫。今はおむつで全く問題ありません。", en: "There's no rush with poop. Diapers are completely fine for now." }
@@ -58,7 +58,7 @@
     // 栄養：結果説明
     { id: "nut-08", domain: "nutri", ja: "一番大事なのは、フェリチン（体に貯めてある鉄）です。", en: "The most important number is ferritin, the iron stored in the body.", note: "ferritin（フェリティン）。保護者には必ず the iron stored in the body と言い添える。" },
     { id: "nut-09", domain: "nutri", ja: "貧血の値が下がるのは、鉄不足の一番最後です。だからフェリチンを見ます。", en: "Hemoglobin is the last thing to drop when iron runs low. That's why we look at ferritin." },
-    { id: "nut-10", domain: "nutri", ja: "（例）17から35へ、倍くらいになりました。", en: "It went from 17 to 35. It's nearly doubled.", note: "数字は例。サプリを飲んでいないと、まずこうはなりません＝This rarely happens without supplements." },
+    { id: "nut-10", domain: "nutri", ja: "（例）17から35へ、倍くらいになりました。", en: "It went from 17 to 35. That's about double.", note: "数字は例。サプリを飲んでいないと、まずこうはなりません＝This rarely happens without supplements." },
     { id: "nut-11", domain: "nutri", ja: "まずは、悩みが取れるところまで上げるのが第一ステップです。", en: "The first step is to raise it to where her symptoms get better." },
     { id: "nut-12", domain: "nutri", ja: "フェリチンとタンパク質、この2つで8割は分かります。", en: "Ferritin and protein tell us about eighty percent of the story." },
     // 栄養：食事の工夫

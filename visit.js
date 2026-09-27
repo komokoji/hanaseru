@@ -7,7 +7,7 @@
     // ① はじまり
     { id: "visit-01", domain: "visit", part: "① はじまり", ja: "どうぞ、おかけください。", en: "Please have a seat." },
     { id: "visit-02", domain: "visit", part: "① はじまり", ja: "今日は、どうされましたか？", en: "What brings you in today?", note: "受付でも診察室でも一番使う切り出し。" },
-    { id: "visit-03", domain: "visit", part: "① はじまり", ja: "では、診察を始めていきますね。", en: "Okay, let's begin the checkup.", note: "親にも子にも同時に言える。子どもだけなら Let me take a look at you, okay?" },
+    { id: "visit-03", domain: "visit", part: "① はじまり", ja: "では、診察を始めていきますね。", en: "Okay, let's get started with the exam.", note: "親にも子にも同時に言える。子どもだけなら Let me take a look at you, okay?" },
     // ② 診断
     { id: "visit-04", domain: "visit", part: "② 診断", ja: "胸の音はきれいで、肺炎の心配はありません。", en: "Her chest sounds clear, so I'm not worried about pneumonia.", note: "pneumonia＝肺炎（p は読まない：ニューモウニア）。" },
     { id: "visit-05", domain: "visit", part: "② 診断", ja: "診察した結果、風邪だと思います。", en: "From what I can see, I think it's a common cold.", note: "From what I can see＝診た限りでは。断定しすぎない、やわらかい言い方。" },
@@ -16,7 +16,7 @@
     { id: "visit-07", domain: "visit", part: "③ お薬", ja: "気管支を広げるテープも出しておきます。寝る前に、背中か胸に貼ってください。", en: "I'll also give you a patch that opens up the airways. Put it on her back or chest before bed.", note: "ツロブテロール貼付薬は日本では一般的だが、海外では珍しい。名前でなく『何をする薬か』で説明するのが伝わる。" },
     // ④ 吸入
     { id: "visit-08", domain: "visit", part: "④ 吸入", ja: "小さい子は、咳で夜眠れないことがあります。", en: "Little children sometimes can't sleep at night because of the cough." },
-    { id: "visit-09", domain: "visit", part: "④ 吸入", ja: "なので、クリニックで吸入をしていきましょう。", en: "So let's do an inhalation treatment here at the clinic.", note: "inhalation＝吸入。子どもには breathing medicine と言うと伝わりやすい。" },
+    { id: "visit-09", domain: "visit", part: "④ 吸入", ja: "なので、クリニックで吸入をしていきましょう。", en: "So let's do breathing treatments here at the clinic.", note: "吸入＝breathing treatment（ネブライザー）。inhaler は持ち歩く吸入器のこと。" },
     // ⑤ 登園・登校
     { id: "visit-10", domain: "visit", part: "⑤ 登園・登校", ja: "保育園や学校は、行って大丈夫です。", en: "It's fine for her to go to daycare or school." },
     // ⑥ その後
@@ -25,7 +25,7 @@
     // ⑦ 特急券
     { id: "visit-13", domain: "visit", part: "⑦ 特急券", ja: "当院には「特急券」という仕組みがあります。", en: "We have something called an \"express ticket\" here.", note: "something called ～＝～というもの。独自の仕組みを紹介する王道の言い方。" },
     { id: "visit-14", domain: "visit", part: "⑦ 特急券", ja: "夜の咳き込みがひどくて眠れないときは、予約なしで来て大丈夫です。", en: "If she's coughing so much at night that she can't sleep, you can come in without an appointment.", note: "so much ～ that …＝～すぎて…だ。" },
-    { id: "visit-15", domain: "visit", part: "⑦ 特急券", ja: "診察時間内に来てもらえれば、すぐに吸入ができます。", en: "Just come during our opening hours, and we'll give her an inhalation right away." },
+    { id: "visit-15", domain: "visit", part: "⑦ 特急券", ja: "診察時間内に来てもらえれば、すぐに吸入ができます。", en: "Just come during our clinic hours, and we'll give her a breathing treatment right away." },
     { id: "visit-16", domain: "visit", part: "⑦ 特急券", ja: "ぜひ、この仕組みを使ってください。", en: "Please feel free to use it.", note: "feel free to ～＝遠慮なく～してください。" },
     // ⑧ おわり
     { id: "visit-17", domain: "visit", part: "⑧ おわり", ja: "何か質問はありますか？", en: "Do you have any questions?" },
@@ -54,12 +54,12 @@
     { id: "refer-04", domain: "refer", part: "② 紹介する", ja: "〇〇医療センターの救急外来です。", en: "It's the ER at ___ Medical Center.", note: "ER は米国の言い方。英国では A&E（Accident and Emergency）。" },
     { id: "refer-05", domain: "refer", part: "② 紹介する", ja: "重い病気の子どもを、24時間診られる病院です。", en: "It's a hospital that can take care of seriously ill children, 24 hours a day.", note: "『三次医療機関』を保護者向けに言い換えるとこれ。" },
     { id: "refer-06", domain: "refer", part: "③ 連絡済み", ja: "私から病院に電話して、もう伝えてあります。", en: "I've already called the hospital and let them know you're coming." },
-    { id: "refer-07", domain: "refer", part: "③ 連絡済み", ja: "これが紹介状です。病院の受付で渡してください。", en: "Here's a referral letter. Please give it to the reception desk at the hospital." },
+    { id: "refer-07", domain: "refer", part: "③ 連絡済み", ja: "これが紹介状です。病院の受付で渡してください。", en: "Here's a referral letter. Please hand it to the front desk when you arrive." },
     { id: "refer-08", domain: "refer", part: "④ 向かい方", ja: "今すぐ向かってください。", en: "Please head there right away.", note: "head＝向かう。go より『今すぐ出発』の感じが出る。" },
-    { id: "refer-09", domain: "refer", part: "④ 向かい方", ja: "救急車を呼びます。", en: "I'm going to call an ambulance." },
+    { id: "refer-09", domain: "refer", part: "④ 向かい方", ja: "（重いとき）ここから救急車を呼びます。", en: "I'm going to call an ambulance." },
     { id: "refer-10", domain: "refer", part: "④ 向かい方", ja: "ご自分の車で連れて行けますか？", en: "Can you drive her there yourself?" },
     { id: "refer-11", domain: "refer", part: "④ 向かい方", ja: "途中で具合が悪くなったら、すぐ救急車を呼んでください。日本では119番です。", en: "If she gets worse on the way, call an ambulance right away. The number in Japan is 119.", note: "外国の方は 911（米）や 999（英）が頭にあるので、番号を必ず伝える。" },
-    { id: "refer-12", domain: "refer", part: "⑤ 安心してもらう", ja: "急なことで、驚かれたと思います。", en: "I know this is sudden, and it must be scary." },
+    { id: "refer-12", domain: "refer", part: "⑤ 安心してもらう", ja: "急なことで、驚かれたと思います。", en: "I know this is sudden, and it must be a shock." },
     { id: "refer-13", domain: "refer", part: "⑤ 安心してもらう", ja: "でも、早めに行くのが一番安全です。", en: "But getting there early is the safest thing to do." },
     { id: "refer-14", domain: "refer", part: "⑤ 安心してもらう", ja: "心配なことがあれば、いつでもクリニックに連絡してください。", en: "If you're worried about anything, please call us anytime." }
   ];

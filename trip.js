@@ -9,7 +9,7 @@
     // ── ① 最優先単語20（表示が読める・相手が何の話をしているか分かる） ──
     { id: "trip-w01", domain: "trip", ja: "（表示）出発／出発便", en: "Departures", note: "Departure の複数形で「出発便の案内」。International Departures＝国際線出発。" },
     { id: "trip-w02", domain: "trip", ja: "（表示）到着／到着便", en: "Arrivals", note: "International Arrivals＝国際線到着。迎えの人が待つ場所もここ。" },
-    { id: "trip-w03", domain: "trip", ja: "（表示）搭乗手続き", en: "Check-in", note: "空港の check は「航空会社に預けて登録する」。ホテルの check-in と同じ語。" },
+    { id: "trip-w03", domain: "trip", ja: "（表示）搭乗手続き", en: "Check-in", note: "Check-in＝搭乗手続き（本人確認・座席・荷物の預け）。ホテルの check-in と同じ語。" },
     { id: "trip-w04", domain: "trip", ja: "（表示）荷物を預ける場所", en: "Bag drop", note: "オンラインでチェックイン済みの人が、荷物だけ渡すカウンター。" },
     { id: "trip-w05", domain: "trip", ja: "荷物（空港でよく使う言い方）", en: "Baggage", note: "luggage とほぼ同じ。数えない名詞なので a baggage / two baggages とは言わない。個数は one bag / two bags。" },
     { id: "trip-w06", domain: "trip", ja: "預け入れ荷物", en: "Checked baggage", note: "check（預ける）＋ed。機内に持ち込まない方。" },
@@ -83,8 +83,8 @@
     // ── ② 会話を広げる雑談 ──
     { id: "trip-t01", domain: "trip2", ja: "まだ2日しかいません。", en: "I've only been here for two days." },
     { id: "trip-t02", domain: "trip2", ja: "来て2日目です。全部で1週間滞在します。", en: "I've been here for two days. I'm here for a week in total.", note: "in total＝全部で。「今まで」と「全体」を1回で言える便利な型。" },
-    { id: "trip-t03", domain: "trip2", ja: "（相手に）どのくらい滞在する予定ですか？", en: "How long are you staying?", note: "3つの「どのくらい」②＝これからの予定。①How long have you been here?（今まで）③How long are you here for?（全体）。" },
-    { id: "trip-t04", domain: "trip2", ja: "（相手に）全体でどのくらいいるんですか？", en: "How long are you here for?", note: "3つの「どのくらい」③＝全体の期間。" },
+    { id: "trip-t03", domain: "trip2", ja: "（相手に）どのくらい滞在する予定ですか？", en: "How long are you staying?", note: "滞在全体の長さを聞く。How long are you here for? もほぼ同じ意味。今までの長さは How long have you been here?" },
+    { id: "trip-t04", domain: "trip2", ja: "（相手に）全体でどのくらいいるんですか？", en: "How long are you here for?", note: "How long are you staying? とほぼ同じ意味の、くだけた言い方。" },
     { id: "trip-t05", domain: "trip2", ja: "（相手に）スペインは初めてですか？", en: "Is this your first time in Spain?" },
     { id: "trip-t06", domain: "trip2", ja: "はい、初めてです。", en: "Yes, this is my first time." },
     { id: "trip-t07", domain: "trip2", ja: "いいえ、前にも来たことがあります。", en: "No, I've been here before." },

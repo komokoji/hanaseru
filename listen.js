@@ -34,7 +34,7 @@ window.HANASERU_LISTEN = [
     passages: [
       {
         title: "ゼーゼーは、ほとんどが一時的",
-        en: "Little children often start wheezing as soon as they catch a cold. She wheezes every time she catches a cold, doesn't she? It sounds like asthma, but in most cases, it isn't true asthma. If the wheezing happens three or more times and gets better with an inhaler that opens the airways, we call it childhood asthma, for now. But in most cases, it's temporary. Very few children go on to have true asthma. Each time, we properly treat the cold and the sensitive airways. If we keep the inflammation under control, most children grow out of it. Only a small number of children have true asthma and need long-term treatment.",
+        en: "Little children often start wheezing as soon as they catch a cold. She wheezes every time she catches a cold, doesn't she? It sounds like asthma, but in most cases, it isn't true asthma. If the wheezing happens three or more times and gets better with a breathing treatment that opens the airways, we call it childhood asthma, for now. But in most cases, it's temporary. Very few children go on to have true asthma. Each time, we properly treat the cold and the sensitive airways. If we keep the inflammation under control, most children grow out of it. Only a small number of children have true asthma and need long-term treatment.",
         ja: "小さな子は風邪でゼーゼーしやすい → 3回以上で吸入が効けば「いったん小児喘息」 → でも多くは一時的 → その都度しっかり治療して炎症を取れば、成長とともに治る → ごく一部だけ本当の喘息で長期治療。",
         pick: ["for now（いったん・今のところ＝暫定的に）", "go on to（その後〜になる）", "grow out of it（成長とともに治る）", "keep ～ under control（〜を抑えておく）"]
       }
