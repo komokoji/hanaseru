@@ -6,7 +6,7 @@
 (function () {
   "use strict";
 
-  var LISTEN = window.HANASERU_LISTEN || [];
+  var LISTEN = (window.HANASERU_VISIT_UNIT ? [window.HANASERU_VISIT_UNIT] : []).concat(window.HANASERU_LISTEN || []);
   var CARDS = (window.HANASERU_CARDS || []).concat(LISTEN.reduce(function (a, u) { return a.concat(u.phrases || []); }, []));
   var KEY = "hanaseru.v1";
   var SESSION_SIZE = 12;              // 1日の枚数
@@ -43,8 +43,10 @@
   }
 
   // ---- 今日の出題を組む ----
+  var ORDERED = { visit: true };   // 流れで覚える範囲＝並べた順に、全部出す（シャッフルしない）
   function buildQueue(domain) {
     var today = dayNum();
+    if (ORDERED[domain]) return allCards().filter(function (c) { return c.domain === domain; });
     var pool = allCards().filter(function (c) { return domain === "all" || c.domain === domain; });
     var due = [], fresh = [];
     pool.forEach(function (c) {
@@ -144,7 +146,7 @@
     el.en.textContent = c.en;
     if (el.note) { el.note.textContent = c.note || ""; el.note.hidden = !c.note; }
     var jb = document.getElementById("jaBack"); if (jb) jb.textContent = c.ja;
-    el.counter.textContent = (idx + 1) + " / " + queue.length
+    el.counter.textContent = (idx + 1) + " / " + queue.length + (c.part ? "　" + c.part : "")
       + (results[idx] === true ? "　✅ 言えた" : results[idx] === false ? "　🔁 まだ" : "");
     var pv = document.getElementById("prevBtn"); if (pv) pv.disabled = idx === 0;
     var ql = document.getElementById("qList"); if (ql) ql.hidden = true;
@@ -289,7 +291,7 @@
   function setShadowDomain(d) { shDomain = d; buildShadow(); }
   function buildShadow() {
     shQueue = allCards().filter(function (c) { return shDomain === "all" || c.domain === shDomain; });
-    shuffle(shQueue); shIdx = 0;
+    if (!ORDERED[shDomain]) shuffle(shQueue); shIdx = 0;
     highlightChips("#shChips", shDomain);
     renderShadow();
   }
