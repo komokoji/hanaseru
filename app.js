@@ -121,12 +121,17 @@
     "progress", "streak", "counter", "domainName"].forEach(function (id) { el[id] = document.getElementById(id); });
 
   var queue = [], idx = 0, curDomain = "all", revealed = false;
+  var results = [];   // この回の結果（true=言えた / false=まだ / undefined=未回答）
+  var snaps = {};     // この回で最初に採点する前のカード状態＝戻って付け直しても二重に進まない
 
   function startSession(domain) {
     curDomain = domain;
     queue = buildQueue(domain);
-    idx = 0;
     if (queue.length === 0) { showDone(true); return; }
+    beginQueue();
+  }
+  function beginQueue() {
+    idx = 0; results = []; snaps = {};
     hideMain();
     show(el.study, true);
     renderCard();
@@ -139,7 +144,10 @@
     el.en.textContent = c.en;
     if (el.note) { el.note.textContent = c.note || ""; el.note.hidden = !c.note; }
     var jb = document.getElementById("jaBack"); if (jb) jb.textContent = c.ja;
-    el.counter.textContent = (idx + 1) + " / " + queue.length;
+    el.counter.textContent = (idx + 1) + " / " + queue.length
+      + (results[idx] === true ? "　✅ 言えた" : results[idx] === false ? "　🔁 まだ" : "");
+    var pv = document.getElementById("prevBtn"); if (pv) pv.disabled = idx === 0;
+    var ql = document.getElementById("qList"); if (ql) ql.hidden = true;
     var xb = document.getElementById("xpStudy"); if (xb) { xb.hidden = true; xb.dataset.id = ""; }
     show(el.cardBack, false); show(el.cardFront, true);
   }
@@ -152,10 +160,41 @@
   }
 
   function answer(ok) {
-    grade(queue[idx], ok);
+    var c = queue[idx];
+    // 戻って付け直したときは、この回の最初の状態に戻してから採点（言えたを2回押しても箱が2つ進まない）
+    if (!(c.id in snaps)) snaps[c.id] = state.cards[c.id] ? JSON.parse(JSON.stringify(state.cards[c.id])) : null;
+    else if (snaps[c.id]) state.cards[c.id] = JSON.parse(JSON.stringify(snaps[c.id]));
+    else delete state.cards[c.id];
+    grade(c, ok);
+    results[idx] = ok;
     idx += 1;
     if (idx >= queue.length) { finishSession(); showDone(false); }
     else renderCard();
+  }
+  function goPrev() { if (idx > 0) { idx -= 1; renderCard(); } }
+  function goNext() { if (idx < queue.length - 1) { idx += 1; renderCard(); } }
+  function goTo(i) { hideMain(); show(el.study, true); idx = i; renderCard(); }
+  // この回の一覧：どこでもタップで戻って練習し直せる
+  function renderQList() {
+    var box = document.getElementById("qList"); if (!box) return;
+    var ok = results.filter(function (r) { return r === true; }).length;
+    var ng = results.filter(function (r) { return r === false; }).length;
+    box.innerHTML = '<p class="stat" style="margin:0 0 6px">この回：✅ ' + ok + '　🔁 ' + ng + '　／ ' + queue.length + '枚（タップでその札へ）</p>'
+      + queue.map(function (c, i) {
+        var mk = results[i] === true ? "✅" : results[i] === false ? "🔁" : "・";
+        return '<div class="clrow' + (i === idx ? ' cur' : '') + '" data-action="qGo" data-idx="' + i + '" style="cursor:pointer">'
+          + '<span style="width:22px">' + mk + '</span><div class="cltext"><div class="clja">' + (i + 1) + '. ' + escapeHtml(c.ja) + '</div>'
+          + '<div style="font-size:13px;color:var(--teal-d)">' + escapeHtml(c.en) + '</div></div></div>';
+      }).join("");
+  }
+  function toggleQList() {
+    var box = document.getElementById("qList"); if (!box) return;
+    if (box.hidden) { renderQList(); box.hidden = false; box.scrollIntoView({ block: "nearest" }); } else box.hidden = true;
+  }
+  function retryMisses() {       // 「まだ」だけもう一度
+    var miss = queue.filter(function (c, i) { return results[i] === false; });
+    if (!miss.length) return;
+    queue = miss; beginQueue();
   }
 
   function showDone(empty) {
@@ -167,6 +206,13 @@
     el.done.querySelector("[data-msg]").textContent =
       empty ? "この範囲は今日ぶんの出題がありません。別の範囲を選ぶか、また明日。"
             : "今日の練習、完了です。";
+    var misses = results.filter(function (r) { return r === false; }).length;
+    var dr = document.getElementById("doneRetry");
+    if (dr) { dr.hidden = empty || !queue.length; }
+    var dm = document.getElementById("doneMiss");
+    if (dm) { dm.hidden = empty || !misses; dm.textContent = "🔁「まだ」の " + misses + " 枚だけもう一度"; }
+    var dl = document.getElementById("doneList");
+    if (dl) dl.hidden = empty || !queue.length;
   }
 
   function backToSetup() {
@@ -341,6 +387,13 @@
     if (a === "start") startSession(t.getAttribute("data-domain"));
     else if (a === "reveal") reveal();
     else if (a === "ok") answer(true);
+    else if (a === "prev") goPrev();
+    else if (a === "next") goNext();
+    else if (a === "qList") toggleQList();
+    else if (a === "qGo") goTo(+t.getAttribute("data-idx"));
+    else if (a === "again") beginQueue();
+    else if (a === "missAgain") retryMisses();
+    else if (a === "doneList") { goTo(0); toggleQList(); }
     else if (a === "ng") answer(false);
     else if (a === "speak") speak(queue[idx].en);
     else if (a === "home") backToSetup();

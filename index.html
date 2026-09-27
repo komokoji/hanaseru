@@ -67,6 +67,10 @@
   .cltext{ flex:1; cursor:pointer; }
   .clja{ font-size:16px; }
   .clen{ font-size:16px; font-weight:700; color:var(--teal-d); margin-top:4px; }
+  .navrow{ display:flex; justify-content:space-between; gap:8px; margin-top:12px; }
+  .navrow .speak{ flex:1; text-align:center; align-self:auto; font-size:14px; padding:10px 6px; }
+  .navrow .speak:disabled{ opacity:.4; }
+  .clrow.cur{ border-color:var(--teal); background:#f6fbfa; }
   .cardnote{ font-size:14px; color:var(--sub); background:#f6fbfa; border-left:3px solid var(--teal); padding:6px 10px; margin:4px 0 8px; border-radius:6px; }
   .tklog{ flex:1; overflow:auto; display:flex; flex-direction:column; gap:8px; min-height:200px; max-height:52dvh; padding:4px 0; }
   .bubble{ max-width:92%; border-radius:16px; padding:10px 14px; font-size:16px; line-height:1.5; }
@@ -158,6 +162,12 @@
         <button class="ok" data-action="ok">言えた</button>
       </div>
     </div>
+    <div class="navrow">
+      <button class="speak" data-action="prev" id="prevBtn">← 前へ</button>
+      <button class="speak" data-action="qList">📋 一覧</button>
+      <button class="speak" data-action="next">次へ →</button>
+    </div>
+    <div id="qList" hidden style="margin-top:8px"></div>
     <div class="bar"><button class="link" data-action="home">← 範囲を選ぶ</button></div>
   </section>
 
@@ -168,6 +178,9 @@
       <p class="stat" id="doneStat" style="margin-top:14px"></p>
     </div>
     <div class="grid">
+      <button class="big" data-action="missAgain" id="doneMiss" hidden></button>
+      <button class="choice" data-action="doneList" id="doneList" hidden><span>札を選んで練習し直す</span><b>📋 この回の一覧 ▸</b></button>
+      <button class="choice" data-action="again" id="doneRetry" hidden><span>同じ札を最初から</span><b>↻ この回をもう一度 ▸</b></button>
       <button class="big" data-action="home">範囲を選ぶ</button>
     </div>
   </section>

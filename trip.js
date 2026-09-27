@@ -35,14 +35,14 @@
     { id: "trip-s04", domain: "trip", ja: "私たちの荷物は、バルセロナまでそのまま行きますか？", en: "Is our baggage checked through to Barcelona?", note: "checked through to ～＝「～まで通しで預けてある」。行きのヒースロー乗り継ぎで確認。" },
     { id: "trip-s05", domain: "trip", ja: "ここで荷物を受け取る必要がありますか？", en: "Do we need to collect our baggage here?", note: "collect＝受け取る（pick up でも可）。" },
     { id: "trip-s06", domain: "trip", ja: "ドイツに2泊します。", en: "We're staying in Germany for two nights.", note: "予定は進行形（We're staying）で言うのが自然。" },
-    { id: "trip-s07", domain: "trip", ja: "ドイツで荷物を受け取る必要があります。", en: "We need to collect our baggage in Germany.", note: "s06 とセットで言うと、なぜかが一度で伝わる。" },
+    { id: "trip-s07", domain: "trip", ja: "ドイツで荷物を受け取る必要があります。", en: "We need to collect our baggage in Germany.", note: "「ドイツに2泊します」とセットで言うと、なぜ受け取りたいかが一度で伝わる。" },
     { id: "trip-s08", domain: "trip", ja: "荷物はフランクフルトまででお願いします。", en: "Please check our baggage only to Frankfurt.", note: "only to＝「そこまでで止めて」。スペインのチェックインで言う。" },
     { id: "trip-s09", domain: "trip", ja: "もう一度、保安検査を受けますか？", en: "Do we need to go through security again?", note: "go through＝（検査を）通る。乗り継ぎでよくある。" },
     { id: "trip-s10", domain: "trip", ja: "どのゲートへ行けばいいですか？", en: "Which gate should we go to?", note: "最後の to を忘れない（go to the gate）。" },
     { id: "trip-s11", domain: "trip", ja: "もう少しゆっくり話してもらえますか？", en: "Could you speak more slowly, please?", note: "恥ずかしくない一言。聞き取れないまま進むより100倍いい。" },
     { id: "trip-s12", domain: "trip", ja: "もう一度言ってもらえますか？", en: "Could you say that again?", note: "もっと短く言うなら Sorry?（語尾を上げる）。" },
     { id: "trip-s13", domain: "trip", ja: "（相手に）ここに来てどのくらいですか？", en: "How long have you been here?", note: "「今まで」の長さ。雑談の入口として一番よく聞かれる。" },
-    { id: "trip-s14", domain: "trip", ja: "昨日着いたばかりです。1週間くらいいます。", en: "I just got here yesterday. I'm here for about a week.", note: "s13 への答え。got here＝着いた。for about a week＝全体で。" },
+    { id: "trip-s14", domain: "trip", ja: "昨日着いたばかりです。1週間くらいいます。", en: "I just got here yesterday. I'm here for about a week.", note: "How long have you been here? への答え。got here＝着いた。for about a week＝全体で。" },
     { id: "trip-s15", domain: "trip", ja: "何かおすすめはありますか？", en: "Do you have any recommendations?", note: "会話を広げる最強の一言。相手が話してくれる。" },
 
     // ── ② 場面別：チェックイン・荷物 ──
