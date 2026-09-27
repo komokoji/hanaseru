@@ -112,6 +112,24 @@ window.HANASERU_CARDS = [
   { id: "med-exp-4", domain: "medical", ja: "（親へ）風邪のお薬を出しておきますね。", en: "I'll give you some cold medicine to help her feel better." },
   { id: "med-exp-5", domain: "medical", ja: "（親へ）心配はいりませんよ。", en: "There's really nothing to worry about." },
   { id: "med-exp-6", domain: "medical", ja: "（親へ）保育園も、行って大丈夫です。", en: "And she's fine to go to daycare." },
+  // 診察室のワンシーン ③鼻の抗原検査（インフル・コロナ）— 子どもへの声かけ（院長 2026-09-27）
+  { id: "med-swab-1", domain: "medical", ja: "（子へ）今から、お鼻の検査をするね。", en: "Now I'm going to do a quick test in your nose, okay?" },
+  { id: "med-swab-2", domain: "medical", ja: "（子へ）お口で、ゆっくり息をしてね。", en: "Breathe slowly through your mouth." },
+  { id: "med-swab-3", domain: "medical", ja: "（子へ）力を抜いて、リラックスしてね。", en: "Just relax your body." },
+  { id: "med-swab-4", domain: "medical", ja: "（子へ）細い綿棒が、ゆっくり入るよ。", en: "A thin swab is going in slowly.", note: "swab＝綿棒（スワブ）。検査の綿棒はこの語。" },
+  { id: "med-swab-5", domain: "medical", ja: "（子へ）頭を動かさないでね。", en: "Keep your head still for me.", note: "for me を付けると『お願いね』のやさしさが出る。" },
+  { id: "med-swab-6", domain: "medical", ja: "（子へ）ちょっとムズムズするけど、すぐ終わるよ。", en: "It might tickle a little, but it'll be over soon.", note: "tickle＝くすぐったい・ムズムズする。hurt（痛い）と言わないのがコツ。" },
+  { id: "med-swab-7", domain: "medical", ja: "（子へ）はい、おしまい！よく頑張ったね。", en: "All done! You were so brave." },
+  // ③ 親への説明
+  { id: "med-flu-1", domain: "medical", ja: "（親へ）今、インフルエンザやコロナがはやっているので、鼻から抗原検査をします。", en: "The flu and COVID are going around right now, so we'll do a rapid test with a nose swab.", note: "going around＝（病気が）はやっている。日常会話でも一番使う言い方。" },
+  { id: "med-flu-2", domain: "medical", ja: "（親へ）全身の状態も、呼吸も問題ありません。", en: "Her overall condition and her breathing look fine." },
+  { id: "med-flu-3", domain: "medical", ja: "（親へ）ただ、熱が続いているのと、流行もあるので、念のため検査しておきましょう。", en: "But since the fever has lasted a while, and these are going around, let's test just to be safe.", note: "just to be safe＝念のため。" },
+  { id: "med-flu-4", domain: "medical", ja: "（親へ）インフルエンザが陽性なら、抗インフルエンザ薬を出します。", en: "If it's positive for the flu, I'll prescribe an antiviral medicine.", note: "antiviral＝抗ウイルス薬（アンタイヴァイラル）。" },
+  { id: "med-flu-5", domain: "medical", ja: "（親へ）風邪の症状には風邪薬、熱には解熱剤を出しておきます。", en: "I'll also give you cold medicine for her symptoms, and something to bring down the fever.", note: "解熱剤は fever medicine / fever reducer でも可。bring down the fever＝熱を下げる。" },
+  { id: "med-flu-6", domain: "medical", ja: "（親へ）熱が下がれば、心配いりません。", en: "Once the fever comes down, there's nothing to worry about." },
+  { id: "med-flu-7", domain: "medical", ja: "（親へ）おうちで、しっかり良くなるまで様子を見てください。", en: "Please let her rest at home until she's fully better." },
+  { id: "med-flu-8", domain: "medical", ja: "（親へ）登園・登校は、園や学校の基準に従えば大丈夫です。", en: "She can go back to daycare or school once she meets their guidelines.", note: "日本の基準（学校保健安全法）：インフル＝発症後5日かつ解熱後2日（幼児は3日）。コロナ＝発症後5日かつ症状が軽くなって1日。聞かれたら数字で答える。" },
+  { id: "med-flu-9", domain: "medical", ja: "（親へ）熱が下がらない、ぐったりしている、息が苦しそうなときは、また受診してください。", en: "If the fever doesn't come down, she seems very weak or unusually sleepy, or she's having trouble breathing, please come back.", note: "ぐったり＝very weak / unusually sleepy（英国の小児科では floppy も使う）。" },
 
   // ── 旅行・日常（口語・テンポ重視）──────────────
   // つなぎ言葉（口語のリズムを作る）

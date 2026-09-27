@@ -6,6 +6,27 @@
    正本＝Vault 22_アプリ開発/Hanaseru 語学トレーニング/30_聞き取り教材_BA機内アナウンス_ヒースロー→羽田_2026-09-21.md */
 window.HANASERU_LISTEN = [
   {
+    id: "clinic-swab",
+    title: "診察室：鼻の検査（インフル・コロナ）",
+    scene: "子どもへの声かけ → 親への説明、の順。まず通して聞き、シャドーイングで口に入れる。カードは診療英語（med-swab / med-flu）にも1文ずつ入っている。",
+    voice: "en-US",
+    passages: [
+      {
+        title: "① 子どもへの声かけ",
+        en: "Now I'm going to do a quick test in your nose, okay? Breathe slowly through your mouth. Just relax your body. A thin swab is going in slowly. Keep your head still for me. It might tickle a little, but it'll be over soon. All done! You were so brave.",
+        ja: "お鼻の検査をするね → 口でゆっくり息 → 力を抜いて → 細い綿棒がゆっくり入るよ → 頭を動かさないで → ムズムズするけどすぐ終わる → おしまい、よく頑張ったね。",
+        pick: ["swab（検査の綿棒）", "Keep your head still for me.（頭を動かさないでね）", "tickle（ムズムズする）"]
+      },
+      {
+        title: "② 親への説明",
+        en: "The flu and COVID are going around right now, so we'll do a rapid test with a nose swab. Her overall condition and her breathing look fine. But since the fever has lasted a while, and these are going around, let's test just to be safe. — Okay. What happens if it's positive? — If it's positive for the flu, I'll prescribe an antiviral medicine. I'll also give you cold medicine for her symptoms, and something to bring down the fever. Once the fever comes down, there's nothing to worry about. Please let her rest at home until she's fully better. She can go back to daycare or school once she meets their guidelines. If the fever doesn't come down, she seems very weak or unusually sleepy, or she's having trouble breathing, please come back.",
+        ja: "流行しているので鼻の抗原検査 → 全身状態・呼吸は問題なし → 熱が続くので念のため → 陽性なら抗インフル薬 → 風邪薬と解熱剤 → 熱が下がれば心配なし → 家で良くなるまで → 登園・登校は基準どおり → 熱が下がらない／ぐったり／呼吸が苦しそうなら再受診。",
+        pick: ["going around（はやっている）", "just to be safe（念のため）", "antiviral（抗ウイルス薬）", "bring down the fever（熱を下げる）", "unusually sleepy（ぐったり）"]
+      }
+    ],
+    phrases: []
+  },
+  {
     id: "clinic-wheeze",
     title: "診察室：ゼーゼーと喘息の説明",
     scene: "院長の説明をそのまま英語の流れにしたもの。まず通して聞き、シャドーイングで口に入れる。カードは診療英語（med-ast）にも1文ずつ入っている。",
