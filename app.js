@@ -137,6 +137,7 @@
     revealed = false;
     el.ja.textContent = c.ja;
     el.en.textContent = c.en;
+    if (el.note) { el.note.textContent = c.note || ""; el.note.hidden = !c.note; }
     var jb = document.getElementById("jaBack"); if (jb) jb.textContent = c.ja;
     el.counter.textContent = (idx + 1) + " / " + queue.length;
     var xb = document.getElementById("xpStudy"); if (xb) { xb.hidden = true; xb.dataset.id = ""; }
@@ -316,7 +317,8 @@
         + '<button class="clcheck' + (on ? ' on' : '') + '" data-action="clCheck" data-id="' + c.id + '">' + (on ? '☑' : '☐') + '</button>'
         + '<div class="cltext" data-action="clShow" data-id="' + c.id + '">'
         + '<div class="clja">' + escapeHtml(c.ja) + '</div>'
-        + '<div class="clen" id="clen-' + c.id + '" hidden>' + escapeHtml(c.en) + '</div>'
+        + '<div class="clen" id="clen-' + c.id + '" hidden>' + escapeHtml(c.en)
+        + (c.note ? '<div style="font-size:13px;font-weight:400;color:var(--sub);margin-top:2px">' + escapeHtml(c.note) + '</div>' : '') + '</div>'
         + '</div></div>';
     }).join("");
     var chips = document.querySelectorAll("#clChips [data-domain]");

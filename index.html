@@ -67,6 +67,7 @@
   .cltext{ flex:1; cursor:pointer; }
   .clja{ font-size:16px; }
   .clen{ font-size:16px; font-weight:700; color:var(--teal-d); margin-top:4px; }
+  .cardnote{ font-size:14px; color:var(--sub); background:#f6fbfa; border-left:3px solid var(--teal); padding:6px 10px; margin:4px 0 8px; border-radius:6px; }
   .tklog{ flex:1; overflow:auto; display:flex; flex-direction:column; gap:8px; min-height:200px; max-height:52dvh; padding:4px 0; }
   .bubble{ max-width:92%; border-radius:16px; padding:10px 14px; font-size:16px; line-height:1.5; }
   .bubble.ai{ align-self:flex-start; background:#fff; border:1px solid var(--line); }
@@ -100,6 +101,8 @@
     <p class="stat" id="progress">身についた：0 / 0</p>
     <p class="muted">日本語を見て、その瞬間に英語で声に出す。詰まった行は翌日また出ます。</p>
     <div class="grid">
+      <button class="choice" data-action="start" data-domain="trip"><span>12月の旅：まずここだけ（単語20＋15文）</span><b>✈️ 最優先35 ▸</b></button>
+      <button class="choice" data-action="start" data-domain="trip2"><span>12月の旅：空港の場面と、雑談を広げる</span><b>✈️ 場面別と雑談 ▸</b></button>
       <button class="choice" data-action="start" data-domain="travel"><span>いま困っている</span><b>旅行・日常 ▸</b></button>
       <button class="choice" data-action="start" data-domain="medical"><span>診察室で</span><b>診療英語 ▸</b></button>
       <button class="choice" data-action="start" data-domain="sign"><span>院長の型</span><b>署名フレーズ ▸</b></button>
@@ -143,6 +146,7 @@
     <div class="card" id="cardBack" hidden>
       <div class="ja-sm" id="jaBack"></div>
       <div class="en" id="en"></div>
+      <div class="cardnote" id="note" hidden></div>
       <div class="speakrow">
         <button class="speak" data-action="speak">🔊 もう一度きく</button>
         <button class="speak rateBtn" data-action="rate" id="rateBtn">🐢 ゆっくり</button>
@@ -171,6 +175,8 @@
   <!-- チェックリスト -->
   <section id="checklist" hidden>
     <div id="clChips" class="chips">
+      <button class="chip" data-action="clDomain" data-domain="trip">✈️最優先</button>
+      <button class="chip" data-action="clDomain" data-domain="trip2">✈️場面</button>
       <button class="chip" data-action="clDomain" data-domain="travel">旅行</button>
       <button class="chip" data-action="clDomain" data-domain="medical">診療</button>
       <button class="chip" data-action="clDomain" data-domain="sign">署名</button>
@@ -245,6 +251,8 @@
   <!-- シャドーイング -->
   <section id="shadow" hidden>
     <div id="shChips" class="chips">
+      <button class="chip" data-action="shDomain" data-domain="trip">✈️最優先</button>
+      <button class="chip" data-action="shDomain" data-domain="trip2">✈️場面</button>
       <button class="chip" data-action="shDomain" data-domain="travel">旅行</button>
       <button class="chip" data-action="shDomain" data-domain="medical">診療</button>
       <button class="chip" data-action="shDomain" data-domain="sign">署名</button>
@@ -273,6 +281,7 @@
 </div>
 
 <script src="data.js"></script>
+<script src="trip.js"></script>
 <script src="listen.js"></script>
 <script src="app.js"></script>
 <script type="module" src="cloud.js"></script>
