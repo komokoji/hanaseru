@@ -19,7 +19,7 @@ window.HANASERU_LISTEN = [
       },
       {
         title: "② 親への説明",
-        en: "The flu and COVID are going around right now, so we'll do a rapid test with a nose swab. Her overall condition and her breathing look fine. But since the fever has lasted a while, and these are going around, let's test just to be safe. — Okay. What happens if it's positive? — If it's positive for the flu, I'll prescribe an antiviral medicine. I'll also give you cold medicine for her symptoms, and something to bring down the fever. Once the fever comes down, there's nothing to worry about. Please let her rest at home until she's fully better. She can go back to daycare or school once she meets their guidelines. If the fever doesn't come down, she seems very weak or unusually sleepy, or she's having trouble breathing, please come back.",
+        en: "Flu and COVID are going around now. So we'll do a quick test with a nose swab. Her overall condition is fine. Her breathing is fine too. But the fever has continued, and these are going around. So let's test, just to be safe. — Okay. What happens if it's positive? — If the flu test is positive, I'll prescribe anti-flu medicine. I'll also give cold medicine for her symptoms, and fever medicine for the fever. Once the fever comes down, you don't need to worry. Please rest at home until she is fully better. For daycare or school, please follow their rules. Please come back if the fever doesn't come down, she is very weak, or she has trouble breathing.",
         ja: "流行しているので鼻の抗原検査 → 全身状態・呼吸は問題なし → 熱が続くので念のため → 陽性なら抗インフル薬 → 風邪薬と解熱剤 → 熱が下がれば心配なし → 家で良くなるまで → 登園・登校は基準どおり → 熱が下がらない／ぐったり／呼吸が苦しそうなら再受診。",
         pick: ["going around（はやっている）", "just to be safe（念のため）", "antiviral（抗ウイルス薬）", "bring down the fever（熱を下げる）", "unusually sleepy（ぐったり）"]
       }
@@ -34,7 +34,7 @@ window.HANASERU_LISTEN = [
     passages: [
       {
         title: "ゼーゼーは、ほとんどが一時的",
-        en: "Little children often start wheezing as soon as they catch a cold. She wheezes every time she catches a cold, doesn't she? It sounds like asthma, but in most cases, it isn't true asthma. If the wheezing happens three or more times and gets better with a breathing treatment that opens the airways, we call it childhood asthma, for now. But in most cases, it's temporary. Very few children go on to have true asthma. Each time, we properly treat the cold and the sensitive airways. If we keep the inflammation under control, most children grow out of it. Only a small number of children have true asthma and need long-term treatment.",
+        en: "Small children often wheeze as soon as they get a cold. She wheezes every time she catches a cold, doesn't she? It sounds like asthma. But in most cases, it is not true asthma. If she wheezes three or more times, and it gets better with a nebulizer treatment, we call it childhood asthma for now. But in most cases, it is temporary. Very few children get true asthma. Each time, we treat the cold. And we treat the sensitive airways. If we clear the inflammation each time, most children grow out of it. Only a few children have true asthma. They need long-term treatment.",
         ja: "小さな子は風邪でゼーゼーしやすい → 3回以上で吸入が効けば「いったん小児喘息」 → でも多くは一時的 → その都度しっかり治療して炎症を取れば、成長とともに治る → ごく一部だけ本当の喘息で長期治療。",
         pick: ["for now（いったん・今のところ＝暫定的に）", "go on to（その後〜になる）", "grow out of it（成長とともに治る）", "keep ～ under control（〜を抑えておく）"]
       }

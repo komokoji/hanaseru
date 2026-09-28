@@ -160,7 +160,7 @@
     revealed = false;
     el.ja.textContent = c.ja;
     el.en.textContent = c.en;
-    if (el.note) { el.note.textContent = c.note || ""; el.note.hidden = !c.note; }
+    if (el.note) el.note.hidden = true;   // 補足説明は通常画面に出さない（2026-09-29 院長方針：日本語→英語だけ。❓解説は押したときだけ）
     var jb = document.getElementById("jaBack"); if (jb) jb.textContent = c.ja;
     el.counter.textContent = (idx + 1) + " / " + queue.length + (c.part ? "　" + c.part : "")
       + (results[idx] === true ? "　✅ 言えた" : results[idx] === false ? "　🔁 まだ" : "");
@@ -450,7 +450,7 @@
         + '<div class="cltext" data-action="clShow" data-id="' + c.id + '">'
         + '<div class="clja">' + escapeHtml(c.ja) + '</div>'
         + '<div class="clen" id="clen-' + c.id + '" hidden>' + escapeHtml(c.en)
-        + (c.note ? '<div style="font-size:13px;font-weight:400;color:var(--sub);margin-top:2px">' + escapeHtml(c.note) + '</div>' : '') + '</div>'
+        + '</div>'
         + '</div></div>';
     }).join("");
     var chips = document.querySelectorAll("#clChips [data-domain]");

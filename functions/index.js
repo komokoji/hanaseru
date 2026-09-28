@@ -25,7 +25,14 @@ American both fine.
 REGISTER RULE (applies to every English line you produce): give him the "royal road" — the most
 standard, widely used way fluent speakers actually say it: polite but conversational, natural,
 nothing that would sound odd anywhere. No slang, no overly casual or regional idioms, nothing stiff
-or textbook-formal either. Simple and standard first; variety only within that register.`;
+or textbook-formal either. Simple and standard first; variety only within that register.
+STYLE RULE (his own policy, 2026-09-29): short sentences, one piece of information per sentence.
+Splitting into 2–4 short sentences is preferred over one long one. Junior-high to early-high-school
+English, plus the medical words parents normally hear (bronchitis, antibiotics, wheezing, inhaler,
+nebulizer, inflammation, ferritin, enema). Avoid harder words when a plain one works (not
+"complicated", "provisional", "based on today's examination"). Spoken, not written: no dashes, no
+semicolons. Example of the target style: "I think your child has a cold. It's a little more than a
+simple cold. There may be some mild bronchitis. So, we'll start antibiotics."`;
 
 const SCENES = {
   clinic: `ROLE: You are a worried English-speaking parent in his exam room in Tokyo (pick a plausible
