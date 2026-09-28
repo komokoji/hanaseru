@@ -267,7 +267,7 @@
     var s = document.getElementById("shadow"); if (s) s.hidden = true;
     var l = document.getElementById("listen"); if (l) l.hidden = true;
     var tk = document.getElementById("talk"); if (tk) tk.hidden = true;
-    ["clinic", "build"].forEach(function (id) { var n = document.getElementById(id); if (n) n.hidden = true; });
+    ["clinic", "build", "patterns"].forEach(function (id) { var n = document.getElementById(id); if (n) n.hidden = true; });
     var co = document.getElementById("coach"); if (co) co.hidden = true;
   }
 
@@ -368,6 +368,28 @@
           }).join("");
       }).join("") + '</div>';
     renderBuild(html);
+  }
+
+  // ---- 🧱 喋り始めの型（patterns.js）：型＋ミニ解説＋辞書から拾った例文 ----
+  var PATTERNS = window.HANASERU_PATTERNS || [];
+  function openPatterns() {
+    hideMain(); var sec = document.getElementById("patterns"); if (!sec) return; sec.hidden = false;
+    var all = allCards();
+    document.getElementById("ptList").innerHTML = PATTERNS.map(function (pt) {
+      var ex = [], seen = {};
+      all.forEach(function (c) {
+        c.en.split(/(?<=[.!?])\s+/).forEach(function (sen) {
+          var t = sen.replace(/^["(]+/, "");
+          if (pt.re.test(t) && !seen[t] && ex.length < 4) { seen[t] = true; ex.push({ en: t, ja: c.ja }); }
+        });
+      });
+      return '<div class="clrow" style="flex-direction:column;align-items:stretch">'
+        + '<div class="cltext" data-action="ptToggle" data-id="' + pt.id + '"><div class="clen" style="margin-top:0">' + escapeHtml(pt.kata) + '</div><div class="clja" style="font-size:14px;color:var(--sub)">' + escapeHtml(pt.ja) + '</div></div>'
+        + '<div id="pt-' + pt.id + '" hidden><div class="xp" style="margin-top:8px"><div class="xpg" style="margin-top:0">' + escapeHtml(pt.why) + '</div>'
+        + (ex.length ? '<div class="xpg"><b>辞書の中の例</b></div>' + ex.map(function (e) {
+            return '<div class="clrow" style="margin-top:4px"><div class="cltext"><div class="clen" style="margin-top:0;font-size:15px">' + escapeHtml(e.en) + '</div><div class="clja" style="font-size:13px;color:var(--sub)">' + escapeHtml(e.ja) + '</div></div><button class="speak" data-action="ptSay" data-en="' + escapeHtml(e.en) + '" style="padding:4px 10px">🔊</button></div>';
+          }).join("") : "") + '</div></div></div>';
+    }).join("");
   }
 
   // ---- 🎧 シャドーイング（手本を聞いて追いかける＝シャドテンの核） ----
@@ -505,6 +527,9 @@
     else if (a === "shadowPrev") shadowPrev();
     else if (a === "listen") openListen();
     else if (a === "clinic") openClinic();
+    else if (a === "patterns") openPatterns();
+    else if (a === "ptToggle") { var pe = document.getElementById("pt-" + t.getAttribute("data-id")); if (pe) pe.hidden = !pe.hidden; }
+    else if (a === "ptSay") speak(t.getAttribute("data-en"));
     else if (a === "buildOpen") openBuild(null);
     else if (a === "bCase") openBuild(+t.getAttribute("data-idx"));
     else if (a === "bAdd") { var pid = t.getAttribute("data-id"), k = bOrder.indexOf(pid); if (k >= 0) bOrder.splice(k, 1); else bOrder.push(pid); renderBuild(); }

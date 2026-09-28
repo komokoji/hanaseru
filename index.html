@@ -113,6 +113,7 @@
       <button class="choice" data-action="start" data-domain="travel"><span>いま困っている</span><b>旅行・日常 ▸</b></button>
       <button class="choice" data-action="start" data-domain="flow:me"><span>診察室の外で、小森が何者かを伝える</span><b>🧑‍⚕️ 自分を語る ▸</b></button>
       <button class="choice" data-action="clinic"><span>流れ・部品・症例で組み立て・AIと本番</span><b>🧩 診察の会話 ▸</b></button>
+      <button class="choice" data-action="patterns"><span>共通する文の入り方＋ミニ解説（文法・使われ方）</span><b>🧱 喋り始めの型 ▸</b></button>
       <button class="choice" data-action="start" data-domain="medical"><span>診察室で</span><b>診療英語 ▸</b></button>
       <button class="choice" data-action="start" data-domain="sign"><span>院長の型</span><b>署名フレーズ ▸</b></button>
       <button class="choice" data-action="start" data-domain="all"><span>まとめて</span><b>ぜんぶ ▸</b></button>
@@ -247,6 +248,14 @@
     <div class="bar"><button class="link" data-action="clinic">← 診察の会話へ</button><button class="link" data-action="bClear">並べ方を消す</button></div>
   </section>
 
+  <!-- 🧱 喋り始めの型 -->
+  <section id="patterns" hidden>
+    <h2>🧱 喋り始めの型</h2>
+    <p class="muted" style="font-size:13px">辞書の中で何度も使っている「文の入り方」だけを取り出しました。タップすると、文法とアメリカでの使われ方のミニ解説と、辞書の中の例が出ます。型が身につくと、新しい文もこの入り方から作れます。</p>
+    <div id="ptList"></div>
+    <div class="bar"><button class="link" data-action="home">← 範囲を選ぶ</button></div>
+  </section>
+
   <!-- 🗣 AI会話 -->
   <section id="talk" hidden>
     <div id="tkChips" class="chips">
@@ -346,6 +355,7 @@
 <script src="visit.js"></script>
 <script src="gutnutri.js"></script>
 <script src="me.js"></script>
+<script src="patterns.js"></script>
 <script src="parts.js"></script>
 <script src="listen.js"></script>
 <script src="app.js"></script>
