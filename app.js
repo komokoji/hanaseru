@@ -242,6 +242,11 @@
   function renderSetup() {
     el.streak.textContent = "連続 " + state.streak + " 日";
     el.progress.textContent = "身についた：" + mastered("all") + " / " + totalIn("all");
+    // 🎯 目標への道のり＝3場面（診察・旅・自分）で「考えずに出る」札の数
+    var gl = document.getElementById("goalLine");
+    if (gl) gl.textContent = "🎯 道のり　診察 " + mastered("flow:all") + "/" + totalIn("flow:all")
+      + "　旅 " + (mastered("trip") + mastered("trip2") + mastered("travel")) + "/" + (totalIn("trip") + totalIn("trip2") + totalIn("travel"))
+      + "　自分 " + mastered("flow:me") + "/" + totalIn("flow:me") + "（身についた＝4箱以上）";
     capToggle(false); renderCaptures();
   }
 

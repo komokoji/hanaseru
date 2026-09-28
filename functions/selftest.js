@@ -10,7 +10,7 @@ let handler = null;
 const fakeFunctions = { onCall: (opts, h) => { handler = h; return h; }, HttpsError };
 
 const anything = { reply: "", better: "", better_ja: "", tip: "", ended: false, en: "", chunks: [], grammar: "",
-  alt: "", alt_ja: "", polite: "", polite_ja: "", swap: { en: "", ja: "" }, used: [], missed: [], good_ja: "", next_ja: "" };
+  alt: "", alt_ja: "", polite: "", polite_ja: "", swap: { en: "", ja: "" }, used: [], missed: [], good_ja: "", next_ja: "", opinion_ja: "", respond_ja: "", rephrase_ja: "" };
 class FakeAnthropic {
   constructor() { this.messages = { parse: async (req) => {
     if (!req.output_config || !req.output_config.format) throw new Error("output_config.format がない");
@@ -35,7 +35,9 @@ const cases = [
   ["chat(case)", { mode: "chat", scene: "case", caseText: "a parent", messages: opening }],
   ["translate", { mode: "translate", text: "こんにちは" }],
   ["explain", { mode: "explain", en: "Hello.", ja: "こんにちは" }],
-  ["review", { mode: "review", caseText: "a parent", facts: [], model: ["open"], parts: [{ id: "open", title: "はじまり", en: ["Hi"] }], transcript: "Doctor: Hi" }]
+  ["review", { mode: "review", caseText: "a parent", facts: [], model: ["open"], parts: [{ id: "open", title: "はじまり", en: ["Hi"] }], transcript: "Doctor: Hi" }],
+  ["review(no case)", { mode: "review", scene: "me", transcript: "Doctor: Hi" }],
+  ["chat(me)", { mode: "chat", scene: "me", messages: opening }]
 ];
 (async () => {
   let ng = 0;

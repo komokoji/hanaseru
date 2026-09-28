@@ -101,7 +101,9 @@
 
   <!-- 範囲えらび -->
   <section id="setup">
-    <p class="muted" id="northstar" style="font-size:13px;margin:0 0 6px;color:var(--teal-d)">🧭 ネイティブは目指さない。自由に旅をして、自由に話し、萎縮せずに自分の意見を伝えられる自分になる。</p>
+    <p class="muted" id="northstar" style="font-size:13px;margin:0 0 2px;color:var(--teal-d)">🧭 日本人らしい英語のまま、自分の考えと気持ちを、はっきり伝えられる人になる。</p>
+    <p class="muted" style="font-size:12px;margin:0 0 6px">物差しは3つ：①意見を理由つきで言える ②その場で返せる・聞き返せる ③詰まったら言い換えて進める（＝B2の上）</p>
+    <p class="stat" id="goalLine"></p>
     <h2>今日の練習</h2>
     <p class="stat" id="progress">身についた：0 / 0</p>
     <p class="muted">日本語を見て、その瞬間に英語で声に出す。詰まった行は翌日また出ます。</p>
@@ -109,6 +111,7 @@
       <button class="choice" data-action="start" data-domain="trip"><span>12月の旅：まずここだけ（単語20＋15文）</span><b>✈️ 最優先35 ▸</b></button>
       <button class="choice" data-action="start" data-domain="trip2"><span>12月の旅：空港の場面と、雑談を広げる</span><b>✈️ 場面別と雑談 ▸</b></button>
       <button class="choice" data-action="start" data-domain="travel"><span>いま困っている</span><b>旅行・日常 ▸</b></button>
+      <button class="choice" data-action="start" data-domain="flow:me"><span>診察室の外で、小森が何者かを伝える</span><b>🧑‍⚕️ 自分を語る ▸</b></button>
       <button class="choice" data-action="clinic"><span>流れ・部品・症例で組み立て・AIと本番</span><b>🧩 診察の会話 ▸</b></button>
       <button class="choice" data-action="start" data-domain="medical"><span>診察室で</span><b>診療英語 ▸</b></button>
       <button class="choice" data-action="start" data-domain="sign"><span>院長の型</span><b>署名フレーズ ▸</b></button>
@@ -194,6 +197,7 @@
       <button class="chip" data-action="clDomain" data-domain="trip2">✈️場面</button>
       <button class="chip" data-action="clDomain" data-domain="travel">旅行</button>
       <button class="chip" data-action="clDomain" data-domain="flow:all">🧩診察</button>
+      <button class="chip" data-action="clDomain" data-domain="flow:me">🧑‍⚕️自分</button>
       <button class="chip" data-action="clDomain" data-domain="medical">診療</button>
       <button class="chip" data-action="clDomain" data-domain="sign">署名</button>
       <button class="chip" data-action="clDomain" data-domain="mine">🔖保存</button>
@@ -249,6 +253,7 @@
       <button class="chip on" data-scene="clinic">診察室（親役）</button>
       <button class="chip" data-scene="travel">旅先の雑談</button>
       <button class="chip" data-scene="service">店・受付・空港</button>
+      <button class="chip" data-scene="me">自分を語る（旅先で聞かれる）</button>
       <button class="chip" data-scene="free">自由</button>
     </div>
     <p class="muted" style="font-size:13px; margin:8px 0 4px">相手役が英語で話しかけます。声か文字で返すと、続きと「こう言うと自然」が返ります。気に入った言い方は 🔖 で保存→リピート練習へ。</p>
@@ -259,7 +264,7 @@
       <button class="ng" data-action="tkMic" id="tkMic">🎤 話す</button>
       <button class="ok" data-action="tkSend" id="tkSend">送る</button>
     </div>
-    <div class="grid" style="margin-top:8px"><button class="big" data-action="tkReview" id="tkReview" hidden>📋 ふり返り（使えた部品・抜けた部品）</button></div>
+    <div class="grid" style="margin-top:8px"><button class="big" data-action="tkReview" id="tkReview">📋 ふり返り（3つの物差し）</button></div>
     <div class="bar"><button class="link" data-action="home">← 範囲を選ぶ</button><button class="link" data-action="tkRestart">↻ 場面をやり直す</button></div>
   </section>
 
@@ -309,6 +314,7 @@
       <button class="chip" data-action="shDomain" data-domain="trip2">✈️場面</button>
       <button class="chip" data-action="shDomain" data-domain="travel">旅行</button>
       <button class="chip" data-action="shDomain" data-domain="flow:all">🧩診察</button>
+      <button class="chip" data-action="shDomain" data-domain="flow:me">🧑‍⚕️自分</button>
       <button class="chip" data-action="shDomain" data-domain="medical">診療</button>
       <button class="chip" data-action="shDomain" data-domain="sign">署名</button>
       <button class="chip" data-action="shDomain" data-domain="mine">🔖保存</button>
@@ -339,6 +345,7 @@
 <script src="trip.js"></script>
 <script src="visit.js"></script>
 <script src="gutnutri.js"></script>
+<script src="me.js"></script>
 <script src="parts.js"></script>
 <script src="listen.js"></script>
 <script src="app.js"></script>

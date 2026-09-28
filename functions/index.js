@@ -45,7 +45,11 @@ natural. Use everyday spoken English with contractions.`,
 request. Be realistic: ask clarifying questions, offer options, mention a small complication he must
 handle (a delayed bag, a card that doesn't work, no window seats left).`,
   free: `ROLE: Be a curious, warm English-speaking conversation partner. Follow whatever he wants to talk
-about; ask one good follow-up question at a time.`
+about; ask one good follow-up question at a time.`,
+  me: `ROLE: You are a friendly traveler he meets on a trip (a hotel breakfast in Spain, or a train). You are
+genuinely curious about him. Ask what he does, why he moved from surgery to nutrition, what matters most to
+him, how he feels about it, what he wants to do next. One question at a time. Ask "Why?" and "How did that
+feel?" often, so he has to give his own opinion and feelings, not just facts. React warmly to what he says.`
 };
 
 const caseRole = (caseText) => `ROLE: You are ${caseText} You are in Dr. Komori's pediatric clinic in Tokyo.
@@ -116,16 +120,26 @@ const ExplainOut = z.object({
 
 const REVIEW_SYSTEM = `${WHO}
 
-He just practiced a consultation in English with a parent (roleplay). His clinic explanations are built from
-"parts" (a part library with ids). Judge by meaning, not exact wording:
+He just practiced a conversation in English (roleplay). His goal (his own words): stay Japanese-sounding, but
+clearly get his own thoughts and feelings across. Three measures of that goal (CEFR upper-B2):
+① he states an opinion WITH a reason; ② he responds on the spot, including asking back when unsure;
+③ when stuck, he rephrases and keeps going. Judge the transcript on these three, by meaning:
+- opinion_ja / respond_ja / rephrase_ja: for each measure, ONE short Japanese sentence: what he did (quote
+  his words briefly) or, if it did not happen, one concrete thing he could have said (in English, short).
+  Warm, specific, no lecture.
+If a part library is given (a clinic case), also judge his clinic explanation by parts:
 - used: ids of the parts he actually covered (even partly, even with different words).
 - missed: ids of parts from the model order (or clearly useful for THIS parent's questions) that he did not
   cover. Only what would really help this parent — at most 4. Never list a part he covered.
+If no part library is given, used and missed are empty arrays.
 - good_ja: one warm, specific Japanese sentence on what went well (what he said that worked).
 - next_ja: one specific Japanese sentence on the single most useful thing to add or say differently next time.
 Use only ids from the library.`;
 
 const ReviewOut = z.object({
+  opinion_ja: z.string(),
+  respond_ja: z.string(),
+  rephrase_ja: z.string(),
   used: z.array(z.string()),
   missed: z.array(z.string()),
   good_ja: z.string(),
@@ -207,13 +221,13 @@ exports.hanaseruChat = onCall(
         const model = (Array.isArray(data.model) ? data.model : []).map(String).filter((x) => ids.indexOf(x) >= 0);
         const transcript = String(data.transcript || "").slice(0, 8000);
         if (!transcript) throw new HttpsError("invalid-argument", "transcript が空です");
-        const lib = parts.map((p) => `- ${p.id}: ${p.title} — e.g. ${p.en.join(" / ")}`).join("\n");
+        const lib = parts.length ? parts.map((p) => `- ${p.id}: ${p.title} — e.g. ${p.en.join(" / ")}`).join("\n") : "(none)";
         const res = await client.messages.parse({
           model: MODEL,
           max_tokens: 2000,
           system: [{ type: "text", text: REVIEW_SYSTEM, cache_control: { type: "ephemeral" } }],
           messages: [{ role: "user", content:
-            `Case: ${String(data.caseText || "").slice(0, 600)}\nFacts (Japanese): ${(Array.isArray(data.facts) ? data.facts : []).join(" / ").slice(0, 600)}\n`
+            `Scene: ${String(data.scene || "").slice(0, 40)}\nCase: ${String(data.caseText || "(none)").slice(0, 600)}\nFacts (Japanese): ${(Array.isArray(data.facts) ? data.facts : []).join(" / ").slice(0, 600)}\n`
             + `Model order of parts: ${model.join(", ")}\n\nPart library:\n${lib}\n\nTranscript:\n${transcript}` }],
           output_config: { effort: "low", format: zodOutputFormat(ReviewOut) }
         });

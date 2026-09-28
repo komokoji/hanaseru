@@ -80,7 +80,15 @@
     { id: "dc-visit",     title: "熱が続くときの受診",          ids: ["med-fev-5", "med-fev-6"] },
     { id: "dc-back",      title: "登園の目安（風邪）",          ids: ["med-fev-7"] },
     { id: "dc-cough",     title: "長引く咳",                   ids: ["med-fev-8"] },
-    { id: "dc-parent",    title: "親をねぎらう",               ids: ["med-fev-9", "med-fev-10"] }
+    { id: "dc-parent",    title: "親をねぎらう",               ids: ["med-fev-9", "med-fev-10"] },
+    // 🧑‍⚕️ 自分を語る（me.js）
+    { id: "me-why",       title: "自分：なぜ小児外科",          ids: ["me-01", "me-02", "me-03", "me-04", "me-05"] },
+    { id: "me-earlier",   title: "自分：病気の手前へ",          ids: ["me-06", "me-07", "me-08", "me-09", "me-10"] },
+    { id: "me-nutri",     title: "自分：栄養という答え",         ids: ["me-11", "me-12", "me-13", "me-14", "me-15", "me-16"] },
+    { id: "me-mission",   title: "自分：ミッション",            ids: ["me-17", "me-18", "me-19", "me-20"] },
+    { id: "me-next",      title: "自分：これから",              ids: ["me-21", "me-22", "me-23", "me-24", "me-25"] },
+    { id: "me-values",    title: "自分：大事にしていること",     ids: ["me-26", "me-27", "me-28", "me-29"] },
+    { id: "me-feel",      title: "自分：気持ちの言い回し",       ids: ["me-30", "me-31", "me-32", "me-33", "me-34", "me-35"] }
   ];
 
   var FLOWS = [
@@ -96,7 +104,8 @@
     { id: "gi",     title: "🤢 胃腸炎（吐く・下痢）",         parts: ["open", "gi-dehyd", "gi-food", "gi-care", "gi-redflag", "close"] },
     { id: "fever",  title: "🌡 熱のホームケア",              parts: ["open", "fever-calm", "fever-med", "dc-visit", "fever-baby", "close"] },
     { id: "seizure",title: "⚡️ 熱性けいれんのあと",          parts: ["open", "sz-calm", "sz-first", "sz-call", "fever-med", "close"] },
-    { id: "daycare",title: "🏫 保育園と繰り返す風邪",         parts: ["open", "dc-colds", "dc-visit", "dc-back", "dc-cough", "dc-parent", "close"] }
+    { id: "daycare",title: "🏫 保育園と繰り返す風邪",         parts: ["open", "dc-colds", "dc-visit", "dc-back", "dc-cough", "dc-parent", "close"] },
+    { id: "me",     title: "🧑‍⚕️ 自分を語る（小森は何者か）",   parts: ["me-why", "me-earlier", "me-nutri", "me-mission", "me-next", "me-values", "me-feel"] }
   ];
 
   // 症例：facts は院長が見る情報（日本語）。model はお手本の並べ方（これが唯一の正解ではない）。parent は AI 親役の設定（英語）

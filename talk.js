@@ -70,8 +70,7 @@ async function start(newScene) {
   $("tkLog").innerHTML = "";
   document.querySelectorAll("#tkChips [data-scene]").forEach((c) => c.classList.toggle("on", c.getAttribute("data-scene") === scene));
   if (scene !== "case") caseCtx = null;
-  setNote(caseCtx ? "症例：" + caseCtx.title + "（親役と話して、最後に 📋 ふり返り）" : "");
-  $("tkReview").hidden = !caseCtx;
+  setNote(caseCtx ? "症例：" + caseCtx.title + "（親役と話して、最後に 📋 ふり返り）" : "話し終えたら 📋 ふり返り（3つの物差しで見る）");
   // 相手役に先に話してもらう（院長の最初の一言は "Hello." 扱い＝FBは出さない）
   history.push({ role: "user", content: "(The learner walks in and greets you. Start the scene with your first line.)" });
   await ask(true);
@@ -162,22 +161,27 @@ async function explain(box, id, ja, en) {
 // ---- 🧩 症例の親役 → ふり返り（使えた部品・抜けた部品）----
 document.addEventListener("hanaseru:case", (e) => { caseCtx = e.detail; if (!SR) $("tkMic").hidden = true; start("case"); });
 async function review() {
-  if (busy || !caseCtx) return;
+  if (busy) return;
   if (needLogin()) return;
   const talk = history.slice(1);   // 先頭は「場面を始めて」の合図なので外す
   if (talk.filter((m) => m.role === "user").length < 2) { setNote("もう少し話してから、ふり返りを押してください（院長の発言が2回以上）。"); return; }
   setBusy(true); setNote("ふり返りをしています…");
   try {
     const transcript = talk.map((m) => (m.role === "user" ? "Doctor: " : "Parent: ") + m.content).join("\n");
-    const parts = H.parts().map((p) => ({ id: p.id, title: p.title, en: p.en.slice(0, 3) }));
-    const res = await call({ mode: "review", caseText: caseCtx.parent, facts: caseCtx.facts, model: caseCtx.model, parts, transcript });
+    const parts = caseCtx ? H.parts().map((p) => ({ id: p.id, title: p.title, en: p.en.slice(0, 3) })) : [];
+    const res = await call({ mode: "review", scene, caseText: caseCtx ? caseCtx.parent : "", facts: caseCtx ? caseCtx.facts : [], model: caseCtx ? caseCtx.model : [], parts, transcript });
     const r = res.data.result;
+    const b2 = '<div class="xpg" style="margin-top:0"><b>🎯 3つの物差し</b></div>'
+      + '<div class="xpg">① 意見＋理由：' + esc(r.opinion_ja) + '</div>'
+      + '<div class="xpg">② その場で返す・聞き返す：' + esc(r.respond_ja) + '</div>'
+      + '<div class="xpg">③ 詰まったら言い換える：' + esc(r.rephrase_ja) + '</div>';
     const chip = (pid) => '<span class="chip on" style="font-size:12px;padding:4px 10px">' + esc(H.partTitle(pid)) + '</span>';
     const missed = (r.missed || []).map((pid) => '<div style="margin-top:8px;font-weight:700;color:var(--amber)">⚠️ ' + esc(H.partTitle(pid)) + '</div>'
       + H.partCards(pid).map((c) => '<div class="clrow"><div class="cltext"><div class="clen" style="margin-top:0">' + esc(c.en) + '</div><div class="clja" style="font-size:13px;color:var(--sub)">' + esc(c.ja) + '</div></div><button class="speak" data-say="' + esc(c.en) + '" style="padding:4px 10px">🔊</button></div>').join("")).join("");
-    const html = '<div class="xp"><div class="xpg" style="margin-top:0"><b>使えた部品</b></div><div class="chips" style="margin-top:4px">' + ((r.used || []).map(chip).join("") || '<span class="muted">なし</span>') + '</div>'
+    const html = '<div class="xp">' + b2
+      + (caseCtx ? '<div class="xpg"><b>使えた部品</b></div><div class="chips" style="margin-top:4px">' + ((r.used || []).map(chip).join("") || '<span class="muted">なし</span>') + '</div>'
+        + (missed ? '<div class="xpg"><b>この症例なら足したい部品</b>（王道の文）</div>' + missed : '<div class="xpg">抜けた部品はありません。</div>') : "")
       + '<div class="xpg">👍 ' + esc(r.good_ja) + '</div>'
-      + (missed ? '<div class="xpg"><b>この症例なら足したい部品</b>（王道の文）</div>' + missed : '<div class="xpg">抜けた部品はありません。</div>')
       + '<div class="xpg">➡️ ' + esc(r.next_ja) + '</div></div>';
     $("tkLog").insertAdjacentHTML("beforeend", html);
     $("tkLog").scrollTop = $("tkLog").scrollHeight;
