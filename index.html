@@ -90,6 +90,10 @@
   .xpc em{ color:var(--sub); font-style:normal; font-size:12px; }
   .xpg{ margin-top:8px; color:var(--ink); font-size:13px; }
   .speakrow{ flex-wrap:wrap; }
+  /* 長い一覧の上下移動（右下に固定）*/
+  #jump{ position:fixed; right:12px; bottom:calc(16px + env(safe-area-inset-bottom)); display:flex; flex-direction:column; gap:8px; z-index:50; }
+  #jump button{ width:46px; height:46px; border-radius:50%; border:1px solid var(--line); background:var(--card); color:var(--teal-d);
+    font-size:20px; font-weight:700; box-shadow:0 2px 8px rgba(0,0,0,.15); padding:0; }
 </style>
 </head>
 <body>
@@ -392,5 +396,9 @@
 <script src="app.js"></script>
 <script type="module" src="cloud.js"></script>
 <script type="module" src="talk.js"></script>
+<div id="jump" hidden>
+  <button data-action="goTop" aria-label="いちばん上へ">↑</button>
+  <button data-action="goBottom" aria-label="いちばん下へ">↓</button>
+</div>
 </body>
 </html>

@@ -503,13 +503,24 @@
     if (!e.hidden) { var c = cardById(id); if (c) speak(c.en); }
   }
 
+  // ---- ↑↓ 上下へ（画面が長いときだけ右下に出す）----
+  function updateJump() {
+    var j = document.getElementById("jump"); if (!j) return;
+    j.hidden = document.documentElement.scrollHeight < window.innerHeight * 1.8;
+  }
+  window.addEventListener("scroll", updateJump, { passive: true });
+  window.addEventListener("resize", updateJump);
+  new MutationObserver(function () { requestAnimationFrame(updateJump); }).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["hidden"] });
+
   // ---- イベント ----
   document.addEventListener("click", function (e) {
     var t = e.target.closest("[data-action]");
     if (!t) return;
     var a = t.getAttribute("data-action");
     if (a === "start") { clDomain = t.getAttribute("data-domain"); openChecklist(); }   // 範囲は一覧で開く（2026-09-29 院長：カードより一覧＋タップで英語と音声が使いやすい）
-    else if (a === "cards") startSession(clDomain);   // 間隔反復のカードは一覧の上から
+    else if (a === "cards") startSession(clDomain);
+    else if (a === "goTop") window.scrollTo({ top: 0, behavior: "smooth" });
+    else if (a === "goBottom") window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });   // 間隔反復のカードは一覧の上から
     else if (a === "reveal") reveal();
     else if (a === "ok") answer(true);
     else if (a === "prev") goPrev();
