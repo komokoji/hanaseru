@@ -72,6 +72,9 @@ function mergeStates(local, remote) {
   // 🗣 話した記録＝日ごとに大きい方
   var tk = {}; (out.talks || []).concat(remote.talks || []).forEach(function (t) { tk[t.d] = Math.max(tk[t.d] || 0, t.n); });
   out.talks = Object.keys(tk).sort().map(function (d) { return { d: +d, n: tk[d] }; }).slice(-60);
+  // 🎤 お題の節目＝箱が進んでいる方
+  var mo = {}; [out.mono || {}, remote.mono || {}].forEach(function (m) { Object.keys(m).forEach(function (t) { if (!mo[t] || m[t].box > mo[t].box) mo[t] = m[t]; }); });
+  out.mono = mo;
   // 🔖 保存フレーズ（AI会話・英訳コーチから）＝id で和集合
   const ids = {};
   out.mine = (out.mine || []).concat(remote.mine || []).filter(function (m) {

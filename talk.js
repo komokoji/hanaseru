@@ -198,12 +198,16 @@ const MONO_TOPICS = [
   "最近うれしかったこと", "子どもの便秘について、親に一番伝えたいこと", "栄養外来で何をしているか", "日本のクリニックはどんな所か",
   "今日はどんな一日だったか", "自分の家族について"
 ];
+window.HANASERU_MONO_TOPICS = MONO_TOPICS;
 let moTopic = 0, moRec = null, moTick = null, moText = "", moPrev = "", moSecs = 60;
 function moRender() {
-  $("moTopics").innerHTML = MONO_TOPICS.map((t, i) => '<button class="chip' + (i === moTopic ? ' on' : '') + '" data-action="moTopic" data-idx="' + i + '">' + esc(t) + '</button>').join("");
+  // 節目が来ているお題（📅）を先に。語るたびに次の節目へ（翌日→3日→1週→2週→1か月→3か月＝札と同じ）
+  const order = MONO_TOPICS.map((t, i) => i).sort((a, b) => (H.monoDue(MONO_TOPICS[a]) ? 0 : 1) - (H.monoDue(MONO_TOPICS[b]) ? 0 : 1));
+  $("moTopics").innerHTML = order.map((i) => { const t = MONO_TOPICS[i], due = H.monoDue(t), box = H.monoBox(t);
+    return '<button class="chip' + (i === moTopic ? ' on' : '') + '" data-action="moTopic" data-idx="' + i + '">' + (due ? "📅 " : "") + esc(t) + (box ? " ・" + box + "回目済" : "") + '</button>'; }).join("");
   $("moTopic").textContent = MONO_TOPICS[moTopic];
 }
-document.addEventListener("hanaseru:mono", () => { moRender(); $("moOut").innerHTML = ""; $("moAgain").hidden = true; $("moNote").textContent = SR ? "" : "この端末は音声入力に対応していません（iPhone の Safari か Chrome で）。"; });
+document.addEventListener("hanaseru:mono", () => { const first = MONO_TOPICS.findIndex((t) => H.monoDue(t)); moTopic = first >= 0 ? first : 0; moRender(); $("moOut").innerHTML = ""; $("moAgain").hidden = true; $("moNote").textContent = SR ? "" : "この端末は音声入力に対応していません（iPhone の Safari か Chrome で）。"; });
 function moStart(secs) {
   if (!SR) return;
   if (needLogin()) return;
@@ -243,6 +247,7 @@ async function moStop() {
       + '<div class="xpg">👍 ' + esc(r.good_ja) + '</div><div class="xpg">➡️ ' + esc(r.next_ja) + '</div></div>');
     $("moNote").textContent = "";
     moPrev = said; $("moAgain").hidden = false;
+    H.monoDone(MONO_TOPICS[moTopic]); moRender();
   } catch (e) { $("moNote").textContent = "見られませんでした：" + (e && (e.message || e.code) || e); }
   finally { setBusy(false); }
 }
