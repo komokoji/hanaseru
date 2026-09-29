@@ -83,6 +83,7 @@ async function send() {
   $("tkInput").value = "";
   addBubble("me", text);
   history.push({ role: "user", content: text });
+  H.bumpTalk(1);
   await ask(false, text);
 }
 
@@ -191,6 +192,61 @@ async function review() {
   } finally { setBusy(false); }
 }
 
+// ---- 🎤 1分で語る：お題 → 声だけ60秒 → 3つの物差し → 別の言い方で30秒 ----
+const MONO_TOPICS = [
+  "自分の仕事を、初対面の人に説明する", "なぜ外科から栄養に来たのか", "一番大事にしていること", "今回の旅で楽しみなこと",
+  "最近うれしかったこと", "子どもの便秘について、親に一番伝えたいこと", "栄養外来で何をしているか", "日本のクリニックはどんな所か",
+  "今日はどんな一日だったか", "自分の家族について"
+];
+let moTopic = 0, moRec = null, moTick = null, moText = "", moPrev = "", moSecs = 60;
+function moRender() {
+  $("moTopics").innerHTML = MONO_TOPICS.map((t, i) => '<button class="chip' + (i === moTopic ? ' on' : '') + '" data-action="moTopic" data-idx="' + i + '">' + esc(t) + '</button>').join("");
+  $("moTopic").textContent = MONO_TOPICS[moTopic];
+}
+document.addEventListener("hanaseru:mono", () => { moRender(); $("moOut").innerHTML = ""; $("moAgain").hidden = true; $("moNote").textContent = SR ? "" : "この端末は音声入力に対応していません（iPhone の Safari か Chrome で）。"; });
+function moStart(secs) {
+  if (!SR) return;
+  if (needLogin()) return;
+  moSecs = secs; moText = "";
+  $("moStart").hidden = true; $("moStop").hidden = false; $("moOut").innerHTML = ""; $("moAgain").hidden = true;
+  $("moNote").textContent = "🔴 聞いています。止まっても、言い換えて続けてください。";
+  moRec = new SR(); moRec.lang = "en-US"; moRec.interimResults = true; moRec.continuous = true;
+  moRec.onresult = (e) => { let fin = "", tmp = ""; for (let i = 0; i < e.results.length; i++) { if (e.results[i].isFinal) fin += e.results[i][0].transcript + " "; else tmp += e.results[i][0].transcript; } moText = (fin + tmp).trim(); };
+  moRec.onend = () => { if (moTick) { try { moRec.start(); } catch (e) {} } };   // iOS は途中で切れるので、時間内は再開
+  moRec.onerror = () => {};
+  moRec.start();
+  const t0 = Date.now();
+  moTick = setInterval(() => {
+    const left = Math.max(0, moSecs - Math.floor((Date.now() - t0) / 1000));
+    $("moTimer").textContent = Math.floor(left / 60) + ":" + String(left % 60).padStart(2, "0");
+    if (left <= 0) moStop();
+  }, 250);
+}
+async function moStop() {
+  if (!moTick) return;
+  clearInterval(moTick); moTick = null;
+  try { moRec && moRec.stop(); } catch (e) {}
+  $("moStart").hidden = false; $("moStop").hidden = true; $("moTimer").textContent = "1:00";
+  await new Promise((r) => setTimeout(r, 600));
+  const said = moText.trim();
+  if (!said) { $("moNote").textContent = "声が拾えませんでした。もう一度どうぞ。"; return; }
+  H.bumpTalk(3);
+  $("moNote").textContent = "3つの物差しで見ています…";
+  $("moOut").innerHTML = '<div class="bubble me" style="max-width:100%">' + esc(said) + '</div>';
+  setBusy(true);
+  try {
+    const transcript = (moPrev ? "Doctor (first try): " + moPrev + "\n" : "") + "Doctor" + (moPrev ? " (second try, said another way)" : "") + ": " + said;
+    const res = await call({ mode: "review", scene: "monologue", caseText: "Topic (Japanese): " + MONO_TOPICS[moTopic], transcript });
+    const r = res.data.result;
+    $("moOut").insertAdjacentHTML("beforeend", '<div class="xp"><div class="xpg" style="margin-top:0"><b>🎯 3つの物差し</b></div>'
+      + '<div class="xpg">① 意見＋理由：' + esc(r.opinion_ja) + '</div><div class="xpg">② その場で返す・聞き返す：' + esc(r.respond_ja) + '</div><div class="xpg">③ 詰まったら言い換える：' + esc(r.rephrase_ja) + '</div>'
+      + '<div class="xpg">👍 ' + esc(r.good_ja) + '</div><div class="xpg">➡️ ' + esc(r.next_ja) + '</div></div>');
+    $("moNote").textContent = "";
+    moPrev = said; $("moAgain").hidden = false;
+  } catch (e) { $("moNote").textContent = "見られませんでした：" + (e && (e.message || e.code) || e); }
+  finally { setBusy(false); }
+}
+
 document.addEventListener("click", (e) => {
   const t = e.target.closest("[data-say],[data-save-en],[data-action],[data-scene]"); if (!t) return;
   if (t.getAttribute("data-action") === "explain") {
@@ -209,6 +265,10 @@ document.addEventListener("click", (e) => {
   else if (a === "tkMic") micToggle();
   else if (a === "tkRestart") start(scene);
   else if (a === "tkReview") review();
+  else if (a === "moTopic") { moTopic = +t.getAttribute("data-idx"); moPrev = ""; moRender(); $("moOut").innerHTML = ""; $("moAgain").hidden = true; }
+  else if (a === "moStart") { moPrev = ""; moStart(60); }
+  else if (a === "moStop") moStop();
+  else if (a === "moAgain") moStart(30);
   else if (a === "trGo") translate();
 });
 $("tkInput") && $("tkInput").addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } });

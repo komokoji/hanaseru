@@ -91,7 +91,15 @@
     { id: "me-feel",      title: "自分：気持ちの言い回し",       ids: ["me-30", "me-31", "me-32", "me-33", "me-34", "me-35"] },
     { id: "me-oneline",   title: "自分：ひとことで（来歴の柱）",  ids: ["me-36", "me-37", "me-38", "me-39", "me-40"] },
     { id: "me-sayings",   title: "自分：親によく言うこと",        ids: ["me-41", "me-42", "me-43", "me-44", "me-45", "me-46", "me-47", "me-48", "me-49", "me-50", "me-51"] },
-    { id: "me-creed",     title: "自分：価値観のことば",          ids: ["me-52", "me-53", "me-54", "me-55", "me-56", "me-57", "me-58", "me-59", "me-60", "me-61", "me-62", "me-63"] }
+    { id: "me-creed",     title: "自分：価値観のことば",          ids: ["me-52", "me-53", "me-54", "me-55", "me-56", "me-57", "me-58", "me-59", "me-60", "me-61", "me-62", "me-63"] },
+    // 🔰 日常の基本（basics.js）
+    { id: "bs-meet",      title: "日常：はじめまして",            ids: ["bs-01", "bs-02", "bs-03", "bs-04", "bs-05", "bs-06", "bs-07", "bs-08"] },
+    { id: "bs-excuse",    title: "日常：声をかける・あやまる",     ids: ["bs-09", "bs-10", "bs-11", "bs-12", "bs-13"] },
+    { id: "bs-thanks",    title: "日常：ありがとう",              ids: ["bs-14", "bs-15", "bs-16", "bs-17"] },
+    { id: "bs-ask",       title: "日常：頼む・断る",              ids: ["bs-18", "bs-19", "bs-20", "bs-21", "bs-22"] },
+    { id: "bs-check",     title: "日常：分からない・確かめる",     ids: ["bs-23", "bs-24", "bs-25", "bs-26", "bs-27"] },
+    { id: "bs-react",     title: "日常：あいづち",                ids: ["bs-28", "bs-29", "bs-30", "bs-31", "bs-32", "bs-33"] },
+    { id: "bs-bye",       title: "日常：別れ際",                  ids: ["bs-34", "bs-35", "bs-36", "bs-37"] }
   ];
 
   var FLOWS = [
@@ -108,6 +116,7 @@
     { id: "fever",  title: "🌡 熱のホームケア",              parts: ["open", "fever-calm", "fever-med", "dc-visit", "fever-baby", "close"] },
     { id: "seizure",title: "⚡️ 熱性けいれんのあと",          parts: ["open", "sz-calm", "sz-first", "sz-call", "fever-med", "close"] },
     { id: "daycare",title: "🏫 保育園と繰り返す風邪",         parts: ["open", "dc-colds", "dc-visit", "dc-back", "dc-cough", "dc-parent", "close"] },
+    { id: "basics", title: "🔰 日常の基本",                    parts: ["bs-meet", "bs-excuse", "bs-thanks", "bs-ask", "bs-check", "bs-react", "bs-bye"] },
     { id: "me",     title: "🧑‍⚕️ 自分を語る（小森は何者か）",   parts: ["me-oneline", "me-why", "me-earlier", "me-nutri", "me-mission", "me-next", "me-values", "me-feel", "me-sayings", "me-creed"] }
   ];
 

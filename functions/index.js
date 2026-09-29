@@ -123,7 +123,10 @@ const REVIEW_SYSTEM = `${WHO}
 He just practiced a conversation in English (roleplay). His goal (his own words): stay Japanese-sounding, but
 clearly get his own thoughts and feelings across. Three measures of that goal (CEFR upper-B2):
 ① he states an opinion WITH a reason; ② he responds on the spot, including asking back when unsure;
-③ when stuck, he rephrases and keeps going. Judge the transcript on these three, by meaning:
+③ when stuck, he rephrases and keeps going. Judge the transcript on these three, by meaning.
+If the scene is "monologue", he spoke alone for one minute on a topic (no partner): judge ② as "did he keep
+talking without long stops / manage his own hesitation", and if a second try is given, praise concrete
+rephrasing between the tries.
 - opinion_ja / respond_ja / rephrase_ja: for each measure, ONE short Japanese sentence: what he did (quote
   his words briefly) or, if it did not happen, one concrete thing he could have said (in English, short).
   Warm, specific, no lecture.

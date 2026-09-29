@@ -32,6 +32,7 @@
   if (!state.rate) state.rate = "slow";      // 音声速度 slow/fast
   if (!state.captures) state.captures = [];  // その場で貯めた「言いたいこと」（日本語・未英訳）
   if (!state.mine) state.mine = [];          // 🔖 アプリ内で保存したフレーズ（AI会話・英訳コーチから）{id, ja, en, ts}
+  if (!state.talks) state.talks = [];        // 🗣 声で話した記録 {d: dayNum, n: 発言数}（AI会話の発言・1分で語る）
   var saveListeners = [];
   function allCards() {                      // 辞書（data.js）＋院長が保存したフレーズ（state.mine）
     return CARDS.concat(state.mine.map(function (m) { return { id: m.id, domain: "mine", ja: m.ja, en: m.en }; }));
@@ -242,6 +243,9 @@
   function renderSetup() {
     el.streak.textContent = "連続 " + state.streak + " 日";
     el.progress.textContent = "身についた：" + mastered("all") + " / " + totalIn("all");
+    // 🗣 今週、声で話した回数（AI会話の発言＋1分で語る）＝B2 の3つは「話した回数」で決まる
+    var wk = dayNum() - 6, nTalk = 0; state.talks.forEach(function (t) { if (t.d >= wk) nTalk += t.n; });
+    var tl = document.getElementById("talkLine"); if (tl) tl.textContent = "🗣 今週 声で話した：" + nTalk + " 回（目安 週30回）";
     // 🎯 目標への道のり＝3場面（診察・旅・自分）で「考えずに出る」札の数
     var gl = document.getElementById("goalLine");
     if (gl) gl.textContent = "🎯 道のり　診察 " + mastered("flow:all") + "/" + totalIn("flow:all")
@@ -267,7 +271,7 @@
     var s = document.getElementById("shadow"); if (s) s.hidden = true;
     var l = document.getElementById("listen"); if (l) l.hidden = true;
     var tk = document.getElementById("talk"); if (tk) tk.hidden = true;
-    ["clinic", "build", "patterns"].forEach(function (id) { var n = document.getElementById(id); if (n) n.hidden = true; });
+    ["clinic", "build", "patterns", "mono"].forEach(function (id) { var n = document.getElementById(id); if (n) n.hidden = true; });
     var co = document.getElementById("coach"); if (co) co.hidden = true;
   }
 
@@ -528,6 +532,7 @@
     else if (a === "listen") openListen();
     else if (a === "clinic") openClinic();
     else if (a === "patterns") openPatterns();
+    else if (a === "mono") { hideMain(); document.getElementById("mono").hidden = false; document.dispatchEvent(new CustomEvent("hanaseru:mono")); }
     else if (a === "ptToggle") { var pe = document.getElementById("pt-" + t.getAttribute("data-id")); if (pe) pe.hidden = !pe.hidden; }
     else if (a === "ptSay") speak(t.getAttribute("data-en"));
     else if (a === "buildOpen") openBuild(null);
@@ -565,7 +570,8 @@
     },
     onChange: function (f) { saveListeners.push(f); },
     summary: function () {
-      return { streak: state.streak, lastDone: state.lastDone,
+      var wk = dayNum() - 6, k = 0; state.talks.forEach(function (t) { if (t.d >= wk) k += t.n; });
+      return { streak: state.streak, lastDone: state.lastDone, talks7d: k,
                lastDoneISO: state.lastDone ? new Date(state.lastDone * 86400000).toISOString().slice(0, 10) : null,
                mastered: mastered("all"), total: totalIn("all") };
     },
@@ -577,6 +583,13 @@
       save(state); return true;
     },
     speak: function (t) { speak(t); },
+    bumpTalk: function (n) {               // 声で話した回数を記録（今日の分に足す）
+      var d = dayNum(), last = state.talks[state.talks.length - 1];
+      if (last && last.d === d) last.n += (n || 1); else state.talks.push({ d: d, n: n || 1 });
+      if (state.talks.length > 60) state.talks = state.talks.slice(-60);
+      save(state);
+    },
+    talksThisWeek: function () { var wk = dayNum() - 6, k = 0; state.talks.forEach(function (t) { if (t.d >= wk) k += t.n; }); return k; },
     parts: function () { return PARTS.map(function (p) { return { id: p.id, title: p.title, en: partCards(p.id).map(function (c) { return c.en; }) }; }); },
     partCards: function (pid) { return partCards(pid); },
     partTitle: function (pid) { return PART[pid] ? PART[pid].title : pid; },

@@ -37,7 +37,8 @@ const cases = [
   ["explain", { mode: "explain", en: "Hello.", ja: "こんにちは" }],
   ["review", { mode: "review", caseText: "a parent", facts: [], model: ["open"], parts: [{ id: "open", title: "はじまり", en: ["Hi"] }], transcript: "Doctor: Hi" }],
   ["review(no case)", { mode: "review", scene: "me", transcript: "Doctor: Hi" }],
-  ["chat(me)", { mode: "chat", scene: "me", messages: opening }]
+  ["chat(me)", { mode: "chat", scene: "me", messages: opening }],
+  ["review(monologue)", { mode: "review", scene: "monologue", caseText: "Topic: x", transcript: "Doctor: Hi" }]
 ];
 (async () => {
   let ng = 0;

@@ -69,6 +69,9 @@ function mergeStates(local, remote) {
   out.captures = (out.captures || []).concat(remote.captures || []).filter(function (c) {
     const k = c.ts + "|" + c.ja; if (seen[k]) return false; seen[k] = true; return true;
   }).sort(function (a, b) { return a.ts - b.ts; });
+  // 🗣 話した記録＝日ごとに大きい方
+  var tk = {}; (out.talks || []).concat(remote.talks || []).forEach(function (t) { tk[t.d] = Math.max(tk[t.d] || 0, t.n); });
+  out.talks = Object.keys(tk).sort().map(function (d) { return { d: +d, n: tk[d] }; }).slice(-60);
   // 🔖 保存フレーズ（AI会話・英訳コーチから）＝id で和集合
   const ids = {};
   out.mine = (out.mine || []).concat(remote.mine || []).filter(function (m) {
@@ -100,7 +103,7 @@ async function push(now) {
   }, { merge: true });
   // Polaris が読む要約（PII なし・数字だけ）
   await setDoc(doc(db, "hanaseru_public", "summary"), {
-    streak: sum.streak, lastDone: sum.lastDone, mastered: sum.mastered, total: sum.total,
+    streak: sum.streak, lastDone: sum.lastDone, mastered: sum.mastered, total: sum.total, talks7d: sum.talks7d || 0,
     lastDoneISO: sum.lastDoneISO, updatedAt: serverTimestamp()
   });
   setStatus("☁️ 同期中：" + (user.email || ""), true);

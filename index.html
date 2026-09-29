@@ -104,6 +104,7 @@
     <p class="muted" id="northstar" style="font-size:13px;margin:0 0 2px;color:var(--teal-d)">🧭 日本人らしい英語のまま、自分の考えと気持ちを、はっきり伝えられる人になる。</p>
     <p class="muted" style="font-size:12px;margin:0 0 6px"><b>目標（2026-09-29 決定）</b>：この3つが、止まらずにできる。①自分の考えを、理由を添えて言える ②相手の話に、その場で返せる（聞き返しも含めて） ③詰まっても、言い換えて前に進める ＝ B2の上。非ネイティブが普通に届く領域。年齢は壁にならない。決めるのは量。</p>
     <p class="stat" id="goalLine"></p>
+    <p class="stat" id="talkLine"></p>
     <h2>今日の練習</h2>
     <p class="stat" id="progress">身についた：0 / 0</p>
     <p class="muted">日本語を見て、その瞬間に英語で声に出す。詰まった行は翌日また出ます。</p>
@@ -111,6 +112,7 @@
       <button class="choice" data-action="start" data-domain="trip"><span>12月の旅：まずここだけ（単語20＋15文）</span><b>✈️ 最優先35 ▸</b></button>
       <button class="choice" data-action="start" data-domain="trip2"><span>12月の旅：空港の場面と、雑談を広げる</span><b>✈️ 場面別と雑談 ▸</b></button>
       <button class="choice" data-action="start" data-domain="travel"><span>いま困っている</span><b>旅行・日常 ▸</b></button>
+      <button class="choice" data-action="start" data-domain="flow:basics"><span>取り違えやすい・忘れやすい日常の型（37文）</span><b>🔰 日常の基本 ▸</b></button>
       <button class="choice" data-action="start" data-domain="flow:me"><span>診察室の外で、小森が何者かを伝える</span><b>🧑‍⚕️ 自分を語る ▸</b></button>
       <button class="choice" data-action="clinic"><span>流れ・部品・症例で組み立て・AIと本番</span><b>🧩 診察の会話 ▸</b></button>
       <button class="choice" data-action="patterns"><span>共通する文の入り方＋ミニ解説（文法・使われ方）</span><b>🧱 喋り始めの型 ▸</b></button>
@@ -125,6 +127,7 @@
       <button class="choice" data-action="listen"><span>機内アナウンスなど、その場の音</span><b>👂 聞き取り（実際に聞いた英語） ▸</b></button>
       <button class="choice" data-action="checklist"><span>覚えたかでなく、見た所にチェック</span><b>📋 チェックリスト ▸</b></button>
       <button class="choice" data-action="talk"><span>AIを相手に数往復＋言い直しFB</span><b>🗣 AI会話 ▸</b></button>
+      <button class="choice" data-action="mono"><span>お題に1分、声だけで語る → 3つの物差しで見る → 別の言い方でもう一度</span><b>🎤 1分で語る ▸</b></button>
       <button class="choice" data-action="coach"><span>「こう言いたい」を自然な英語に</span><b>✍️ 英訳コーチ ▸</b></button>
       <button class="choice" data-action="capOpen"><span>思いついたら貯める</span><b>＋ 言いたいこと ▸</b></button>
     </div>
@@ -256,6 +259,27 @@
     <div class="bar"><button class="link" data-action="home">← 範囲を選ぶ</button></div>
   </section>
 
+  <!-- 🎤 1分で語る（声だけ・時間つき） -->
+  <section id="mono" hidden>
+    <h2>🎤 1分で語る</h2>
+    <p class="muted" style="font-size:13px">お題を見て、文字を使わずに1分間、声だけで語ります。止まっても、言い換えて進めてください。終わったら3つの物差しで見て、「別の言い方で」もう一度。</p>
+    <div id="moTopics" class="chips"></div>
+    <div class="card" style="flex:none;padding:16px;margin-top:10px;text-align:center">
+      <div class="ja" id="moTopic" style="font-size:20px"></div>
+      <div class="counter" id="moTimer" style="font-size:28px;font-weight:700;color:var(--teal-d);margin:10px 0 4px">1:00</div>
+      <div class="row" style="margin-top:6px">
+        <button class="ok" data-action="moStart" id="moStart">🎤 話し始める</button>
+        <button class="ng" data-action="moStop" id="moStop" hidden>■ 終わる</button>
+      </div>
+      <p class="stat" id="moNote" style="margin-top:8px"></p>
+    </div>
+    <div id="moOut" style="margin-top:10px"></div>
+    <div class="grid" style="margin-top:8px">
+      <button class="choice" data-action="moAgain" id="moAgain" hidden><span>同じお題を、別の言い方で（30秒）</span><b>🔁 言い換えてもう一度 ▸</b></button>
+    </div>
+    <div class="bar"><button class="link" data-action="home">← 範囲を選ぶ</button></div>
+  </section>
+
   <!-- 🗣 AI会話 -->
   <section id="talk" hidden>
     <div id="tkChips" class="chips">
@@ -355,6 +379,7 @@
 <script src="visit.js"></script>
 <script src="gutnutri.js"></script>
 <script src="me.js"></script>
+<script src="basics.js"></script>
 <script src="patterns.js"></script>
 <script src="parts.js"></script>
 <script src="listen.js"></script>
