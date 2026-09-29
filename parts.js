@@ -88,7 +88,10 @@
     { id: "me-mission",   title: "自分：ミッション",            ids: ["me-17", "me-18", "me-19", "me-20"] },
     { id: "me-next",      title: "自分：これから",              ids: ["me-21", "me-22", "me-23", "me-24", "me-25"] },
     { id: "me-values",    title: "自分：大事にしていること",     ids: ["me-26", "me-27", "me-28", "me-29"] },
-    { id: "me-feel",      title: "自分：気持ちの言い回し",       ids: ["me-30", "me-31", "me-32", "me-33", "me-34", "me-35"] }
+    { id: "me-feel",      title: "自分：気持ちの言い回し",       ids: ["me-30", "me-31", "me-32", "me-33", "me-34", "me-35"] },
+    { id: "me-oneline",   title: "自分：ひとことで（来歴の柱）",  ids: ["me-36", "me-37", "me-38", "me-39", "me-40"] },
+    { id: "me-sayings",   title: "自分：親によく言うこと",        ids: ["me-41", "me-42", "me-43", "me-44", "me-45", "me-46", "me-47", "me-48", "me-49", "me-50", "me-51"] },
+    { id: "me-creed",     title: "自分：価値観のことば",          ids: ["me-52", "me-53", "me-54", "me-55", "me-56", "me-57", "me-58", "me-59", "me-60", "me-61", "me-62", "me-63"] }
   ];
 
   var FLOWS = [
@@ -105,7 +108,7 @@
     { id: "fever",  title: "🌡 熱のホームケア",              parts: ["open", "fever-calm", "fever-med", "dc-visit", "fever-baby", "close"] },
     { id: "seizure",title: "⚡️ 熱性けいれんのあと",          parts: ["open", "sz-calm", "sz-first", "sz-call", "fever-med", "close"] },
     { id: "daycare",title: "🏫 保育園と繰り返す風邪",         parts: ["open", "dc-colds", "dc-visit", "dc-back", "dc-cough", "dc-parent", "close"] },
-    { id: "me",     title: "🧑‍⚕️ 自分を語る（小森は何者か）",   parts: ["me-why", "me-earlier", "me-nutri", "me-mission", "me-next", "me-values", "me-feel"] }
+    { id: "me",     title: "🧑‍⚕️ 自分を語る（小森は何者か）",   parts: ["me-oneline", "me-why", "me-earlier", "me-nutri", "me-mission", "me-next", "me-values", "me-feel", "me-sayings", "me-creed"] }
   ];
 
   // 症例：facts は院長が見る情報（日本語）。model はお手本の並べ方（これが唯一の正解ではない）。parent は AI 親役の設定（英語）
