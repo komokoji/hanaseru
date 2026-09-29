@@ -108,7 +108,7 @@
     <p class="stat" id="todayLine"></p>
     <h2>今日の練習</h2>
     <p class="stat" id="progress">身についた：0 / 0</p>
-    <p class="muted">日本語を見て、その瞬間に英語で声に出す。詰まった行は翌日また出ます。</p>
+    <p class="muted">範囲を選ぶと一覧が開きます。日本語を見て声に出す → タップで英語と音声。</p>
     <div class="grid">
       <button class="choice" data-action="start" data-domain="trip"><span>12月の旅：まずここだけ（単語20＋15文）</span><b>✈️ 最優先35 ▸</b></button>
       <button class="choice" data-action="start" data-domain="trip2"><span>12月の旅：空港の場面と、雑談を広げる</span><b>✈️ 場面別と雑談 ▸</b></button>
@@ -202,6 +202,7 @@
       <button class="chip" data-action="clDomain" data-domain="trip2">✈️場面</button>
       <button class="chip" data-action="clDomain" data-domain="travel">旅行</button>
       <button class="chip" data-action="clDomain" data-domain="flow:all">🧩診察</button>
+      <button class="chip" data-action="clDomain" data-domain="flow:basics">🔰基本</button>
       <button class="chip" data-action="clDomain" data-domain="flow:me">🧑‍⚕️自分</button>
       <button class="chip" data-action="clDomain" data-domain="medical">診療</button>
       <button class="chip" data-action="clDomain" data-domain="sign">署名</button>
@@ -211,6 +212,10 @@
     </div>
     <p class="stat" id="clCount" style="margin:8px 0 2px"></p>
     <p class="muted" style="font-size:13px">タップで英語＋音声。チェックは「見た・練習した」印です（覚えたかのテストではありません）。</p>
+    <div class="speakrow" style="margin:0 0 8px">
+      <button class="speak rateBtn" data-action="rate">🐢 ゆっくり</button>
+      <button class="speak" data-action="cards">🃏 カードで（言えた／まだ・翌日また出る）</button>
+    </div>
     <div id="clList"></div>
     <div class="bar"><button class="link" data-action="home">← 範囲を選ぶ</button></div>
   </section>

@@ -473,7 +473,7 @@
   function openChecklist() {
     hideMain();
     var c = document.getElementById("checklist"); if (c) c.hidden = false;
-    renderChecklist();
+    renderChecklist(); updateRateBtn(); window.scrollTo(0, 0);
   }
   function setClDomain(d) { clDomain = d; renderChecklist(); }
   function renderChecklist() {
@@ -508,7 +508,8 @@
     var t = e.target.closest("[data-action]");
     if (!t) return;
     var a = t.getAttribute("data-action");
-    if (a === "start") startSession(t.getAttribute("data-domain"));
+    if (a === "start") { clDomain = t.getAttribute("data-domain"); openChecklist(); }   // 範囲は一覧で開く（2026-09-29 院長：カードより一覧＋タップで英語と音声が使いやすい）
+    else if (a === "cards") startSession(clDomain);   // 間隔反復のカードは一覧の上から
     else if (a === "reveal") reveal();
     else if (a === "ok") answer(true);
     else if (a === "prev") goPrev();
