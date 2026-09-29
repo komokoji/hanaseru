@@ -13,11 +13,13 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
 // 院長の既存プロジェクト（clinic-ops と同じ）。
-// authDomain は既定のまま（hanaseru.web.app にすると Google OAuth クライアント側に戻り先の登録が要り、
-// 未登録だと redirect_uri_mismatch で止まる＝2026-09-26 に実際に起きた）。
+// authDomain＝本サイト（hanaseru.web.app）。iPhone の Safari／ホーム画面アプリは、別ドメイン経由の
+// ログイン（firebaseapp.com）を Safari が遮る（2026-09-29 に実際に起きた）ため、同じドメインで認証する。
+// 前提：Google Cloud の OAuth クライアントに https://hanaseru.web.app/__/auth/handler を登録済みであること
+// （未登録だと redirect_uri_mismatch＝2026-09-26 に起きた）。
 const firebaseConfig = {
   apiKey: "AIzaSyDus7bf7ICiRwdCf8YzWhRHSfn7-5Mf3T0",
-  authDomain: "komori-clinic-platform.firebaseapp.com",
+  authDomain: "hanaseru.web.app",
   projectId: "komori-clinic-platform",
   storageBucket: "komori-clinic-platform.firebasestorage.app",
   messagingSenderId: "755736145972",
@@ -37,9 +39,11 @@ function isStandalone() {
   return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
 }
 
+function isIOS() { return /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1); }
 async function login() {
   await setPersistence(auth, browserLocalPersistence);
-  if (isStandalone()) return signInWithRedirect(auth, provider);   // ホーム画面アプリはポップアップ不可
+  setStatus("Google のログイン画面へ移ります…", false);
+  if (isStandalone() || isIOS()) return signInWithRedirect(auth, provider);   // iPhone はポップアップが不安定なので、同じ画面で行って戻る
   try { await signInWithPopup(auth, provider); }
   catch (e) {
     if (e && /popup/.test(String(e.code))) return signInWithRedirect(auth, provider);
@@ -127,7 +131,8 @@ document.addEventListener("click", function (e) {
   else login().catch(function (err) { setStatus("ログインできませんでした：" + (err && err.code || err), false); });
 });
 
-getRedirectResult(auth).catch(function (err) { setStatus("ログインできませんでした：" + (err && err.code || err), false); });
+getRedirectResult(auth).then(function (r) { if (r && r.user) setStatus("☁️ ログインしました。同期を確認中…", true); })
+  .catch(function (err) { setStatus("ログインできませんでした：" + (err && (err.code + " " + err.message) || err), false); });
 
 onAuthStateChanged(auth, function (u) {
   user = u;
