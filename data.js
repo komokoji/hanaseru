@@ -292,5 +292,5 @@ window.HANASERU_CARDS = [
   { id: "mine-4", domain: "mine", ja: "フランクフルトに2泊します。", en: "We're staying in Frankfurt for two nights." },
   { id: "mine-5", domain: "mine", ja: "日本までスルーで預けないでください。", en: "Please don't check our baggage through to Japan." },
   { id: "mine-6", domain: "mine", ja: "2個ともフランクフルトで受け取れますか？", en: "Can we collect both of our bags in Frankfurt?" },
-  { id: "mine-7", domain: "mine", ja: "一日、雨が降ったりやんだりするみたいです。今日も含めて今週はずっと、雨が降りやすい状態が続くみたいです。", en: "It looks like rain on and off all day. And this whole week looks rainy, today included." },
+  { id: "mine-7", domain: "mine", ja: "一日、雨が降ったりやんだりするみたいです。今日も含めて今週はずっと、雨が降りやすい状態が続くみたいです。", en: "It looks like it’s going to rain on and off all day. And this whole week looks rainy, today included." },
 ];
