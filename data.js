@@ -26,9 +26,9 @@ window.HANASERU_CARDS = [
   { id: "med-ast-6", domain: "medical", ja: "クリニックで吸入をしました。気道を広げて楽にする薬です。", en: "We did a nebulizer treatment here. It opens the airways. It makes breathing easier." },
   { id: "med-ast-7", domain: "medical", ja: "長く続く治療は要りません。風邪のたびにしっかり治すことが大事です。", en: "She doesn't need long-term treatment. But each time she gets a cold, we treat it well." },
   { id: "med-ast-8", domain: "medical", ja: "今すぐ「喘息」と決めつける必要はありません。", en: "We don't need to call this asthma right now." },
-  { id: "med-ast-9", domain: "medical", ja: "大事なのは診断名より、今の気道の炎症をしっかり取ることです。", en: "The name is not important now. The important thing is to treat the inflammation in her airways." },
+  { id: "med-ast-9", domain: "medical", ja: "大事なのは診断名より、今の気道の炎症をしっかり取ることです。", en: "Right now, treating the inflammation in her airways matters more than the name." },
   { id: "med-ast-10", domain: "medical", ja: "炎症をしっかり取ってリセットすると、本人も楽になり、次のゼーゼーの予防にもなります。", en: "Once we clear the inflammation, her airways get a reset. She feels better. And it helps prevent the next wheezing." },
-  { id: "med-ast-11", domain: "medical", ja: "目標はシンプルです。夜ぐっすり眠れて、楽に呼吸できること。", en: "The goal is simple. She sleeps well at night. She breathes easily." },
+  { id: "med-ast-11", domain: "medical", ja: "目標はシンプルです。夜ぐっすり眠れて、楽に呼吸できること。", en: "We want her to sleep well at night and breathe easily." },
   // 「ゼーゼー＝喘息？」の説明の流れ（院長 2026-09-27：一過性で、ほとんどは成長とともに治る。ごく一部だけ本当の喘息）
   { id: "med-ast-12", domain: "medical", ja: "小さな子は、風邪をひくとすぐにゼーゼーしやすいんです。", en: "Small children often wheeze as soon as they get a cold." },
   { id: "med-ast-13", domain: "medical", ja: "この子も、風邪のたびにゼーゼーしていますね。", en: "She wheezes every time she catches a cold, doesn't she?", note: "文の最後の doesn't she? で『〜ですよね』と相手にうなずいてもらう。" },
@@ -127,7 +127,7 @@ window.HANASERU_CARDS = [
   { id: "med-flu-4", domain: "medical", ja: "（親へ）インフルエンザが陽性なら、抗インフルエンザ薬を出します。", en: "If the flu test is positive, I'll prescribe anti-flu medicine.", note: "antiviral＝抗ウイルス薬（アンタイヴァイラル）。" },
   { id: "med-flu-5", domain: "medical", ja: "（親へ）風邪の症状には風邪薬、熱には解熱剤を出しておきます。", en: "I'll also give cold medicine for her symptoms, and fever medicine for the fever.", note: "解熱剤は fever medicine / fever reducer でも可。bring down the fever＝熱を下げる。" },
   { id: "med-flu-6", domain: "medical", ja: "（親へ）熱が下がれば、心配いりません。", en: "Once the fever comes down, you don't need to worry." },
-  { id: "med-flu-7", domain: "medical", ja: "（親へ）おうちで、しっかり良くなるまで様子を見てください。", en: "Please rest at home until she is fully better." },
+  { id: "med-flu-7", domain: "medical", ja: "（親へ）おうちで、しっかり良くなるまで様子を見てください。", en: "Please watch how she's doing at home until she's fully better." },
   { id: "med-flu-8", domain: "medical", ja: "（親へ）登園・登校は、園や学校の基準に従えば大丈夫です。", en: "For daycare or school, please follow their rules.", note: "日本の基準（学校保健安全法）：インフル＝発症後5日かつ解熱後2日（幼児は3日）。コロナ＝発症後5日かつ症状が軽くなって1日。聞かれたら数字で答える。" },
   { id: "med-flu-9", domain: "medical", ja: "（親へ）熱が下がらない、ぐったりしている、息が苦しそうなときは、また受診してください。", en: "Please come back if the fever doesn't come down, she is very weak, or she has trouble breathing.", note: "ぐったり＝very weak / unusually sleepy（英国の小児科では floppy も使う）。" },
 

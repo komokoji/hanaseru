@@ -13,7 +13,7 @@
     { id: "me-06", domain: "me", part: "② 病気の手前へ", ja: "でも、長くやっているうちに、悩みが出てきました。", en: "But over the years, something started to bother me." },
     { id: "me-07", domain: "me", part: "② 病気の手前へ", ja: "手術で診る病気は、いわば「なれの果て」です。", en: "The diseases we operate on are the end of a long road." },
     { id: "me-08", domain: "me", part: "② 病気の手前へ", ja: "もっと手前で、できることがあるのではないか。", en: "I thought, there must be something we can do earlier." },
-    { id: "me-09", domain: "me", part: "② 病気の手前へ", ja: "地域の中で子どもを診るうちに、その目線が育ちました。", en: "Working with children in the community, that feeling grew." },
+    { id: "me-09", domain: "me", part: "② 病気の手前へ", ja: "地域の中で子どもを診るうちに、その目線が育ちました。", en: "As I worked with children in the community, I began to see things that way." },
     { id: "me-10", domain: "me", part: "② 病気の手前へ", ja: "その答えが、栄養でした。", en: "The answer was nutrition." },
     // ③ 栄養という答え
     { id: "me-11", domain: "me", part: "③ 栄養という答え", ja: "細胞も、元気も、栄養から作られます。", en: "Our cells are made from nutrition. So is our energy." },
@@ -51,7 +51,7 @@
     // ⑧ 自分をひとことで（来歴の柱）
     { id: "me-36", domain: "me", part: "⑧ 自分をひとことで", ja: "お腹と栄養の、子ども専門のクリニックです。", en: "My clinic is for children. We focus on gut health and nutrition." },
     { id: "me-37", domain: "me", part: "⑧ 自分をひとことで", ja: "便秘の子どもを、年間5,000組ほど診ています。", en: "I see about 5,000 children a year for constipation." },
-    { id: "me-38", domain: "me", part: "⑧ 自分をひとことで", ja: "手術台で、病気の一番下流を見てきました。だから、上流に持ち場を移しました。", en: "In surgery, I saw the end of the road. So I moved upstream." },
+    { id: "me-38", domain: "me", part: "⑧ 自分をひとことで", ja: "手術台で、病気の一番下流を見てきました。だから、上流に持ち場を移しました。", en: "As a surgeon, I treated children who needed surgery. Now I focus on helping children earlier. That's what I mean by moving upstream." },
     { id: "me-39", domain: "me", part: "⑧ 自分をひとことで", ja: "メスを置いて、スプーンを持ちました。", en: "I put down the scalpel and picked up a spoon." },
     { id: "me-40", domain: "me", part: "⑧ 自分をひとことで", ja: "腕はそのままに、持ち場を上流に移した外科医です。", en: "I'm still a surgeon. I just moved my work upstream." },
     // ⑨ 親に繰り返し言うこと（診療の口癖）
@@ -61,14 +61,14 @@
     { id: "me-44", domain: "me", part: "⑨ 親によく言うこと", ja: "ゴールは、医療に頼らなくていい状態＝卒業です。", en: "The goal is to graduate. To not need us anymore." },
     { id: "me-45", domain: "me", part: "⑨ 親によく言うこと", ja: "農場と同じです。今日タネをまいても、明日には実りません。", en: "It's like a farm. You plant a seed today. It doesn't grow by tomorrow." },
     { id: "me-46", domain: "me", part: "⑨ 親によく言うこと", ja: "一進一退でいいんです。根気よく続けることが大事です。", en: "Two steps forward, one step back is fine. Just keep going." },
-    { id: "me-47", domain: "me", part: "⑨ 親によく言うこと", ja: "今の食事を否定しません。土台に足し算していきましょう。", en: "I won't take anything away. We just add to what you have." },
+    { id: "me-47", domain: "me", part: "⑨ 親によく言うこと", ja: "今の食事を否定しません。土台に足し算していきましょう。", en: "I'm not saying her current diet is wrong. Let's build on it." },
     { id: "me-48", domain: "me", part: "⑨ 親によく言うこと", ja: "お薬はメガネと同じです。見えるようになるための道具です。", en: "Medicine is like glasses. It's a tool that helps her function." },
     { id: "me-49", domain: "me", part: "⑨ 親によく言うこと", ja: "病気ではなく体質です。意志や根性の問題ではありません。", en: "It's not an illness. It's how her body works. It's not about willpower." },
     { id: "me-50", domain: "me", part: "⑨ 親によく言うこと", ja: "ご自分を責めないでください。治療で良くなっていきます。", en: "Please don't blame yourself. With treatment, she will get better." },
     { id: "me-51", domain: "me", part: "⑨ 親によく言うこと", ja: "大事なのは、本人が困っているかどうかです。", en: "What matters is whether she is struggling." },
     // ⑩ 価値観の決まり文句
     { id: "me-52", domain: "me", part: "⑩ 価値観のことば", ja: "本当の健康を土台に、一人ひとりが自分らしく人生を楽しめるように。", en: "Real health is the base. Then each person can enjoy life in their own way." },
-    { id: "me-53", domain: "me", part: "⑩ 価値観のことば", ja: "本来持っている生命力を取り戻すことを支える。それが中心軸です。", en: "I help children get back the strength they were born with. That's my center." },
+    { id: "me-53", domain: "me", part: "⑩ 価値観のことば", ja: "本来持っている生命力を取り戻すことを支える。それが中心軸です。", en: "I help children get back the strength they were born with. That's what matters most to me." },
     { id: "me-54", domain: "me", part: "⑩ 価値観のことば", ja: "座右の銘は「天を相手に仕事をする」です。", en: "My motto is: work as if heaven is watching, not people." },
     { id: "me-55", domain: "me", part: "⑩ 価値観のことば", ja: "人の心に、灯りをともしたい。", en: "I want to light a small lamp in people's hearts." },
     { id: "me-56", domain: "me", part: "⑩ 価値観のことば", ja: "可能性は見捨てない。信頼は行動で見る。", en: "I never give up on someone's potential. And I judge trust by actions." },

@@ -59,7 +59,11 @@ function mergeStates(local, remote) {
   Object.keys(remote.cards || {}).forEach(function (id) {
     const r = remote.cards[id], l = out.cards[id];
     if (!l) { out.cards[id] = r; return; }
-    if (r.box > l.box || (r.box === l.box && (r.due || 0) > (l.due || 0))) { l.box = r.box; l.due = r.due; }
+    // 新しい「まだ」を古い高い箱で上書きしない。旧データは従来の比較に対応。
+    if ((r.updatedAt || 0) > (l.updatedAt || 0) ||
+        (!r.updatedAt && !l.updatedAt && (r.box > l.box || (r.box === l.box && (r.due || 0) > (l.due || 0))))) {
+      Object.assign(l, r);
+    }
     if (r.practiced) l.practiced = true;
   });
   // 連続日数＝より新しい完了日を持つ側を採用（同じ日なら大きい方）
@@ -69,16 +73,20 @@ function mergeStates(local, remote) {
   if (out.lastDone === undefined) out.lastDone = null;
   if (!out.rate) out.rate = "slow";
   // 言いたいこと（捕獲）＝時刻で和集合
-  const seen = {};
-  out.captures = (out.captures || []).concat(remote.captures || []).filter(function (c) {
-    const k = c.ts + "|" + c.ja; if (seen[k]) return false; seen[k] = true; return true;
-  }).sort(function (a, b) { return a.ts - b.ts; });
+  const seen = new Map();
+  (out.captures || []).concat(remote.captures || []).forEach(function (c) {
+    const k = c.ts + "|" + c.ja, previous = seen.get(k);
+    if (!previous || (c.updatedAt || 0) > (previous.updatedAt || 0)) seen.set(k, c);
+  });
+  out.captures = Array.from(seen.values()).sort(function (a, b) { return a.ts - b.ts; });
   // 🗣 話した記録＝日ごとに大きい方
   var tk = {}; (out.talks || []).concat(remote.talks || []).forEach(function (t) { tk[t.d] = Math.max(tk[t.d] || 0, t.n); });
   out.talks = Object.keys(tk).sort().map(function (d) { return { d: +d, n: tk[d] }; }).slice(-60);
   // 🎤 お題の節目＝箱が進んでいる方
   var mo = {}; [out.mono || {}, remote.mono || {}].forEach(function (m) { Object.keys(m).forEach(function (t) { if (!mo[t] || m[t].box > mo[t].box) mo[t] = m[t]; }); });
   out.mono = mo;
+  out.practiceDays = Array.from(new Set(window.HanaseruPracticeCore.activityDays(local)
+    .concat(window.HanaseruPracticeCore.activityDays(remote)))).sort((a,b)=>a-b);
   // 🔖 保存フレーズ（AI会話・英訳コーチから）＝id で和集合
   const ids = {};
   out.mine = (out.mine || []).concat(remote.mine || []).filter(function (m) {

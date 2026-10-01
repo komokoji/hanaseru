@@ -6,11 +6,17 @@
       "firebase.json",
       ".firebaserc",
       "**/.*",
+      ".git/**",
+      "**/.git/**",
+      ".firebase/**",
+      "**/*.log",
       "**/node_modules/**",
       "README.md",
       "functions/**",
       ".claude/**",
-      "bin/**"
+      "bin/**",
+      "tests/**",
+      "ops/**"
     ],
     "headers": [
       {

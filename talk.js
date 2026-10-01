@@ -16,6 +16,7 @@ let scene = "clinic";
 let caseCtx = null;     // 🧩 組み立て練習の症例（scene "case" のときだけ）
 let history = [];       // {role, content}
 let busy = false;
+let capturedSource = null, translationDraft = null, translationVersion = 0;
 
 // ---- 🎤 音声入力（Web Speech API。iOS Safari / Chrome で動く。無ければボタンを隠す） ----
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -36,9 +37,10 @@ function micToggle() {
   rec.start();
 }
 
-function needLogin() {
+function needLogin(noteId) {
   if (getAuth(getApp()).currentUser) return false;
-  setNote("まず下の「Google でログインして同期」でログインしてください（AI会話は院長専用です）。");
+  const target = $(noteId || "tkNote");
+  if (target) target.textContent = "ホームの「Google でログインして同期」でログインしてください。AI機能にはインターネット接続が必要です。";
   return true;
 }
 function setNote(t) { const n = $("tkNote"); if (n) n.textContent = t || ""; }
@@ -55,15 +57,16 @@ function addBubble(role, text, extra) {
 function feedbackHtml(r, said) {
   const same = r.better.trim() === said.trim();
   return '<div class="fb">'
-    + (same ? '<div class="fbok">👍 自然です</div>'
-            : '<div class="fbline">💬 こう言うと自然：<b>' + esc(r.better) + '</b><span class="fbja">' + esc(r.better_ja) + '</span></div>')
+    + (same ? '<div class="fbok">👍 この言い方で伝わります</div>'
+            : '<div class="fbline">💬 こう言うと伝わりやすい：<b>' + esc(r.better) + '</b><span class="fbja">' + esc(r.better_ja) + '</span></div>')
     + '<div class="fbtip">' + esc(r.tip) + '</div>'
     + '<div class="speakrow"><button class="speak" data-say="' + esc(r.better) + '">🔊 聞く</button>'
     + '<button class="speak" data-save-en="' + esc(r.better) + '" data-save-ja="' + esc(r.better_ja) + '">🔖 保存してリピート</button></div>'
     + '</div>';
 }
 
-async function start(newScene) {
+async function start(newScene, practiceCard) {
+  if (busy) { setNote("返答を待ってから、もう一度始めてください。"); return; }
   if (needLogin()) return;
   scene = newScene || scene;
   history = [];
@@ -72,7 +75,10 @@ async function start(newScene) {
   if (scene !== "case") caseCtx = null;
   setNote(caseCtx ? "症例：" + caseCtx.title + "（親役と話して、最後に 📋 ふり返り）" : "話し終えたら 📋 ふり返り（3つの物差しで見る）");
   // 相手役に先に話してもらう（院長の最初の一言は "Hello." 扱い＝FBは出さない）
-  history.push({ role: "user", content: "(The learner walks in and greets you. Start the scene with your first line.)" });
+  history.push({ role: "user", content: practiceCard
+    ? "Practice a new situation where I can use this idea: " + practiceCard.ja + " / " + practiceCard.en
+      + ". Start as the conversation partner. Do not supply my answer. Ask a relevant question, then a follow-up that invites a reason or a rephrasing. Keep medical conditions unchanged."
+    : "(The learner walks in and greets you. Start the scene with your first line.)" });
   await ask(true);
 }
 
@@ -107,26 +113,41 @@ async function ask(opening, said) {
 }
 
 // ---- ✍️ 英訳コーチ ----
+document.addEventListener("hanaseru:capture", (e) => {
+  capturedSource = e.detail; translationDraft = null; translationVersion++;
+  $("trOut").innerHTML = ""; $("trNote").textContent = "場面と内容を確かめて「英語にする」を押してください。";
+});
+document.addEventListener("hanaseru:practiceTalk", (e) => {
+  const c = e.detail; if (!c) return;
+  const medical = ["medical", "visit", "asthma", "gut", "nutri", "sign"].includes(c.domain) || /診療/.test(c.ja);
+  start(medical ? "clinic" : c.domain === "me" ? "me" : "travel", c);
+});
 async function translate() {
   if (busy) return;
-  if (needLogin()) return;
+  if (needLogin("trNote")) return;
   const text = $("trInput").value.trim(); if (!text) return;
+  const source = capturedSource, version = ++translationVersion;
+  translationDraft = null; $("trNote").textContent = "";
+  $("trInput").disabled = true;
   setBusy(true); const out = $("trOut"); out.innerHTML = '<p class="muted">英語にしています…</p>';
   try {
     const res = await call({ mode: "translate", text });
     const r = res.data.result;
+    if (version !== translationVersion) return;
+    translationDraft = { ja: text, en: r.en, source };
     const row = (label, en, note, ja) => '<div class="clrow"><div class="cltext"><div class="clja" style="font-size:12px;color:var(--sub)">' + label + '</div><div class="clen" style="margin-top:0">' + esc(en) + '</div>'
       + (note ? '<div class="clja" style="font-size:13px;color:var(--sub);margin-top:2px">' + esc(note) + '</div>' : '')
       + '<div class="speakrow" style="margin-top:6px"><button class="speak" data-say="' + esc(en) + '">🔊</button><button class="speak" data-save-en="' + esc(en) + '" data-save-ja="' + esc(ja) + '">🔖 保存</button></div></div></div>';
     // 院長の型：王道1本を覚える → 文法・ニュアンスを理解 → 類似2つは眺める
     out.innerHTML = row("① 王道（まずこれを覚える）", r.en, "", text)
+      + '<div class="grid"><button class="big" data-action="trPractice">この英文を保存して練習する</button></div>'
       + explainHtml({ chunks: r.chunks || [], grammar: r.grammar, swap: null })
       + '<p class="muted" style="font-size:12px;margin:12px 0 0">② 類似（眺めるだけでOK）</p>'
       + row("もう一つの王道", r.alt, r.alt_ja, text) + row("ていねいに", r.polite, r.polite_ja, text);
     H.speak(r.en);
   } catch (e) {
-    out.innerHTML = '<p class="muted">できませんでした：' + esc(e && (e.message || e.code) || e) + '</p>';
-  } finally { setBusy(false); }
+    if (version === translationVersion) out.innerHTML = '<p class="muted">できませんでした：' + esc(e && (e.message || e.code) || e) + '</p>';
+  } finally { setBusy(false); $("trInput").disabled = false; }
 }
 
 // ---- ❓ 解説（かたまりの意味＋文法＋言い換え）。一度出したら Firestore hanaseru_notes/{cardId} に保存＝次から即・端末共通 ----
@@ -255,13 +276,23 @@ async function moStop() {
 document.addEventListener("click", (e) => {
   const t = e.target.closest("[data-say],[data-save-en],[data-action],[data-scene]"); if (!t) return;
   if (t.getAttribute("data-action") === "explain") {
-    const c = H.current(t.getAttribute("data-where")); if (!c) return;
-    explain($(t.getAttribute("data-box")), c.id, c.ja, c.en); return;
+    const id = t.getAttribute("data-id");
+    const c = id ? H.cards().find(c => c.id === id) : H.current(t.getAttribute("data-where")); if (!c) return;
+    const box = $(t.getAttribute("data-box"));
+    explain(box, c.id, c.ja, c.en);
+    if (box) t.setAttribute("aria-expanded", String(!box.hidden));
+    return;
   }
   if (t.hasAttribute("data-say")) { H.speak(t.getAttribute("data-say")); return; }
   if (t.hasAttribute("data-save-en")) {
     const ok = H.addMine(t.getAttribute("data-save-ja"), t.getAttribute("data-save-en"));
-    t.textContent = ok ? "🔖 保存しました" : "🔖 保存済み"; return;
+    const m = H.getState().mine.find((m) => m.en === t.getAttribute("data-save-en").trim());
+    t.textContent = ok ? "🔖 保存しました" : "🔖 保存済み";
+    if (m) {
+      t.removeAttribute("data-save-en"); t.removeAttribute("data-save-ja");
+      t.setAttribute("data-action", "practiceOne"); t.setAttribute("data-id", m.id); t.textContent = "保存済み・今すぐ練習";
+    }
+    return;
   }
   if (t.hasAttribute("data-scene")) { start(t.getAttribute("data-scene")); return; }
   const a = t.getAttribute("data-action");
@@ -275,5 +306,14 @@ document.addEventListener("click", (e) => {
   else if (a === "moStop") moStop();
   else if (a === "moAgain") moStart(30);
   else if (a === "trGo") translate();
+  else if (a === "coach") { capturedSource = null; translationDraft = null; translationVersion++; $("trOut").innerHTML = ""; $("trNote").textContent = ""; }
+  else if (a === "trPractice" && translationDraft) {
+    const d = translationDraft;
+    H.addMine(d.ja, d.en);
+    const m = H.getState().mine.find((m) => m.en === d.en.trim());
+    if (!m) return;
+    if (d.source) H.linkCapture(d.source.ts, d.source.ja, m.id);
+    document.dispatchEvent(new CustomEvent("hanaseru:practice", { detail: { id: m.id } }));
+  }
 });
 $("tkInput") && $("tkInput").addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } });

@@ -34,9 +34,10 @@
   if (!state.mine) state.mine = [];          // 🔖 アプリ内で保存したフレーズ（AI会話・英訳コーチから）{id, ja, en, ts}
   if (!state.talks) state.talks = [];        // 🗣 声で話した記録 {d: dayNum, n: 発言数}（AI会話の発言・1分で語る）
   if (!state.mono) state.mono = {};          // 🎤 1分で語るのお題ごと {box, due}＝札と同じ節目で「またこのお題」
+  if (!state.practiceDays) state.practiceDays = []; // 一文でも練習した日。連続していなくても残す。
   var saveListeners = [];
   function allCards() {                      // 辞書（data.js）＋院長が保存したフレーズ（state.mine）
-    return CARDS.concat(state.mine.map(function (m) { return { id: m.id, domain: "mine", ja: m.ja, en: m.en }; }));
+    return CARDS.concat(state.mine.map(function (m) { return { id: m.id, domain: "mine", ja: m.ja, en: m.en, ts: m.ts }; }));
   }
 
   function cardState(id) {
@@ -86,6 +87,7 @@
     if (ok) st.box = Math.min(st.box + 1, INTERVALS.length - 1);
     else st.box = 0;
     st.due = dayNum() + INTERVALS[st.box];
+    st.updatedAt = Date.now();
     save(state);
   }
 
@@ -98,12 +100,18 @@
   function totalIn(domain) { return cardsFor(domain).length; }
 
   function finishSession() {
+    recordActivity();
+  }
+  function recordPracticeDay() {
     var today = dayNum();
-    if (state.lastDone === today) return;              // 二重加算しない
-    if (state.lastDone === today - 1) state.streak += 1;
-    else state.streak = 1;
-    state.lastDone = today;
-    save(state);
+    state.practiceDays = window.HanaseruPracticeCore.activityDays(state);
+    if (state.practiceDays.indexOf(today) < 0) state.practiceDays.push(today);
+    var activity=window.HanaseruPracticeCore.activity(state,today);
+    state.streak=activity.streak; state.lastDone=today;
+  }
+  function recordActivity() {
+    if (state.lastDone === dayNum() && (state.practiceDays || []).indexOf(dayNum()) >= 0) return;
+    recordPracticeDay(); save(state);
   }
 
   // ---- 音声（英語の手本） ----
@@ -126,6 +134,7 @@
   }
   if (window.speechSynthesis) window.speechSynthesis.getVoices();   // 一覧を先に読み込ませる（初回が空になる対策）
   function speak(text, lang) {
+    if (String(text || '').trim()) recordActivity();
     try {
       if (!window.speechSynthesis) return;
       var u = new SpeechSynthesisUtterance(String(text).replace(/___/g, "…"));
@@ -159,6 +168,7 @@
 
   function renderCard() {
     var c = queue[idx];
+    recordActivity();
     revealed = false;
     el.ja.textContent = c.ja;
     el.en.textContent = c.en;
@@ -186,6 +196,7 @@
     else if (snaps[c.id]) state.cards[c.id] = JSON.parse(JSON.stringify(snaps[c.id]));
     else delete state.cards[c.id];
     grade(c, ok);
+    recordPracticeDay(); save(state);
     results[idx] = ok;
     idx += 1;
     if (idx >= queue.length) { finishSession(); showDone(false); }
@@ -273,12 +284,13 @@
     for (var i = 0; i < chips.length; i++) chips[i].classList.toggle("on", chips[i].getAttribute("data-domain") === dom);
   }
   function hideMain() {
+    document.dispatchEvent(new CustomEvent("hanaseru:leave"));
     show(el.setup, false); show(el.study, false); show(el.done, false);
     var c = document.getElementById("checklist"); if (c) c.hidden = true;
     var s = document.getElementById("shadow"); if (s) s.hidden = true;
     var l = document.getElementById("listen"); if (l) l.hidden = true;
     var tk = document.getElementById("talk"); if (tk) tk.hidden = true;
-    ["clinic", "build", "patterns", "mono"].forEach(function (id) { var n = document.getElementById(id); if (n) n.hidden = true; });
+    ["clinic", "build", "patterns", "mono", "practice", "shelf"].forEach(function (id) { var n = document.getElementById(id); if (n) n.hidden = true; });
     var co = document.getElementById("coach"); if (co) co.hidden = true;
   }
 
@@ -310,7 +322,7 @@
     updateRateBtn();
   }
   function listenPlay() { var u = LISTEN[lsUnit]; if (u) speak(u.passages[lsIdx].en, u.voice); }
-  function listenShow() { var b = document.getElementById("lsBody"); if (b) { b.hidden = !b.hidden; lsShown = !b.hidden; } }
+  function listenShow() { var b = document.getElementById("lsBody"); if (b) { b.hidden = !b.hidden; lsShown = !b.hidden; if(lsShown) recordActivity(); } }
   function listenNext() { var u = LISTEN[lsUnit]; if (lsIdx < u.passages.length - 1) { lsIdx++; renderListen(); } else backToSetup(); }
   function listenPrev() { if (lsIdx > 0) { lsIdx--; renderListen(); } }
 
@@ -442,7 +454,10 @@
   function capSave() {
     var i = document.getElementById("capInput"); if (!i) return;
     var v = (i.value || "").trim(); if (!v) return;
-    state.captures.push({ ja: v, ts: Date.now() }); save(state);
+    state.captures.push({ ja: v.slice(0, 1000), ts: Date.now(),
+      scene: document.getElementById("capScene").value,
+      obstacle: document.getElementById("capObstacle").value }); save(state);
+    recordActivity();
     i.value = ""; renderCaptures();
   }
   function capDelete(k) { state.captures.splice(k, 1); save(state); renderCaptures(); }
@@ -458,10 +473,13 @@
   function renderCaptures() {
     var list = document.getElementById("capList"); if (!list) return;
     if (!state.captures.length) {
-      list.innerHTML = '<p class="muted" style="margin:8px 0">まだありません。日本語で「これ言いたい」を書いて「ためる」。あとで私（Claude）が英語にして辞書に入れます。</p>';
+      list.innerHTML = '<p class="muted" style="margin:8px 0">言えなかったこと・聞き取れなかった言葉を日本語で残しましょう。「英語にする」で確認し、保存すると練習に入ります。</p>';
     } else {
       list.innerHTML = state.captures.map(function (c, k) {
-        return '<div class="capitem"><span>' + escapeHtml(c.ja) + '</span><button class="capx" data-action="capDel" data-idx="' + k + '">×</button></div>';
+        return '<div class="capitem"><span>' + escapeHtml(c.ja) + '<small style="display:block;color:var(--sub)">' + escapeHtml([c.scene, c.obstacle].filter(Boolean).join(' ・ ')) + '</small>'
+          + (c.phraseId ? '<button class="speak" data-action="practiceOne" data-id="' + escapeHtml(c.phraseId) + '">保存済み・練習する</button>'
+            : '<button class="speak" data-action="capCoach" data-idx="' + k + '">英語にする</button>')
+          + '</span><button class="capx" aria-label="このメモを削除" data-action="capDel" data-idx="' + k + '">×</button></div>';
       }).join("");
     }
     var btn = document.getElementById("capCopyBtn"); if (btn) btn.hidden = !state.captures.length;
@@ -485,21 +503,24 @@
       var s = state.cards[c.id]; var on = s && s.practiced;
       return '<div class="clrow">'
         + '<button class="clcheck' + (on ? ' on' : '') + '" data-action="clCheck" data-id="' + c.id + '">' + (on ? '☑' : '☐') + '</button>'
-        + '<div class="cltext" data-action="clShow" data-id="' + c.id + '">'
-        + '<div class="clja">' + escapeHtml(c.ja) + '</div>'
-        + '<div class="clen" id="clen-' + c.id + '" hidden>' + escapeHtml(c.en)
-        + '</div>'
-        + '</div></div>';
+        + '<div class="cltext">'
+        + '<button class="clja clreveal" data-action="clShow" data-id="' + c.id + '" aria-expanded="false" aria-controls="clen-' + c.id + '">' + escapeHtml(c.ja) + '</button>'
+        + '<div id="clen-' + c.id + '" hidden><div class="clen">' + escapeHtml(c.en) + '</div>'
+        + '<button class="explain-link" data-action="explain" data-id="' + escapeHtml(c.id) + '" data-box="xpCl-' + c.id + '" aria-expanded="false" aria-controls="xpCl-' + c.id + '">解説・似た言い方</button>'
+        + '<div class="cl-explanation" id="xpCl-' + c.id + '" hidden aria-live="polite"></div></div>'
+        + '</div><button class="speak" data-action="planCard" data-id="' + escapeHtml(c.id) + '">' + (s && s.plannedAt ? '追加済み' : 'あとで練習') + '</button></div>';
     }).join("");
     var chips = document.querySelectorAll("#clChips [data-domain]");
     for (var i = 0; i < chips.length; i++) {
       chips[i].classList.toggle("on", chips[i].getAttribute("data-domain") === clDomain);
     }
   }
-  function clCheck(id) { var s = cardState(id); s.practiced = !s.practiced; save(state); renderChecklist(); }
+  function clCheck(id) { var s = cardState(id); s.practiced = !s.practiced; if(s.practiced) recordPracticeDay(); save(state); renderChecklist(); }
   function clShow(id) {
     var e = document.getElementById("clen-" + id); if (!e) return;
     e.hidden = !e.hidden;
+    var trigger = e.parentElement.querySelector('[data-action="clShow"]');
+    if(trigger) trigger.setAttribute('aria-expanded', String(!e.hidden));
     if (!e.hidden) { var c = cardById(id); if (c) speak(c.en); }
   }
 
@@ -538,7 +559,19 @@
     else if (a === "capCancel") capToggle(false);
     else if (a === "capSave") capSave();
     else if (a === "capCopy") capCopy();
+    else if (a === "planCard") {
+      var planned = cardState(t.getAttribute("data-id")); planned.plannedAt = Date.now(); planned.paused = false;
+      planned.updatedAt = Date.now(); save(state); t.textContent = "追加済み";
+    }
+    else if (a === "openCaptureHome") { backToSetup(); capOpen(); }
     else if (a === "capDel") capDelete(+t.getAttribute("data-idx"));
+    else if (a === "capCoach") {
+      var captured = state.captures[+t.getAttribute("data-idx")]; if (!captured) return;
+      hideMain(); document.getElementById("coach").hidden = false;
+      document.getElementById("trInput").value = '(' + [captured.scene, captured.obstacle].filter(Boolean).join('・') + ') ' + captured.ja;
+      document.getElementById("trNote").textContent = "AI英訳にはログインとインターネット接続が必要です。";
+      document.dispatchEvent(new CustomEvent("hanaseru:capture", { detail: captured }));
+    }
     else if (a === "checklist") openChecklist();
     else if (a === "clDomain") setClDomain(t.getAttribute("data-domain"));
     else if (a === "clCheck") clCheck(t.getAttribute("data-id"));
@@ -584,10 +617,41 @@
       Object.keys(merged).forEach(function (k) { state[k] = merged[k]; });
       if (!state.cards) state.cards = {}; if (state.streak == null) state.streak = 0; if (state.lastDone === undefined) state.lastDone = null;
       if (!state.rate) state.rate = "slow"; if (!state.captures) state.captures = []; if (!state.mine) state.mine = [];
+      if (!state.talks) state.talks = []; if (!state.mono) state.mono = {};
+      if (!state.practiceDays) state.practiceDays = [];
+      var activity=window.HanaseruPracticeCore.activity(state,dayNum());
+      state.practiceDays=activity.days; state.streak=activity.streak;
+      state.lastDone=activity.days.length ? activity.days[activity.days.length-1] : null;
       try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
       if (!el.setup.hidden) renderSetup();
+      document.dispatchEvent(new CustomEvent("hanaseru:state"));
     },
     onChange: function (f) { saveListeners.push(f); },
+    cards: allCards,
+    recordActivity: recordActivity,
+    openShelf: function () { hideMain(); document.getElementById("shelf").hidden = false; window.scrollTo(0, 0); },
+    setCardFlag: function (id, flag, value) {
+      if (!cardById(id) || ['paused','usedAt'].indexOf(flag) < 0) return;
+      var fresh = !state.cards[id];
+      var st = cardState(id); st[flag] = value; st.updatedAt = Date.now();
+      if (fresh) st.plannedAt = Date.now();
+      save(state);
+    },
+    openPractice: function () { hideMain(); document.getElementById("practice").hidden = false; window.scrollTo(0, 0); },
+    openTalk: function () {
+      hideMain(); document.getElementById("talk").hidden = false;
+      document.getElementById("tkNote").textContent = "AI会話にはログインとインターネット接続が必要です。";
+    },
+    practiceGrade: function (id, outcome) {
+      state.cards[id] = window.HanaseruPracticeCore.grade(state.cards[id], outcome, dayNum(), Date.now());
+      recordPracticeDay();
+      save(state);
+    },
+    practiceDone: finishSession,
+    linkCapture: function (ts, ja, id) {
+      var c = state.captures.find(function (c) { return c.ts === ts && c.ja === ja; });
+      if (c) { c.phraseId = id; c.updatedAt = Date.now(); save(state); }
+    },
     summary: function () {
       var wk = dayNum() - 6, k = 0; state.talks.forEach(function (t) { if (t.d >= wk) k += t.n; });
       return { streak: state.streak, lastDone: state.lastDone, talks7d: k,
@@ -599,10 +663,12 @@
       var e = String(en).trim(), j = String(ja).trim(); if (!e) return false;
       if (state.mine.some(function (m) { return m.en === e; })) return false;
       state.mine.push({ id: "mine-" + Date.now().toString(36), ja: j, en: e, ts: Date.now() });
+      recordPracticeDay();
       save(state); return true;
     },
     speak: function (t) { speak(t); },
     bumpTalk: function (n) {               // 声で話した回数を記録（今日の分に足す）
+      recordPracticeDay();
       var d = dayNum(), last = state.talks[state.talks.length - 1];
       if (last && last.d === d) last.n += (n || 1); else state.talks.push({ d: d, n: n || 1 });
       if (state.talks.length > 60) state.talks = state.talks.slice(-60);

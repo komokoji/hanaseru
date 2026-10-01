@@ -65,6 +65,13 @@
   .clcheck{ background:none; font-size:22px; line-height:1.2; color:var(--sub); padding:0 2px; }
   .clcheck.on{ color:var(--teal); }
   .cltext{ flex:1; cursor:pointer; }
+  .cltext{ min-width:0; }
+  .clreveal{display:block;width:100%;text-align:left;background:none;color:inherit;padding:0;font-weight:400;line-height:inherit;border-radius:4px;}
+  .explain-link{background:none;color:var(--teal-d);text-decoration:underline;text-underline-offset:3px;padding:10px 0;font-size:14px;}
+  .cl-explanation{font-size:14px;font-weight:400;color:var(--ink);cursor:default;overflow-wrap:anywhere;}
+  #clList .clrow{flex-wrap:wrap;}
+  #clList .cltext{flex-basis:calc(100% - 44px);}
+  #clList .clrow > .speak{margin-left:34px;}
   .clja{ font-size:16px; }
   .clen{ font-size:16px; font-weight:700; color:var(--teal-d); margin-top:4px; }
   .navrow{ display:flex; justify-content:space-between; gap:8px; margin-top:12px; }
@@ -94,24 +101,62 @@
   #jump{ position:fixed; right:12px; bottom:calc(16px + env(safe-area-inset-bottom)); display:flex; flex-direction:column; gap:8px; z-index:50; }
   #jump button{ width:46px; height:46px; border-radius:50%; border:1px solid var(--line); background:var(--card); color:var(--teal-d);
     font-size:20px; font-weight:700; box-shadow:0 2px 8px rgba(0,0,0,.15); padding:0; }
+  .quick-start{background:#eaf4f0;border:1px solid #bdd8cd;border-radius:20px;padding:20px;margin:12px 0;display:grid;gap:10px}
+  .quick-start h2{font-size:22px;margin:0}.quick-start p{margin:0}
+  select{font:inherit;max-width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  .library{margin:8px 0;padding:12px;background:#fff;border:1px solid var(--line);border-radius:12px}
+  summary{cursor:pointer;font-weight:600;padding:4px}.capture-options{display:flex;flex-wrap:wrap;gap:12px;margin:10px 0}
+  .capture-options label{display:grid;gap:4px;flex:1}.choice{gap:10px;flex-wrap:wrap}
+  #prBody .card{min-height:220px;padding:20px}#prBody .en{overflow-wrap:anywhere;font-size:23px}
+  #prAudio{width:100%;margin-top:10px}#prActions button{min-height:48px;padding:12px}
+  button:disabled{opacity:.55;cursor:default}:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+  #shelfSearch{font:inherit;padding:12px;border:1px solid var(--line);border-radius:10px;width:100%;margin-bottom:10px}
+  .shelf-entry{padding:14px;background:#fff;border:1px solid var(--line);border-radius:14px;margin:10px 0;overflow-wrap:anywhere}
+  .shelf-entry .speakrow{margin-top:10px}.shelf-entry p{margin:6px 0}
+  .activity-status{margin:0 0 12px;padding:9px 12px;border-radius:12px;background:#fff;color:var(--sub);font-size:13px}
+  .activity-status.achieved{background:#e0f2e9;color:var(--teal-d);font-weight:600}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <div class="logo">Hanaseru<small>話せる</small></div>
-    <div class="pill" id="streak">連続 0 日</div>
+    <div class="pill" id="habitPill">今日のひとこと</div>
   </header>
+  <p id="activityStatus" class="activity-status" role="status">今日は、ひとつ取り組めばOK。</p>
 
   <!-- 範囲えらび -->
   <section id="setup">
     <p class="muted" id="northstar" style="font-size:13px;margin:0 0 2px;color:var(--teal-d)">🧭 日本人らしい英語のまま、自分の考えと気持ちを、はっきり伝えられる人になる。</p>
-    <p class="muted" style="font-size:12px;margin:0 0 6px"><b>目標（2026-09-29 決定）</b>：この3つが、止まらずにできる。①自分の考えを、理由を添えて言える ②相手の話に、その場で返せる（聞き返しも含めて） ③詰まっても、言い換えて前に進める ＝ B2の上。非ネイティブが普通に届く領域。年齢は壁にならない。決めるのは量。</p>
+    <p class="muted" style="font-size:12px;margin:0 0 6px"><b>目標（2026-09-29 決定）</b>：この3つが、止まらずにできる。①自分の考えを、理由を添えて言える ②相手の話に、その場で返せる（聞き返しも含めて） ③詰まっても、言い換えて前に進める。目標は B2。カードの枚数だけでなく、初めての質問にも答えられるかを確かめます。</p>
+    <div class="quick-start">
+      <h2>今日のひとことから。</h2>
+      <p class="muted">3分を目安に、1文だけでも。聞く → まねる → 見ずに言う → 自分の場面で使う。</p>
+      <label for="practiceFocus">練習する場面</label>
+      <select id="practiceFocus"><option value="all">自分の保存文＋復習を優先</option><option value="clinic">診療</option><option value="travel">旅行・日常</option><option value="me">自分の考え</option><option value="mine">保存した言い方</option></select>
+      <p id="practiceTarget" class="stat"></p>
+      <button class="big" data-action="practiceStart" id="practiceStart">3分練習を始める</button>
+      <button class="speak" data-action="practiceBrief">忙しい日は1文だけ（約1分）</button>
+      <p class="stat" id="practiceSummary" aria-live="polite"></p>
+      <button class="speak" data-action="capOpen">＋ 今日つまずいたことを残す</button>
+    </div>
+    <button class="choice" data-action="shelfOpen"><span>これから・練習中・使えた</span><b>自分のことば帳 ▸</b></button>
+    <details class="library"><summary>無理なく続けるための使い方</summary>
+      <p><b>忙しい日：</b>1文を聞いて、まねて、見ずに言う。そこで終わって大丈夫。</p>
+      <p><b>ふだんの日：</b>今日の3文。新しく覚える文を増やすより、使いたい文を繰り返す。</p>
+      <p><b>余裕のある日：</b>練習した表現でAIと数往復。「なぜ？」にも答えてみる。</p>
+      <p><b>週に一度：</b>ことば帳を見て、実際に使えた文を記録。今は必要ない文を休ませる。</p>
+      <p class="muted">昼食のあとなど、開く合図を一つ決めましょう。休んだ分のまとめ取りは不要です。戻った日は1文から。</p>
+    </details>
+    <details class="library"><summary>練習の記録を見る</summary>
+    <p class="stat" id="streak">連続 0 日</p>
     <p class="stat" id="goalLine"></p>
     <p class="stat" id="talkLine"></p>
     <p class="stat" id="todayLine"></p>
-    <h2>今日の練習</h2>
+    <h2>復習の記録</h2>
     <p class="stat" id="progress">身についた：0 / 0</p>
+    </details>
+    <details class="library"><summary>教材を選ぶ・AIと会話する</summary>
     <p class="muted">範囲を選ぶと一覧が開きます。日本語を見て声に出す → タップで英語と音声。</p>
     <div class="grid">
       <button class="choice" data-action="start" data-domain="trip"><span>12月の旅：まずここだけ（単語20＋15文）</span><b>✈️ 最優先35 ▸</b></button>
@@ -136,20 +181,47 @@
       <button class="choice" data-action="coach"><span>「こう言いたい」を自然な英語に</span><b>✍️ 英訳コーチ ▸</b></button>
       <button class="choice" data-action="capOpen"><span>思いついたら貯める</span><b>＋ 言いたいこと ▸</b></button>
     </div>
+    </details>
     <div id="capBox" hidden style="margin-top:8px">
-      <textarea id="capInput" rows="2" placeholder="日本語で「これ言いたい」を書く（英語はあとで私が入れます）"></textarea>
+      <h2>今日つまずいたこと</h2>
+      <div class="capture-options"><label>場面<select id="capScene"><option>診療</option><option>旅行</option><option>日常・自分の考え</option></select></label><label>つまずき<select id="capObstacle"><option>言えなかった</option><option>聞き取れなかった</option><option>返せなかった</option></select></label></div>
+      <textarea id="capInput" rows="3" maxlength="1000" aria-label="つまずいたこと" placeholder="例：ホテルで、静かな部屋に変えてほしいと頼めなかった。"></textarea>
       <div class="row" style="margin-top:8px">
         <button class="ng" data-action="capCancel">閉じる</button>
-        <button class="ok" data-action="capSave">ためる</button>
+        <button class="ok" data-action="capSave">メモを保存</button>
       </div>
+      <p class="muted">患者さんの名前など、個人を特定できる情報は書かず、言いたかった内容だけ残してください。</p>
       <div id="capList"></div>
-      <button class="link" id="capCopyBtn" data-action="capCopy" hidden>📋 ためた分を全部コピー（Claudeに貼って英語化）</button>
+      <button class="link" id="capCopyBtn" data-action="capCopy" hidden>📋 メモをコピー</button>
     </div>
     <footer>
       <div id="cloudStatus">☁️ この端末だけに保存（ログイン前）</div>
       <button class="link" data-action="cloud" id="cloudBtn">Google でログインして同期</button>
       <div class="muted" style="font-size:11px">ログインすると PC と iPhone で同じ進捗になります（オフラインでも動きます）</div>
     </footer>
+  </section>
+
+  <section id="shelf" hidden aria-label="自分のことば帳">
+    <div class="bar"><h2 tabindex="-1" id="shelfTitle">自分のことば帳</h2><button class="link" data-action="home">ホームへ</button></div>
+    <p class="muted">集めた文を全部、今日覚える必要はありません。必要になったときに戻れます。</p>
+    <div id="shelfTabs" class="chips" aria-label="練習の状態"></div>
+    <div class="capture-options"><label>場面<select id="shelfTopic"><option value="all">すべて</option><option value="clinic">診療</option><option value="travel">旅行・日常</option><option value="me">自分の考え</option></select></label></div>
+    <label for="shelfSearch">ことばを探す</label><input type="search" id="shelfSearch" placeholder="日本語・英語で検索">
+    <p id="shelfCount" class="stat" role="status"></p><div id="shelfList"></div>
+    <button class="speak" id="shelfMore" data-action="shelfMore" hidden>続きを見る</button>
+  </section>
+
+  <section id="practice" hidden aria-label="3分練習">
+    <div class="bar"><h2 id="prTitle" tabindex="-1">3分練習</h2><button class="link" data-action="home">中断してホームへ</button></div>
+    <p class="counter" id="prCounter"></p>
+    <div id="prBody"></div>
+    <div id="prRecording" class="xp" hidden>
+      <button class="speak" data-action="prRecord" id="prRecord">🎙 自分の声を録る</button>
+      <p class="stat" id="prRecordNote" role="status">録音はこの画面で聞き比べるためだけに使います。送信・保存はしません。</p>
+      <audio id="prAudio" controls hidden aria-label="自分の録音"></audio>
+    </div>
+    <p class="muted" id="prNote" role="status"></p>
+    <div id="prActions" class="grid"></div>
   </section>
 
   <!-- 学習 -->
@@ -299,7 +371,7 @@
       <button class="chip" data-scene="me">自分を語る（旅先で聞かれる）</button>
       <button class="chip" data-scene="free">自由</button>
     </div>
-    <p class="muted" style="font-size:13px; margin:8px 0 4px">相手役が英語で話しかけます。声か文字で返すと、続きと「こう言うと自然」が返ります。気に入った言い方は 🔖 で保存→リピート練習へ。</p>
+    <p class="muted" style="font-size:13px; margin:8px 0 4px">相手役が英語で話しかけます。声か文字で返すと、続きと、意味を伝えやすくする助言が返ります。気に入った言い方は 🔖 で保存→リピート練習へ。</p>
     <div id="tkLog" class="tklog"></div>
     <p class="stat" id="tkNote"></p>
     <textarea id="tkInput" rows="2" placeholder="英語で返す（日本語でも可＝英語にして返します）"></textarea>
@@ -317,6 +389,7 @@
     <p class="muted" style="font-size:13px">日本語で「こう言いたい」（場面や相手を（ ）で添えると精度が上がります）。①まず覚える王道の1本（丁寧だけれど口語・誰もが使う）と、その文法・ニュアンスの解説、②類似2つ（眺めるだけ）が返ります。</p>
     <textarea id="trInput" rows="3" placeholder="例：（診察室・親へ）熱は高いけど、水分が取れていれば今夜は様子を見て大丈夫です。"></textarea>
     <div class="row" style="margin-top:8px"><button class="ok" data-action="trGo">英語にする</button></div>
+    <p class="stat" id="trNote" role="status"></p>
     <div id="trOut" style="margin-top:10px"></div>
     <div class="bar"><button class="link" data-action="home">← 範囲を選ぶ</button></div>
   </section>
@@ -368,7 +441,7 @@
     <div class="card" style="justify-content:center">
       <div class="en" id="shEn" style="text-align:center"></div>
       <div class="ja-sm" id="shJa" style="text-align:center; margin-top:10px"></div>
-      <p class="muted" style="text-align:center; margin-top:18px; font-size:13px">手本を聞いて、少し遅れて追いかけて声に出す（シャドーイング）。<br>スピーキング力＋訛りに強くなる。</p>
+      <p class="muted" style="text-align:center; margin-top:18px; font-size:13px">手本を聞いて、少し遅れて追いかけて声に出す（シャドーイング）。<br>音のつながりとリズムに慣れる練習です。見ずに話す練習は「3分練習」へ。</p>
       <div class="speakrow" style="justify-content:center; margin-top:10px">
         <button class="speak" data-action="shadowReplay">🔊 もう一度</button>
         <button class="speak rateBtn" data-action="rate">🐢 ゆっくり</button>
@@ -393,7 +466,10 @@
 <script src="patterns.js"></script>
 <script src="parts.js"></script>
 <script src="listen.js"></script>
+<script src="practice-core.js"></script>
 <script src="app.js"></script>
+<script src="practice.js"></script>
+<script src="shelf.js"></script>
 <script type="module" src="cloud.js"></script>
 <script type="module" src="talk.js"></script>
 <div id="jump" hidden>

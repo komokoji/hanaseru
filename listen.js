@@ -19,7 +19,7 @@ window.HANASERU_LISTEN = [
       },
       {
         title: "② 親への説明",
-        en: "Flu and COVID are going around now. So we'll do a quick test with a nose swab. Her overall condition is fine. Her breathing is fine too. But the fever has continued, and these are going around. So let's test, just to be safe. — Okay. What happens if it's positive? — If the flu test is positive, I'll prescribe anti-flu medicine. I'll also give cold medicine for her symptoms, and fever medicine for the fever. Once the fever comes down, you don't need to worry. Please rest at home until she is fully better. For daycare or school, please follow their rules. Please come back if the fever doesn't come down, she is very weak, or she has trouble breathing.",
+        en: "Flu and COVID are going around now. So we'll do a quick test with a nose swab. Her overall condition is fine. Her breathing is fine too. But the fever has continued, and these are going around. So let's test, just to be safe. — Okay. What happens if it's positive? — If the flu test is positive, I'll prescribe anti-flu medicine. I'll also give cold medicine for her symptoms, and fever medicine for the fever. Once the fever comes down, you don't need to worry. Please watch how she's doing at home until she's fully better. For daycare or school, please follow their rules. Please come back if the fever doesn't come down, she is very weak, or she has trouble breathing.",
         ja: "流行しているので鼻の抗原検査 → 全身状態・呼吸は問題なし → 熱が続くので念のため → 陽性なら抗インフル薬 → 風邪薬と解熱剤 → 熱が下がれば心配なし → 家で良くなるまで → 登園・登校は基準どおり → 熱が下がらない／ぐったり／呼吸が苦しそうなら再受診。",
         pick: ["going around（はやっている）", "just to be safe（念のため）", "antiviral（抗ウイルス薬）", "bring down the fever（熱を下げる）", "unusually sleepy（ぐったり）"]
       }
