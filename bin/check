@@ -5,6 +5,7 @@
 #   ⑤ AI会話の Functions が応答する（未デプロイなら要対応として出す）
 set -u
 cd "$(dirname "$0")/.."
+export PATH="$HOME/.npm-global/bin:/opt/homebrew/bin:$PATH"   # firebase が PATH に無いと「ログイン切れ」と誤って出るため
 ng=0
 ok()  { printf '  ✅ %s\n' "$1"; }
 bad() { printf '  ❌ %s\n     → %s\n' "$1" "$2"; ng=1; }
@@ -41,6 +42,17 @@ else bad "辞書・部品・流れ・症例のどこかで id が重複／参照
 
 if node functions/selftest.js >/dev/null 2>&1; then ok "AI の型の自己点検（functions/selftest.js）"
 else bad "AI の型の自己点検が NG（どこかのモードが壊れている）" "node functions/selftest.js"; fi
+
+# ⑦ 作者の印（AGENTS.md）：2026-10-01 以降、定期バックアップに作者不明のコードが混ざっていないか
+git fetch -q origin 'refs/notes/*:refs/notes/*' 2>/dev/null
+unmarked=""
+for h in $(git log --no-merges --since=2026-10-01 --format=%h); do
+  msg=$(git log -1 --format=%B "$h"); note=$(git notes show "$h" 2>/dev/null)
+  printf '%s\n%s' "$msg" "$note" | grep -qE '^(AI-Agent:|Co-Authored-By: Claude)' && continue
+  printf '%s' "$msg" | grep -q '定期バックアップ' && unmarked="$unmarked $h"
+done
+[ -z "$unmarked" ] && ok "作者の印（Claude／Codex／院長の手が区別できる）" \
+  || bad "作者の印がない定期バックアップ:$unmarked（AI の変更が拾われた可能性）" "git show --stat <commit> で中身を見て、git notes add -m \"AI-Agent: …\" <commit> → git push origin refs/notes/commits"
 
 [ $ng = 0 ] && echo "→ すべてOK" || echo "→ 要対応あり"
 exit $ng
