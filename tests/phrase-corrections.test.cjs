@@ -1,0 +1,21 @@
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const vm = require('node:vm');
+const source = fs.readFileSync(require('node:path').join(__dirname, '../app.js'), 'utf8');
+const fn = source.slice(source.indexOf('  function applyPhraseCorrections(s)'), source.indexOf('  var state = load();'));
+const context = {}; vm.runInNewContext(fn, context);
+test('requested saved phrase is corrected in both copies without changing identity or progress', () => {
+  const ja = '熱は続いていますが、全身状態もいいですし、呼吸も問題がない。水分も取れている様子もあるので、もう２、３日熱が下がるかどうかを見ていきましょう。 それで下がらなかったらまた受診してください。';
+  const state = {mine:[{id:'a',ja,en:'old',ts:1},{id:'b',ja,en:'other translation',ts:2},{id:'c',ja:'別の文章',en:'Keep me'}],cards:{a:{box:2},b:{usedAt:123}}};
+  const progress = JSON.stringify(state.cards);
+  assert.equal(context.applyPhraseCorrections(state),true);
+  assert.equal(state.mine[0].en,state.mine[1].en);
+  assert.match(state.mine[0].en,/He still has a fever/);
+  assert.match(state.mine[0].en,/If it doesn't, please bring him back in\./);
+  assert.deepEqual(state.mine.map(m=>m.id),['a','b','c']);
+  assert.equal(state.mine[2].en,'Keep me');
+  assert.equal(JSON.stringify(state.cards),progress);
+  assert.equal(context.applyPhraseCorrections(state),false);
+  assert.equal(context.applyPhraseCorrections({}),false);
+});

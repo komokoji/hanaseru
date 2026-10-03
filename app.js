@@ -25,6 +25,20 @@
     saveListeners.forEach(function (f) { try { f(); } catch (e) {} });
   }
 
+  // 院長が修正を指定した保存文だけを更新。id・学習記録・日本語はそのまま残す。
+  function applyPhraseCorrections(s) {
+    var target = "熱は続いていますが、全身状態もいいですし、呼吸も問題がない。水分も取れている様子もあるので、もう2、3日熱が下がるかどうかを見ていきましょう。それで下がらなかったらまた受診してください。";
+    var revised = "He still has a fever, but he looks well overall. He's breathing comfortably and drinking well. Let's see if the fever comes down over the next two or three days. If it doesn't, please bring him back in.";
+    function normalize(text) { return String(text || '').normalize('NFKC').replace(/\s+/g, ''); }
+    var changed = false;
+    (s.mine || []).forEach(function (m) {
+      if (normalize(m.ja) === normalize(target) && m.en !== revised) {
+        m.en = revised; changed = true;
+      }
+    });
+    return changed;
+  }
+
   var state = load();
   if (!state.cards) state.cards = {};        // id -> {box, due(dayNum)}
   if (state.streak == null) state.streak = 0;
@@ -36,6 +50,7 @@
   if (!state.mono) state.mono = {};          // 🎤 1分で語るのお題ごと {box, due}＝札と同じ節目で「またこのお題」
   if (!state.practiceDays) state.practiceDays = []; // 一文でも練習した日。連続していなくても残す。
   var saveListeners = [];
+  if (applyPhraseCorrections(state)) save(state);
   function allCards() {                      // 辞書（data.js）＋院長が保存したフレーズ（state.mine）
     return CARDS.concat(state.mine.map(function (m) { return { id: m.id, domain: "mine", ja: m.ja, en: m.en, ts: m.ts }; }));
   }
@@ -619,6 +634,7 @@
       if (!state.rate) state.rate = "slow"; if (!state.captures) state.captures = []; if (!state.mine) state.mine = [];
       if (!state.talks) state.talks = []; if (!state.mono) state.mono = {};
       if (!state.practiceDays) state.practiceDays = [];
+      applyPhraseCorrections(state);
       var activity=window.HanaseruPracticeCore.activity(state,dayNum());
       state.practiceDays=activity.days; state.streak=activity.streak;
       state.lastDone=activity.days.length ? activity.days[activity.days.length-1] : null;
