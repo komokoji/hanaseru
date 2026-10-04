@@ -66,6 +66,12 @@ function mergeStates(local, remote) {
     }
     if (r.practiced) l.practiced = true;
   });
+  // 会話の途中経過は場面ごとに新しい記録を採用。再挑戦の index=0 も尊重する。
+  out.scenes = out.scenes || {};
+  Object.keys(remote.scenes || {}).forEach(function (id) {
+    const r = remote.scenes[id], l = out.scenes[id];
+    if (!l || (r.updatedAt || 0) > (l.updatedAt || 0)) out.scenes[id] = r;
+  });
   // 連続日数＝より新しい完了日を持つ側を採用（同じ日なら大きい方）
   if ((remote.lastDone || 0) > (out.lastDone || 0)) { out.lastDone = remote.lastDone; out.streak = remote.streak || 0; }
   else if (remote.lastDone === out.lastDone) out.streak = Math.max(out.streak || 0, remote.streak || 0);

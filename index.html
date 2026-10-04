@@ -116,6 +116,8 @@
   .shelf-entry .speakrow{margin-top:10px}.shelf-entry p{margin:6px 0}
   .activity-status{margin:0 0 12px;padding:9px 12px;border-radius:12px;background:#fff;color:var(--sub);font-size:13px}
   .activity-status.achieved{background:#e0f2e9;color:var(--teal-d);font-weight:600}
+  .goal-start{padding:16px;border:1px solid var(--line);border-radius:18px;margin:14px 0;background:#fff}
+  #scBody,#scActions{overflow-wrap:anywhere}#scBody details{margin:12px 0}#scActions{gap:10px}#scBody .en{font-size:21px}
 </style>
 </head>
 <body>
@@ -130,6 +132,14 @@
   <section id="setup">
     <p class="muted" id="northstar" style="font-size:13px;margin:0 0 2px;color:var(--teal-d)">🧭 日本人らしい英語のまま、自分の考えと気持ちを、はっきり伝えられる人になる。</p>
     <p class="muted" style="font-size:12px;margin:0 0 6px"><b>目標（2026-09-29 決定）</b>：この3つが、止まらずにできる。①自分の考えを、理由を添えて言える ②相手の話に、その場で返せる（聞き返しも含めて） ③詰まっても、言い換えて前に進める。目標は B2。カードの枚数だけでなく、初めての質問にも答えられるかを確かめます。</p>
+    <div class="goal-start">
+      <h2>今、話せるようになりたい2つのこと</h2>
+      <p class="muted">単語や文の暗記から、相手に返す練習へ。今日は1往復でも。</p>
+      <button class="choice" data-action="sceneTrack" data-track="clinic"><span>いつもの説明を、やり取りの中で</span><b>診療で話す ▸</b></button>
+      <p id="sceneHome-clinic" class="stat"></p>
+      <button class="choice" data-action="sceneTrack" data-track="travel"><span>用事を済ませる・短い会話を楽しむ</span><b>12月のドイツで話す ▸</b></button>
+      <p id="sceneHome-travel" class="stat"></p>
+    </div>
     <div class="quick-start">
       <h2>今日のひとことから。</h2>
       <p class="muted">3分を目安に、1文だけでも。聞く → 一文ずつまねる → 見ずに言う → 質問に答える。</p>
@@ -202,6 +212,12 @@
       <button class="link" data-action="cloud" id="cloudBtn">Google でログインして同期</button>
       <div class="muted" style="font-size:11px">ログインすると PC と iPhone で同じ進捗になります（オフラインでも動きます）</div>
     </footer>
+  </section>
+
+  <section id="scenes" hidden aria-label="場面で返す練習">
+    <div class="bar"><h2 id="scTitle" tabindex="-1"></h2><button class="link" data-action="home">ホームへ</button></div>
+    <p id="scContext" class="muted"></p>
+    <div id="scBody"></div><div id="scActions" class="speakrow"></div>
   </section>
 
   <section id="shelf" hidden aria-label="自分のことば帳">
@@ -472,9 +488,11 @@
 <script src="parts.js"></script>
 <script src="listen.js"></script>
 <script src="practice-core.js"></script>
+<script src="scenes-data.js"></script>
 <script src="app.js"></script>
 <script src="practice.js"></script>
 <script src="shelf.js"></script>
+<script src="scenes.js"></script>
 <script type="module" src="cloud.js"></script>
 <script type="module" src="talk.js"></script>
 <div id="jump" hidden>

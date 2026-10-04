@@ -305,7 +305,7 @@
     var s = document.getElementById("shadow"); if (s) s.hidden = true;
     var l = document.getElementById("listen"); if (l) l.hidden = true;
     var tk = document.getElementById("talk"); if (tk) tk.hidden = true;
-    ["clinic", "build", "patterns", "mono", "practice", "shelf"].forEach(function (id) { var n = document.getElementById(id); if (n) n.hidden = true; });
+    ["clinic", "build", "patterns", "mono", "practice", "shelf", "scenes"].forEach(function (id) { var n = document.getElementById(id); if (n) n.hidden = true; });
     var co = document.getElementById("coach"); if (co) co.hidden = true;
   }
 
@@ -645,6 +645,13 @@
     onChange: function (f) { saveListeners.push(f); },
     cards: allCards,
     recordActivity: recordActivity,
+    openScenes: function () { hideMain(); document.getElementById("scenes").hidden = false; window.scrollTo(0, 0); },
+    updateScene: function (id, patch) {
+      if (!(window.HANASERU_SCENES || []).some(function (s) { return s.id === id; })) return;
+      if (!state.scenes) state.scenes = {};
+      state.scenes[id] = Object.assign({}, state.scenes[id] || {}, patch, { updatedAt: Date.now() });
+      save(state);
+    },
     openShelf: function () { hideMain(); document.getElementById("shelf").hidden = false; window.scrollTo(0, 0); },
     setCardFlag: function (id, flag, value) {
       if (!cardById(id) || ['paused','usedAt'].indexOf(flag) < 0) return;
