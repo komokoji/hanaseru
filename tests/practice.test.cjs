@@ -40,14 +40,14 @@ test('sync retains capture to phrase linkage and supports legacy records', () =>
 });
 test('all lesson references and new offline assets are present', () => {
   const context={window:{}}; vm.createContext(context);
-  for(const f of ['data','trip','visit','gutnutri','me','basics','parts','listen']) vm.runInContext(fs.readFileSync(require.resolve('../'+f+'.js'),'utf8'),context);
+  for(const f of ['data','trip','visit','gutnutri','me','basics','conversation','parts','listen']) vm.runInContext(fs.readFileSync(require.resolve('../'+f+'.js'),'utf8'),context);
   const H=context.window, ids=new Set(H.HANASERU_CARDS.map(c=>c.id));
   assert.equal(ids.size,H.HANASERU_CARDS.length);
   for(const p of H.HANASERU_PARTS) for(const id of p.ids) assert.ok(ids.has(id),id);
   for(const f of H.HANASERU_FLOWS) for(const id of f.parts) assert.ok(H.HANASERU_PART_BY_ID[id],id);
   for(const c of H.HANASERU_CASES) for(const id of c.model) assert.ok(H.HANASERU_PART_BY_ID[id],id);
   const sw=fs.readFileSync(require.resolve('../sw.js'),'utf8');
-  for(const f of ['practice.js','practice-core.js']) assert.ok(sw.includes('"./'+f+'"'));
+  for(const f of ['practice.js','practice-core.js','conversation.js']) assert.ok(sw.includes('"./'+f+'"'));
 });
 test('shelf separates a saved intention, previous practice, real use and a pause',()=>{
   const c=card('x');
@@ -88,4 +88,22 @@ test('legacy streak and separate-device activity days join without losing contin
   const result=merge({cards:{},lastDone:9,streak:5},{cards:{},practiceDays:[10],lastDone:10,streak:1});
   assert.equal(Core.activity(result,10).streak,6);
   assert.equal(Core.activity({lastDone:200,streak:150},200).streak,150);
+});
+
+test('response cues rotate, match a known intent, and classify referral/bridge cards correctly',()=>{
+  const ctx={window:{HANASERU_CARDS:[]}};vm.createContext(ctx);
+  vm.runInContext(fs.readFileSync(require.resolve('../conversation.js'),'utf8'),ctx);
+  const added=ctx.window.HANASERU_CARDS;
+  assert.equal(added.length,18);
+  assert.equal(Core.topic({domain:'refer'}),'clinic');
+  for(const c of added){
+    assert.equal(Core.topic(c),c.topic);
+    assert.equal(Core.eligible(c,'bridge'),true);
+    assert.notEqual(Core.responseCue(c,0).en,Core.responseCue(c,1).en);
+  }
+  assert.equal(Core.eligible({id:'trip-t03',en:'How long are you staying?',ja:'（相手に）どのくらい滞在？'},'all'),true);
+  assert.equal(Core.eligible({id:'trip-t13',en:'Just getting started!',ja:'（相手）始まったばかりですね'},'all'),false);
+  assert.equal(Core.eligible({id:'ls',domain:'listen',en:'Please remain seated.',ja:'座ったままで'},'all'),false);
+  assert.deepEqual(Core.sentences('Dr. Komori gave 2.5 ml. Thank you.'),['Dr. Komori gave 2.5 ml.','Thank you.']);
+  assert.deepEqual(Core.sentences("He's doing well. Could you tell me more?"),["He's doing well.","Could you tell me more?"]);
 });

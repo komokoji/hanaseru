@@ -165,6 +165,36 @@ const BASE = process.env.HANASERU_TEST_URL || 'http://127.0.0.1:8087';
     }
     await page.screenshot({path:'/tmp/hanaseru-explanation.png',fullPage:false});
     console.log('PASS: checklist explanation, alternative audio, collapse/reopen cache and mobile fit');
+    await page.click('#checklist [data-action=home]');
+    await page.selectOption('#practiceFocus','bridge');
+    await page.click('#practiceStart');
+    const responseIds=await page.evaluate(()=>JSON.parse(localStorage.getItem('hanaseru.practice.v1')).ids);
+    assert.equal(responseIds.length,3);
+    await page.click('[data-action=prNext]');
+    await page.locator('.practice-chunks summary').click();
+    await page.click('[data-action=prChunk]');
+    assert.ok(await page.locator('.chunk-line').count());
+    await page.click('[data-action=prNext]');
+    await page.click('[data-action=prRecall]');
+    assert.match(await page.locator('#prBody').innerText(),/相手から/);
+    assert.equal(await page.locator('[data-action=prQuestion]').count(),1);
+    await page.click('[data-action=prResponseHint]');
+    await page.reload(); await page.click('#practiceStart');
+    assert.match(await page.locator('[data-action=prTransfer]').innerText(),/手がかり/);
+    await page.click('[data-action=prTransfer]');
+    assert.equal(await page.evaluate(id=>window.Hanaseru.getState().cards[id].practiceOutcome,responseIds[0]),'recalled');
+    for(let i=0;i<2;i++) {await page.click('[data-action=prNext]');await page.click('[data-action=prNext]');await page.click('[data-action=prAgain]');}
+    const gradeBefore=await page.evaluate(id=>window.Hanaseru.getState().cards[id].box,responseIds[0]);
+    await page.click('[data-action=prRetest]');
+    assert.match(await page.locator('#prCounter').innerText(),/質問から再挑戦/);
+    assert.equal(await page.locator('[data-action=prResponseHint]').count(),1);
+    await page.click('[data-action=prTransfer]');
+    assert.equal(await page.evaluate(id=>window.Hanaseru.getState().cards[id].box,responseIds[0]),gradeBefore);
+    assert.match(await page.locator('#prCounter').innerText(),/2 \/ 3文/);
+    assert.equal(await page.locator('[data-action=prQuestion]').count(),1);
+    await page.screenshot({path:'/tmp/hanaseru-response.png',fullPage:true});
+    console.log('PASS: sentence audio, response hints survive reload without false transfer success, question retest preserves retention');
+
     assert.deepEqual(errors,[]);
     console.log('PASS: mobile layout (320/390/768), hidden-answer recall, focus/single-card resume, grading, capture → translation → saved practice, mock audio cleanup, mic denial/pending permission cleanup, focused AI conversation');
     await context.close();

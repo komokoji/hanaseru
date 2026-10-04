@@ -31,7 +31,7 @@
     // ── ① 最優先15文 ──
     { id: "trip-s01", domain: "trip", ja: "すみません、助けてもらえますか？", en: "Excuse me, could you help me?", note: "困ったら最初の一言はこれ。相手が止まってくれる。" },
     { id: "trip-s02", domain: "trip", ja: "どこへ行けばいいですか？", en: "Where should we go?", note: "should＝「〜すべき」より軽く「〜したらいい？」。" },
-    { id: "trip-s03", domain: "trip", ja: "乗り継ぎはどちらですか？", en: "Where are the Flight Connections?", note: "表示の名前をそのまま使えば必ず通じる。" },
+    { id: "trip-s03", domain: "trip", ja: "乗り継ぎはどちらですか？", en: "Which way is it for connecting flights?", note: "Which way is it for ～?＝～へはどちらですか。Flight Connections の表示を探すときの質問。" },
     { id: "trip-s04", domain: "trip", ja: "私たちの荷物は、バルセロナまでそのまま行きますか？", en: "Is our baggage checked through to Barcelona?", note: "checked through to ～＝「～まで通しで預けてある」。行きのヒースロー乗り継ぎで確認。" },
     { id: "trip-s05", domain: "trip", ja: "ここで荷物を受け取る必要がありますか？", en: "Do we need to collect our baggage here?", note: "collect＝受け取る（pick up でも可）。" },
     { id: "trip-s06", domain: "trip", ja: "ドイツに2泊します。", en: "We're staying in Germany for two nights.", note: "予定は進行形（We're staying）で言うのが自然。" },
@@ -61,7 +61,7 @@
     { id: "trip-c11", domain: "trip2", ja: "（係員）液体はお持ちですか？", en: "Do you have any liquids?" },
     { id: "trip-c12", domain: "trip2", ja: "（係員）ご自分で荷造りしましたか？", en: "Did you pack this bag yourself?", note: "答えは Yes, I did.（はい）。" },
     // 入国審査（この旅の答え）
-    { id: "trip-c13", domain: "trip2", ja: "観光と、息子を迎えに来ました。", en: "I'm here for tourism and to pick up my son." },
+    { id: "trip-c13", domain: "trip2", ja: "観光と、息子を迎えに来ました。", en: "I'm here to do some sightseeing and pick up my son." },
     { id: "trip-c14", domain: "trip2", ja: "5日間滞在します。", en: "We're staying for five days." },
     { id: "trip-c15", domain: "trip2", ja: "バルセロナのホテルに泊まります。", en: "We're staying at a hotel in Barcelona." },
     { id: "trip-c16", domain: "trip2", ja: "はい、ドイツ経由で日本へ帰ります。", en: "Yes, we're returning to Japan via Germany.", note: "via＝～経由で（ヴァイア）。" },
@@ -82,7 +82,7 @@
 
     // ── ② 会話を広げる雑談 ──
     { id: "trip-t01", domain: "trip2", ja: "まだ2日しかいません。", en: "I've only been here for two days." },
-    { id: "trip-t02", domain: "trip2", ja: "来て2日目です。全部で1週間滞在します。", en: "I've been here for two days. I'm here for a week in total.", note: "in total＝全部で。「今まで」と「全体」を1回で言える便利な型。" },
+    { id: "trip-t02", domain: "trip2", ja: "来て2日目です。全部で1週間滞在します。", en: "This is our second day here. We're staying for a week in total.", note: "in total＝全部で。「今まで」と「全体」を1回で言える便利な型。" },
     { id: "trip-t03", domain: "trip2", ja: "（相手に）どのくらい滞在する予定ですか？", en: "How long are you staying?", note: "滞在全体の長さを聞く。How long are you here for? もほぼ同じ意味。今までの長さは How long have you been here?" },
     { id: "trip-t04", domain: "trip2", ja: "（相手に）全体でどのくらいいるんですか？", en: "How long are you here for?", note: "How long are you staying? とほぼ同じ意味の、くだけた言い方。" },
     { id: "trip-t05", domain: "trip2", ja: "（相手に）スペインは初めてですか？", en: "Is this your first time in Spain?" },

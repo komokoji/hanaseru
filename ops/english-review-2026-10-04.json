@@ -1,0 +1,5132 @@
+[
+  {
+    "id": "sign-01",
+    "domain": "sign",
+    "ja": "ご心配ですよね。お気持ちわかります。",
+    "before": "You must be worried. I understand.",
+    "after": "You must be worried. I understand.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "sign-02",
+    "domain": "sign",
+    "ja": "まず、安心してください。",
+    "before": "First, please don't worry.",
+    "after": "First, please don't worry.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "sign-03",
+    "domain": "sign",
+    "ja": "これは子どもによくあることです。",
+    "before": "This is very common in children.",
+    "after": "This is very common in children.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "sign-04",
+    "domain": "sign",
+    "ja": "本当の◯◯ではありません。むしろ△△です。",
+    "before": "It isn't really ___. It's more like ___.",
+    "after": "It isn't really ___. It's more like ___.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "sign-05",
+    "domain": "sign",
+    "ja": "一番大事なのは、〜です。",
+    "before": "The main thing is ___.",
+    "after": "The main thing is ___.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "sign-06",
+    "domain": "sign",
+    "ja": "その都度、しっかり治していきましょう。",
+    "before": "Let's treat it properly each time.",
+    "after": "Let's treat it properly each time.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "sign-07",
+    "domain": "sign",
+    "ja": "一緒に様子を見ていきましょう。",
+    "before": "Let's watch how she does. We'll do it together.",
+    "after": "Let's keep an eye on how she's doing together.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "sign-08",
+    "domain": "sign",
+    "ja": "ですから、心配いりません。",
+    "before": "So, please don't worry.",
+    "after": "So, please don't worry.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "sign-09",
+    "domain": "sign",
+    "ja": "何かあれば、いつでも来てください。",
+    "before": "If anything happens, please come back anytime.",
+    "after": "If anything happens, please come back anytime.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "sign-10",
+    "domain": "sign",
+    "ja": "焦らず、少しずつ良くしていきましょう。",
+    "before": "No rush. Let's get her better step by step.",
+    "after": "There's no rush. Let's help her get better, step by step.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-intro-1",
+    "domain": "medical",
+    "ja": "私は小児外科医です。子どものお腹と栄養を診ています。",
+    "before": "I'm a pediatric surgeon. I take care of children's tummy problems and nutrition.",
+    "after": "I'm a pediatric surgeon. I look after children with tummy problems and help with their nutrition.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-intro-2",
+    "domain": "medical",
+    "ja": "今日はお子さんの状態を説明して、一緒に方針を決めましょう。",
+    "before": "Today, I'll explain how she is doing. Then we'll decide the plan together.",
+    "after": "Today, I'll explain how she's doing. Then we'll make a plan together.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-ast-1",
+    "domain": "medical",
+    "ja": "熱と咳、ゼーゼーが続いて、ご心配ですよね。",
+    "before": "She has had fever, cough, and wheezing. You must be worried.",
+    "after": "She's had a fever, a cough, and wheezing. I can understand why you're worried.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-ast-2",
+    "domain": "medical",
+    "ja": "まず安心してください。RSウイルスの検査は陰性でした。",
+    "before": "First, please don't worry. Her RSV test was negative.",
+    "after": "First, please don't worry. Her RSV test was negative.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-ast-3",
+    "domain": "medical",
+    "ja": "子どもは風邪をひくと、気道が敏感になってゼーゼーします。",
+    "before": "When children get a cold, their airways get sensitive. So they wheeze.",
+    "after": "When children get a cold, their airways get sensitive. So they wheeze.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-ast-4",
+    "domain": "medical",
+    "ja": "喘息のようなゼーゼーですが、ほとんどの場合、本当の喘息ではありません。",
+    "before": "It sounds like asthma. But in most cases, it is not true asthma.",
+    "after": "It sounds like asthma. But in most cases, it is not true asthma.",
+    "language_review": "retained",
+    "context_review": "「本当の喘息ではない」の対象・年齢・診断条件を明示したい。"
+  },
+  {
+    "id": "med-ast-5",
+    "domain": "medical",
+    "ja": "酸素の値は問題ありません。ただ、ゼーゼーで夜眠りにくくなります。",
+    "before": "Her oxygen level is fine. But the wheezing can make it hard to sleep at night.",
+    "after": "Her oxygen level is fine. But the wheezing can make it hard to sleep at night.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-ast-6",
+    "domain": "medical",
+    "ja": "クリニックで吸入をしました。気道を広げて楽にする薬です。",
+    "before": "We did a nebulizer treatment here. It opens the airways. It makes breathing easier.",
+    "after": "We gave her a nebulizer treatment here. The medicine opens her airways and helps her breathe more easily.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-ast-7",
+    "domain": "medical",
+    "ja": "長く続く治療は要りません。風邪のたびにしっかり治すことが大事です。",
+    "before": "She doesn't need long-term treatment. But each time she gets a cold, we treat it well.",
+    "after": "She doesn't need long-term treatment. But each time she gets a cold, we treat it well.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-ast-8",
+    "domain": "medical",
+    "ja": "今すぐ「喘息」と決めつける必要はありません。",
+    "before": "We don't need to call this asthma right now.",
+    "after": "We don't need to call this asthma right now.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-ast-9",
+    "domain": "medical",
+    "ja": "大事なのは診断名より、今の気道の炎症をしっかり取ることです。",
+    "before": "Right now, treating the inflammation in her airways matters more than the name.",
+    "after": "Right now, treating the inflammation in her airways matters more than the name.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-ast-10",
+    "domain": "medical",
+    "ja": "炎症をしっかり取ってリセットすると、本人も楽になり、次のゼーゼーの予防にもなります。",
+    "before": "Once we clear the inflammation, her airways get a reset. She feels better. And it helps prevent the next wheezing.",
+    "after": "Treating the inflammation gives her airways a chance to recover. It helps her feel better and helps prevent another episode of wheezing.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-ast-11",
+    "domain": "medical",
+    "ja": "目標はシンプルです。夜ぐっすり眠れて、楽に呼吸できること。",
+    "before": "We want her to sleep well at night and breathe easily.",
+    "after": "We want her to sleep well at night and breathe easily.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-ast-12",
+    "domain": "medical",
+    "ja": "小さな子は、風邪をひくとすぐにゼーゼーしやすいんです。",
+    "before": "Small children often wheeze as soon as they get a cold.",
+    "after": "Small children often wheeze as soon as they get a cold.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-ast-13",
+    "domain": "medical",
+    "ja": "この子も、風邪のたびにゼーゼーしていますね。",
+    "before": "She wheezes every time she catches a cold, doesn't she?",
+    "after": "She wheezes every time she catches a cold, doesn't she?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-ast-14",
+    "domain": "medical",
+    "ja": "ゼーゼーが3回以上あって、気管支を広げる吸入で治まる場合は、いったん「小児喘息」と呼びます。",
+    "before": "If she wheezes three or more times, and it gets better with a nebulizer treatment, we call it childhood asthma for now.",
+    "after": "If she wheezes three or more times, and it gets better with a nebulizer treatment, we call it childhood asthma for now.",
+    "language_review": "retained",
+    "context_review": "3回以上＋吸入反応だけで診断が完結するように聞こえる。適用条件の確認が必要。"
+  },
+  {
+    "id": "med-ast-15",
+    "domain": "medical",
+    "ja": "でも、ほとんどは一時的なもので、本当の喘息になる子はごくわずかです。",
+    "before": "But in most cases, it is temporary. Very few children get true asthma.",
+    "after": "But in most cases, it is temporary. Very few children get true asthma.",
+    "language_review": "retained",
+    "context_review": "「ごくわずか」の対象集団と根拠を確認したい。"
+  },
+  {
+    "id": "med-ast-16",
+    "domain": "medical",
+    "ja": "その都度、風邪の治療と、敏感になった気道の治療をしっかり行います。",
+    "before": "Each time, we treat the cold. And we treat the sensitive airways.",
+    "after": "Each time, we treat her cold and help calm her sensitive airways.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-ast-17",
+    "domain": "medical",
+    "ja": "炎症をしっかり取っていけば、ほとんどの子は大きくなるにつれて治っていきます。",
+    "before": "If we clear the inflammation each time, most children grow out of it.",
+    "after": "If we clear the inflammation each time, most children grow out of it.",
+    "language_review": "retained",
+    "context_review": "炎症治療と成長による改善の因果関係が強く聞こえる。"
+  },
+  {
+    "id": "med-ast-18",
+    "domain": "medical",
+    "ja": "ごく一部の子だけが、本当の喘息として長く治療が必要になります。",
+    "before": "Only a few children have true asthma. They need long-term treatment.",
+    "after": "Only a few children have true asthma. They need long-term treatment.",
+    "language_review": "retained",
+    "context_review": "長期治療が必要な割合を一般化しない。"
+  },
+  {
+    "id": "med-med-1",
+    "domain": "medical",
+    "ja": "今の風邪薬は続けてください。今日、追加でお出しします。",
+    "before": "Please keep giving the current cold medicine. I'll give you more today.",
+    "after": "Please keep giving her the cold medicine she's taking now. I'll prescribe some more today.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-med-2",
+    "domain": "medical",
+    "ja": "熱が数日続いて、中耳炎と軽い気管支炎が出ています。",
+    "before": "She has had a fever for a few days. Now she has an ear infection and mild bronchitis.",
+    "after": "She has had a fever for a few days. Now she has an ear infection and mild bronchitis.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-med-3",
+    "domain": "medical",
+    "ja": "なので抗生物質を新しく足します。両方きちんと飲ませてください。",
+    "before": "So, I'll add an antibiotic. Please give her both medicines.",
+    "after": "So, I'll add an antibiotic. Please give her both medicines.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-med-4",
+    "domain": "medical",
+    "ja": "まずは熱が下がるか、鼻や胸の症状が良くなるかを見ていきましょう。",
+    "before": "First, let's see if the fever comes down. And let's see if her nose and chest get better.",
+    "after": "First, let's see if her fever comes down and her nose and chest symptoms improve.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-rev-1",
+    "domain": "medical",
+    "ja": "熱が下がらなければ、木曜か金曜にまた来てください。",
+    "before": "If the fever doesn't come down, please come back on Thursday or Friday.",
+    "after": "If the fever doesn't come down, please come back on Thursday or Friday.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-rev-2",
+    "domain": "medical",
+    "ja": "夜の咳がひどい時は、診療時間内なら予約なしで吸入に来られます。この特急券をどうぞ。",
+    "before": "If her cough is bad at night, you can come for a nebulizer treatment. No appointment needed, during clinic hours. Here is an express ticket.",
+    "after": "If her cough is bad at night, you can come for a nebulizer treatment. No appointment needed, during clinic hours. Here is an express ticket.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-rev-3",
+    "domain": "medical",
+    "ja": "これだけは救急へ：横になって全く眠れない。",
+    "before": "Please go to the ER for these signs. She can't sleep at all lying down.",
+    "after": "Please go to the ER for these signs. She can't sleep at all lying down.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-rev-4",
+    "domain": "medical",
+    "ja": "肩やお腹を使って息をしている。目がうつろ。",
+    "before": "She is using her shoulders or belly to breathe. Or her eyes look dazed.",
+    "after": "She is using her shoulders or belly to breathe. Or her eyes look dazed.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-fev-1",
+    "domain": "medical",
+    "ja": "集団生活を始めた子が、毎週のように風邪をひくのは、異常ではありません。",
+    "before": "A child who just started daycare gets a cold almost every week. This is normal.",
+    "after": "A child who just started daycare gets a cold almost every week. This is normal.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-fev-2",
+    "domain": "medical",
+    "ja": "今は、体が初めてのウイルスに出会って、免疫を一つずつ学んでいる最中です。",
+    "before": "Right now, her body is meeting new viruses for the first time. It's building immunity one by one.",
+    "after": "Her body is meeting these viruses for the first time. It's learning to fight them, one by one.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-fev-3",
+    "domain": "medical",
+    "ja": "3ヶ月から半年ほどで、少しずつ強くなって山を越えます。",
+    "before": "Over three to six months, she gets stronger little by little. Then it gets easier.",
+    "after": "Over three to six months, she gets stronger little by little. Then it gets easier.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-fev-4",
+    "domain": "medical",
+    "ja": "完治を狙わなくて大丈夫。つらい症状を楽にしながら、根気よく付き合いましょう。",
+    "before": "We don't need a perfect cure. Let's ease the hard symptoms. And let's be patient together.",
+    "after": "We don't have to get rid of every symptom. Let's help her feel more comfortable and take it one step at a time.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-fev-5",
+    "domain": "medical",
+    "ja": "熱が続くときは、元気そうでも3日目あたりに一度受診してください。",
+    "before": "If the fever continues, please come in around day three. Even if she seems fine.",
+    "after": "If the fever continues, please come in around day three. Even if she seems fine.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-fev-6",
+    "domain": "medical",
+    "ja": "熱が下がるまでは、一緒に経過を見せてください。風邪以外の原因も見逃さないためです。",
+    "before": "Until the fever comes down, please keep coming in. That way we don't miss anything other than a cold.",
+    "after": "Until the fever comes down, please keep coming in. That way we don't miss anything other than a cold.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-fev-7",
+    "domain": "medical",
+    "ja": "解熱して24時間たって元気なら、登園できます。",
+    "before": "She can go back to daycare once she's been fever-free for 24 hours and feels well.",
+    "after": "She can go back to daycare once she's been fever-free for 24 hours and feels well.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-fev-8",
+    "domain": "medical",
+    "ja": "咳だけ長く残るのは、気道が敏感になっているからです。つらいときは炎症をしっかり取ります。",
+    "before": "A cough can stay for a while. That's because her airways are sensitive. If it's hard on her, we treat the inflammation.",
+    "after": "A cough can stay for a while. That's because her airways are sensitive. If it's hard on her, we treat the inflammation.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-fev-9",
+    "domain": "medical",
+    "ja": "どうか、ご自分を責めないでください。お父さん・お母さんの体調も大切にしてください。",
+    "before": "Please don't blame yourself. And please take care of your own health too.",
+    "after": "Please don't blame yourself. And please take care of your own health too.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-fev-10",
+    "domain": "medical",
+    "ja": "何度風邪をひいても大丈夫。少しずつ、強くなっていきます。",
+    "before": "It's okay if she gets many colds. Little by little, she is getting stronger.",
+    "after": "It's okay if she gets many colds. Little by little, she is getting stronger.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-gi-1",
+    "domain": "medical",
+    "ja": "胃腸炎で一番こわいのは脱水です。",
+    "before": "With a stomach bug, the biggest worry is dehydration.",
+    "after": "With a stomach bug, the biggest worry is dehydration.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-gi-2",
+    "domain": "medical",
+    "ja": "吐き気が強い間（半日ほど）は、無理に飲ませないでください。",
+    "before": "While the nausea is strong, for about half a day, don't force her to drink.",
+    "after": "While the nausea is strong, for about half a day, don't force her to drink.",
+    "language_review": "retained",
+    "context_review": "「半日」は飲水中断と誤解され得る。少量頻回の経口補水との整合を院長確認。"
+  },
+  {
+    "id": "med-gi-3",
+    "domain": "medical",
+    "ja": "落ち着いてきたら、スプーン一杯を5〜15分おきに、点滴みたいに少しずつ。",
+    "before": "When it settles, give one spoonful every 5 to 15 minutes. Slowly, like a drip.",
+    "after": "When it settles, give one spoonful every 5 to 15 minutes. Slowly, like a drip.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-gi-4",
+    "domain": "medical",
+    "ja": "一気に飲ませると、また吐きやすいので、少しずつ。",
+    "before": "If she drinks a lot at once, she will throw up again. So, little by little.",
+    "after": "If she drinks a lot at once, she may throw up again. So give her a little at a time.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-gi-5",
+    "domain": "medical",
+    "ja": "水分が取れたら、お粥やうどんなど消化のいいものから。",
+    "before": "When she can keep fluids down, start with easy foods. Rice porridge or noodles are good.",
+    "after": "Once she can keep fluids down, start with foods that are easy to digest, like rice porridge or noodles.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-gi-6",
+    "domain": "medical",
+    "ja": "下痢の間は、牛乳や乳製品は控えめに。",
+    "before": "Give less milk and dairy while she has diarrhea.",
+    "after": "Give less milk and dairy while she has diarrhea.",
+    "language_review": "retained",
+    "context_review": "乳製品を控える対象条件を確認。NICEは通常のミルク再開を含めて推奨。"
+  },
+  {
+    "id": "med-gi-7",
+    "domain": "medical",
+    "ja": "数日食べられなくても、水分と塩分・糖分が取れていれば大丈夫です。",
+    "before": "Even if she can't eat for a few days, that's okay. She just needs fluids, salt, and sugar.",
+    "after": "Even if she can't eat for a few days, that's okay. She just needs fluids, salt, and sugar.",
+    "language_review": "retained",
+    "context_review": "数日食べられない場合の安全性は脱水・全身状態などに依存する。"
+  },
+  {
+    "id": "med-gi-8",
+    "domain": "medical",
+    "ja": "下痢でお尻がかぶれます。赤くなる前にワセリンで守りましょう。",
+    "before": "Diarrhea can make her bottom sore. Put Vaseline on it before it turns red.",
+    "after": "Diarrhea can make her bottom sore. Put Vaseline on it before it turns red.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-gi-9",
+    "domain": "medical",
+    "ja": "もし吐いても、焦らなくて大丈夫。少し戻して、また少しずつで大丈夫です。",
+    "before": "If she throws up, don't worry. Take a short break. Then start again, little by little.",
+    "after": "If she throws up, don't worry. Take a short break. Then start again, little by little.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-gi-10",
+    "domain": "medical",
+    "ja": "ぐったり、目がうつろ、8〜10時間おしっこが出ない——これは夜でも救急へ。",
+    "before": "If she is very limp, her eyes look empty, or no pee for 8 to 10 hours, go to the ER. Even at night.",
+    "after": "If she is very limp, her eyes look empty, or no pee for 8 to 10 hours, go to the ER. Even at night.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-con-1",
+    "domain": "medical",
+    "ja": "便が硬いこと＝便秘、とは限りません。大事なのは、すっきり出し切れているかです。",
+    "before": "Hard stool does not always mean constipation. The important thing is, can she empty out completely?",
+    "after": "Hard stools don't always mean constipation. What matters is whether she can empty her bowels fully.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-con-2",
+    "domain": "medical",
+    "ja": "まず、直腸にたまったうんちを、しっかり出し切ることから始めます。",
+    "before": "First, we empty the stool that has built up in the rectum.",
+    "after": "First, let's clear out the stool that's built up in her rectum.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-con-3",
+    "domain": "medical",
+    "ja": "直腸を出し切るために、浣腸を主役に使います。",
+    "before": "To empty the rectum, an enema is our main tool.",
+    "after": "To empty the rectum, an enema is our main tool.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-con-4",
+    "domain": "medical",
+    "ja": "浣腸は癖になりません。安心してください。",
+    "before": "Enemas are not habit-forming. Please don't worry.",
+    "after": "Enemas are not habit-forming. Please don't worry.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-con-5",
+    "domain": "medical",
+    "ja": "浣腸は、その日のうんちを出すためだけのものではありません。",
+    "before": "An enema is not just for passing today's stool.",
+    "after": "An enema is not just for passing today's stool.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-con-6",
+    "domain": "medical",
+    "ja": "毎日しっかり出すことで、腸のセンサーと押し出す力を取り戻します。",
+    "before": "By emptying every day, her bowel gets back its sensation and its pushing power.",
+    "after": "Emptying her bowels every day helps her regain the feeling that she needs to go, and the strength to push the stool out.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-con-7",
+    "domain": "medical",
+    "ja": "お薬を減らせたら治った、ではありません。毎日すっきり出せる習慣が本当のゴールです。",
+    "before": "Less medicine does not mean she is cured. The real goal is emptying comfortably every day.",
+    "after": "Less medicine does not mean she is cured. The real goal is emptying comfortably every day.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-con-8",
+    "domain": "medical",
+    "ja": "これは長期戦です。焦らず、少しずつ進めましょう。",
+    "before": "This takes a long time. No rush. Let's go step by step.",
+    "after": "This takes a long time. No rush. Let's go step by step.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-con-9",
+    "domain": "medical",
+    "ja": "硬い便で切れると、痛くて我慢して、もっと便秘になります。その悪循環を断ちます。",
+    "before": "Hard stool can cause a tear. It hurts, so she holds it in. Then it gets worse. We break that cycle.",
+    "after": "Hard stools can cause a small tear. Because it hurts, she holds her stool in, which makes the constipation worse. Let's break that cycle.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-con-10",
+    "domain": "medical",
+    "ja": "今、お子さんがどのステップにいるかを見ながら進めます。",
+    "before": "We check which step she is at now. Then we move forward.",
+    "after": "We'll check where she is in her treatment and decide the next step together.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-hf-1",
+    "domain": "medical",
+    "ja": "高い熱だけで、脳がダメになることはありません。",
+    "before": "A high fever alone won't damage her brain.",
+    "after": "A high fever alone won't damage her brain.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-hf-2",
+    "domain": "medical",
+    "ja": "熱は、体が病原体と戦っている証拠です。",
+    "before": "The fever is a sign that her body is fighting the infection.",
+    "after": "The fever is a sign that her body is fighting the infection.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-hf-3",
+    "domain": "medical",
+    "ja": "解熱剤は病気を治す薬ではなく、つらさを和らげるものです。",
+    "before": "Fever medicine doesn't cure the illness. It just makes her more comfortable.",
+    "after": "Fever medicine doesn't cure the illness. It just makes her more comfortable.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-hf-4",
+    "domain": "medical",
+    "ja": "何度で使うかより、「つらそうかどうか」で決めてください。",
+    "before": "Don't go by the number. Go by how she looks.",
+    "after": "Decide by how uncomfortable she seems, not just the temperature.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-hf-5",
+    "domain": "medical",
+    "ja": "水分が取れないくらいつらい時、眠れない時に使ってください。",
+    "before": "Use it when she is too uncomfortable to drink. Or when she can't sleep.",
+    "after": "Give it if she's too uncomfortable to drink or sleep.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-hf-6",
+    "domain": "medical",
+    "ja": "高熱でも元気そうなら、使わなくて大丈夫です。",
+    "before": "If she has a high fever but seems fine, you don't need to give it.",
+    "after": "If she has a high fever but seems fine, you don't need to give it.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-hf-7",
+    "domain": "medical",
+    "ja": "解熱剤は6時間以上あけて、1日3回までです。",
+    "before": "Give the fever medicine at least six hours apart, up to three times a day.",
+    "after": "Give the fever medicine at least six hours apart, up to three times a day.",
+    "language_review": "retained",
+    "context_review": "薬剤名・処方量がない。投与間隔や回数は薬ごとに確認する。"
+  },
+  {
+    "id": "med-hf-8",
+    "domain": "medical",
+    "ja": "坐薬と飲み薬、効き目は同じです。吐く子は坐薬でどうぞ。",
+    "before": "The suppository and the oral medicine work the same. If she vomits, use the suppository.",
+    "after": "The suppository and the oral medicine work the same. If she vomits, use the suppository.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-hf-9",
+    "domain": "medical",
+    "ja": "生後3ヶ月未満で38度以上の熱は、夜でもすぐ受診してください。",
+    "before": "A baby under three months with a fever of 38°C or higher must see a doctor right away. Even at night.",
+    "after": "A baby under three months with a fever of 38°C or higher must see a doctor right away. Even at night.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-hf-10",
+    "domain": "medical",
+    "ja": "数字に振り回されず、お子さんの様子を見てあげてください。",
+    "before": "Don't worry too much about the number. Look at how she is doing.",
+    "after": "Don't worry too much about the number. Look at how she is doing.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-sz-1",
+    "domain": "medical",
+    "ja": "けいれんが起きても、まず落ち着いて。大丈夫です。",
+    "before": "If she has a seizure, first stay calm. It will be okay.",
+    "after": "If she has a seizure, first stay calm. It will be okay.",
+    "language_review": "retained",
+    "context_review": "「大丈夫」の保証が強い。救急受診条件の説明と一緒に用いる。"
+  },
+  {
+    "id": "med-sz-2",
+    "domain": "medical",
+    "ja": "多くは数分で止まります。安全な場所で横向きに寝かせて、見守ってあげてください。",
+    "before": "Most seizures stop in a few minutes. Lay her on her side in a safe place. Then just watch her.",
+    "after": "Most seizures stop in a few minutes. Lay her on her side in a safe place. Then just watch her.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-sz-3",
+    "domain": "medical",
+    "ja": "吐いたら、窒息しないよう、体ごと顔を横向きに。",
+    "before": "If she vomits, turn her whole body to the side. So she doesn't choke.",
+    "after": "If she vomits, turn her whole body onto her side so she doesn't choke.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-sz-4",
+    "domain": "medical",
+    "ja": "口に何かを入れたり、押さえつけたりは絶対にしないでください。",
+    "before": "Never put anything in her mouth, and don't hold her down.",
+    "after": "Never put anything in her mouth, and don't hold her down.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-sz-5",
+    "domain": "medical",
+    "ja": "5分以上止まらないときは、救急車を呼んでください。",
+    "before": "If it doesn't stop in five minutes, call an ambulance.",
+    "after": "If it doesn't stop in five minutes, call an ambulance.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-sz-6",
+    "domain": "medical",
+    "ja": "初めてのけいれんや、怖いと思ったら、迷わず救急車で大丈夫です。",
+    "before": "If it's her first seizure, or you feel scared, just call an ambulance. That's fine.",
+    "after": "If it's her first seizure, or you feel scared, just call an ambulance. That's fine.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-sz-7",
+    "domain": "medical",
+    "ja": "けいれんが止まっても、意識が戻らない・反応が鈍いときは、救急車を呼んでください。",
+    "before": "After it stops, if she doesn't wake up, or doesn't respond well, call an ambulance.",
+    "after": "After it stops, if she doesn't wake up, or doesn't respond well, call an ambulance.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-sz-8",
+    "domain": "medical",
+    "ja": "可能なら、けいれんの長さと様子を覚えておいてください。",
+    "before": "If you can, remember how long it lasted and what it looked like.",
+    "after": "If you can, remember how long it lasted and what it looked like.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-exam-1",
+    "domain": "medical",
+    "ja": "（子へ）これから、お体を診させてね。",
+    "before": "Let me take a look at you, okay?",
+    "after": "Let me take a look at you, okay?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-exam-2",
+    "domain": "medical",
+    "ja": "（子へ）もしもし、させてね。ちょっと冷たいよ。",
+    "before": "Let me listen to your chest. It might feel a little cold.",
+    "after": "Let me listen to your chest. It might feel a little cold.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-exam-3",
+    "domain": "medical",
+    "ja": "（子へ）大きく息を吸って。はい、吐いて。",
+    "before": "Take a big breath in. And out.",
+    "after": "Take a big breath in. And out.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-exam-4",
+    "domain": "medical",
+    "ja": "（子へ）お口を開けて、あーん。",
+    "before": "Open wide and say 'ahh.'",
+    "after": "Open wide and say 'ahh.'",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-exam-5",
+    "domain": "medical",
+    "ja": "（子へ）お喉を見せてね。上手だね！",
+    "before": "Let me see your throat. Good job!",
+    "after": "Let me see your throat. Good job!",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-exam-6",
+    "domain": "medical",
+    "ja": "（子へ）今度はお耳を見るね。じっとしててね。",
+    "before": "Now let me look in your ears. Hold still.",
+    "after": "Now I'll look in your ears. Can you stay still for me?",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-exam-7",
+    "domain": "medical",
+    "ja": "（子へ）はい、おしまい！よく頑張ったね。",
+    "before": "All done! You did great.",
+    "after": "All done! You did great.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-exp-1",
+    "domain": "medical",
+    "ja": "（親へ）肺の音はきれいです。問題ありません。",
+    "before": "Her lungs sound clear. No problem there.",
+    "after": "Her lungs sound clear. No problem there.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-exp-2",
+    "domain": "medical",
+    "ja": "（親へ）耳も見ましたが、中耳炎はありません。",
+    "before": "I checked her ears too. There is no ear infection.",
+    "after": "I checked her ears too. There is no ear infection.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-exp-3",
+    "domain": "medical",
+    "ja": "（親へ）診断は、いわゆる風邪です。",
+    "before": "The diagnosis is a common cold.",
+    "after": "She has a common cold.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-exp-4",
+    "domain": "medical",
+    "ja": "（親へ）風邪のお薬を出しておきますね。",
+    "before": "I'll give you some cold medicine.",
+    "after": "I'll give you some cold medicine.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-exp-5",
+    "domain": "medical",
+    "ja": "（親へ）心配はいりませんよ。",
+    "before": "Please don't worry.",
+    "after": "Please don't worry.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-exp-6",
+    "domain": "medical",
+    "ja": "（親へ）保育園も、行って大丈夫です。",
+    "before": "And she can go to daycare.",
+    "after": "And she can go to daycare.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-swab-1",
+    "domain": "medical",
+    "ja": "（子へ）今から、お鼻の検査をするね。",
+    "before": "Now I'm going to do a quick test in your nose, okay?",
+    "after": "Now I'm going to do a quick test in your nose, okay?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-swab-2",
+    "domain": "medical",
+    "ja": "（子へ）お口で、ゆっくり息をしてね。",
+    "before": "Breathe slowly through your mouth.",
+    "after": "Breathe slowly through your mouth.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-swab-3",
+    "domain": "medical",
+    "ja": "（子へ）力を抜いて、リラックスしてね。",
+    "before": "Just relax your body.",
+    "after": "Try to relax for me.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-swab-4",
+    "domain": "medical",
+    "ja": "（子へ）細い綿棒が、ゆっくり入るよ。",
+    "before": "A thin swab is going in slowly.",
+    "after": "I'll gently put this thin swab into your nose.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-swab-5",
+    "domain": "medical",
+    "ja": "（子へ）頭を動かさないでね。",
+    "before": "Keep your head still for me.",
+    "after": "Keep your head still for me.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-swab-6",
+    "domain": "medical",
+    "ja": "（子へ）ちょっとムズムズするけど、すぐ終わるよ。",
+    "before": "It might tickle a little, but it'll be over soon.",
+    "after": "It might tickle a little, but it'll be over soon.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-swab-7",
+    "domain": "medical",
+    "ja": "（子へ）はい、おしまい！よく頑張ったね。",
+    "before": "All done! You were so brave.",
+    "after": "All done! You were so brave.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-flu-1",
+    "domain": "medical",
+    "ja": "（親へ）今、インフルエンザやコロナがはやっているので、鼻から抗原検査をします。",
+    "before": "Flu and COVID are going around now. So we'll do a quick test with a nose swab.",
+    "after": "Flu and COVID are going around now. So we'll do a quick test with a nose swab.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-flu-2",
+    "domain": "medical",
+    "ja": "（親へ）全身の状態も、呼吸も問題ありません。",
+    "before": "Her overall condition is fine. Her breathing is fine too.",
+    "after": "She looks well overall, and she's breathing comfortably.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-flu-3",
+    "domain": "medical",
+    "ja": "（親へ）ただ、熱が続いているのと、流行もあるので、念のため検査しておきましょう。",
+    "before": "But the fever has continued, and these are going around. So let's test, just to be safe.",
+    "after": "But she still has a fever, and flu and COVID are going around. Let's do the tests to be safe.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-flu-4",
+    "domain": "medical",
+    "ja": "（親へ）インフルエンザが陽性なら、抗インフルエンザ薬を出します。",
+    "before": "If the flu test is positive, I'll prescribe anti-flu medicine.",
+    "after": "If the flu test is positive, I'll prescribe medicine to treat the flu.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-flu-5",
+    "domain": "medical",
+    "ja": "（親へ）風邪の症状には風邪薬、熱には解熱剤を出しておきます。",
+    "before": "I'll also give cold medicine for her symptoms, and fever medicine for the fever.",
+    "after": "I'll also give cold medicine for her symptoms, and fever medicine for the fever.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-flu-6",
+    "domain": "medical",
+    "ja": "（親へ）熱が下がれば、心配いりません。",
+    "before": "Once the fever comes down, you don't need to worry.",
+    "after": "Once the fever comes down, you don't need to worry.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "med-flu-7",
+    "domain": "medical",
+    "ja": "（親へ）おうちで、しっかり良くなるまで様子を見てください。",
+    "before": "Please watch how she's doing at home until she's fully better.",
+    "after": "Please keep an eye on her at home until she's fully better.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-flu-8",
+    "domain": "medical",
+    "ja": "（親へ）登園・登校は、園や学校の基準に従えば大丈夫です。",
+    "before": "For daycare or school, please follow their rules.",
+    "after": "She can go back to daycare or school when she meets their return requirements.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "med-flu-9",
+    "domain": "medical",
+    "ja": "（親へ）熱が下がらない、ぐったりしている、息が苦しそうなときは、また受診してください。",
+    "before": "Please come back if the fever doesn't come down, she is very weak, or she has trouble breathing.",
+    "after": "Please bring her back if the fever doesn't come down, she seems very weak, or she's having trouble breathing.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "tr-fill-1",
+    "domain": "travel",
+    "ja": "（切り出し）で、〜なんですけど。",
+    "before": "So, ...",
+    "after": "So, ...",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-fill-2",
+    "domain": "travel",
+    "ja": "へえ、いいですね！",
+    "before": "Oh, nice!",
+    "after": "Oh, nice!",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-fill-3",
+    "domain": "travel",
+    "ja": "えーと、そうですね…",
+    "before": "Well, let me think...",
+    "after": "Well, let me think...",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-fill-4",
+    "domain": "travel",
+    "ja": "ですよね？（同意をうながす）",
+    "before": "..., right?",
+    "after": "..., right?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-axis-1",
+    "domain": "travel",
+    "ja": "ちょっと助けてもらえますか？",
+    "before": "Could you help me for a moment?",
+    "after": "Could you help me for a moment?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-axis-2",
+    "domain": "travel",
+    "ja": "英語まだ勉強中で。少しゆっくり話してもらえますか？",
+    "before": "I'm still learning English — could you slow down a little?",
+    "after": "I'm still learning English. Could you speak a little more slowly?",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "tr-axis-3",
+    "domain": "travel",
+    "ja": "うまく聞き取れなくて。もう一回いいですか？",
+    "before": "Sorry, I didn't quite catch that — could you say it again?",
+    "after": "Sorry, I didn't quite catch that. Could you say it again?",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "tr-axis-4",
+    "domain": "travel",
+    "ja": "念のため、もう一つだけ確認させて。",
+    "before": "Just to be sure — one more thing.",
+    "after": "Could I check one more thing, just to be sure?",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "tr-imm-1",
+    "domain": "travel",
+    "ja": "観光で来ました。10日くらいです。",
+    "before": "I'm here as a tourist, for about ten days.",
+    "after": "I'm here as a tourist, for about ten days.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-imm-2",
+    "domain": "travel",
+    "ja": "家族と一緒です。",
+    "before": "I'm with my family.",
+    "after": "I'm with my family.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-imm-3",
+    "domain": "travel",
+    "ja": "日本で子どもの医者をしています。",
+    "before": "I'm a children's doctor back in Japan.",
+    "after": "I'm a children's doctor back in Japan.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-imm-q1",
+    "domain": "travel",
+    "ja": "（係官）パスポートを見せてください。",
+    "before": "May I see your passport, please?",
+    "after": "May I see your passport, please?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-imm-q2",
+    "domain": "travel",
+    "ja": "（係官）渡航の目的は何ですか？",
+    "before": "What's the purpose of your visit?",
+    "after": "What's the purpose of your visit?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-imm-q3",
+    "domain": "travel",
+    "ja": "（係官）どのくらい滞在しますか？",
+    "before": "How long are you staying?",
+    "after": "How long are you staying?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-imm-q4",
+    "domain": "travel",
+    "ja": "（係官）どこに泊まりますか？",
+    "before": "Where are you staying?",
+    "after": "Where are you staying?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-imm-q5",
+    "domain": "travel",
+    "ja": "（係官）お仕事は何ですか？",
+    "before": "What do you do for a living?",
+    "after": "What do you do for a living?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-imm-q6",
+    "domain": "travel",
+    "ja": "（係官）帰りの航空券はありますか？",
+    "before": "Do you have a return ticket?",
+    "after": "Do you have a return ticket?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-imm-4",
+    "domain": "travel",
+    "ja": "家族旅行です。1週間ほど滞在します。",
+    "before": "I'm here on vacation with my family, for about a week.",
+    "after": "I'm here on vacation with my family, for about a week.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-imm-5",
+    "domain": "travel",
+    "ja": "〜の近くのホテルに泊まります。これが予約です。",
+    "before": "We're staying at a hotel near ___. Here's the booking.",
+    "after": "We're staying at a hotel near ___. Here's the booking.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-imm-6",
+    "domain": "travel",
+    "ja": "小児科医です。東京で子どものクリニックをしています。",
+    "before": "I'm a pediatrician. I run a children's clinic in Tokyo.",
+    "after": "I'm a pediatrician. I run a children's clinic in Tokyo.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-imm-7",
+    "domain": "travel",
+    "ja": "はい、これが帰りの便です。",
+    "before": "Yes, here's my return flight.",
+    "after": "Yes, here's my return flight.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-imm-8",
+    "domain": "travel",
+    "ja": "いいえ、2回目です。",
+    "before": "No, this is my second time.",
+    "after": "No, this is my second time.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-cus-q1",
+    "domain": "travel",
+    "ja": "（係官）申告するものはありますか？",
+    "before": "Do you have anything to declare?",
+    "after": "Do you have anything to declare?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-cus-q2",
+    "domain": "travel",
+    "ja": "（係官）食べ物や植物、肉類はお持ちですか？",
+    "before": "Are you carrying any food, plants, or meat?",
+    "after": "Are you carrying any food, plants, or meat?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-cus-q3",
+    "domain": "travel",
+    "ja": "（係官）バッグを開けてもらえますか？",
+    "before": "Could you open your bag, please?",
+    "after": "Could you open your bag, please?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-cus-1",
+    "domain": "travel",
+    "ja": "いいえ、申告するものはありません。",
+    "before": "No, nothing to declare.",
+    "after": "No, nothing to declare.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-cus-2",
+    "domain": "travel",
+    "ja": "お菓子だけです。未開封です。",
+    "before": "Just some snacks — they're still sealed.",
+    "after": "Just some snacks — they're still sealed.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-cus-3",
+    "domain": "travel",
+    "ja": "はい、どうぞ。",
+    "before": "Sure, go ahead.",
+    "after": "Sure, go ahead.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-cus-4",
+    "domain": "travel",
+    "ja": "子どもの薬です。処方箋もあります。",
+    "before": "It's medicine for my child. I have the prescription.",
+    "after": "It's medicine for my child. I have the prescription.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-cus-5",
+    "domain": "travel",
+    "ja": "友人へのお土産です。",
+    "before": "They're gifts for friends.",
+    "after": "They're gifts for friends.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-hotel-1",
+    "domain": "travel",
+    "ja": "チェックインお願いします。小森で予約してます。",
+    "before": "Hi, I'd like to check in — it's under Komori.",
+    "after": "Hi, I'd like to check in. The reservation is under Komori.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "tr-hotel-2",
+    "domain": "travel",
+    "ja": "エレベーターでカードキーが反応しないんです。直してもらえますか？",
+    "before": "My key card isn't working in the elevator — could you sort it out for me?",
+    "after": "My key card isn't working in the elevator. Could you help me with it?",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "tr-hotel-3",
+    "domain": "travel",
+    "ja": "朝食って何時からですか？",
+    "before": "What time's breakfast?",
+    "after": "What time does breakfast start?",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "tr-hotel-q1",
+    "domain": "travel",
+    "ja": "（フロント）ご予約はありますか？",
+    "before": "Do you have a reservation?",
+    "after": "Do you have a reservation?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-hotel-q2",
+    "domain": "travel",
+    "ja": "（フロント）パスポートと、追加料金用のクレジットカードをお願いします。",
+    "before": "Could I see your passport and a credit card for incidentals?",
+    "after": "Could I see your passport and a credit card for incidentals?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-hotel-q3",
+    "domain": "travel",
+    "ja": "（フロント）お部屋は5階の512号室です。",
+    "before": "You're in room 512, on the fifth floor.",
+    "after": "You're in room 512, on the fifth floor.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-hotel-4",
+    "domain": "travel",
+    "ja": "朝食は付いていますか？",
+    "before": "Is breakfast included?",
+    "after": "Is breakfast included?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-hotel-5",
+    "domain": "travel",
+    "ja": "チェックアウトは何時ですか？",
+    "before": "What time is checkout?",
+    "after": "What time is checkout?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-hotel-6",
+    "domain": "travel",
+    "ja": "早めにチェックインできますか？",
+    "before": "Is it possible to check in early?",
+    "after": "Is it possible to check in early?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-hotel-7",
+    "domain": "travel",
+    "ja": "チェックインまで荷物を預かってもらえますか？",
+    "before": "Could you hold our bags until check-in?",
+    "after": "Could you hold our bags until check-in?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-hotel-8",
+    "domain": "travel",
+    "ja": "エレベーターから離れた静かな部屋にできますか？",
+    "before": "Could we have a quiet room, away from the elevator?",
+    "after": "Could we have a quiet room, away from the elevator?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-hotel-9",
+    "domain": "travel",
+    "ja": "レイトチェックアウトはできますか？",
+    "before": "Could we get a late checkout?",
+    "after": "Could we get a late checkout?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-air-1",
+    "domain": "travel",
+    "ja": "この便のゲートはどこですか？",
+    "before": "Which gate does this flight leave from?",
+    "after": "Which gate does this flight leave from?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-air-2",
+    "domain": "travel",
+    "ja": "乗り継ぎなんですが、間に合いますか？",
+    "before": "I've got a connecting flight — will I make it?",
+    "after": "I've got a connecting flight — will I make it?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-bag-1",
+    "domain": "travel",
+    "ja": "荷物は羽田までスルーですか？それともここで受け取り？",
+    "before": "Is my bag checked through to Haneda, or do I need to pick it up here?",
+    "after": "Is my bag checked through to Haneda, or do I need to pick it up here?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-bag-2",
+    "domain": "travel",
+    "ja": "乗り継ぎの間、荷物は勝手に運ばれます？何かやることは？",
+    "before": "Does my bag get transferred automatically, or do I need to do anything?",
+    "after": "Does my bag get transferred automatically, or do I need to do anything?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-bag-3",
+    "domain": "travel",
+    "ja": "もし間に合わなくても、羽田で受け取れますか？",
+    "before": "If it doesn't make it, can I still pick it up at Haneda?",
+    "after": "If it doesn't make it, can I still pick it up at Haneda?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-pay-1",
+    "domain": "travel",
+    "ja": "カードで払えますか？",
+    "before": "Can I pay by card?",
+    "after": "Can I pay by card?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-pay-2",
+    "domain": "travel",
+    "ja": "おすすめは？",
+    "before": "What do you recommend?",
+    "after": "What do you recommend?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-pay-3",
+    "domain": "travel",
+    "ja": "お会計お願いします。",
+    "before": "Can we get the check?",
+    "after": "Can we get the check?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-beer-1",
+    "domain": "travel",
+    "ja": "ビールは何がありますか？軽めのと、しっかりめのと。",
+    "before": "What beers do you have? Anything light, or something a bit stronger?",
+    "after": "What beers do you have? I'd like to hear about a light one and a fuller-bodied one.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "tr-beer-2",
+    "domain": "travel",
+    "ja": "地元のビールってあります？何が違うんですか？",
+    "before": "Do you have any local beers? What's the difference between them?",
+    "after": "Do you have any local beers? What's the difference between them?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-chat-1",
+    "domain": "travel",
+    "ja": "どちらから来たんですか？",
+    "before": "So, where are you from?",
+    "after": "So, where are you from?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-chat-2",
+    "domain": "travel",
+    "ja": "何しに来たんですか？（旅の目的）",
+    "before": "What brings you here?",
+    "after": "What brings you here?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-chat-3",
+    "domain": "travel",
+    "ja": "へえ、面白い！もっと聞かせて。",
+    "before": "Oh, interesting. Tell me more!",
+    "after": "Oh, interesting. Tell me more!",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-chat-4",
+    "domain": "travel",
+    "ja": "日本から来ました。子どもの医者で、お腹と栄養が専門です。",
+    "before": "I'm from Japan. I'm a children's doctor, and I focus on gut health and nutrition.",
+    "after": "I'm from Japan. I'm a children's doctor, and I focus on gut health and nutrition.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-chat-5",
+    "domain": "travel",
+    "ja": "また連絡取れたら。番号交換しません？",
+    "before": "Let's keep in touch — want to swap numbers?",
+    "after": "I'd like to keep in touch. Shall we exchange numbers?",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "tr-chat-6",
+    "domain": "travel",
+    "ja": "会えてよかった。良い旅を！",
+    "before": "Really nice meeting you — safe travels!",
+    "after": "It was really nice meeting you. Have a great trip!",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "tr-rec-1",
+    "domain": "travel",
+    "ja": "ごめん、もう一回いい？",
+    "before": "Sorry, say that again?",
+    "after": "Sorry, could you say that again?",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "tr-rec-2",
+    "domain": "travel",
+    "ja": "つまり、〜ってこと？",
+    "before": "So you mean ___, right?",
+    "after": "So you mean ___, right?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-rec-3",
+    "domain": "travel",
+    "ja": "それ、どういう意味ですか？",
+    "before": "What does that mean?",
+    "after": "What does that mean?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-cabin-1",
+    "domain": "travel",
+    "ja": "毛布をもらえますか？",
+    "before": "Could I get a blanket?",
+    "after": "Could I get a blanket?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-cabin-2",
+    "domain": "travel",
+    "ja": "お水をもらえますか？",
+    "before": "Could I get some water?",
+    "after": "Could I get some water?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-cabin-3",
+    "domain": "travel",
+    "ja": "食事は何がありますか？",
+    "before": "What are the meal options?",
+    "after": "What are the meal options?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-cabin-4",
+    "domain": "travel",
+    "ja": "すみません、通してもらえますか？",
+    "before": "Excuse me, could I get through?",
+    "after": "Excuse me, could I get through?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-cabin-5",
+    "domain": "travel",
+    "ja": "席を倒してもいいですか？",
+    "before": "Is it okay if I recline my seat?",
+    "after": "Is it okay if I recline my seat?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-cabin-6",
+    "domain": "travel",
+    "ja": "入国カードをもう一枚もらえますか？",
+    "before": "Could I get another arrival card?",
+    "after": "Could I get another arrival card?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-shop-1",
+    "domain": "travel",
+    "ja": "これ、試着できますか？",
+    "before": "Can I try this on?",
+    "after": "Can I try this on?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-shop-2",
+    "domain": "travel",
+    "ja": "もう少し大きいサイズはありますか？",
+    "before": "Do you have this in a bigger size?",
+    "after": "Do you have this in a bigger size?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-shop-3",
+    "domain": "travel",
+    "ja": "これ、いくらですか？",
+    "before": "How much is this?",
+    "after": "How much is this?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-shop-4",
+    "domain": "travel",
+    "ja": "見ているだけです、ありがとう。",
+    "before": "I'm just looking, thanks.",
+    "after": "I'm just looking, thanks.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-shop-5",
+    "domain": "travel",
+    "ja": "別の色はありますか？",
+    "before": "Do you have this in another color?",
+    "after": "Do you have this in another color?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-shop-6",
+    "domain": "travel",
+    "ja": "プレゼント用に包んでもらえますか？",
+    "before": "Could you gift-wrap this for me?",
+    "after": "Could you gift-wrap this for me?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-way-1",
+    "domain": "travel",
+    "ja": "駅はどっちですか？",
+    "before": "Which way is the station?",
+    "after": "Which way is the station?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-way-2",
+    "domain": "travel",
+    "ja": "（タクシーで）この住所までお願いします。",
+    "before": "Could you take me to this address?",
+    "after": "Could you take me to this address?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-way-3",
+    "domain": "travel",
+    "ja": "ここで停めてください。",
+    "before": "Could you stop here, please?",
+    "after": "Could you stop here, please?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-sick-1",
+    "domain": "travel",
+    "ja": "気分が悪いんです。",
+    "before": "I'm not feeling well.",
+    "after": "I'm not feeling well.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-sick-2",
+    "domain": "travel",
+    "ja": "頭が痛いです。",
+    "before": "I have a headache.",
+    "after": "I have a headache.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-sick-3",
+    "domain": "travel",
+    "ja": "お腹を壊しました。",
+    "before": "I have an upset stomach.",
+    "after": "I have an upset stomach.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-sick-4",
+    "domain": "travel",
+    "ja": "子どもが熱があります。",
+    "before": "My child has a fever.",
+    "after": "My child has a fever.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-sick-5",
+    "domain": "travel",
+    "ja": "近くに病院か薬局はありますか？",
+    "before": "Is there a hospital or a pharmacy nearby?",
+    "after": "Is there a hospital or a pharmacy nearby?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-sick-6",
+    "domain": "travel",
+    "ja": "ナッツのアレルギーがあります。",
+    "before": "I have a nut allergy.",
+    "after": "I have a nut allergy.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-pharm-1",
+    "domain": "travel",
+    "ja": "頭痛に効くものはありますか？",
+    "before": "Do you have anything for a headache?",
+    "after": "Do you have anything for a headache?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-pharm-2",
+    "domain": "travel",
+    "ja": "子ども用の解熱剤はありますか？",
+    "before": "Do you have fever medicine for kids?",
+    "after": "Do you have fever medicine for kids?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-pharm-3",
+    "domain": "travel",
+    "ja": "これは1日何回飲みますか？",
+    "before": "How many times a day do I take this?",
+    "after": "How many times a day do I take this?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-trb-1",
+    "domain": "travel",
+    "ja": "荷物が出てこないんです。",
+    "before": "My bag hasn't come out.",
+    "after": "My bag hasn't come out.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-trb-2",
+    "domain": "travel",
+    "ja": "財布をなくしました。",
+    "before": "I've lost my wallet.",
+    "after": "I've lost my wallet.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-trb-3",
+    "domain": "travel",
+    "ja": "飛行機が遅れています。どうすればいいですか？",
+    "before": "My flight is delayed — what should I do?",
+    "after": "My flight is delayed — what should I do?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-trb-4",
+    "domain": "travel",
+    "ja": "助けてください。",
+    "before": "I need some help.",
+    "after": "I need some help.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-trn-1",
+    "domain": "travel",
+    "ja": "この電車、〜に行きますか？",
+    "before": "Does this train go to ___?",
+    "after": "Does this train go to ___?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-trn-2",
+    "domain": "travel",
+    "ja": "切符はどこで買えますか？",
+    "before": "Where can I buy a ticket?",
+    "after": "Where can I buy a ticket?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-trn-3",
+    "domain": "travel",
+    "ja": "〜へは、何番線ですか？",
+    "before": "Which platform is it for ___?",
+    "after": "Which platform does the train to ___ leave from?",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "tr-trn-4",
+    "domain": "travel",
+    "ja": "次のバスは何時ですか？",
+    "before": "What time's the next bus?",
+    "after": "What time's the next bus?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-trn-5",
+    "domain": "travel",
+    "ja": "〜で降りたいんです。着いたら教えてもらえますか？",
+    "before": "I want to get off at ___ — could you let me know when we're there?",
+    "after": "I want to get off at ___ — could you let me know when we're there?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-sight-1",
+    "domain": "travel",
+    "ja": "大人2枚、子ども1枚ください。",
+    "before": "Two adults and one child, please.",
+    "after": "Two adults and one child, please.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-sight-2",
+    "domain": "travel",
+    "ja": "何時まで開いていますか？",
+    "before": "How late are you open?",
+    "after": "How late are you open?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-sight-3",
+    "domain": "travel",
+    "ja": "中で写真を撮ってもいいですか？",
+    "before": "Is it okay to take photos inside?",
+    "after": "Is it okay to take photos inside?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-sight-4",
+    "domain": "travel",
+    "ja": "写真を撮ってもらえますか？",
+    "before": "Could you take a photo of us?",
+    "after": "Could you take a photo of us?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-money-1",
+    "domain": "travel",
+    "ja": "これを両替できますか？",
+    "before": "Can I exchange this?",
+    "after": "Can I exchange this?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-money-2",
+    "domain": "travel",
+    "ja": "近くにATMはありますか？",
+    "before": "Is there an ATM nearby?",
+    "after": "Is there an ATM nearby?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-money-3",
+    "domain": "travel",
+    "ja": "チップは必要ですか？",
+    "before": "Do I need to leave a tip?",
+    "after": "Do I need to leave a tip?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-rest-1",
+    "domain": "travel",
+    "ja": "今夜、2名で予約できますか？",
+    "before": "Can I book a table for two tonight?",
+    "after": "Can I book a table for two tonight?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-rest-2",
+    "domain": "travel",
+    "ja": "窓際の席はありますか？",
+    "before": "Could we get a table by the window?",
+    "after": "Could we get a table by the window?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-rest-3",
+    "domain": "travel",
+    "ja": "これ、ナッツは入っていますか？",
+    "before": "Does this have any nuts in it?",
+    "after": "Does this have any nuts in it?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-rest-4",
+    "domain": "travel",
+    "ja": "取り分け用の小皿をもらえますか？",
+    "before": "Could we get some extra plates to share?",
+    "after": "Could we get some extra plates to share?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-rest-5",
+    "domain": "travel",
+    "ja": "これ、持ち帰りできますか？",
+    "before": "Can I get this to go?",
+    "after": "Can I get this to go?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-cafe-1",
+    "domain": "travel",
+    "ja": "Wi-Fiは使えますか？パスワードは？",
+    "before": "Do you have Wi-Fi? What's the password?",
+    "after": "Do you have Wi-Fi? What's the password?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-cafe-2",
+    "domain": "travel",
+    "ja": "ここ、少し座ってもいいですか？",
+    "before": "Is it okay if I sit here for a bit?",
+    "after": "Is it okay if I sit here for a bit?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-emg-1",
+    "domain": "travel",
+    "ja": "警察を呼んでもらえますか？",
+    "before": "Could you call the police?",
+    "after": "Could you call the police?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-emg-2",
+    "domain": "travel",
+    "ja": "日本大使館はどこですか？",
+    "before": "Where is the Japanese embassy?",
+    "after": "Where is the Japanese embassy?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-sm-1",
+    "domain": "travel",
+    "ja": "今日はいい天気ですね。",
+    "before": "Lovely weather today, isn't it?",
+    "after": "Lovely weather today, isn't it?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-sm-2",
+    "domain": "travel",
+    "ja": "このあたりで、おすすめの場所はありますか？",
+    "before": "Any spots around here you'd recommend?",
+    "after": "Any spots around here you'd recommend?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-sm-3",
+    "domain": "travel",
+    "ja": "写真、撮りましょうか？",
+    "before": "Want me to take a photo for you?",
+    "after": "Want me to take a photo for you?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-var-1",
+    "domain": "travel",
+    "ja": "（お会計・別の言い方）お勘定お願いします。",
+    "before": "Could we get the bill, please?",
+    "after": "Could we get the bill, please?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-var-2",
+    "domain": "travel",
+    "ja": "（ありがとう・くだけて）ほんと助かりました！",
+    "before": "Thanks so much — you're a lifesaver!",
+    "after": "Thanks so much — you're a lifesaver!",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-var-3",
+    "domain": "travel",
+    "ja": "（ごめん・軽く）あ、すみません！",
+    "before": "Oh, sorry about that!",
+    "after": "Oh, sorry about that!",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-var-4",
+    "domain": "travel",
+    "ja": "（もう一回・くだけて）ごめん、なんて言った？",
+    "before": "Sorry, what was that?",
+    "after": "Sorry, what was that?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-dir-1",
+    "domain": "travel",
+    "ja": "はい、この電車で大丈夫です。方向も合っていますよ。",
+    "before": "Yes, this train is fine — you're heading the right way.",
+    "after": "Yes, this train is fine — you're heading the right way.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-dir-2",
+    "domain": "travel",
+    "ja": "ただ、快速と各駅停車があります。早く行きたいなら快速に乗ってください。",
+    "before": "There are rapid and local trains, though — if you want to get there faster, take the rapid one.",
+    "after": "There are express trains and local trains. If you want to get there faster, take an express train.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "tr-dir-3",
+    "domain": "travel",
+    "ja": "まず浜松町まで行って、そこで山手線に乗り換えます。",
+    "before": "First, go to Hamamatsuchō and change to the Yamanote Line there.",
+    "after": "First, go to Hamamatsuchō and change to the Yamanote Line there.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-dir-4",
+    "domain": "travel",
+    "ja": "山手線で、上野方面に乗って日暮里まで行きます。",
+    "before": "Take the Yamanote Line toward Ueno, and go as far as Nippori.",
+    "after": "Take the Yamanote Line toward Ueno, and go as far as Nippori.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-dir-5",
+    "domain": "travel",
+    "ja": "日暮里で、成田空港行きの電車（京成線）に乗り換えます。",
+    "before": "At Nippori, change to the train for Narita Airport — the Keisei Line.",
+    "after": "At Nippori, change to the train for Narita Airport — the Keisei Line.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-dir-6",
+    "domain": "travel",
+    "ja": "全部で1時間半くらいです。",
+    "before": "It takes about an hour and a half in all.",
+    "after": "It takes about an hour and a half in all.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "tr-dir-7",
+    "domain": "travel",
+    "ja": "乗り換えを減らしたいなら、京急線の直通電車もあります（本数は少なめです）。",
+    "before": "If you'd rather have fewer transfers, some Keikyu trains go straight through to Narita.",
+    "after": "If you'd like fewer transfers, some Keikyu trains go straight through to Narita. They don't run as often, though.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "mine-1",
+    "domain": "mine",
+    "ja": "後ろから人が来てるから、少し早く歩こう。",
+    "before": "Someone's coming up behind us — let's walk a little faster.",
+    "after": "Someone's coming up behind us — let's walk a little faster.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "mine-2",
+    "domain": "mine",
+    "ja": "今日は一日曇りだけど、今日も含めて今週は雨が降りやすいみたいだよ。",
+    "before": "It's going to be cloudy all day today, but it looks like we're in for a rainy week — today included.",
+    "after": "It'll be cloudy all day today. It looks like there's a good chance of rain throughout the week, including today.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "mine-3",
+    "domain": "mine",
+    "ja": "この荷物はいったんフランクフルトで受け取りたいので、フランクフルトまで預けてください。",
+    "before": "We'd like to collect our baggage in Frankfurt first. So, please check our baggage only to Frankfurt.",
+    "after": "We'd like to collect our bags in Frankfurt first. Please check them only as far as Frankfurt.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "mine-4",
+    "domain": "mine",
+    "ja": "フランクフルトに2泊します。",
+    "before": "We're staying in Frankfurt for two nights.",
+    "after": "We're staying in Frankfurt for two nights.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "mine-5",
+    "domain": "mine",
+    "ja": "日本までスルーで預けないでください。",
+    "before": "Please don't check our baggage through to Japan.",
+    "after": "Please don't check our baggage through to Japan.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "mine-6",
+    "domain": "mine",
+    "ja": "2個ともフランクフルトで受け取れますか？",
+    "before": "Can we collect both of our bags in Frankfurt?",
+    "after": "Can we collect both of our bags in Frankfurt?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "mine-7",
+    "domain": "mine",
+    "ja": "一日、雨が降ったりやんだりするみたいです。今日も含めて今週はずっと、雨が降りやすい状態が続くみたいです。",
+    "before": "It looks like it’s going to rain on and off all day. And this whole week looks rainy, today included.",
+    "after": "It looks like it’s going to rain on and off all day. And this whole week looks rainy, today included.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-w01",
+    "domain": "trip",
+    "ja": "（表示）出発／出発便",
+    "before": "Departures",
+    "after": "Departures",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-w02",
+    "domain": "trip",
+    "ja": "（表示）到着／到着便",
+    "before": "Arrivals",
+    "after": "Arrivals",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-w03",
+    "domain": "trip",
+    "ja": "（表示）搭乗手続き",
+    "before": "Check-in",
+    "after": "Check-in",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-w04",
+    "domain": "trip",
+    "ja": "（表示）荷物を預ける場所",
+    "before": "Bag drop",
+    "after": "Bag drop",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-w05",
+    "domain": "trip",
+    "ja": "荷物（空港でよく使う言い方）",
+    "before": "Baggage",
+    "after": "Baggage",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-w06",
+    "domain": "trip",
+    "ja": "預け入れ荷物",
+    "before": "Checked baggage",
+    "after": "Checked baggage",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-w07",
+    "domain": "trip",
+    "ja": "機内持ち込みの手荷物",
+    "before": "Carry-on baggage",
+    "after": "Carry-on baggage",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-w08",
+    "domain": "trip",
+    "ja": "（表示）手荷物受取所",
+    "before": "Baggage Claim",
+    "after": "Baggage Claim",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-w09",
+    "domain": "trip",
+    "ja": "乗り継ぎ便",
+    "before": "Connecting flight",
+    "after": "Connecting flight",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-w10",
+    "domain": "trip",
+    "ja": "（表示）乗り継ぎはこちら",
+    "before": "Flight Connections",
+    "after": "Flight Connections",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-w11",
+    "domain": "trip",
+    "ja": "乗り継ぎ・移動",
+    "before": "Transfer",
+    "after": "Transfer",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-w12",
+    "domain": "trip",
+    "ja": "（表示）保安検査",
+    "before": "Security",
+    "after": "Security",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-w13",
+    "domain": "trip",
+    "ja": "（表示）出入国審査",
+    "before": "Passport Control",
+    "after": "Passport Control",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-w14",
+    "domain": "trip",
+    "ja": "入国審査",
+    "before": "Immigration",
+    "after": "Immigration",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-w15",
+    "domain": "trip",
+    "ja": "（表示）税関",
+    "before": "Customs",
+    "after": "Customs",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-w16",
+    "domain": "trip",
+    "ja": "搭乗口",
+    "before": "Gate",
+    "after": "Gate",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-w17",
+    "domain": "trip",
+    "ja": "搭乗（開始）",
+    "before": "Boarding",
+    "after": "Boarding",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-w18",
+    "domain": "trip",
+    "ja": "遅延",
+    "before": "Delayed",
+    "after": "Delayed",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-w19",
+    "domain": "trip",
+    "ja": "最終目的地",
+    "before": "Final destination",
+    "after": "Final destination",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-w20",
+    "domain": "trip",
+    "ja": "途中の都市での滞在（1泊以上）",
+    "before": "Stopover",
+    "after": "Stopover",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-s01",
+    "domain": "trip",
+    "ja": "すみません、助けてもらえますか？",
+    "before": "Excuse me, could you help me?",
+    "after": "Excuse me, could you help me?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-s02",
+    "domain": "trip",
+    "ja": "どこへ行けばいいですか？",
+    "before": "Where should we go?",
+    "after": "Where should we go?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-s03",
+    "domain": "trip",
+    "ja": "乗り継ぎはどちらですか？",
+    "before": "Where are the Flight Connections?",
+    "after": "Which way is it for connecting flights?",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "trip-s04",
+    "domain": "trip",
+    "ja": "私たちの荷物は、バルセロナまでそのまま行きますか？",
+    "before": "Is our baggage checked through to Barcelona?",
+    "after": "Is our baggage checked through to Barcelona?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-s05",
+    "domain": "trip",
+    "ja": "ここで荷物を受け取る必要がありますか？",
+    "before": "Do we need to collect our baggage here?",
+    "after": "Do we need to collect our baggage here?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-s06",
+    "domain": "trip",
+    "ja": "ドイツに2泊します。",
+    "before": "We're staying in Germany for two nights.",
+    "after": "We're staying in Germany for two nights.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-s07",
+    "domain": "trip",
+    "ja": "ドイツで荷物を受け取る必要があります。",
+    "before": "We need to collect our baggage in Germany.",
+    "after": "We need to collect our baggage in Germany.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-s08",
+    "domain": "trip",
+    "ja": "荷物はフランクフルトまででお願いします。",
+    "before": "Please check our baggage only to Frankfurt.",
+    "after": "Please check our baggage only to Frankfurt.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-s09",
+    "domain": "trip",
+    "ja": "もう一度、保安検査を受けますか？",
+    "before": "Do we need to go through security again?",
+    "after": "Do we need to go through security again?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-s10",
+    "domain": "trip",
+    "ja": "どのゲートへ行けばいいですか？",
+    "before": "Which gate should we go to?",
+    "after": "Which gate should we go to?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-s11",
+    "domain": "trip",
+    "ja": "もう少しゆっくり話してもらえますか？",
+    "before": "Could you speak more slowly, please?",
+    "after": "Could you speak more slowly, please?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-s12",
+    "domain": "trip",
+    "ja": "もう一度言ってもらえますか？",
+    "before": "Could you say that again?",
+    "after": "Could you say that again?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-s13",
+    "domain": "trip",
+    "ja": "（相手に）ここに来てどのくらいですか？",
+    "before": "How long have you been here?",
+    "after": "How long have you been here?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-s14",
+    "domain": "trip",
+    "ja": "昨日着いたばかりです。1週間くらいいます。",
+    "before": "I just got here yesterday. I'm here for about a week.",
+    "after": "I just got here yesterday. I'm here for about a week.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-s15",
+    "domain": "trip",
+    "ja": "何かおすすめはありますか？",
+    "before": "Do you have any recommendations?",
+    "after": "Do you have any recommendations?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c01",
+    "domain": "trip2",
+    "ja": "この荷物を預けたいです。",
+    "before": "I'd like to check this bag.",
+    "after": "I'd like to check this bag.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c02",
+    "domain": "trip2",
+    "ja": "この2個の荷物を預けたいです。",
+    "before": "We'd like to check these two bags.",
+    "after": "We'd like to check these two bags.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c03",
+    "domain": "trip2",
+    "ja": "荷物は日本までスルーですか？",
+    "before": "Is our baggage checked through to Japan?",
+    "after": "Is our baggage checked through to Japan?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c04",
+    "domain": "trip2",
+    "ja": "フランクフルトで荷物を受け取れますか？",
+    "before": "Can we collect our baggage in Frankfurt?",
+    "after": "Can we collect our baggage in Frankfurt?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c05",
+    "domain": "trip2",
+    "ja": "私たちの荷物の最終目的地はフランクフルトですか？",
+    "before": "Is Frankfurt the final destination for our baggage?",
+    "after": "Is Frankfurt the final destination for our baggage?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c06",
+    "domain": "trip2",
+    "ja": "スペイン行きの便に乗り継ぎます。",
+    "before": "I'm connecting to a flight to Spain.",
+    "after": "I'm connecting to a flight to Spain.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c07",
+    "domain": "trip2",
+    "ja": "乗り継ぎ便には、どこへ行けばいいですか？",
+    "before": "Where should we go for our connecting flight?",
+    "after": "Where should we go for our connecting flight?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c08",
+    "domain": "trip2",
+    "ja": "私たちの便は、どのターミナルから出ますか？",
+    "before": "Which terminal does our flight leave from?",
+    "after": "Which terminal does our flight leave from?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c09",
+    "domain": "trip2",
+    "ja": "（係員）パソコンを出してください。",
+    "before": "Please take out your laptop.",
+    "after": "Please take out your laptop.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c10",
+    "domain": "trip2",
+    "ja": "（係員）上着を脱いでください。",
+    "before": "Please remove your jacket.",
+    "after": "Please remove your jacket.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c11",
+    "domain": "trip2",
+    "ja": "（係員）液体はお持ちですか？",
+    "before": "Do you have any liquids?",
+    "after": "Do you have any liquids?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c12",
+    "domain": "trip2",
+    "ja": "（係員）ご自分で荷造りしましたか？",
+    "before": "Did you pack this bag yourself?",
+    "after": "Did you pack this bag yourself?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c13",
+    "domain": "trip2",
+    "ja": "観光と、息子を迎えに来ました。",
+    "before": "I'm here for tourism and to pick up my son.",
+    "after": "I'm here to do some sightseeing and pick up my son.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c14",
+    "domain": "trip2",
+    "ja": "5日間滞在します。",
+    "before": "We're staying for five days.",
+    "after": "We're staying for five days.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c15",
+    "domain": "trip2",
+    "ja": "バルセロナのホテルに泊まります。",
+    "before": "We're staying at a hotel in Barcelona.",
+    "after": "We're staying at a hotel in Barcelona.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c16",
+    "domain": "trip2",
+    "ja": "はい、ドイツ経由で日本へ帰ります。",
+    "before": "Yes, we're returning to Japan via Germany.",
+    "after": "Yes, we're returning to Japan via Germany.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c17",
+    "domain": "trip2",
+    "ja": "乗り継ぎ時間が短いんです。",
+    "before": "We have a tight connection.",
+    "after": "We have a tight connection.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c18",
+    "domain": "trip2",
+    "ja": "ゲートまで一番早い行き方を教えてもらえますか？",
+    "before": "Could you tell us the fastest way to the gate?",
+    "after": "Could you tell us the fastest way to the gate?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c19",
+    "domain": "trip2",
+    "ja": "乗り継ぎ便に間に合いますか？",
+    "before": "Will we make our connecting flight?",
+    "after": "Will we make our connecting flight?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c20",
+    "domain": "trip2",
+    "ja": "乗り継ぎ便に間に合わないかもしれません。",
+    "before": "We might miss our connecting flight.",
+    "after": "We might miss our connecting flight.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c21",
+    "domain": "trip2",
+    "ja": "別の便に変えてもらえますか？",
+    "before": "Can you rebook us on another flight?",
+    "after": "Can you rebook us on another flight?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c22",
+    "domain": "trip2",
+    "ja": "2個のうち1個が出てきません。",
+    "before": "One of our bags is missing.",
+    "after": "One of our bags is missing.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c23",
+    "domain": "trip2",
+    "ja": "手荷物サービスのカウンターはどこですか？",
+    "before": "Where is the baggage service desk?",
+    "after": "Where is the baggage service desk?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c24",
+    "domain": "trip2",
+    "ja": "（係員）手荷物の預かり証はありますか？",
+    "before": "Do you have your baggage claim tag?",
+    "after": "Do you have your baggage claim tag?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c25",
+    "domain": "trip2",
+    "ja": "この方向で合っていますか？",
+    "before": "Is this the right way?",
+    "after": "Is this the right way?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c26",
+    "domain": "trip2",
+    "ja": "地図で教えてもらえますか？",
+    "before": "Could you show me on the map?",
+    "after": "Could you show me on the map?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-c27",
+    "domain": "trip2",
+    "ja": "つまり、ここで荷物を受け取る必要があるということですか？",
+    "before": "Do you mean I need to collect my baggage here?",
+    "after": "Do you mean I need to collect my baggage here?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-t01",
+    "domain": "trip2",
+    "ja": "まだ2日しかいません。",
+    "before": "I've only been here for two days.",
+    "after": "I've only been here for two days.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-t02",
+    "domain": "trip2",
+    "ja": "来て2日目です。全部で1週間滞在します。",
+    "before": "I've been here for two days. I'm here for a week in total.",
+    "after": "This is our second day here. We're staying for a week in total.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "trip-t03",
+    "domain": "trip2",
+    "ja": "（相手に）どのくらい滞在する予定ですか？",
+    "before": "How long are you staying?",
+    "after": "How long are you staying?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-t04",
+    "domain": "trip2",
+    "ja": "（相手に）全体でどのくらいいるんですか？",
+    "before": "How long are you here for?",
+    "after": "How long are you here for?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-t05",
+    "domain": "trip2",
+    "ja": "（相手に）スペインは初めてですか？",
+    "before": "Is this your first time in Spain?",
+    "after": "Is this your first time in Spain?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-t06",
+    "domain": "trip2",
+    "ja": "はい、初めてです。",
+    "before": "Yes, this is my first time.",
+    "after": "Yes, this is my first time.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-t07",
+    "domain": "trip2",
+    "ja": "いいえ、前にも来たことがあります。",
+    "before": "No, I've been here before.",
+    "after": "No, I've been here before.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-t08",
+    "domain": "trip2",
+    "ja": "（相手に）今のところ、スペインはどうですか？",
+    "before": "How do you like Spain so far?",
+    "after": "How do you like Spain so far?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-t09",
+    "domain": "trip2",
+    "ja": "とても気に入っています。食事がおいしいです。",
+    "before": "I really like it. The food is great.",
+    "after": "I really like it. The food is great.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-t10",
+    "domain": "trip2",
+    "ja": "（相手に）今までどこを見ましたか？",
+    "before": "What have you seen so far?",
+    "after": "What have you seen so far?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-t11",
+    "domain": "trip2",
+    "ja": "今のところ、街の中心しか見ていません。",
+    "before": "We've only seen the city center so far.",
+    "after": "We've only seen the city center so far.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-t12",
+    "domain": "trip2",
+    "ja": "今のところ最高です。",
+    "before": "So far, it's been great.",
+    "after": "So far, it's been great.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-t13",
+    "domain": "trip2",
+    "ja": "（相手）じゃあ、まだ始まったばかりですね！",
+    "before": "So you're just getting started!",
+    "after": "So you're just getting started!",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-t14",
+    "domain": "trip2",
+    "ja": "（相手）旧市街に行ってみるといいですよ。",
+    "before": "You should check out the old town.",
+    "after": "You should check out the old town.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-t15",
+    "domain": "trip2",
+    "ja": "どこか、おすすめの場所はありますか？",
+    "before": "Is there anywhere you recommend?",
+    "after": "Is there anywhere you recommend?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-t16",
+    "domain": "trip2",
+    "ja": "東京から来ました。",
+    "before": "We're from Tokyo.",
+    "after": "We're from Tokyo.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-t17",
+    "domain": "trip2",
+    "ja": "息子を迎えに来ているんです。",
+    "before": "We're here to pick up our son.",
+    "after": "We're here to pick up our son.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-t18",
+    "domain": "trip2",
+    "ja": "息子はスペインに3か月いるんです。",
+    "before": "He's been staying in Spain for three months.",
+    "after": "He's been staying in Spain for three months.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "trip-t19",
+    "domain": "trip2",
+    "ja": "一緒に日本へ帰ります。",
+    "before": "We're traveling back to Japan together.",
+    "after": "We're traveling back to Japan together.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "visit-01",
+    "domain": "visit",
+    "ja": "どうぞ、おかけください。",
+    "before": "Please have a seat.",
+    "after": "Please have a seat.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "visit-02",
+    "domain": "visit",
+    "ja": "今日は、どうされましたか？",
+    "before": "What brings you in today?",
+    "after": "What brings you in today?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "visit-03",
+    "domain": "visit",
+    "ja": "では、診察を始めていきますね。",
+    "before": "Okay, let's start the exam.",
+    "after": "Okay, let's start the exam.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "visit-04",
+    "domain": "visit",
+    "ja": "胸の音はきれいで、肺炎の心配はありません。",
+    "before": "Her chest sounds clear. I'm not worried about pneumonia.",
+    "after": "Her chest sounds clear. I'm not worried about pneumonia.",
+    "language_review": "retained",
+    "context_review": "聴診だけで肺炎を否定する趣旨に聞こえないよう、症例の文脈を確認する。"
+  },
+  {
+    "id": "visit-05",
+    "domain": "visit",
+    "ja": "診察した結果、風邪だと思います。",
+    "before": "I think it's a common cold.",
+    "after": "I think it's a common cold.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "visit-06",
+    "domain": "visit",
+    "ja": "咳がひどいので、咳止めを出しておきます。",
+    "before": "The cough is bad, so I'll give her some cough medicine.",
+    "after": "The cough is bad, so I'll give her some cough medicine.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "visit-07",
+    "domain": "visit",
+    "ja": "気管支を広げるテープも出しておきます。寝る前に、背中か胸に貼ってください。",
+    "before": "I'll also give you a patch that opens the airways. Put it on her back or chest before bed.",
+    "after": "I'll also give you a patch that opens the airways. Put it on her back or chest before bed.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "visit-08",
+    "domain": "visit",
+    "ja": "小さい子は、咳で夜眠れないことがあります。",
+    "before": "Small children sometimes can't sleep at night because of the cough.",
+    "after": "Small children sometimes can't sleep at night because of the cough.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "visit-09",
+    "domain": "visit",
+    "ja": "なので、クリニックで吸入をしていきましょう。",
+    "before": "So, let's do nebulizer treatments here at the clinic.",
+    "after": "Let's give her a nebulizer treatment here at the clinic.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "visit-10",
+    "domain": "visit",
+    "ja": "保育園や学校は、行って大丈夫です。",
+    "before": "She can go to daycare or school.",
+    "after": "She can go to daycare or school.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "visit-11",
+    "domain": "visit",
+    "ja": "おうちでお薬を飲んで良くなれば、それでおしまいです。",
+    "before": "If she gets better with the medicine at home, that's it. You don't need to come back.",
+    "after": "If she gets better with the medicine at home, she won't need another visit.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "visit-12",
+    "domain": "visit",
+    "ja": "熱が下がらなかったり、風邪の症状が続くときは、数日後にまた来てください。",
+    "before": "If the fever doesn't come down, or the cold continues, please come back in a few days.",
+    "after": "If the fever doesn't come down, or the cold continues, please come back in a few days.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "visit-13",
+    "domain": "visit",
+    "ja": "当院には「特急券」という仕組みがあります。",
+    "before": "We have a system called an express ticket.",
+    "after": "We have a system called an express ticket.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "visit-14",
+    "domain": "visit",
+    "ja": "夜の咳き込みがひどくて眠れないときは、予約なしで来て大丈夫です。",
+    "before": "If she coughs a lot at night and can't sleep, you can come without an appointment.",
+    "after": "If she coughs a lot at night and can't sleep, you can come without an appointment.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "visit-15",
+    "domain": "visit",
+    "ja": "診察時間内に来てもらえれば、すぐに吸入ができます。",
+    "before": "Come during clinic hours. We'll do a nebulizer treatment right away.",
+    "after": "Come during clinic hours. We'll do a nebulizer treatment right away.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "visit-16",
+    "domain": "visit",
+    "ja": "ぜひ、この仕組みを使ってください。",
+    "before": "Please feel free to use it.",
+    "after": "Please feel free to use it.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "visit-17",
+    "domain": "visit",
+    "ja": "何か質問はありますか？",
+    "before": "Do you have any questions?",
+    "after": "Do you have any questions?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "visit-18",
+    "domain": "visit",
+    "ja": "お大事にしてください。",
+    "before": "I hope she feels better soon.",
+    "after": "I hope she feels better soon.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "asth-01",
+    "domain": "asthma",
+    "ja": "しばらくは、落ち着いていましたね。",
+    "before": "She was doing well for a while.",
+    "after": "She was doing well for a while.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "asth-02",
+    "domain": "asthma",
+    "ja": "でも、また咳き込みやゼーゼーが強くなってきました。",
+    "before": "But the coughing and wheezing have gotten worse again.",
+    "after": "But the coughing and wheezing have gotten worse again.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "asth-03",
+    "domain": "asthma",
+    "ja": "なので、喘息の予防薬を、もう一度始めましょう。",
+    "before": "So, let's start her asthma prevention medicine again.",
+    "after": "Let's restart the medicine that helps prevent her asthma symptoms.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "asth-04",
+    "domain": "asthma",
+    "ja": "まずは飲み薬を、毎日2週間続けてください。",
+    "before": "First, please give her the oral medicine every day for two weeks.",
+    "after": "First, please give her the oral medicine every day for two weeks.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "asth-05",
+    "domain": "asthma",
+    "ja": "2週間したら、様子を見せに来てください。",
+    "before": "After two weeks, please come back so I can check her.",
+    "after": "After two weeks, please come back so I can check her.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "asth-06",
+    "domain": "asthma",
+    "ja": "それでも落ち着かないときは、ネブライザーの吸入を足します。",
+    "before": "If it still doesn't settle, we'll add nebulizer treatments.",
+    "after": "If her symptoms still don't settle, we'll add nebulizer treatments.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "asth-07",
+    "domain": "asthma",
+    "ja": "ステロイドと、気管支を広げる薬を、一緒に吸入します。",
+    "before": "She breathes in a steroid and a medicine that opens the airways, together.",
+    "after": "The nebulizer gives her two medicines together: a steroid and a medicine that opens her airways.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "asth-08",
+    "domain": "asthma",
+    "ja": "少なくとも1日1回、夜寝る前にしてください。",
+    "before": "Please do it at least once a day, before bed.",
+    "after": "Please do it at least once a day, before bed.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "asth-09",
+    "domain": "asthma",
+    "ja": "それでも落ち着かないときは、朝と夜の1日2回にしてください。",
+    "before": "If that's still not enough, do it twice a day. Morning and night.",
+    "after": "If that's still not enough, do it twice a day. Morning and night.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "asth-10",
+    "domain": "asthma",
+    "ja": "症状が安定したら、飲み薬だけに戻して大丈夫です。",
+    "before": "When her symptoms are stable, you can go back to the oral medicine only.",
+    "after": "When her symptoms are stable, you can go back to the oral medicine only.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "asth-11",
+    "domain": "asthma",
+    "ja": "しばらくは、様子を見ていきましょう。",
+    "before": "Let's watch how she does for a while.",
+    "after": "Let's keep an eye on how she's doing for a while.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "asth-12",
+    "domain": "asthma",
+    "ja": "定期的にチェックしながら、お薬は続けていきましょう。",
+    "before": "Let's keep the medicine going. And I'll check her regularly.",
+    "after": "Let's continue her medicine and check on her regularly.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "refer-01",
+    "domain": "refer",
+    "ja": "今の状態が、とても心配です。",
+    "before": "I'm very worried about her right now.",
+    "after": "I'm very worried about her right now.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "refer-02",
+    "domain": "refer",
+    "ja": "（例）酸素の値が低く、呼吸がとても苦しそうです。",
+    "before": "Her oxygen level is low. She is working very hard to breathe.",
+    "after": "Her oxygen level is low. She is working very hard to breathe.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "refer-03",
+    "domain": "refer",
+    "ja": "ここでできる治療では足りないので、大きな病院に紹介します。",
+    "before": "She needs more treatment than we can do here. So I'm referring her to a big hospital.",
+    "after": "She needs treatment we can't provide here. I'm referring her to a larger hospital.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "refer-04",
+    "domain": "refer",
+    "ja": "〇〇医療センターの救急外来です。",
+    "before": "It's the ER at ___ Medical Center.",
+    "after": "It's the ER at ___ Medical Center.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "refer-05",
+    "domain": "refer",
+    "ja": "重い病気の子どもを、24時間診られる病院です。",
+    "before": "This hospital can treat seriously ill children, 24 hours a day.",
+    "after": "This hospital can treat seriously ill children, 24 hours a day.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "refer-06",
+    "domain": "refer",
+    "ja": "私から病院に電話して、もう伝えてあります。",
+    "before": "I've already called the hospital. They know you're coming.",
+    "after": "I've already called the hospital. They know you're coming.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "refer-07",
+    "domain": "refer",
+    "ja": "これが紹介状です。病院の受付で渡してください。",
+    "before": "This is the referral letter. Please give it to the front desk.",
+    "after": "Here's the referral letter. Please give it to the staff at reception.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "refer-08",
+    "domain": "refer",
+    "ja": "今すぐ向かってください。",
+    "before": "Please head there right away.",
+    "after": "Please head there right away.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "refer-09",
+    "domain": "refer",
+    "ja": "（重いとき）ここから救急車を呼びます。",
+    "before": "I'll call an ambulance from here.",
+    "after": "I'll call an ambulance from here.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "refer-10",
+    "domain": "refer",
+    "ja": "ご自分の車で連れて行けますか？",
+    "before": "Can you drive her there yourself?",
+    "after": "Can you drive her there yourself?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "refer-11",
+    "domain": "refer",
+    "ja": "途中で具合が悪くなったら、すぐ救急車を呼んでください。日本では119番です。",
+    "before": "If she gets worse on the way, call an ambulance right away. In Japan, the number is 119.",
+    "after": "If she gets worse on the way, call an ambulance right away. In Japan, the number is 119.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "refer-12",
+    "domain": "refer",
+    "ja": "急なことで、驚かれたと思います。",
+    "before": "I know this is sudden. It must be a shock.",
+    "after": "I know this is sudden. It must be a shock.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "refer-13",
+    "domain": "refer",
+    "ja": "でも、早めに行くのが一番安全です。",
+    "before": "But going early is the safest.",
+    "after": "Getting her there promptly is the safest option.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "refer-14",
+    "domain": "refer",
+    "ja": "心配なことがあれば、いつでもクリニックに連絡してください。",
+    "before": "If you're worried about anything, please call us anytime.",
+    "after": "If you're worried about anything, please call us anytime.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "gut-01",
+    "domain": "gut",
+    "ja": "お母さんのせいではありません。食事のせいでもありません。",
+    "before": "This is not your fault. And it's not because of her diet.",
+    "after": "This is not your fault. And it's not because of her diet.",
+    "language_review": "retained",
+    "context_review": "食事が無関係という断定は症例による。本人を責めない意図と医学的断定を分ける。"
+  },
+  {
+    "id": "gut-02",
+    "domain": "gut",
+    "ja": "病気ではなく、もともと便が出にくい体質なんです。",
+    "before": "It's not an illness. Some children are just born this way. Their stool doesn't come out easily.",
+    "after": "It's not an illness. Some children are just born this way. Their stool doesn't come out easily.",
+    "language_review": "retained",
+    "context_review": "病気でない・生まれつきという説明の適用対象を確認する。"
+  },
+  {
+    "id": "gut-03",
+    "domain": "gut",
+    "ja": "エコーで、直腸にうんちがたまっているのが見えます。",
+    "before": "On the ultrasound, I can see stool built up in the rectum.",
+    "after": "On the ultrasound, I can see stool built up in the rectum.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "gut-04",
+    "domain": "gut",
+    "ja": "直腸が、ふくらませ続けた風船のように伸びてしまっています。",
+    "before": "The rectum is stretched. Like a balloon that was blown up again and again.",
+    "after": "Her rectum has stretched, like a balloon that's been kept inflated.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "gut-05",
+    "domain": "gut",
+    "ja": "それで便意のセンサーが鈍くなって、気づかないうちにたまっていくんです。",
+    "before": "So the sensor that tells her to go is dull. Stool builds up, and she doesn't notice.",
+    "after": "That makes it harder for her to feel when she needs to go. Stool builds up without her noticing.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "gut-06",
+    "domain": "gut",
+    "ja": "今は黄色信号です。悪くはないけれど、もったいない状態です。",
+    "before": "Right now, it's a yellow light. It's not bad. But it could be much better.",
+    "after": "It's like a yellow traffic light. Things aren't bad, but there's room for improvement.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "gut-07",
+    "domain": "gut",
+    "ja": "パンツが汚れるのは病気ではありません。伸びた直腸に、体が慣れてしまっている状態です。",
+    "before": "Soiling is not a disease. Her body has just gotten used to the stretched rectum.",
+    "after": "Soiling is not a disease. Her body has just gotten used to the stretched rectum.",
+    "language_review": "retained",
+    "context_review": "便失禁を一律に病気でないと説明しない。"
+  },
+  {
+    "id": "gut-08",
+    "domain": "gut",
+    "ja": "最優先は、毎日出すリズムを作ることです。",
+    "before": "First, we build a daily rhythm. Poop every day.",
+    "after": "Our first priority is to help her get into a routine of having a bowel movement every day.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "gut-09",
+    "domain": "gut",
+    "ja": "出すことと、治すことは、別のものです。",
+    "before": "Getting the stool out and fixing the problem are two different things.",
+    "after": "Getting the stool out and fixing the problem are two different things.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "gut-10",
+    "domain": "gut",
+    "ja": "浣腸なら5分以内に出ます。飲み薬は、いつ出るか分かりません。",
+    "before": "An enema works within five minutes. With oral medicine, you never know when it comes.",
+    "after": "An enema works within five minutes. With oral medicine, you never know when it comes.",
+    "language_review": "retained",
+    "context_review": "5分以内という効き方の保証と処方対象を確認する。"
+  },
+  {
+    "id": "gut-11",
+    "domain": "gut",
+    "ja": "（例）毎日同じ時間に、30mlの浣腸をしてください。",
+    "before": "For example, give her a 30 ml enema at the same time every day.",
+    "after": "For example, give her a 30 ml enema at the same time every day.",
+    "language_review": "retained",
+    "context_review": "例示された30mlは処方例。体重・年齢等を伴わず実用しない。"
+  },
+  {
+    "id": "gut-12",
+    "domain": "gut",
+    "ja": "お薬と浣腸は、メガネや補助輪のようなものです。",
+    "before": "The medicine and the enemas are like glasses or training wheels.",
+    "after": "The medicine and the enemas are like glasses or training wheels.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "gut-13",
+    "domain": "gut",
+    "ja": "このお薬は、年単位で飲むように作られています。",
+    "before": "This medicine is made to be taken for years.",
+    "after": "This medicine is made to be taken for years.",
+    "language_review": "retained",
+    "context_review": "薬剤名・対象がないので、長期間使用できる薬全般と読まれないようにする。"
+  },
+  {
+    "id": "gut-14",
+    "domain": "gut",
+    "ja": "ゆるめになっても気にしないでください。短い時間でたっぷり出るのが目標です。",
+    "before": "Don't worry if the stool gets a bit loose. The goal is a lot of stool in a short time.",
+    "after": "Don't worry if the stool gets a bit loose. The goal is a lot of stool in a short time.",
+    "language_review": "retained",
+    "context_review": "便量や排便時間の目標は個別の計画を確認する。"
+  },
+  {
+    "id": "gut-15",
+    "domain": "gut",
+    "ja": "急にやめると、また出なくなります。安定してから、少しずつ減らしましょう。",
+    "before": "If you stop suddenly, it will build up again. Once she's stable, we reduce it slowly.",
+    "after": "If we stop suddenly, the stool will build up again. Once things are stable, we'll reduce the treatment gradually.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "gut-16",
+    "domain": "gut",
+    "ja": "歯みがきと同じように、明るくサッと、5分以内に終わらせましょう。",
+    "before": "It's like brushing teeth. Keep it cheerful and quick. Finish within five minutes.",
+    "after": "It's like brushing teeth. Keep it cheerful and quick. Finish within five minutes.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "gut-17",
+    "domain": "gut",
+    "ja": "ごはんのあと5〜10分、トイレに座ってみましょう。出なくても大丈夫です。",
+    "before": "After meals, have her sit on the toilet for five to ten minutes. It's okay if nothing comes out.",
+    "after": "After meals, have her sit on the toilet for five to ten minutes. It's okay if nothing comes out.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "gut-18",
+    "domain": "gut",
+    "ja": "嫌がる時間を短くするのが、一番のやさしさです。",
+    "before": "Keep the unpleasant part short. That is the kindest thing.",
+    "after": "Keeping the uncomfortable part short is the kindest thing we can do.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "gut-19",
+    "domain": "gut",
+    "ja": "効いている感じがなければ1週間以内に、順調なら2週間後に来てください。",
+    "before": "If it doesn't seem to work, come back within a week. If it's going well, come back in two weeks.",
+    "after": "If it doesn't seem to work, come back within a week. If it's going well, come back in two weeks.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "gut-20",
+    "domain": "gut",
+    "ja": "次回も、エコーで一緒に確認しましょう。",
+    "before": "Next time, let's check again with the ultrasound together.",
+    "after": "Next time, let's look at the ultrasound together and see how things are going.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "gut-21",
+    "domain": "gut",
+    "ja": "お腹の強い痛みが続く、何度も吐く、血がたくさん混じる、ぐったりしているときは、すぐ受診してください。",
+    "before": "Please come in right away if she has strong stomach pain that doesn't stop. Or if she vomits many times. Or if there is a lot of blood in the stool. Or if she is very weak.",
+    "after": "Please come in right away if she has strong stomach pain that doesn't stop. Or if she vomits many times. Or if there is a lot of blood in the stool. Or if she is very weak.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "gut-22",
+    "domain": "gut",
+    "ja": "最短でも3か月は、正しい量で続けましょう。",
+    "before": "Let's keep the right dose for at least three months.",
+    "after": "Let's keep the right dose for at least three months.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "gut-23",
+    "domain": "gut",
+    "ja": "波があって当然です。淡々と続けるのが、一番の近道です。",
+    "before": "Ups and downs are normal. Just keep going steadily. That's the fastest way.",
+    "after": "Ups and downs are normal. Just keep going steadily. That's the fastest way.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "gut-24",
+    "domain": "gut",
+    "ja": "本当に大きな前進です。これからも一緒に見ていきましょう。",
+    "before": "This is real progress. Let's keep watching her together.",
+    "after": "That's a big step forward. Let's keep following her progress together.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "gut-25",
+    "domain": "gut",
+    "ja": "（Q 長く飲んで大丈夫？）腎臓に問題がなければ心配いりません。効かなくなることもなく、ふだんは採血も要りません。",
+    "before": "If her kidneys are fine, there's nothing to worry about. It won't stop working. And she usually doesn't need blood tests.",
+    "after": "If her kidneys are fine, there's nothing to worry about. It won't stop working. And she usually doesn't need blood tests.",
+    "language_review": "retained",
+    "context_review": "腎機能だけで安全性を判断できるという保証、採血不要の範囲、薬剤名を確認。"
+  },
+  {
+    "id": "gut-26",
+    "domain": "gut",
+    "ja": "（Q 食事で治せない？）食事や水分だけでは、頑張ったほどの効果は出ません。無理はしなくていいですよ。",
+    "before": "Food and water alone don't help as much as you hope. You don't need to push too hard.",
+    "after": "Changing her diet and giving more fluids may not help as much as you'd hope on their own. You don't have to push yourself too hard.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "gut-27",
+    "domain": "gut",
+    "ja": "（Q かわいそう）終わったあとにケロッとしていれば、トラウマにはなりません。",
+    "before": "If she is fine right after, it won't be a trauma for her.",
+    "after": "If she is fine right after, it won't be a trauma for her.",
+    "language_review": "retained",
+    "context_review": "直後に元気ならトラウマにならない、という保証は見直し候補。"
+  },
+  {
+    "id": "gut-28",
+    "domain": "gut",
+    "ja": "（Q トイトレ）うんちは焦らなくて大丈夫。今はおむつで全く問題ありません。",
+    "before": "No rush with poop. Diapers are fine for now.",
+    "after": "No rush with poop. Diapers are fine for now.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "gut-29",
+    "domain": "gut",
+    "ja": "ここまで、本当によく頑張ってこられましたね。",
+    "before": "You've both worked so hard to get this far.",
+    "after": "You've both worked so hard to get this far.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "gut-30",
+    "domain": "gut",
+    "ja": "今日はまず、たまっているうんちを出しましょう。",
+    "before": "Let's start by getting the stool out today.",
+    "after": "Let's start by getting the stool out today.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "gut-31",
+    "domain": "gut",
+    "ja": "痛いから出したくないのは、自然な反応です。怠けではありません。",
+    "before": "Holding it in because it hurts is natural. She is not being lazy.",
+    "after": "Holding it in because it hurts is natural. She is not being lazy.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "gut-32",
+    "domain": "gut",
+    "ja": "切れたところを治す塗り薬と、うんちを柔らかくするお薬を出します。",
+    "before": "I'll give you an ointment for the tear, and medicine to soften her stool.",
+    "after": "I'll give you an ointment for the tear, and medicine to soften her stool.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "gut-33",
+    "domain": "gut",
+    "ja": "まずは、痛くなく出る体験を作りましょう。",
+    "before": "First, let's give her a poop that doesn't hurt.",
+    "after": "First, let's help her have a bowel movement without pain.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "gut-34",
+    "domain": "gut",
+    "ja": "痛みがなくなったら、必ず教えてください。",
+    "before": "Please let me know as soon as the pain goes away.",
+    "after": "Please let me know as soon as the pain goes away.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "gut-35",
+    "domain": "gut",
+    "ja": "（子へ）学校でうんちをするのって、すごく勇気がいるよね。",
+    "before": "Pooping at school takes a lot of courage, doesn't it?",
+    "after": "Pooping at school takes a lot of courage, doesn't it?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "gut-36",
+    "domain": "gut",
+    "ja": "おうちを、安心して出せる場所にするのが一番大事です。学校はそのあとで大丈夫です。",
+    "before": "First, make home a safe place to poop. School can come later.",
+    "after": "First, make home a safe place to poop. School can come later.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "gut-37",
+    "domain": "gut",
+    "ja": "毎日、家で必ず出せる時間を作りましょう。",
+    "before": "Let's make a time every day when she can poop at home.",
+    "after": "Let's set aside time every day for her to use the toilet at home.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "gut-38",
+    "domain": "gut",
+    "ja": "赤ちゃんは、いきむのがまだ下手なだけです。病気ではありません。",
+    "before": "Babies just aren't good at pushing yet. It's not an illness.",
+    "after": "Babies just aren't good at pushing yet. It's not an illness.",
+    "language_review": "retained",
+    "context_review": "乳児の排便困難すべてに使わず、診断した状態に合わせる。"
+  },
+  {
+    "id": "gut-39",
+    "domain": "gut",
+    "ja": "綿棒でお尻をやさしく刺激して、出す練習をしてあげましょう。",
+    "before": "Gently stimulate her bottom with a cotton swab. That helps her practice.",
+    "after": "Gently stimulate her bottom with a cotton swab. That helps her practice.",
+    "language_review": "retained",
+    "context_review": "綿棒刺激の適応と方法を伴う説明が必要。"
+  },
+  {
+    "id": "gut-40",
+    "domain": "gut",
+    "ja": "大きくなるにつれて、上手になっていきます。",
+    "before": "She'll get better at it as she grows.",
+    "after": "She'll get better at it as she grows.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "nut-01",
+    "domain": "nutri",
+    "ja": "病気ではないけれど、本来の力が出せない。もどかしいですよね。",
+    "before": "It's not an illness. But she can't do her best. That must be frustrating.",
+    "after": "She's not ill, but she isn't feeling her best. I can understand how frustrating that is.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "nut-02",
+    "domain": "nutri",
+    "ja": "根性や気持ちの問題ではなく、体の仕組みによるものです。",
+    "before": "It's not about willpower. It's about how the body works.",
+    "after": "It's not about willpower. It's about how the body works.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "nut-03",
+    "domain": "nutri",
+    "ja": "細胞がエネルギーを作る「バッテリー」が足りていないのかもしれません。",
+    "before": "Her cells may not have enough battery to make energy.",
+    "after": "Her cells may not have what they need to make energy. It's a bit like running low on battery power.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "nut-04",
+    "domain": "nutri",
+    "ja": "血糖値が急に上がって一気に下がる、ジェットコースターのような動きです。",
+    "before": "Her blood sugar goes up fast and drops fast. Like a roller coaster.",
+    "after": "Her blood sugar rises quickly and then drops sharply, like a roller coaster.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "nut-05",
+    "domain": "nutri",
+    "ja": "薬は「流す・動かす」はできても、体を「作る」ことはできません。",
+    "before": "Medicine can move things along. But it can't build the body.",
+    "after": "Medicine can move things along. But it can't build the body.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "nut-06",
+    "domain": "nutri",
+    "ja": "病気がないかも確かめますが、主に栄養の状態を詳しく見ます。",
+    "before": "We'll check for illness too. But mainly, we'll look closely at her nutrition.",
+    "after": "We'll check for illness too. But mainly, we'll look closely at her nutrition.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "nut-07",
+    "domain": "nutri",
+    "ja": "「基準範囲内」は、「ちょうど良い」という意味ではありません。",
+    "before": "Within the normal range does not mean just right.",
+    "after": "Being within the normal range doesn't always mean it's the right level for her.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "nut-08",
+    "domain": "nutri",
+    "ja": "一番大事なのは、フェリチン（体に貯めてある鉄）です。",
+    "before": "The most important number is ferritin. That's the iron stored in the body.",
+    "after": "The most important number is ferritin. That's the iron stored in the body.",
+    "language_review": "retained",
+    "context_review": "フェリチンが最重要となる対象を確認。栄養評価全般の断定にしない。"
+  },
+  {
+    "id": "nut-09",
+    "domain": "nutri",
+    "ja": "貧血の値が下がるのは、鉄不足の一番最後です。だからフェリチンを見ます。",
+    "before": "Hemoglobin drops last when iron is low. That's why we look at ferritin.",
+    "after": "Hemoglobin drops last when iron is low. That's why we look at ferritin.",
+    "language_review": "retained",
+    "context_review": "フェリチン・ヘモグロビンの解釈には病態の文脈が必要。"
+  },
+  {
+    "id": "nut-10",
+    "domain": "nutri",
+    "ja": "（例）17から35へ、倍くらいになりました。",
+    "before": "It went from 17 to 35. About double.",
+    "after": "It went from 17 to 35. About double.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "nut-11",
+    "domain": "nutri",
+    "ja": "まずは、悩みが取れるところまで上げるのが第一ステップです。",
+    "before": "The first step is to raise it until her symptoms get better.",
+    "after": "The first step is to raise it until her symptoms get better.",
+    "language_review": "retained",
+    "context_review": "症状が改善するまで数値を上げる、という目標設定の条件を確認。"
+  },
+  {
+    "id": "nut-12",
+    "domain": "nutri",
+    "ja": "フェリチンとタンパク質、この2つで8割は分かります。",
+    "before": "Ferritin and protein. These two tell us about 80 percent.",
+    "after": "Ferritin and protein. These two tell us about 80 percent.",
+    "language_review": "retained",
+    "context_review": "「8割」は何の8割か、根拠と対象の確認が必要。"
+  },
+  {
+    "id": "nut-13",
+    "domain": "nutri",
+    "ja": "減らすのではなく、タンパク質を足していきましょう。",
+    "before": "Don't cut things out. Let's add protein.",
+    "after": "Don't cut things out. Let's add protein.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "nut-14",
+    "domain": "nutri",
+    "ja": "朝ごはんに、卵やチーズを一品足すだけでも違います。",
+    "before": "Just adding an egg or some cheese to breakfast makes a difference.",
+    "after": "Just adding an egg or some cheese to breakfast makes a difference.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "nut-15",
+    "domain": "nutri",
+    "ja": "毎食、その子の両手のひらに乗るくらいのタンパク質が目安です。",
+    "before": "At every meal, aim for protein about the size of her two palms.",
+    "after": "At each meal, aim for a portion of protein-rich food about the size of her two palms.",
+    "language_review": "revised",
+    "context_review": "両手のひらサイズはたんぱく質そのものの重量ではなく食品の量。年齢・対象を確認。"
+  },
+  {
+    "id": "nut-16",
+    "domain": "nutri",
+    "ja": "甘いものは、完全に禁止しなくていいです。食べたあとに少し体を動かしましょう。",
+    "before": "You don't have to ban sweets. Just have her move a little after eating them.",
+    "after": "You don't have to ban sweets. Just have her move a little after eating them.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "nut-17",
+    "domain": "nutri",
+    "ja": "サプリは、自分の食事で足りるようになるまでの、一時的な補助輪です。",
+    "before": "Supplements are temporary training wheels. Until she gets enough from food.",
+    "after": "Supplements are like training wheels. They're temporary support until she can get enough from food.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "nut-18",
+    "domain": "nutri",
+    "ja": "鉄を飲むと便が黒っぽくなることがありますが、心配いりません。",
+    "before": "Iron can make her stool dark. That's normal. Don't worry.",
+    "after": "Iron can make her stool dark. That's normal. Don't worry.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "nut-19",
+    "domain": "nutri",
+    "ja": "良くなったらやめて大丈夫です。要らなくなることが目標です。",
+    "before": "When she's better, she can stop. The goal is not to need them.",
+    "after": "When she's better, she can stop. The goal is not to need them.",
+    "language_review": "retained",
+    "context_review": "中止する対象サプリと判断者を明示したい。"
+  },
+  {
+    "id": "nut-20",
+    "domain": "nutri",
+    "ja": "2〜3週間後に結果が出たら、一緒に方針を決めましょう。",
+    "before": "The results come in two to three weeks. Then let's decide the plan together.",
+    "after": "When the results come back in two or three weeks, we'll make a plan together.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "nut-21",
+    "domain": "nutri",
+    "ja": "3か月後に、もう一度採血しましょう。",
+    "before": "Let's recheck her blood in three months.",
+    "after": "Let's recheck her blood in three months.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "nut-22",
+    "domain": "nutri",
+    "ja": "3か月から半年で、「変わってきた」と感じられるのが目標です。",
+    "before": "The goal is that you notice a change in three to six months.",
+    "after": "Our goal is for you to notice a change in three to six months.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "nut-23",
+    "domain": "nutri",
+    "ja": "いつから始めても、遅すぎることはありません。",
+    "before": "It's never too late to start.",
+    "after": "It's never too late to start.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "nut-24",
+    "domain": "nutri",
+    "ja": "完璧を目指さず、できそうなことを一つ試してみましょう。",
+    "before": "Don't aim for perfect. Let's try one thing you can do.",
+    "after": "It doesn't have to be perfect. Let's try one thing that feels manageable.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "nut-25",
+    "domain": "nutri",
+    "ja": "夜中に血糖が下がって、朝起きる力が出ないのかもしれません。",
+    "before": "Her blood sugar may drop during the night. So she has no energy in the morning.",
+    "after": "Her blood sugar may be dropping during the night. That could be why she has so little energy in the morning.",
+    "language_review": "revised",
+    "context_review": "夜間低血糖は未確認の可能性として保った。診断された事実には変えない。"
+  },
+  {
+    "id": "nut-26",
+    "domain": "nutri",
+    "ja": "寝る前のジュースやゼリーは、やめてみましょう。",
+    "before": "Let's stop juice and jelly before bed.",
+    "after": "Let's try avoiding juice and jelly before bed.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "nut-27",
+    "domain": "nutri",
+    "ja": "寝る前は、甘いものの代わりに豆乳などにしてみましょう。",
+    "before": "Before bed, try soy milk instead of something sweet.",
+    "after": "Before bed, try soy milk instead of something sweet.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "nut-28",
+    "domain": "nutri",
+    "ja": "最初は、保険の採血からで大丈夫です。",
+    "before": "We can start with a basic blood test. It's covered by insurance.",
+    "after": "We can start with a basic blood test. It's covered by insurance.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "nut-29",
+    "domain": "nutri",
+    "ja": "頭痛も、鉄が足りないことと関係していることがあります。",
+    "before": "Headaches can also be linked to low iron.",
+    "after": "Headaches can also be linked to low iron.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "gen-01",
+    "domain": "medical",
+    "ja": "熱性けいれんの多くは数分で止まり、後に何も残りません。",
+    "before": "Most febrile seizures stop in a few minutes. They don't leave any damage.",
+    "after": "Most febrile seizures stop in a few minutes. They don't leave any damage.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "gen-02",
+    "domain": "medical",
+    "ja": "次に熱が出たときの目安を、お伝えしておきますね。",
+    "before": "Let me tell you what to watch for the next time she has a fever.",
+    "after": "Let me tell you what to watch for the next time she has a fever.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-01",
+    "domain": "me",
+    "ja": "子どもの頃から、手先が器用でした。",
+    "before": "As a child, I was good with my hands.",
+    "after": "As a child, I was good with my hands.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-02",
+    "domain": "me",
+    "ja": "機械いじりが好きで、何かを作るのが好きでした。",
+    "before": "I loved taking machines apart. I loved making things.",
+    "after": "I loved tinkering with machines and making things.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-03",
+    "domain": "me",
+    "ja": "医学部のとき、小児外科に「作る未来」を感じました。",
+    "before": "In medical school, I felt pediatric surgery had a creative future.",
+    "after": "In medical school, I saw pediatric surgery as a way to help build a child's future.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-04",
+    "domain": "me",
+    "ja": "だから小児外科に進みました。",
+    "before": "So I chose pediatric surgery.",
+    "after": "So I chose pediatric surgery.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-05",
+    "domain": "me",
+    "ja": "手術という技術で、小さな赤ちゃんの命を助ける仕事です。",
+    "before": "We use surgery to save the lives of tiny babies.",
+    "after": "We use surgery to save the lives of tiny babies.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-06",
+    "domain": "me",
+    "ja": "でも、長くやっているうちに、悩みが出てきました。",
+    "before": "But over the years, something started to bother me.",
+    "after": "But over the years, something started to bother me.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-07",
+    "domain": "me",
+    "ja": "手術で診る病気は、いわば「なれの果て」です。",
+    "before": "The diseases we operate on are the end of a long road.",
+    "after": "The diseases we operate on are the end of a long road.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-08",
+    "domain": "me",
+    "ja": "もっと手前で、できることがあるのではないか。",
+    "before": "I thought, there must be something we can do earlier.",
+    "after": "I began to wonder if there was more we could do before children got to that point.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-09",
+    "domain": "me",
+    "ja": "地域の中で子どもを診るうちに、その目線が育ちました。",
+    "before": "As I worked with children in the community, I began to see things that way.",
+    "after": "As I worked with children in the community, I began to see things that way.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-10",
+    "domain": "me",
+    "ja": "その答えが、栄養でした。",
+    "before": "The answer was nutrition.",
+    "after": "The answer was nutrition.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-11",
+    "domain": "me",
+    "ja": "細胞も、元気も、栄養から作られます。",
+    "before": "Our cells are made from nutrition. So is our energy.",
+    "after": "The food we eat provides what our bodies need to build cells and make energy.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-12",
+    "domain": "me",
+    "ja": "病気の治りやすさも、風邪のひきにくさも、心の健康も、栄養と関係しています。",
+    "before": "How fast we recover, how often we catch colds, even our mood. Nutrition is behind all of them.",
+    "after": "Nutrition is linked to how well we recover, how often we catch colds, and our mental health.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-13",
+    "domain": "me",
+    "ja": "「病気ではないけれど元気がない」子の多くが、栄養の視点で説明できるようになりました。",
+    "before": "Many children are not sick, but not well either. Nutrition explains a lot of that.",
+    "after": "Looking at nutrition helped me understand many children who weren't ill but still didn't feel well.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-14",
+    "domain": "me",
+    "ja": "今は、この学問に魅了されて、夢中です。",
+    "before": "Now I'm fascinated by this field. I'm hooked.",
+    "after": "Now I'm fascinated by this field. I'm hooked.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-15",
+    "domain": "me",
+    "ja": "現場で手応えを感じています。",
+    "before": "And I can see it working in my clinic.",
+    "after": "And I can see it working in my clinic.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-16",
+    "domain": "me",
+    "ja": "これを日本中に広めていきたいと思っています。",
+    "before": "I want to spread this across Japan.",
+    "after": "I'd like to share this approach with people across Japan.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-17",
+    "domain": "me",
+    "ja": "一番大事なのは、何が本質で、本当で、本物なのかです。",
+    "before": "What matters most to me is what is real, true, and genuine.",
+    "after": "What matters most to me is what is real, true, and genuine.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-18",
+    "domain": "me",
+    "ja": "原則に沿って生きること。感謝すること。",
+    "before": "Living by principles. Being grateful.",
+    "after": "I try to live by my principles and remember to be grateful.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-19",
+    "domain": "me",
+    "ja": "助け合い、分かち合うこと。",
+    "before": "Helping each other. Sharing.",
+    "after": "I believe in helping each other and sharing what we have.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-20",
+    "domain": "me",
+    "ja": "そして、成長や感動の喜びを世界に伝えること。それが私のミッションです。",
+    "before": "And sharing the joy of growing and being moved. That's my mission.",
+    "after": "My mission is to share the joy of growth and the experiences that move us, with people around the world.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-21",
+    "domain": "me",
+    "ja": "人生のほとんどを、医療の中で過ごしてきました。",
+    "before": "I've spent most of my life in medicine.",
+    "after": "I've spent most of my life in medicine.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-22",
+    "domain": "me",
+    "ja": "その視点を広げて、もっと多くの人の心と体を支えたいです。",
+    "before": "I want to use that to support more people, in body and mind.",
+    "after": "I'd like to broaden my perspective and help more people care for both their body and mind.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-23",
+    "domain": "me",
+    "ja": "正直に言うと、これまで働きすぎました。",
+    "before": "To be honest, I've worked too much.",
+    "after": "To be honest, I've worked too much.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-24",
+    "domain": "me",
+    "ja": "だから今は、いろいろな場所に行って、刺激を受けることも大事にしています。",
+    "before": "So now, I also want to travel more, and see new things.",
+    "after": "So now I also make time to travel, see new places, and find inspiration.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-25",
+    "domain": "me",
+    "ja": "今回のスペイン旅行も、その一つです。",
+    "before": "This trip to Spain is part of that.",
+    "after": "This trip to Spain is part of that.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-26",
+    "domain": "me",
+    "ja": "不器用でもいい。要領が悪くてもいい。",
+    "before": "It's okay to be clumsy. It's okay to be slow.",
+    "after": "It's okay if things don't come easily. It's okay to take the long way round.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-27",
+    "domain": "me",
+    "ja": "でも、正直に、誠実に生きることが大事です。",
+    "before": "But be honest. Live with integrity. That's what matters.",
+    "after": "What matters to me is living honestly and treating people with sincerity.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-28",
+    "domain": "me",
+    "ja": "そして、本物を見分ける目を持つこと。",
+    "before": "And know what is real when you see it.",
+    "after": "And I want to be able to recognize what's real and worthwhile.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-29",
+    "domain": "me",
+    "ja": "私が一番大事にしているのは、そこです。",
+    "before": "That's what I care about most.",
+    "after": "That's what I care about most.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-30",
+    "domain": "me",
+    "ja": "正直に言うと、",
+    "before": "To be honest,",
+    "after": "To be honest,",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-31",
+    "domain": "me",
+    "ja": "あれが転機でした。",
+    "before": "That was the turning point for me.",
+    "after": "That was the turning point for me.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-32",
+    "domain": "me",
+    "ja": "一番うれしいのは、〜のときです。",
+    "before": "The happiest moment for me is when ___.",
+    "after": "The happiest moment for me is when ___.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-33",
+    "domain": "me",
+    "ja": "あの瞬間、心を動かされました。",
+    "before": "That moment really moved me.",
+    "after": "That moment really moved me.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-34",
+    "domain": "me",
+    "ja": "うまく言えないのですが、",
+    "before": "It's hard to put into words, but",
+    "after": "It's hard to put into words, but",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-35",
+    "domain": "me",
+    "ja": "それが、この仕事を続ける理由です。",
+    "before": "That's why I keep doing this work.",
+    "after": "That's why I keep doing this work.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-36",
+    "domain": "me",
+    "ja": "お腹と栄養の、子ども専門のクリニックです。",
+    "before": "My clinic is for children. We focus on gut health and nutrition.",
+    "after": "My clinic is for children. We focus on gut health and nutrition.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-37",
+    "domain": "me",
+    "ja": "便秘の子どもを、年間5,000組ほど診ています。",
+    "before": "I see about 5,000 children a year for constipation.",
+    "after": "I see about 5,000 children and their families a year for constipation.",
+    "language_review": "revised",
+    "context_review": "5,000組が実人数・延べ受診数のどちらかは今回確認していない。"
+  },
+  {
+    "id": "me-38",
+    "domain": "me",
+    "ja": "手術台で、病気の一番下流を見てきました。だから、上流に持ち場を移しました。",
+    "before": "As a surgeon, I treated children who needed surgery. Now I focus on helping children earlier. That's what I mean by moving upstream.",
+    "after": "As a surgeon, I treated children who needed surgery. Now I focus on helping children earlier. That's what I mean by moving upstream.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-39",
+    "domain": "me",
+    "ja": "メスを置いて、スプーンを持ちました。",
+    "before": "I put down the scalpel and picked up a spoon.",
+    "after": "I put down the scalpel and picked up a spoon.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-40",
+    "domain": "me",
+    "ja": "腕はそのままに、持ち場を上流に移した外科医です。",
+    "before": "I'm still a surgeon. I just moved my work upstream.",
+    "after": "I'm still a surgeon. I just moved my work upstream.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-41",
+    "domain": "me",
+    "ja": "栄養は、心と体の土台です。",
+    "before": "Nutrition is the foundation of the body and the mind.",
+    "after": "Nutrition is the foundation of the body and the mind.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-42",
+    "domain": "me",
+    "ja": "焦らず、今のペースで大丈夫です。",
+    "before": "No rush. Your pace is fine.",
+    "after": "There's no rush. We can go at your pace.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-43",
+    "domain": "me",
+    "ja": "引き続き、一緒に見ていきましょう。",
+    "before": "Let's keep watching her together.",
+    "after": "Let's keep following her progress together.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-44",
+    "domain": "me",
+    "ja": "ゴールは、医療に頼らなくていい状態＝卒業です。",
+    "before": "The goal is to graduate. To not need us anymore.",
+    "after": "The goal is for her to graduate from our care, so she no longer needs medical support.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-45",
+    "domain": "me",
+    "ja": "農場と同じです。今日タネをまいても、明日には実りません。",
+    "before": "It's like a farm. You plant a seed today. It doesn't grow by tomorrow.",
+    "after": "It's like farming. You can't plant seeds today and expect a harvest tomorrow.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-46",
+    "domain": "me",
+    "ja": "一進一退でいいんです。根気よく続けることが大事です。",
+    "before": "Two steps forward, one step back is fine. Just keep going.",
+    "after": "Two steps forward, one step back is fine. Just keep going.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-47",
+    "domain": "me",
+    "ja": "今の食事を否定しません。土台に足し算していきましょう。",
+    "before": "I'm not saying her current diet is wrong. Let's build on it.",
+    "after": "I'm not saying her current diet is wrong. Let's build on it.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-48",
+    "domain": "me",
+    "ja": "お薬はメガネと同じです。見えるようになるための道具です。",
+    "before": "Medicine is like glasses. It's a tool that helps her function.",
+    "after": "Medicine is like glasses. It's a tool that helps her function.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-49",
+    "domain": "me",
+    "ja": "病気ではなく体質です。意志や根性の問題ではありません。",
+    "before": "It's not an illness. It's how her body works. It's not about willpower.",
+    "after": "It's not an illness. It's how her body works. It's not about willpower.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-50",
+    "domain": "me",
+    "ja": "ご自分を責めないでください。治療で良くなっていきます。",
+    "before": "Please don't blame yourself. With treatment, she will get better.",
+    "after": "Please don't blame yourself. With treatment, she will get better.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-51",
+    "domain": "me",
+    "ja": "大事なのは、本人が困っているかどうかです。",
+    "before": "What matters is whether she is struggling.",
+    "after": "What matters is whether she is struggling.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-52",
+    "domain": "me",
+    "ja": "本当の健康を土台に、一人ひとりが自分らしく人生を楽しめるように。",
+    "before": "Real health is the base. Then each person can enjoy life in their own way.",
+    "after": "Good health is the foundation. I want each person to enjoy life in their own way.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-53",
+    "domain": "me",
+    "ja": "本来持っている生命力を取り戻すことを支える。それが中心軸です。",
+    "before": "I help children get back the strength they were born with. That's what matters most to me.",
+    "after": "I help children get back the strength they were born with. That's what matters most to me.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-54",
+    "domain": "me",
+    "ja": "座右の銘は「天を相手に仕事をする」です。",
+    "before": "My motto is: work as if heaven is watching, not people.",
+    "after": "My motto is: work as if heaven is watching, not people.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-55",
+    "domain": "me",
+    "ja": "人の心に、灯りをともしたい。",
+    "before": "I want to light a small lamp in people's hearts.",
+    "after": "I want to light a small lamp in people's hearts.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-56",
+    "domain": "me",
+    "ja": "可能性は見捨てない。信頼は行動で見る。",
+    "before": "I never give up on someone's potential. And I judge trust by actions.",
+    "after": "I don't give up on people's potential. But I look at what they do to decide whether I can trust them.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-57",
+    "domain": "me",
+    "ja": "まず、みんなが喜ぶ世界がある。そこから始めます。",
+    "before": "First, imagine a world where everyone is happy. I start from there.",
+    "after": "First, imagine a world where everyone is happy. I start from there.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-58",
+    "domain": "me",
+    "ja": "原則には厳しく、人にはやさしく。",
+    "before": "Strict with principles. Kind to people.",
+    "after": "I hold firmly to my principles, but I try to treat people with kindness.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-59",
+    "domain": "me",
+    "ja": "作品で導く。生き方は強いない。",
+    "before": "I lead by what I make. I don't tell people how to live.",
+    "after": "I try to lead through my work. I don't force my way of life on others.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-60",
+    "domain": "me",
+    "ja": "静かでいい。短い言葉に、思想と熱を乗せる。",
+    "before": "Quiet is fine. I put my ideas and my passion into a few words.",
+    "after": "Quiet is fine. I put my ideas and my passion into a few words.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-61",
+    "domain": "me",
+    "ja": "私は、楽をしたい人ではありません。挑みたい人です。",
+    "before": "I'm not looking for an easy life. I want a challenge.",
+    "after": "I'm not looking for an easy life. I want a challenge.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "me-62",
+    "domain": "me",
+    "ja": "使命は突然湧くものではなく、ご縁と経験の中で見つかるものです。",
+    "before": "A mission doesn't just appear. You find it through people and experience.",
+    "after": "You don't find your purpose overnight. You find it through the people you meet and the things you experience.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "me-63",
+    "domain": "me",
+    "ja": "1ミリでも成長があれば、それでいい。",
+    "before": "Even one millimeter of growth is enough.",
+    "after": "Even a millimeter of growth matters to me.",
+    "language_review": "revised",
+    "context_review": ""
+  },
+  {
+    "id": "bs-01",
+    "domain": "basics",
+    "ja": "はじめまして。",
+    "before": "Nice to meet you.",
+    "after": "Nice to meet you.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-02",
+    "domain": "basics",
+    "ja": "（別れ際に）お会いできてよかったです。",
+    "before": "It was nice meeting you.",
+    "after": "It was nice meeting you.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-03",
+    "domain": "basics",
+    "ja": "（相手）調子はどう？",
+    "before": "How are you doing?",
+    "after": "How are you doing?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-04",
+    "domain": "basics",
+    "ja": "いいですよ、ありがとう。そちらは？",
+    "before": "Good, thanks. How about you?",
+    "after": "Good, thanks. How about you?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-05",
+    "domain": "basics",
+    "ja": "（相手）お仕事は何ですか？",
+    "before": "What do you do?",
+    "after": "What do you do?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-06",
+    "domain": "basics",
+    "ja": "子どもの医者です。東京から来ました。",
+    "before": "I'm a children's doctor. I'm from Tokyo.",
+    "after": "I'm a children's doctor. I'm from Tokyo.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-07",
+    "domain": "basics",
+    "ja": "（相手）どちらから？",
+    "before": "Where are you from?",
+    "after": "Where are you from?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-08",
+    "domain": "basics",
+    "ja": "日本です。東京です。",
+    "before": "Japan. Tokyo.",
+    "after": "Japan. Tokyo.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-09",
+    "domain": "basics",
+    "ja": "（人に声をかける・通してもらう）すみません。",
+    "before": "Excuse me.",
+    "after": "Excuse me.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-10",
+    "domain": "basics",
+    "ja": "（ぶつかった・迷惑をかけた）すみません。",
+    "before": "Sorry.",
+    "after": "Sorry.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-11",
+    "domain": "basics",
+    "ja": "（聞き取れなかった）すみません、もう一度？",
+    "before": "Sorry?",
+    "after": "Sorry?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-12",
+    "domain": "basics",
+    "ja": "遅れてすみません。",
+    "before": "Sorry I'm late.",
+    "after": "Sorry I'm late.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-13",
+    "domain": "basics",
+    "ja": "（相手が謝ったら）大丈夫ですよ。",
+    "before": "No problem.",
+    "after": "No problem.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-14",
+    "domain": "basics",
+    "ja": "ありがとうございます。",
+    "before": "Thank you.",
+    "after": "Thank you.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-15",
+    "domain": "basics",
+    "ja": "本当に助かりました。",
+    "before": "Thank you so much. That really helped.",
+    "after": "Thank you so much. That really helped.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-16",
+    "domain": "basics",
+    "ja": "（相手）どういたしまして。",
+    "before": "You're welcome.",
+    "after": "You're welcome.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-17",
+    "domain": "basics",
+    "ja": "（軽く）いえいえ。",
+    "before": "No worries.",
+    "after": "No worries.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-18",
+    "domain": "basics",
+    "ja": "お願いします。／はい、ぜひ。",
+    "before": "Yes, please.",
+    "after": "Yes, please.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-19",
+    "domain": "basics",
+    "ja": "いいえ、結構です。ありがとう。",
+    "before": "No, thank you.",
+    "after": "No, thank you.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-20",
+    "domain": "basics",
+    "ja": "（勧められて）はい、いただきます。",
+    "before": "Sure, I'd love some.",
+    "after": "Sure, I'd love some.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-21",
+    "domain": "basics",
+    "ja": "（相手）どうぞ。",
+    "before": "Go ahead.",
+    "after": "Go ahead.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-22",
+    "domain": "basics",
+    "ja": "（席・順番を譲る）お先にどうぞ。",
+    "before": "After you.",
+    "after": "After you.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-23",
+    "domain": "basics",
+    "ja": "分かりません。",
+    "before": "I'm not sure.",
+    "after": "I'm not sure.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-24",
+    "domain": "basics",
+    "ja": "（相手の言葉が）分かりませんでした。",
+    "before": "Sorry, I didn't get that.",
+    "after": "Sorry, I didn't get that.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-25",
+    "domain": "basics",
+    "ja": "つまり、〜ということですか？",
+    "before": "So you mean ___?",
+    "after": "So you mean ___?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-26",
+    "domain": "basics",
+    "ja": "ちょっと考えさせてください。",
+    "before": "Let me think.",
+    "after": "Let me think.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-27",
+    "domain": "basics",
+    "ja": "英語でなんと言うか分からないのですが、",
+    "before": "I don't know how to say it in English, but",
+    "after": "I don't know how to say it in English, but",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-28",
+    "domain": "basics",
+    "ja": "なるほど。",
+    "before": "I see.",
+    "after": "I see.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-29",
+    "domain": "basics",
+    "ja": "本当ですか？",
+    "before": "Really?",
+    "after": "Really?",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-30",
+    "domain": "basics",
+    "ja": "それはいいですね。",
+    "before": "That's great.",
+    "after": "That's great.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-31",
+    "domain": "basics",
+    "ja": "それは大変でしたね。",
+    "before": "That sounds tough.",
+    "after": "That sounds tough.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-32",
+    "domain": "basics",
+    "ja": "私もです。",
+    "before": "Me too.",
+    "after": "Me too.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-33",
+    "domain": "basics",
+    "ja": "そうですね、そう思います。",
+    "before": "Yes, I think so too.",
+    "after": "Yes, I think so too.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-34",
+    "domain": "basics",
+    "ja": "そろそろ行きますね。",
+    "before": "I should get going.",
+    "after": "I should get going.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-35",
+    "domain": "basics",
+    "ja": "良い一日を。",
+    "before": "Have a good one.",
+    "after": "Have a good one.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-36",
+    "domain": "basics",
+    "ja": "気をつけて。",
+    "before": "Take care.",
+    "after": "Take care.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bs-37",
+    "domain": "basics",
+    "ja": "また会いましょう。",
+    "before": "See you.",
+    "after": "See you.",
+    "language_review": "retained",
+    "context_review": ""
+  },
+  {
+    "id": "bridge-01",
+    "domain": "bridge",
+    "ja": "いちばん心配されているのは、どんなことですか？",
+    "before": null,
+    "after": "What worries you most?",
+    "language_review": "added",
+    "context_review": ""
+  },
+  {
+    "id": "bridge-02",
+    "domain": "bridge",
+    "ja": "ご自宅で気づいたことを教えてください。",
+    "before": null,
+    "after": "Could you tell me what you've noticed at home?",
+    "language_review": "added",
+    "context_review": ""
+  },
+  {
+    "id": "bridge-03",
+    "domain": "bridge",
+    "ja": "まだはっきりしない点もあります。一緒に経過を見ていきましょう。",
+    "before": null,
+    "after": "There are still some things we don't know. Let's keep an eye on how things develop together.",
+    "language_review": "added",
+    "context_review": ""
+  },
+  {
+    "id": "bridge-04",
+    "domain": "bridge",
+    "ja": "私の説明が分かりやすかったか確認したいので、家ですることを教えてもらえますか？",
+    "before": null,
+    "after": "Just to check that I've explained it clearly, could you tell me what you'll do at home?",
+    "language_review": "added",
+    "context_review": ""
+  },
+  {
+    "id": "bridge-05",
+    "domain": "bridge",
+    "ja": "この方法は、ご家庭で無理なく続けられそうですか？",
+    "before": null,
+    "after": "Do you think this plan will work for your family?",
+    "language_review": "added",
+    "context_review": ""
+  },
+  {
+    "id": "bridge-06",
+    "domain": "bridge",
+    "ja": "説明が分かりにくくてすみません。言い方を変えますね。",
+    "before": null,
+    "after": "Sorry, I wasn't clear. Let me explain it another way.",
+    "language_review": "added",
+    "context_review": ""
+  },
+  {
+    "id": "bridge-07",
+    "domain": "bridge",
+    "ja": "大事な説明なので、必要なら通訳をお願いしましょう。",
+    "before": null,
+    "after": "This is important. Let's get an interpreter if we need one.",
+    "language_review": "added",
+    "context_review": ""
+  },
+  {
+    "id": "bridge-08",
+    "domain": "bridge",
+    "ja": "どの薬を、いつ、どのくらい使ったか教えてください。",
+    "before": null,
+    "after": "Which medicine did you give, when did you give it, and how much did you give?",
+    "language_review": "added",
+    "context_review": ""
+  },
+  {
+    "id": "bridge-09",
+    "domain": "bridge",
+    "ja": "静かな場所の方が好きです。ゆっくり話したいので。",
+    "before": null,
+    "after": "I'd prefer somewhere quiet because I'd like to talk and relax.",
+    "language_review": "added",
+    "context_review": ""
+  },
+  {
+    "id": "bridge-10",
+    "domain": "bridge",
+    "ja": "私の理解が合っていれば、ここで荷物を受け取るのですね？",
+    "before": null,
+    "after": "If I've understood correctly, we need to collect our bags here. Is that right?",
+    "language_review": "added",
+    "context_review": ""
+  },
+  {
+    "id": "bridge-11",
+    "domain": "bridge",
+    "ja": "その方法が難しければ、ほかにどんな選択肢がありますか？",
+    "before": null,
+    "after": "If that isn't possible, what other options do we have?",
+    "language_review": "added",
+    "context_review": ""
+  },
+  {
+    "id": "bridge-12",
+    "domain": "bridge",
+    "ja": "予約した内容と違うようです。一緒に確認してもらえますか？",
+    "before": null,
+    "after": "This seems different from what I booked. Could we check it together?",
+    "language_review": "added",
+    "context_review": ""
+  },
+  {
+    "id": "bridge-13",
+    "domain": "bridge",
+    "ja": "そう考えるようになったきっかけは何ですか？",
+    "before": null,
+    "after": "What led you to think that way?",
+    "language_review": "added",
+    "context_review": ""
+  },
+  {
+    "id": "bridge-14",
+    "domain": "bridge",
+    "ja": "なるほど。私の経験では少し違いますが、お話はよく分かります。",
+    "before": null,
+    "after": "I see what you mean. My experience has been a little different, though.",
+    "language_review": "added",
+    "context_review": ""
+  },
+  {
+    "id": "bridge-15",
+    "domain": "bridge",
+    "ja": "一つ例を挙げてもいいですか？その方が伝わりやすいと思います。",
+    "before": null,
+    "after": "Could I give you an example? I think that might make it clearer.",
+    "language_review": "added",
+    "context_review": ""
+  },
+  {
+    "id": "bridge-16",
+    "domain": "bridge",
+    "ja": "ぴったりの英語が出てこないので、どんなものか説明しますね。",
+    "before": null,
+    "after": "I can't find the right word in English. Let me describe it.",
+    "language_review": "added",
+    "context_review": ""
+  },
+  {
+    "id": "bridge-17",
+    "domain": "bridge",
+    "ja": "そこは同じ気持ちです。特に、家族の時間は大切ですね。",
+    "before": null,
+    "after": "I feel the same way, especially about making time for family.",
+    "language_review": "added",
+    "context_review": ""
+  },
+  {
+    "id": "bridge-18",
+    "domain": "bridge",
+    "ja": "今のところはそう考えていますが、ほかの見方も聞いてみたいです。",
+    "before": null,
+    "after": "That's how I see it for now, but I'd like to hear other points of view.",
+    "language_review": "added",
+    "context_review": ""
+  },
+  {
+    "id": "ls-ba-01",
+    "domain": "listen",
+    "ja": "乗務員にお知らせください。",
+    "before": "Please let a member of the crew know.",
+    "after": "Please let a member of the crew know.",
+    "language_review": "retained_listening_source",
+    "context_review": "乗務員の言い方を聞き取る教材。自動発話練習からは除外。"
+  },
+  {
+    "id": "ls-ba-02",
+    "domain": "listen",
+    "ja": "紙の用紙は機内では配られません。",
+    "before": "Paper forms are no longer distributed on board.",
+    "after": "Paper forms are no longer distributed on board.",
+    "language_review": "retained_listening_source",
+    "context_review": "乗務員の言い方を聞き取る教材。自動発話練習からは除外。"
+  },
+  {
+    "id": "ls-ba-03",
+    "domain": "listen",
+    "ja": "検査が通常より厳しいことがあります。",
+    "before": "Inspections may be more stringent than usual.",
+    "after": "Inspections may be more stringent than usual.",
+    "language_review": "retained_listening_source",
+    "context_review": "乗務員の言い方を聞き取る教材。自動発話練習からは除外。"
+  },
+  {
+    "id": "ls-ba-04",
+    "domain": "listen",
+    "ja": "20分以内にシートベルトサインを点灯します。",
+    "before": "We'll be switching the seat belt signs on in under 20 minutes.",
+    "after": "We'll be switching the seat belt signs on in under 20 minutes.",
+    "language_review": "retained_listening_source",
+    "context_review": "乗務員の言い方を聞き取る教材。自動発話練習からは除外。"
+  },
+  {
+    "id": "ls-ba-05",
+    "domain": "listen",
+    "ja": "お手洗いへどうぞ（今のうちに向かってください）。",
+    "before": "Please make your way to the lavatory.",
+    "after": "Please make your way to the lavatory.",
+    "language_review": "retained_listening_source",
+    "context_review": "乗務員の言い方を聞き取る教材。自動発話練習からは除外。"
+  },
+  {
+    "id": "ls-ba-06",
+    "domain": "listen",
+    "ja": "荷物はすべて頭上の棚へ。",
+    "before": "Place all items in the overhead lockers.",
+    "after": "Place all items in the overhead lockers.",
+    "language_review": "retained_listening_source",
+    "context_review": "乗務員の言い方を聞き取る教材。自動発話練習からは除外。"
+  },
+  {
+    "id": "ls-ba-07",
+    "domain": "listen",
+    "ja": "シートベルトをしっかり締めてください。",
+    "before": "Make sure your seatbelt is securely fastened.",
+    "after": "Make sure your seatbelt is securely fastened.",
+    "language_review": "retained_listening_source",
+    "context_review": "乗務員の言い方を聞き取る教材。自動発話練習からは除外。"
+  },
+  {
+    "id": "ls-ba-08",
+    "domain": "listen",
+    "ja": "荷物棚を開ける時はご注意を。中の物が動いているかもしれません。",
+    "before": "Please take care when opening the overhead lockers, as items may have moved.",
+    "after": "Please take care when opening the overhead lockers, as items may have moved.",
+    "language_review": "retained_listening_source",
+    "context_review": "乗務員の言い方を聞き取る教材。自動発話練習からは除外。"
+  },
+  {
+    "id": "ls-ba-09",
+    "domain": "listen",
+    "ja": "通路が空くまで、そのまま座っていてください。",
+    "before": "Do remain seated until the aisle around you is clear.",
+    "after": "Do remain seated until the aisle around you is clear.",
+    "language_review": "retained_listening_source",
+    "context_review": "乗務員の言い方を聞き取る教材。自動発話練習からは除外。"
+  },
+  {
+    "id": "ls-ba-10",
+    "domain": "listen",
+    "ja": "良い朝をお過ごしください。",
+    "before": "We do hope you have a great morning.",
+    "after": "We do hope you have a great morning.",
+    "language_review": "retained_listening_source",
+    "context_review": "乗務員の言い方を聞き取る教材。自動発話練習からは除外。"
+  }
+]

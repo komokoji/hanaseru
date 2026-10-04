@@ -101,6 +101,7 @@
   #jump{ position:fixed; right:12px; bottom:calc(16px + env(safe-area-inset-bottom)); display:flex; flex-direction:column; gap:8px; z-index:50; }
   #jump button{ width:46px; height:46px; border-radius:50%; border:1px solid var(--line); background:var(--card); color:var(--teal-d);
     font-size:20px; font-weight:700; box-shadow:0 2px 8px rgba(0,0,0,.15); padding:0; }
+  .chunk-line{display:block;width:100%;text-align:left;margin-top:8px;line-height:1.6;white-space:normal;}
   .quick-start{background:#eaf4f0;border:1px solid #bdd8cd;border-radius:20px;padding:20px;margin:12px 0;display:grid;gap:10px}
   .quick-start h2{font-size:22px;margin:0}.quick-start p{margin:0}
   select{font:inherit;max-width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
@@ -131,9 +132,9 @@
     <p class="muted" style="font-size:12px;margin:0 0 6px"><b>目標（2026-09-29 決定）</b>：この3つが、止まらずにできる。①自分の考えを、理由を添えて言える ②相手の話に、その場で返せる（聞き返しも含めて） ③詰まっても、言い換えて前に進める。目標は B2。カードの枚数だけでなく、初めての質問にも答えられるかを確かめます。</p>
     <div class="quick-start">
       <h2>今日のひとことから。</h2>
-      <p class="muted">3分を目安に、1文だけでも。聞く → まねる → 見ずに言う → 自分の場面で使う。</p>
+      <p class="muted">3分を目安に、1文だけでも。聞く → 一文ずつまねる → 見ずに言う → 質問に答える。</p>
       <label for="practiceFocus">練習する場面</label>
-      <select id="practiceFocus"><option value="all">自分の保存文＋復習を優先</option><option value="clinic">診療</option><option value="travel">旅行・日常</option><option value="me">自分の考え</option><option value="mine">保存した言い方</option></select>
+      <select id="practiceFocus"><option value="all">自分の保存文＋復習を優先</option><option value="clinic">診療</option><option value="travel">旅行・日常</option><option value="me">自分の考え</option><option value="mine">保存した言い方</option><option value="bridge">会話をつなぐ18表現</option></select>
       <p id="practiceTarget" class="stat"></p>
       <button class="big" data-action="practiceStart" id="practiceStart">3分練習を始める</button>
       <button class="speak" data-action="practiceBrief">忙しい日は1文だけ（約1分）</button>
@@ -145,6 +146,7 @@
       <p><b>忙しい日：</b>1文を聞いて、まねて、見ずに言う。そこで終わって大丈夫。</p>
       <p><b>ふだんの日：</b>今日の3文。新しく覚える文を増やすより、使いたい文を繰り返す。</p>
       <p><b>余裕のある日：</b>練習した表現でAIと数往復。「なぜ？」にも答えてみる。</p>
+      <p><b>練習の最後：</b>「質問からもう一度」で、少し違う問いに答えてみる。手本と一字一句同じでなくて大丈夫。</p>
       <p><b>週に一度：</b>ことば帳を見て、実際に使えた文を記録。今は必要ない文を休ませる。</p>
       <p class="muted">昼食のあとなど、開く合図を一つ決めましょう。休んだ分のまとめ取りは不要です。戻った日は1文から。</p>
     </details>
@@ -168,6 +170,7 @@
       <button class="choice" data-action="patterns"><span>共通する文の入り方＋ミニ解説（文法・使われ方）</span><b>🧱 喋り始めの型 ▸</b></button>
       <button class="choice" data-action="start" data-domain="medical"><span>診察室で</span><b>診療英語 ▸</b></button>
       <button class="choice" data-action="start" data-domain="sign"><span>院長の型</span><b>署名フレーズ ▸</b></button>
+      <button class="choice" data-action="start" data-domain="bridge"><span>質問・理由・言い換え</span><b>会話をつなぐ18表現 ▸</b></button>
       <button class="choice" data-action="start" data-domain="all"><span>まとめて</span><b>ぜんぶ ▸</b></button>
       <button class="choice" data-action="start" data-domain="mine"><span>私が保存した言い方</span><b>🔖 保存フレーズ ▸</b></button>
       <button class="choice" data-action="start" data-domain="listen"><span>実際に聞いた英語の定型句</span><b>👂 聞いた英語 ▸</b></button>
@@ -284,6 +287,7 @@
       <button class="chip" data-action="clDomain" data-domain="sign">署名</button>
       <button class="chip" data-action="clDomain" data-domain="mine">🔖保存</button>
       <button class="chip" data-action="clDomain" data-domain="listen">👂聞いた</button>
+      <button class="chip" data-action="clDomain" data-domain="bridge">会話をつなぐ</button>
       <button class="chip" data-action="clDomain" data-domain="all">ぜんぶ</button>
     </div>
     <p class="stat" id="clCount" style="margin:8px 0 2px"></p>
@@ -463,6 +467,7 @@
 <script src="gutnutri.js"></script>
 <script src="me.js"></script>
 <script src="basics.js"></script>
+<script src="conversation.js"></script>
 <script src="patterns.js"></script>
 <script src="parts.js"></script>
 <script src="listen.js"></script>

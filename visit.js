@@ -16,11 +16,11 @@
     { id: "visit-07", domain: "visit", part: "③ お薬", ja: "気管支を広げるテープも出しておきます。寝る前に、背中か胸に貼ってください。", en: "I'll also give you a patch that opens the airways. Put it on her back or chest before bed.", note: "ツロブテロール貼付薬は日本では一般的だが、海外では珍しい。名前でなく『何をする薬か』で説明するのが伝わる。" },
     // ④ 吸入
     { id: "visit-08", domain: "visit", part: "④ 吸入", ja: "小さい子は、咳で夜眠れないことがあります。", en: "Small children sometimes can't sleep at night because of the cough." },
-    { id: "visit-09", domain: "visit", part: "④ 吸入", ja: "なので、クリニックで吸入をしていきましょう。", en: "So, let's do nebulizer treatments here at the clinic.", note: "吸入＝breathing treatment（ネブライザー）。inhaler は持ち歩く吸入器のこと。" },
+    { id: "visit-09", domain: "visit", part: "④ 吸入", ja: "なので、クリニックで吸入をしていきましょう。", en: "Let's give her a nebulizer treatment here at the clinic.", note: "吸入＝breathing treatment（ネブライザー）。inhaler は持ち歩く吸入器のこと。" },
     // ⑤ 登園・登校
     { id: "visit-10", domain: "visit", part: "⑤ 登園・登校", ja: "保育園や学校は、行って大丈夫です。", en: "She can go to daycare or school." },
     // ⑥ その後
-    { id: "visit-11", domain: "visit", part: "⑥ その後", ja: "おうちでお薬を飲んで良くなれば、それでおしまいです。", en: "If she gets better with the medicine at home, that's it. You don't need to come back.", note: "that's it＝それでおしまい。" },
+    { id: "visit-11", domain: "visit", part: "⑥ その後", ja: "おうちでお薬を飲んで良くなれば、それでおしまいです。", en: "If she gets better with the medicine at home, she won't need another visit.", note: "that's it＝それでおしまい。" },
     { id: "visit-12", domain: "visit", part: "⑥ その後", ja: "熱が下がらなかったり、風邪の症状が続くときは、数日後にまた来てください。", en: "If the fever doesn't come down, or the cold continues, please come back in a few days.", note: "keep going＝続く（keep ～ing＝～し続ける）。" },
     // ⑦ 特急券
     { id: "visit-13", domain: "visit", part: "⑦ 特急券", ja: "当院には「特急券」という仕組みがあります。", en: "We have a system called an express ticket.", note: "something called ～＝～というもの。独自の仕組みを紹介する王道の言い方。" },
@@ -35,32 +35,32 @@
   var A = [
     { id: "asth-01", domain: "asthma", part: "① いまの状態", ja: "しばらくは、落ち着いていましたね。", en: "She was doing well for a while." },
     { id: "asth-02", domain: "asthma", part: "① いまの状態", ja: "でも、また咳き込みやゼーゼーが強くなってきました。", en: "But the coughing and wheezing have gotten worse again.", note: "coughing fits＝咳き込み（発作的な咳）。" },
-    { id: "asth-03", domain: "asthma", part: "② 予防薬を再開", ja: "なので、喘息の予防薬を、もう一度始めましょう。", en: "So, let's start her asthma prevention medicine again.", note: "英国では preventer（予防薬）とも言う。発作止めは reliever。" },
+    { id: "asth-03", domain: "asthma", part: "② 予防薬を再開", ja: "なので、喘息の予防薬を、もう一度始めましょう。", en: "Let's restart the medicine that helps prevent her asthma symptoms.", note: "英国では preventer（予防薬）とも言う。発作止めは reliever。" },
     { id: "asth-04", domain: "asthma", part: "② 予防薬を再開", ja: "まずは飲み薬を、毎日2週間続けてください。", en: "First, please give her the oral medicine every day for two weeks.", note: "oral medicine＝飲み薬。子どもの薬は give her ～ と言う（take ではなく）。" },
     { id: "asth-05", domain: "asthma", part: "② 予防薬を再開", ja: "2週間したら、様子を見せに来てください。", en: "After two weeks, please come back so I can check her." },
-    { id: "asth-06", domain: "asthma", part: "③ 落ち着かないとき", ja: "それでも落ち着かないときは、ネブライザーの吸入を足します。", en: "If it still doesn't settle, we'll add nebulizer treatments.", note: "settle down＝落ち着く。症状にも子どもにも使える。" },
-    { id: "asth-07", domain: "asthma", part: "③ 落ち着かないとき", ja: "ステロイドと、気管支を広げる薬を、一緒に吸入します。", en: "She breathes in a steroid and a medicine that opens the airways, together.", note: "ステロイドに不安そうなら：It's a very low dose, and it's safe to use for a long time.（ごく少量で、長く使っても安全です）" },
+    { id: "asth-06", domain: "asthma", part: "③ 落ち着かないとき", ja: "それでも落ち着かないときは、ネブライザーの吸入を足します。", en: "If her symptoms still don't settle, we'll add nebulizer treatments.", note: "settle down＝落ち着く。症状にも子どもにも使える。" },
+    { id: "asth-07", domain: "asthma", part: "③ 落ち着かないとき", ja: "ステロイドと、気管支を広げる薬を、一緒に吸入します。", en: "The nebulizer gives her two medicines together: a steroid and a medicine that opens her airways.", note: "ステロイドに不安そうなら：It's a very low dose, and it's safe to use for a long time.（ごく少量で、長く使っても安全です）" },
     { id: "asth-08", domain: "asthma", part: "③ 落ち着かないとき", ja: "少なくとも1日1回、夜寝る前にしてください。", en: "Please do it at least once a day, before bed." },
     { id: "asth-09", domain: "asthma", part: "③ 落ち着かないとき", ja: "それでも落ち着かないときは、朝と夜の1日2回にしてください。", en: "If that's still not enough, do it twice a day. Morning and night." },
     { id: "asth-10", domain: "asthma", part: "④ 安定したら", ja: "症状が安定したら、飲み薬だけに戻して大丈夫です。", en: "When her symptoms are stable, you can go back to the oral medicine only." },
-    { id: "asth-11", domain: "asthma", part: "⑤ これから", ja: "しばらくは、様子を見ていきましょう。", en: "Let's watch how she does for a while.", note: "keep an eye on ～＝～を見守る・様子を見る。" },
-    { id: "asth-12", domain: "asthma", part: "⑤ これから", ja: "定期的にチェックしながら、お薬は続けていきましょう。", en: "Let's keep the medicine going. And I'll check her regularly." }
+    { id: "asth-11", domain: "asthma", part: "⑤ これから", ja: "しばらくは、様子を見ていきましょう。", en: "Let's keep an eye on how she's doing for a while.", note: "keep an eye on ～＝～を見守る・様子を見る。" },
+    { id: "asth-12", domain: "asthma", part: "⑤ これから", ja: "定期的にチェックしながら、お薬は続けていきましょう。", en: "Let's continue her medicine and check on her regularly." }
   ];
   // 🚑 大きな病院（救急外来）へ紹介する — 院長 2026-09-27
   var R = [
     { id: "refer-01", domain: "refer", part: "① いまの状態", ja: "今の状態が、とても心配です。", en: "I'm very worried about her right now.", note: "『具合が悪い』を直接言うより、医師が心配していると伝える方が保護者に届く。" },
     { id: "refer-02", domain: "refer", part: "① いまの状態", ja: "（例）酸素の値が低く、呼吸がとても苦しそうです。", en: "Her oxygen level is low. She is working very hard to breathe.", note: "working hard to breathe＝呼吸がしんどそう（努力呼吸）。理由は場面に合わせて入れ替える。" },
-    { id: "refer-03", domain: "refer", part: "② 紹介する", ja: "ここでできる治療では足りないので、大きな病院に紹介します。", en: "She needs more treatment than we can do here. So I'm referring her to a big hospital.", note: "refer＝紹介する（referral＝紹介）。三次医療機関は医師同士なら tertiary care hospital だが、保護者には a bigger hospital で十分。" },
+    { id: "refer-03", domain: "refer", part: "② 紹介する", ja: "ここでできる治療では足りないので、大きな病院に紹介します。", en: "She needs treatment we can't provide here. I'm referring her to a larger hospital.", note: "refer＝紹介する（referral＝紹介）。三次医療機関は医師同士なら tertiary care hospital だが、保護者には a bigger hospital で十分。" },
     { id: "refer-04", domain: "refer", part: "② 紹介する", ja: "〇〇医療センターの救急外来です。", en: "It's the ER at ___ Medical Center.", note: "ER は米国の言い方。英国では A&E（Accident and Emergency）。" },
     { id: "refer-05", domain: "refer", part: "② 紹介する", ja: "重い病気の子どもを、24時間診られる病院です。", en: "This hospital can treat seriously ill children, 24 hours a day.", note: "『三次医療機関』を保護者向けに言い換えるとこれ。" },
     { id: "refer-06", domain: "refer", part: "③ 連絡済み", ja: "私から病院に電話して、もう伝えてあります。", en: "I've already called the hospital. They know you're coming." },
-    { id: "refer-07", domain: "refer", part: "③ 連絡済み", ja: "これが紹介状です。病院の受付で渡してください。", en: "This is the referral letter. Please give it to the front desk." },
+    { id: "refer-07", domain: "refer", part: "③ 連絡済み", ja: "これが紹介状です。病院の受付で渡してください。", en: "Here's the referral letter. Please give it to the staff at reception." },
     { id: "refer-08", domain: "refer", part: "④ 向かい方", ja: "今すぐ向かってください。", en: "Please head there right away.", note: "head＝向かう。go より『今すぐ出発』の感じが出る。" },
     { id: "refer-09", domain: "refer", part: "④ 向かい方", ja: "（重いとき）ここから救急車を呼びます。", en: "I'll call an ambulance from here." },
     { id: "refer-10", domain: "refer", part: "④ 向かい方", ja: "ご自分の車で連れて行けますか？", en: "Can you drive her there yourself?" },
     { id: "refer-11", domain: "refer", part: "④ 向かい方", ja: "途中で具合が悪くなったら、すぐ救急車を呼んでください。日本では119番です。", en: "If she gets worse on the way, call an ambulance right away. In Japan, the number is 119.", note: "外国の方は 911（米）や 999（英）が頭にあるので、番号を必ず伝える。" },
     { id: "refer-12", domain: "refer", part: "⑤ 安心してもらう", ja: "急なことで、驚かれたと思います。", en: "I know this is sudden. It must be a shock." },
-    { id: "refer-13", domain: "refer", part: "⑤ 安心してもらう", ja: "でも、早めに行くのが一番安全です。", en: "But going early is the safest." },
+    { id: "refer-13", domain: "refer", part: "⑤ 安心してもらう", ja: "でも、早めに行くのが一番安全です。", en: "Getting her there promptly is the safest option." },
     { id: "refer-14", domain: "refer", part: "⑤ 安心してもらう", ja: "心配なことがあれば、いつでもクリニックに連絡してください。", en: "If you're worried about anything, please call us anytime." }
   ];
   window.HANASERU_CARDS = (window.HANASERU_CARDS || []).concat(V, A, R);

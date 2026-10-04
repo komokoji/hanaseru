@@ -77,15 +77,16 @@
           if (!before || !session.outcomes[i]) return '';
           var phrase=H.cards().find(function(c){return c.id===session.ids[i];});
           return '<p><b>' + esc(phrase ? phrase.ja : '') + '</b><br>練習前：' + ({stuck:'言葉が出なかった',some:'途中まで言えた',said:'言えた'}[before])
-            + '<br>練習後：' + ({again:'まだ練習したい',recalled:'見ずに言えた',transfer:'言い換えて伝えられた'}[session.outcomes[i]]) + '</p>';
+            + '<br>練習後：' + ({again:'まだ練習したい',recalled:'見ずに言えた',transfer:'自分の言葉で返せた'}[session.outcomes[i]]) + '</p>';
         }).join('')
         + '<p class="muted">これは今日の自己評価です。次はAIとのやりとりや実際の会話で試しましょう。</p></div>';
-      $('prActions').innerHTML = (session.ids.length ? btn('prTalk','この表現をAIとの会話で使う','big') : '') + btn('home','ホームへ');
+      $('prActions').innerHTML = (session.ids.length ? btn('prTalk','この表現をAIとの会話で使う','big') : '') + (session.ids.length ? btn('prRetest','質問からもう一度（任意）') : '') + btn('home','ホームへ');
       return;
     }
     var phase = session.phase;
-    $('prTitle').textContent = ['① 今の言葉で試して、聞く','② 音をまねる','③ 見ずに言う','④ 自分の場面で使う'][phase];
+    $('prTitle').textContent = ['① 今の言葉で試して、聞く','② 一文ずつ、音をまねる','③ 見ずに言う','④ 相手の問いに答える'][phase];
     $('prCounter').textContent = (session.index + 1) + ' / ' + session.ids.length + '文 ・ ' + (phase + 1) + ' / ' + (session.brief ? 3 : 4) + 'ステップ';
+    if (session.retest) $('prCounter').textContent = (session.index + 1) + ' / ' + session.ids.length + '文 ・ 質問から再挑戦';
     var body = '', actions = '';
     if (phase === 0) {
       body = '<p class="ja">' + esc(c.ja) + '</p><p class="muted">手本を聞く前に、今の英語で言ってみましょう。詰まっても大丈夫。ここから練習します。</p>'
@@ -95,16 +96,26 @@
       actions = btn('prListen','🔊 手本を聞く','big') + btn('prNext','意味と英文を見る');
     } else if (phase === 1) {
       body = '<p class="ja-sm">' + esc(c.ja) + '</p><p class="en">' + esc(c.en) + '</p><p class="muted">意味を確かめて、まず一緒に読む。慣れたら少し遅れて追いかける。録音と手本を聞き比べ、つながりやリズムを一つだけ意識しましょう。</p>';
+      var chunks = Core.sentences(c.en);
+      body += '<details class="practice-chunks"><summary>一文ずつ聞いて、まねる</summary><p class="muted">一文を聞く → 声に出す → つまずいた一文だけもう一度。最後に全文をつなげます。</p>'
+        + chunks.map(function(text,i){return '<button class="speak chunk-line" data-action="prChunk" data-index="'+i+'">🔊 '+esc(text)+'</button>';}).join('') + '</details>';
+      body += '<button class="explain-link" data-action="explain" data-id="'+esc(c.id)+'" data-box="xpPractice" aria-expanded="false" aria-controls="xpPractice">解説・似た言い方</button><div id="xpPractice" hidden aria-live="polite"></div>';
       actions = btn('prListen','🔊 手本をもう一度') + btn('rate','速度を切り替える') + btn('prNext','英文を隠して言ってみる','big');
     } else if (phase === 2) {
       body = '<p class="ja">' + esc(c.ja) + '</p><p class="muted">英語を見ずに声に出してください。同じ意味なら、違う言い方でも大丈夫です。</p>';
       if (peek) body += '<p class="en">' + esc(c.en) + '</p>';
       actions = btn('prPeek', peek ? 'もう一度隠す' : '手本を確認する') + (!peek ? btn('prRecall',session.brief ? '見ずに言えた・今日はここまで' : '見ずに言えた → 場面を変える','big') + btn('prAgain','まだ → 明日もう一度') : btn('prListen','🔊 手本を聞く'));
     } else {
-      var medical = ['medical','visit','asthma','gut','nutri','sign'].includes(c.domain) || /診療/.test(c.ja);
-      var prompts = medical ? ['同じ説明を、別の簡単な言い方で。最後に相手の理解を確かめましょう。', '相手に「どういう意味ですか？」と聞かれました。同じ内容を、より簡単な言葉で説明しましょう。', '説明のあと、相手が気にしていることを一つ尋ねましょう。'] : ['相手や場所を思い浮かべて、内容を一つ変えて言ってみましょう。', 'その考え・お願いの理由や気持ちを、一言足してみましょう。', '相手に伝わらなかったつもりで、別の簡単な言い方を試しましょう。'];
-      body = '<p class="ja-sm">元の意図：' + esc(c.ja) + '</p><p class="ja">' + prompts[(H.today() + session.index) % prompts.length] + '</p><p class="muted">' + (medical ? '治療の条件や意味は変えずに、表現だけ変えます。' : '数字・相手・頼みたいことなど、自分が使う内容で。') + ' 詰まったら、知っている単語で続けましょう。</p>';
-      actions = btn('prTransfer','言い換えて伝えられた','big') + btn('prSame','元の文は言えた・言い換えは次回') + btn('prAgain','元の文もまだ → 明日もう一度');
+      var medical = Core.topic(c) === 'clinic';
+      var cue = Core.responseCue(c, H.today() + (session.round || 0));
+      body = '<p class="ja-sm">伝えたいこと：' + esc(c.ja) + '</p>'
+        + '<p class="muted">相手から、こう言われました</p><p class="en">' + esc(cue.en) + '</p>'
+        + btn('prQuestion','🔊 相手の言葉を聞く')
+        + '<p class="muted">声に出して返してみましょう。'+(medical ? '診療の条件や意味は保ったまま、相手に分かる言葉で。' : '伝えたいことを答えて、理由や具体例を一つ添えましょう。')+' 詰まったら「Let me put it another way.」で言い直して大丈夫です。</p>';
+      if (peek) body += '<p class="muted">返答の手がかり（唯一の正解ではありません）</p><p class="en">'+esc(c.en)+'</p>';
+      actions = btn('prResponseHint',peek ? '手がかりを隠す' : '返答の手がかりを見る')
+        + btn('prTransfer', session.hintUsed ? '手がかりを使って返せた' : '自分の言葉で返せた','big')
+        + btn('prSame','元の文は言えた・受け答えは次回') + btn('prAgain','元の文もまだ → 明日もう一度');
     }
     $('prBody').innerHTML = '<div class="card">' + body + '</div>';
     $('prActions').innerHTML = actions;
@@ -119,7 +130,7 @@
     var c = card(); if (!c) return;
     H.practiceGrade(c.id, outcome);
     session.outcomes = session.outcomes || []; session.outcomes[session.index] = outcome;
-    session.index++; session.phase = 0; peek = false;
+    session.index++; session.phase = session.retest ? 3 : 0; session.hintUsed = false; peek = false;
     if (session.index === session.ids.length) H.practiceDone();
     persist(); render(); homeSummary();
   }
@@ -161,6 +172,9 @@
     else if(a==='practiceBrief') start(null,true);
     else if(a==='practiceOne') start(t.dataset.id);
     else if(a==='prListen' && card()) { $('prAudio').pause(); H.speak(card().en); }
+    else if(a==='prChunk' && card()) { var line=Core.sentences(card().en)[Number(t.dataset.index)]; if(line){$('prAudio').pause(); H.speak(line);} }
+    else if(a==='prQuestion' && card()) { $('prAudio').pause(); H.speak(Core.responseCue(card(),H.today()+(session.round||0)).en); }
+    else if(a==='prResponseHint') { peek=!peek; if(peek) {session.hintUsed=true; H.recordActivity();} persist(); render(); }
     else if(a==='prNext') advance();
     else if(a.indexOf('prBefore') === 0) {
       var before={prBeforeStuck:'stuck',prBeforeSome:'some',prBeforeSaid:'said'}[a];
@@ -170,9 +184,14 @@
     else if(a==='prRecall') { if(session.brief) grade('recalled'); else advance(); }
     else if(a==='prAgain') grade('again');
     else if(a==='prSame') grade('recalled');
-    else if(a==='prTransfer') grade('transfer');
+    else if(a==='prTransfer') grade(session.hintUsed ? 'recalled' : 'transfer');
     else if(a==='prRecord') record();
     else if(a==='prFinishEarly') { session.ids=session.ids.slice(0,session.index); H.practiceDone(); persist(); render(); homeSummary(); }
+    else if(a==='prRetest') {
+      session.ids=session.ids.filter(function(id){return H.cards().some(function(c){return c.id===id;}) && !(H.getState().cards[id]||{}).paused;});
+      session.index=0;session.phase=3;session.retest=true;session.brief=false;session.round=(session.round||0)+1;
+      session.outcomes=[];session.before=[];session.hintUsed=false;peek=false;persist();render();$('prTitle').focus();
+    }
     else if(a==='prTalk') {
       var c=H.cards().find(function(c){return c.id===session.ids[session.ids.length-1];});
       H.openTalk(); document.dispatchEvent(new CustomEvent('hanaseru:practiceTalk',{detail:c}));
@@ -185,6 +204,6 @@
   window.addEventListener('pagehide', cleanup);
   $('practiceFocus').addEventListener('change',homeSummary);
   var saved = stored();
-  if (valid(saved) && ['all','clinic','travel','me','mine'].includes(saved.focus)) $('practiceFocus').value = saved.focus;
+  if (valid(saved) && ['all','clinic','travel','me','mine','bridge'].includes(saved.focus)) $('practiceFocus').value = saved.focus;
   H.onChange(homeSummary); homeSummary();
 })();

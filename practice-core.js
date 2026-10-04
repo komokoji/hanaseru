@@ -4,7 +4,8 @@
   var intervals = [1, 1, 3, 7, 14, 30, 90];
   var seeds = ['sign-01', 'trip-s12', 'me-61', 'tr-chat-4', 'med-intro-1', 'bs-25'];
   function topic(c) {
-    if (['medical','visit','asthma','gut','nutri','sign'].includes(c.domain)) return 'clinic';
+    if (c.topic) return c.topic;
+    if (['medical','visit','asthma','gut','nutri','sign','refer'].includes(c.domain)) return 'clinic';
     if (c.domain === 'me') return 'me';
     if (c.domain === 'mine') {
       if (/診療|診察|親へ/.test(c.ja)) return 'clinic';
@@ -22,7 +23,7 @@
   }
   function eligible(c, focus) {
     if (!c.en || !c.ja || /___|\.\.\.|…/.test(c.en)) return false;
-    if (/^trip-w/.test(c.id) || /（相手|（係官|（係員|（フロント|（表示/.test(c.ja)) return false;
+    if (/^trip-w/.test(c.id) || c.domain === 'listen' || /（相手）|（係官|（係員|（フロント|（表示/.test(c.ja)) return false;
     if (['clinic','travel','me'].includes(focus)) return topic(c) === focus;
     return !focus || focus === 'all' || c.domain === focus;
   }
@@ -78,7 +79,25 @@
     while(set.has(anchor-streak)) streak++;
     return {days:days, done:done, streak:streak, week:days.filter(function(d){return d>=today-6;}).length};
   }
-  var api = { select: select, grade: grade, stage: stage, topic: topic, eligible: eligible, activityDays:activityDays, activity:activity };
+  function sentences(en) {
+    var text=String(en || ''), parts=[], start=0, boundary=/[.!?]+(?=\s|$)/g, match;
+    while ((match=boundary.exec(text))) {
+      var end=boundary.lastIndex;
+      if (/\b(?:Dr|Mr|Mrs|Ms|St|e\.g|i\.e)\.$/.test(text.slice(start,end))) continue;
+      var part=text.slice(start,end).trim(); if(part) parts.push(part); start=end;
+    }
+    if(text.slice(start).trim()) parts.push(text.slice(start).trim());
+    return parts;
+  }
+  function responseCue(c, turn) {
+    var cues = c.prompts || (root.HANASERU_RESPONSE_CUES || {})[c.id];
+    if (cues && cues.length) return {en:cues[turn % cues.length], specific:true};
+    var options = topic(c) === 'clinic'
+      ? ["Could you explain that to me in simple words?", "What would you like me to understand?"]
+      : ["Could you tell me what you mean?", "Could you explain that a little more?"];
+    return {en:options[turn % options.length], specific:false};
+  }
+  var api = { sentences:sentences, responseCue:responseCue, select: select, grade: grade, stage: stage, topic: topic, eligible: eligible, activityDays:activityDays, activity:activity };
   root.HanaseruPracticeCore = api;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
 })(typeof window !== 'undefined' ? window : globalThis);
