@@ -41,6 +41,11 @@ window.HANASERU_CARDS = [
   { id: "med-med-2", domain: "medical", ja: "熱が数日続いて、中耳炎と軽い気管支炎が出ています。", en: "She has had a fever for a few days. Now she has an ear infection and mild bronchitis." },
   { id: "med-med-3", domain: "medical", ja: "なので抗生物質を新しく足します。両方きちんと飲ませてください。", en: "So, I'll add an antibiotic. Please give her both medicines." },
   { id: "med-med-4", domain: "medical", ja: "まずは熱が下がるか、鼻や胸の症状が良くなるかを見ていきましょう。", en: "First, let's see if her fever comes down and her nose and chest symptoms improve." },
+  // 長引く風邪に、早めに抗生物質を始めるときの説明（2026-10-17 院長の言葉。Codex のセカンドオピニオンを反映）
+  { id: "med-med-5", domain: "medical", ja: "今は、長引いている風邪で、少しひどめの状態です。", en: "She's had a lingering cold, and it's a fairly bad one.", note: "lingering＝なかなか抜けない。getting worse にすると『今も悪化している』に聞こえるので避ける。" },
+  { id: "med-med-6", domain: "medical", ja: "なかなか良くならず、熱も続いています。", en: "She's still not getting better, and she still has a fever." },
+  { id: "med-med-7", domain: "medical", ja: "このままだと、気管支炎や肺炎に進むのが心配です。", en: "I'm concerned it might turn into bronchitis or pneumonia.", note: "I'm concerned ... might ＝『この子について心配している』。will turn into だと断定、If we leave it は『放置したら』の圧が出る。" },
+  { id: "med-med-8", domain: "medical", ja: "少し早めかもしれませんが、悪くなる前に、今のうちに抗生物質を始めましょう。", en: "It's a little earlier than usual, but I'd like to start an antibiotic now, before it gets worse.", note: "『早め』を言うと、抗生物質に慎重な親は『要らないのに出すの？』と感じることがある（Codex）。理由を足すなら：I think there may be a bacterial infection, so I recommend an antibiotic.（細菌感染を疑うときだけ）" },
   { id: "med-rev-1", domain: "medical", ja: "熱が下がらなければ、木曜か金曜にまた来てください。", en: "If the fever doesn't come down, please come back on Thursday or Friday." },
   { id: "med-rev-2", domain: "medical", ja: "夜の咳がひどい時は、診療時間内なら予約なしで吸入に来られます。この特急券をどうぞ。", en: "If her cough is bad at night, you can come for a nebulizer treatment. No appointment needed, during clinic hours. Here is an express ticket." },
   { id: "med-rev-3", domain: "medical", ja: "これだけは救急へ：横になって全く眠れない。", en: "Please go to the ER for these signs. She can't sleep at all lying down." },
