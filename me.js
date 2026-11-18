@@ -78,7 +78,18 @@
     { id: "me-60", domain: "me", part: "⑩ 価値観のことば", ja: "静かでいい。短い言葉に、思想と熱を乗せる。", en: "Quiet is fine. I put my ideas and my passion into a few words." },
     { id: "me-61", domain: "me", part: "⑩ 価値観のことば", ja: "私は、楽をしたい人ではありません。挑みたい人です。", en: "I'm not looking for an easy life. I want a challenge." },
     { id: "me-62", domain: "me", part: "⑩ 価値観のことば", ja: "使命は突然湧くものではなく、ご縁と経験の中で見つかるものです。", en: "You don't find your purpose overnight. You find it through the people you meet and the things you experience." },
-    { id: "me-63", domain: "me", part: "⑩ 価値観のことば", ja: "1ミリでも成長があれば、それでいい。", en: "Even a millimeter of growth matters to me." }
+    { id: "me-63", domain: "me", part: "⑩ 価値観のことば", ja: "1ミリでも成長があれば、それでいい。", en: "Even a millimeter of growth matters to me." },
+    // ⑪ 30秒で自分を語る（2026-11-18：ドバイ滞在でのブレストの「英語の段1」。Codex のセカンドオピニオン反映）
+    // 部品として7枚。全部を30秒で言わない。相手が反応した話題（本／AI）を広げる。
+    { id: "me-64", domain: "me", part: "⑪ 30秒で自分を語る", ja: "日本で小児外科医をしています。東京で、子どものクリニックを開いています。", en: "I'm a pediatric surgeon from Japan. I run a children's clinic in Tokyo.", note: "2文は別の息で言ってよい。pediatric surgeon が出なければ I'm a doctor. I work with children. で進んでよい。" },
+    { id: "me-65", domain: "me", part: "⑪ 30秒で自分を語る", ja: "専門は、子どもの便秘と栄養です。", en: "My focus is constipation and nutrition in children.", note: "動詞で言うなら I focus on constipation and nutrition in children." },
+    { id: "me-66", domain: "me", part: "⑪ 30秒で自分を語る", ja: "便秘は小さな問題に聞こえるかもしれません。でも、家族みんなの毎日に影響することがあります。", en: "Constipation may sound like a small problem. But it can affect the whole family's daily life.", note: "理由を添える一枚。can＝「影響することがある」。いつもそうだとは言い切らない。" },
+    { id: "me-67", domain: "me", part: "⑪ 30秒で自分を語る", ja: "便秘の子どもを持つ親のために、本を書きました。12月に出ます。", en: "I've written a book for parents of children with constipation. It comes out in December.", note: "12/9 の発売後は It came out this month.（時期を言わずに最初の一文だけでもよい）" },
+    { id: "me-68", domain: "me", part: "⑪ 30秒で自分を語る", ja: "それから、診療の毎日の仕事を助けるAIの道具を作っています。", en: "I'm also building AI tools to help with our daily work at the clinic." },
+    { id: "me-69", domain: "me", part: "⑪ 30秒で自分を語る", ja: "AIで時間をつくって、子どもと家族に向き合う時間を増やしたいんです。", en: "I want AI to help us save time. So we can spend more time with children and their families.", note: "「目指していること」として言う。もう時間が増えた、とは言い切らない。" },
+    { id: "me-70", domain: "me", part: "⑪ 30秒で自分を語る", ja: "あなたは、どんなお仕事をされているんですか？", en: "How about you? What do you do?", note: "自己紹介を一方的に終えない。相手の答えに、もう一問返す。" },
+    { id: "me-71", domain: "me", part: "⑪ 30秒で自分を語る", ja: "言い直しますね。子どもと家族に向き合う時間を、もっとつくりたいんです。", en: "Let me put it another way. I want more time with children and their families.", note: "詰まったとき・相手が首をかしげたときに、易しい言葉へ戻る一枚。" },
+    { id: "me-72", domain: "me", part: "⑪ 30秒で自分を語る", ja: "（通しで30秒）小児外科医です。東京で子どものクリニックを開いています。専門は便秘と栄養。家族みんなに影響する問題です。AIの道具も作っています。子どもと家族に向き合う時間を増やしたいんです。あなたは、どんなお仕事を？", en: "I'm a pediatric surgeon. I run a children's clinic in Tokyo. I focus on constipation and nutrition. These problems can affect the whole family. I'm also building AI tools. I want to spend more time with children and their families. How about you? What do you do?", note: "47語・ゆっくりで約30秒。速く読み切る課題にしない。本の話が合う相手には、AIの2文を I've also written a book for parents of children with constipation. に替える。" }
   );
   window.HANASERU_CARDS = (window.HANASERU_CARDS || []).concat(M);
 })();

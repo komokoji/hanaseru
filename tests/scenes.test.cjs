@@ -5,7 +5,7 @@ const ctx={window:{}};vm.runInNewContext(fs.readFileSync('scenes-data.js','utf8'
 const scenes=ctx.window.HANASERU_SCENES;
 test('two goals have complete, distinct partner exchanges and transfer questions',()=>{
   assert.equal(scenes.filter(s=>s.track==='clinic').length,4);
-  assert.equal(scenes.filter(s=>s.track==='travel').length,7);
+  assert.equal(scenes.filter(s=>s.track==='travel').length,8);
   assert.equal(new Set(scenes.map(s=>s.id)).size,scenes.length);
   for(const s of scenes){
     assert.equal(s.turns.length,4);assert.ok(s.context&&s.goal&&s.role);
