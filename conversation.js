@@ -18,7 +18,29 @@
     ['bridge-15','me','一つ例を挙げてもいいですか？その方が伝わりやすいと思います。',"Could I give you an example? I think that might make it clearer.",'What do you mean by that?','Could you tell me a little more?'],
     ['bridge-16','me','ぴったりの英語が出てこないので、どんなものか説明しますね。',"I can't find the right word in English. Let me describe it.",'What is it called?','What kind of thing do you mean?'],
     ['bridge-17','me','そこは同じ気持ちです。特に、家族の時間は大切ですね。',"I feel the same way, especially about making time for family.",'I try to make more time for my family now.','Spending time with family matters more to me these days.'],
-    ['bridge-18','me','今のところはそう考えていますが、ほかの見方も聞いてみたいです。',"That's how I see it for now, but I'd like to hear other points of view.",'Are you certain about that?','Would you consider a different approach?']
+    ['bridge-18','me','今のところはそう考えていますが、ほかの見方も聞いてみたいです。',"That's how I see it for now, but I'd like to hear other points of view.",'Are you certain about that?','Would you consider a different approach?'],
+    // 一歩進んだ、普段よく使う言い方（2026-11-18 院長「普段からよく使われる、一歩進んだセンテンスも欲しい」）
+    // ① 考えに理由を添える
+    ['bridge-19','me','正直に言うと、ゆっくり回る方が好きなんです。その方がよく見えるので。',"To be honest, I'd rather take my time. I notice more that way.",'Do you like to see as much as possible when you travel?','Shall we try to fit in a few more places today?'],
+    ['bridge-20','me','私の見方では、大事なのはどれだけやるかより、続けることです。',"The way I see it, it's not about how much you do. It's about keeping it up.",'How do you stay healthy with such a busy job?','I tried running every day, but I quit after a week.'],
+    ['bridge-21','me','日によりますが、たいていは家で簡単なものを作ります。',"It depends on the day, but usually I cook something simple at home.",'Do you usually eat out?','What do you normally have for dinner?'],
+    ['bridge-22','travel','気に入っているのは、歩いて回りやすいところです。',"What I like about it is that it's so easy to walk around.",'How do you like Barcelona?','What do you think of this area?'],
+    ['bridge-23','me','それも、私が旅を好きな理由の一つです。',"That's one of the reasons I love traveling.",'Meeting new people is the best part of a trip, isn\'t it?','You learn so much when you see how other people live.'],
+    // ② その場で返す
+    ['bridge-24','me','いい質問ですね。少し考えさせてください。',"That's a good question. Let me think about that for a second.","What's the biggest difference between Japan and Europe?",'If you could live anywhere, where would it be?'],
+    ['bridge-25','travel','本当ですか？どうしてそうしようと思ったんですか？',"Really? What made you decide to do that?",'I quit my job last year and opened my own café.','We moved here from London two years ago.'],
+    ['bridge-26','travel','わかります。私も同じことがありました。',"I know what you mean. The same thing happened to me.",'Jet lag always hits me on the second day.','I always pack too much when I travel.'],
+    ['bridge-27','me','なるほど、それはそうですね。そういう見方はしていませんでした。',"That's fair. I hadn't thought of it that way.","For short trips, I think trains are better than planes. You don't have to wait at the airport.",'Some people prefer to travel without any plan at all.'],
+    ['bridge-28','travel','私はそれで大丈夫です。',"That works for me.",'Shall we meet at the station at ten?','How about dinner at seven?'],
+    // ③ 言い換えて進む
+    ['bridge-29','me','私が言いたいのは、小さな習慣の方が大きな変化より大事だということです。',"What I'm trying to say is, small habits matter more than big changes.","Sorry, I'm not sure I follow.",'So you think people should change everything at once?'],
+    ['bridge-30','me','言い換えると、完璧でなくていいんです。',"In other words, we don't have to be perfect.",'So it\'s okay to miss a day sometimes?','That sounds like a lot of pressure.'],
+    ['bridge-31','travel','なんと言えばいいか…家に帰ってきたような感じです。',"How can I put this... It feels a bit like coming home.","What's it like to come back to a place you've visited before?",'How does it feel to be back here?'],
+    // ④ ていねいに頼む・ぼかす・気持ちを言う
+    ['bridge-32','travel','ここに座ってもかまいませんか？',"Would you mind if I sat here?",'This seat is free, by the way.',"It's busy in here today, isn't it?"],
+    ['bridge-33','travel','夕食においしいお店を教えていただけないかと思いまして。',"I was wondering if you could recommend a good place for dinner.",'Is there anything else I can help you with?','Let me know if you need anything during your stay.'],
+    ['bridge-34','travel','よくわからないのですが、たぶん次の駅だと思います。',"I'm not sure, but I think it's the next stop.",'Excuse me, do you know where to get off for the museum?','Is this the stop for the old town?'],
+    ['bridge-35','travel','とても楽しみにしています。',"I'm really looking forward to it.",'You\'re going to Frankfurt next? The Christmas markets are lovely.','Are you excited about the trip?']
   ];
   window.HANASERU_CARDS = window.HANASERU_CARDS.concat(cards.map(function(c){
     return {id:c[0],domain:'bridge',topic:c[1],ja:c[2],en:c[3],prompts:[c[4],c[5]]};

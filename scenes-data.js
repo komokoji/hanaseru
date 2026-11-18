@@ -70,6 +70,12 @@
       turn("I hadn't thought about that. How does it affect families?",'考えたことがなかったです。家族にはどう影響するんですか？','家族への影響と、だから本を書いたことを言う。',"It can affect the whole family's daily life. That's why I've written a book for parents of children with constipation.",'発売月は聞かれたら足す。長い返答に詰め込まない。'),
       turn('Congratulations! Is it only in Japanese?','おめでとうございます！日本語だけですか？','今は日本語だけと伝え、希望を一言。相手に返す。',"For now, it's only in Japanese. I hope it can be translated into other languages. How about you? What do you do?",'翻訳は「希望」として言う。決まった話として言わない。')
     ],challenge:turn('Do you think AI will replace doctors?','AIは医者の代わりになると思いますか？','（AIの道具の話をしたあとで）自分の考えと、目指していることを言う。',"I see AI as a tool to support doctors. I'm building tools for my clinic. I want them to help us spend more time with children and their families.",'自分の考えに合わせて言い換えてよい。「もう時間が増えた」とは言い切らない。')},
+    {id:'trip-shop',track:'travel',title:'空港のお店とカフェで、言われたことに返す',role:'空港のお店・カフェの店員',context:'ロンドン乗り継ぎやフランクフルトの空港。店員の英語は速く、訛りもある。全部わからなくても、聞こえた単語を一つ返して確かめればよい。',goal:'言われたことに短く返し、わからなければ確かめられる',turns:[
+      turn('Can I see your boarding pass, please?','搭乗券を見せてもらえますか？','搭乗券を見せる。スマホにあると伝える。',"Sure, here it is. It's on my phone.",'空港のお店のレジでよく聞かれる。'),
+      turn('Thank you. Would you like a bag?','ありがとうございます。袋はご入用ですか？','いらないと伝える。',"No, thank you. That's fine.",'Yes, please. でもよい。'),
+      turn('Hi! Do you speak English?','こんにちは！英語は話せますか？','少し話せると伝え、ゆっくり話してほしいと頼む。',"Yes, a little. Could you speak a bit slowly, please?",'No で終えずに A little で始める。'),
+      turn('Of course. What can I get you? Is it for here or to go?','もちろん。何になさいますか？こちらでお召し上がりですか、お持ち帰りですか？','注文と、店内で食べることを伝える。',"Two lattes, please. For here.",'イギリスでは Eat in or take away? と聞かれることも多い。')
+    ],challenge:turn("D'you want the receipt with that?",'（速く、訛りが強い）レシートはいりますか？','聞こえた単語を一つ返して確かめてから答える。',"Sorry, did you say 'receipt'? No, thank you.",'全部わからなくても、聞こえた一語で確かめればよい。')},
     {id:'de-airport',track:'travel',title:'帰国便と荷物の行き先を確認する',role:'空港のスタッフ',context:'ドイツから帰国する空港。予約画面を見せ、乗り継ぎと預け荷物の扱いを確認する。直行便なら自分の旅程に変える。',goal:'分からない条件を、推測せず確認する',turns:[
       turn('May I see your booking and passport?','予約とパスポートを見せてください。','提示して、帰国することを伝える。',"Here you are. I'm flying back to Japan today. Could you check my booking, please?",'具体的な便名を言いにくければ予約画面を見せる。'),
       turn('You have a connecting flight. Are you checking this bag?','乗り継ぎがあります。この荷物は預けますか？','荷物を預け、最終目的地まで運ばれるか確認する。',"Yes, please. Will it be checked through to my final destination, or do I need to collect it during the connection?",'checked through＝最終目的地まで預ける。経路ごとに確認する。'),
