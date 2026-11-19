@@ -29,17 +29,17 @@
     // ② その場で返す
     ['bridge-24','me','いい質問ですね。少し考えさせてください。',"That's a good question. Let me think about that for a second.","What's the biggest difference between Japan and Europe?",'If you could live anywhere, where would it be?'],
     ['bridge-25','travel','本当ですか？どうしてそうしようと思ったんですか？',"Really? What made you decide to do that?",'I quit my job last year and opened my own café.','We moved here from London two years ago.'],
-    ['bridge-26','travel','わかります。私も同じことがありました。',"I know what you mean. The same thing happened to me.",'Jet lag always hits me on the second day.','I always pack too much when I travel.'],
-    ['bridge-27','me','なるほど、それはそうですね。そういう見方はしていませんでした。',"That's fair. I hadn't thought of it that way.","For short trips, I think trains are better than planes. You don't have to wait at the airport.",'Some people prefer to travel without any plan at all.'],
+    ['bridge-26','travel','わかります。私も同じことがありました。',"I know what you mean. The same thing happened to me.",'Jet lag hit me on the second day.','I packed far too much for this trip.'],
+    ['bridge-27','me','なるほど、それはそうですね。そういう見方はしていませんでした。',"That's fair. I hadn't thought of it that way.","For short trips, I think trains are better than planes. You don't have to wait at the airport.",'I prefer to leave some days unplanned so I can explore.'],
     ['bridge-28','travel','私はそれで大丈夫です。',"That works for me.",'Shall we meet at the station at ten?','How about dinner at seven?'],
     // ③ 言い換えて進む
     ['bridge-29','me','私が言いたいのは、小さな習慣の方が大きな変化より大事だということです。',"What I'm trying to say is, small habits matter more than big changes.","Sorry, I'm not sure I follow.",'So you think people should change everything at once?'],
     ['bridge-30','me','言い換えると、完璧でなくていいんです。',"In other words, we don't have to be perfect.",'So it\'s okay to miss a day sometimes?','That sounds like a lot of pressure.'],
-    ['bridge-31','travel','なんと言えばいいか…家に帰ってきたような感じです。',"How can I put this... It feels a bit like coming home.","What's it like to come back to a place you've visited before?",'How does it feel to be back here?'],
+    ['bridge-31','travel','なんと言えばいいか…少し、家に帰ってきたような感じです。',"How can I put this? It feels a bit like coming home.","What's it like to come back to a place you've visited before?",'How does it feel to be back here?'],
     // ④ ていねいに頼む・ぼかす・気持ちを言う
     ['bridge-32','travel','ここに座ってもかまいませんか？',"Would you mind if I sat here?",'This seat is free, by the way.',"It's busy in here today, isn't it?"],
     ['bridge-33','travel','夕食においしいお店を教えていただけないかと思いまして。',"I was wondering if you could recommend a good place for dinner.",'Is there anything else I can help you with?','Let me know if you need anything during your stay.'],
-    ['bridge-34','travel','よくわからないのですが、たぶん次の駅だと思います。',"I'm not sure, but I think it's the next stop.",'Excuse me, do you know where to get off for the museum?','Is this the stop for the old town?'],
+    ['bridge-34','travel','よくわからないのですが、たぶん次の駅だと思います。',"I'm not sure, but I think it's the next stop.",'Excuse me, do you know where to get off for the museum?','Which stop should we get off at for the old town?'],
     ['bridge-35','travel','とても楽しみにしています。',"I'm really looking forward to it.",'You\'re going to Frankfurt next? The Christmas markets are lovely.','Are you excited about the trip?']
   ];
   window.HANASERU_CARDS = window.HANASERU_CARDS.concat(cards.map(function(c){

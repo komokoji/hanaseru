@@ -23,7 +23,7 @@
   }
   function eligible(c, focus) {
     if (!c.en || !c.ja || /___|\.\.\.|…/.test(c.en)) return false;
-    if (/^trip-w/.test(c.id) || c.domain === 'listen' || /（相手）|（係官|（係員|（フロント|（表示/.test(c.ja)) return false;
+    if (/^trip-w/.test(c.id) || c.domain === 'listen' || /（相手）|（店員）|（係官|（係員|（フロント|（表示/.test(c.ja)) return false;
     if (['clinic','travel','me'].includes(focus)) return topic(c) === focus;
     return !focus || focus === 'all' || c.domain === focus;
   }

@@ -103,20 +103,21 @@
 
     // ── ③ 空港のお店・カフェ（2026-11-18 院長：お店でも搭乗券を聞かれた・訛りが強いと分からない）──
     // 言われること（聞き取りの練習）
-    { id: "trip-k01", domain: "trip2", ja: "（店員）搭乗券を見せてもらえますか？", en: "Can I see your boarding pass, please?", note: "空港のお店のレジでよく聞かれる。短く Boarding pass, please? とも。" },
+    { id: "trip-k01", domain: "trip2", ja: "（店員）搭乗券を見せてもらえますか？", en: "Can I see your boarding pass, please?", note: "空港のお店で、搭乗券の提示を求められることがある。短く Boarding pass, please? とも。" },
     { id: "trip-k02", domain: "trip2", ja: "はい、どうぞ。スマホに入っています。", en: "Sure, here it is. It's on my phone." },
     { id: "trip-k03", domain: "trip2", ja: "（店員）袋はご入用ですか？", en: "Would you like a bag?", note: "Do you need a bag? とも。答えは No, thank you. / Yes, please." },
-    { id: "trip-k04", domain: "trip2", ja: "（店員）ほかに何か？", en: "Anything else?", note: "Is that everything? / Will that be all? とも。答えは That's all, thank you." },
-    { id: "trip-k05", domain: "trip2", ja: "（店員）カードですか、現金ですか？", en: "Card or cash?", note: "Tap here when you're ready.＝準備ができたら、ここにかざしてください。" },
-    { id: "trip-k06", domain: "trip2", ja: "（店員）こちらで召し上がりますか、お持ち帰りですか？", en: "Is it for here or to go?", note: "イギリスでは Eat in or take away? と言うことが多い。答えは For here, please. / To go, please." },
-    { id: "trip-k07", domain: "trip2", ja: "（店員）レシートはいりますか？", en: "Would you like the receipt?", note: "速いと D'you want the receipt? と一息に聞こえる。" },
+    { id: "trip-k04", domain: "trip2", ja: "（店員）ほかに何か？", en: "Anything else?", note: "答えは That’s all, thank you.。Is that everything? / Will that be all?（これで全部ですか？）なら Yes, that’s all, thank you.。" },
+    { id: "trip-k05", domain: "trip2", ja: "（店員）カードですか、現金ですか？", en: "Card or cash?", note: "返しは Card, please. / Cash, please.。Tap here when you're ready.＝準備ができたら、ここにかざしてください。" },
+    { id: "trip-k06", domain: "trip2", ja: "（店員）こちらで召し上がりますか、お持ち帰りですか？", en: "Is that to eat in or take away?", note: "英国向けの聞き取り例。For here or to go? とも。返しは For here, please. / To take away, please.。" },
+    { id: "trip-k07", domain: "trip2", ja: "（店員）レシートはいりますか？", en: "Would you like the receipt?", note: "Do you want the receipt? とも。速いと D'you want the receipt? と聞こえることもある。" },
     // 「英語は話せますか？」と聞かれたら
     { id: "trip-k08", domain: "trip2", ja: "（相手）英語は話せますか？", en: "Do you speak English?" },
-    { id: "trip-k09", domain: "trip2", ja: "はい、少し。少しゆっくり話してもらえますか？", en: "Yes, a little. Could you speak a bit slowly, please?", note: "No と言わずに A little で始めると、相手も合わせてくれる。" },
+    { id: "trip-k09", domain: "trip2", ja: "はい、少し。少しゆっくり話してもらえますか？", en: "Yes, a little. Could you speak a little more slowly, please?", note: "少し話せることと、ゆっくり話してほしいことを伝える。聞き取りの難しさだけ伝えるなら Yes. Could you speak a little more slowly, please? でもよい。" },
     // 訛りが強くて分からないとき
-    { id: "trip-k10", domain: "trip2", ja: "すみません、聞き取れませんでした。", en: "Sorry, I didn't catch that.", note: "聞き取れないのは恥ずかしいことではない。相手は言い直してくれる。" },
-    { id: "trip-k11", domain: "trip2", ja: "すみません、「レシート」って言いましたか？", en: "Sorry, did you say 'receipt'?", note: "全部わからなくても、聞こえた単語を一つ返す。合っていれば Yes. と言ってくれる。" },
-    { id: "trip-k12", domain: "trip2", ja: "画面で見せてもらえますか？", en: "Could you show me on the screen?", note: "レジの画面や指さしで確かめてよい。" }
+    { id: "trip-k10", domain: "trip2", ja: "すみません、聞き取れませんでした。", en: "Sorry, I didn't catch that.", note: "聞き返してよい。言い直しをお願いする一言。" },
+    { id: "trip-k11", domain: "trip2", ja: "すみません、「レシート」って言いましたか？", en: "Sorry, did you say 'receipt'?", note: "聞こえた単語を一つ返し、相手の返答を待つ。違っていれば言い直しを聞く。" },
+    { id: "trip-k12", domain: "trip2", ja: "画面で見せてもらえますか？", en: "Could you show me on the screen?", note: "金額や注文など、画面で見られる内容を確かめたいときに。画面がない・見せられない場合もある。" },
+    { id: "trip-k13", domain: "trip2", ja: "もう一度ゆっくり言ってもらえますか？", en: "Could you say that again more slowly, please?", note: "聞き取れなかった今の一言を、もう一度ゆっくりお願いする。" }
   ];
   window.HANASERU_CARDS = (window.HANASERU_CARDS || []).concat(T);
 })();

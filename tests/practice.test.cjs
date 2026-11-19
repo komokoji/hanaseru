@@ -5,7 +5,7 @@ const vm = require('node:vm');
 const Core = require('../practice-core.js');
 const card = (id, domain='medical') => ({id, domain, ja:'説明します', en:'Let me explain.'});
 test('due reviews and a new personal phrase coexist; signs, listener lines and blanks excluded', () => {
-  const cards = [card('old1'),card('old2'),card('old3'),card('new'),card('mine-a','mine'),{...card('trip-w01'),en:'Departures'}, {...card('q'),ja:'（相手）何ですか？'}, {...card('blank'),en:'I want ___.'}];
+  const cards = [card('old1'),card('old2'),card('old3'),card('new'),card('mine-a','mine'),{...card('trip-w01'),en:'Departures'}, {...card('q'),ja:'（相手）何ですか？'}, {...card('shop'),ja:'（店員）袋はご入用ですか？'}, {...card('blank'),en:'I want ___.'}];
   const states = Object.fromEntries(['old1','old2','old3'].map((id)=>[id,{box:0,due:8}]));
   assert.deepEqual(Core.select(cards,states,10,'all').map(c=>c.id),['old1','old2','mine-a']);
   assert.equal(Core.select(cards,states,10,'mine').length,1);
@@ -94,7 +94,7 @@ test('response cues rotate, match a known intent, and classify referral/bridge c
   const ctx={window:{HANASERU_CARDS:[]}};vm.createContext(ctx);
   vm.runInContext(fs.readFileSync(require.resolve('../conversation.js'),'utf8'),ctx);
   const added=ctx.window.HANASERU_CARDS;
-  assert.equal(added.length,18);
+  assert.equal(added.length,35);
   assert.equal(Core.topic({domain:'refer'}),'clinic');
   for(const c of added){
     assert.equal(Core.topic(c),c.topic);
@@ -102,6 +102,7 @@ test('response cues rotate, match a known intent, and classify referral/bridge c
     assert.notEqual(Core.responseCue(c,0).en,Core.responseCue(c,1).en);
   }
   assert.equal(Core.eligible({id:'trip-t03',en:'How long are you staying?',ja:'（相手に）どのくらい滞在？'},'all'),true);
+  assert.equal(Core.eligible({id:'trip-k03',domain:'trip2',en:'Would you like a bag?',ja:'（店員）袋はご入用ですか？'},'travel'),false);
   assert.equal(Core.eligible({id:'trip-t13',en:'Just getting started!',ja:'（相手）始まったばかりですね'},'all'),false);
   assert.equal(Core.eligible({id:'ls',domain:'listen',en:'Please remain seated.',ja:'座ったままで'},'all'),false);
   assert.deepEqual(Core.sentences('Dr. Komori gave 2.5 ml. Thank you.'),['Dr. Komori gave 2.5 ml.','Thank you.']);
