@@ -148,15 +148,16 @@
     return null;
   }
   if (window.speechSynthesis) window.speechSynthesis.getVoices();   // 一覧を先に読み込ませる（初回が空になる対策）
-  function speak(text, lang) {
+  function speak(text, lang, callbacks) {
     if (String(text || '').trim()) recordActivity();
     try {
-      if (!window.speechSynthesis) return;
+      if (!window.speechSynthesis) { if(callbacks && callbacks.error) callbacks.error(); return; }
       var u = new SpeechSynthesisUtterance(String(text).replace(/___/g, "…"));
+      if(callbacks){ u.onend=callbacks.end; u.onerror=callbacks.error; }
       u.lang = lang || "en-US"; u.rate = (state.rate === "fast") ? 1.05 : 0.85;
       var v = pickVoice(u.lang); if (v) u.voice = v;   // 良い声だけを名前で選ぶ（おもちゃ声を拾わない）
       window.speechSynthesis.cancel(); window.speechSynthesis.speak(u);
-    } catch (e) {}
+    } catch (e) { if(callbacks && callbacks.error) callbacks.error(); }
   }
 
   // ---- 画面 ----
@@ -689,7 +690,7 @@
       recordPracticeDay();
       save(state); return true;
     },
-    speak: function (t) { speak(t); },
+    speak: function (t, callbacks) { speak(t, null, callbacks); },
     bumpTalk: function (n) {               // 声で話した回数を記録（今日の分に足す）
       recordPracticeDay();
       var d = dayNum(), last = state.talks[state.talks.length - 1];

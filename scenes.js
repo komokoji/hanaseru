@@ -56,7 +56,7 @@
       +'<p class="muted">'+(model?'音をまねたら、手本を閉じて相手に返しましょう。':'まず声に出してみましょう。詰まったら手本を見て、閉じてもう一度。')+'</p>';
     $('scActions').innerHTML=button('scModel',model?'手本を閉じて、自分で返す':'返し方の手本・解説を開く')
       +(!model?'<div class="speakrow">'+button('scGrade','声に出して返せた','data-result="said"')+button('scGrade','まだ難しい・次でまた練習','data-result="again"')+'</div>':'')
-      +button('home','今日はここまで（続きは保存済み）')+button('scList','別の場面へ');
+      +button('scAI','この題材でAIと話す（要ログイン）')+button('home','今日はここまで（続きは保存済み）')+button('scList','別の場面へ');
   }
   document.addEventListener('click',function(e){
     var el=e.target.closest('[data-action]');if(!el)return;var a=el.dataset.action;

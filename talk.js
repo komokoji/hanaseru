@@ -18,24 +18,34 @@ let history = [];       // {role, content}
 let busy = false;
 let capturedSource = null, translationDraft = null, translationVersion = 0;
 
-// ---- 🎤 音声入力（Web Speech API。iOS Safari / Chrome で動く。無ければボタンを隠す） ----
+// Voice recognition availability depends on browser and device; text stays available.
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-let rec = null;
-function micToggle() {
-  const btn = $("tkMic");
-  if (rec) { rec.stop(); return; }
-  rec = new SR(); rec.lang = "en-US"; rec.interimResults = true; rec.continuous = false;
-  btn.textContent = "🔴 聞いています…（もう一度押すと止まる）";
-  let finalText = "";
-  rec.onresult = (e) => {
-    let t = "";
-    for (let i = e.resultIndex; i < e.results.length; i++) { t += e.results[i][0].transcript; if (e.results[i].isFinal) finalText += e.results[i][0].transcript; }
-    $("tkInput").value = (finalText || t).trim();
-  };
-  rec.onend = () => { rec = null; btn.textContent = "🎤 話す"; if ($("tkInput").value.trim()) send(); };
-  rec.onerror = () => { rec = null; btn.textContent = "🎤 話す"; };
-  rec.start();
+let talkVersion=0;
+const voice = new window.HanaseruVoiceLoop({
+  Recognition: SR,
+  visible: () => !$("talk").hidden && !document.hidden,
+  draft: text => { $("tkInput").value=text; },
+  text: text => { $("tkInput").value=text; send(true); },
+  state: (message,active) => {
+    $("tkVoiceStatus").textContent=message;
+    $("tkAuto").textContent=active?'音声対話を停止':'音声対話を開始（最大5往復・5分）';
+    $("tkAuto").disabled=!SR||(busy&&!active);
+    $("tkMic").textContent=active?'音声入力を停止':'🎤 1回話す';
+  }
+});
+function stopVoice(message='音声対話を停止しました。') {
+  voice.stop(message);
+  if(window.speechSynthesis)window.speechSynthesis.cancel();
 }
+function micToggle(continuous=false) {
+  if(voice.active){stopVoice();return;}
+  if(busy||needLogin())return;
+  if(!history.some(m=>m.role==='assistant')){setNote('先に場面を選んで、相手の最初の言葉を聞いてください。');return;}
+  if(window.speechSynthesis)window.speechSynthesis.cancel();
+  voice.start(continuous);
+}
+document.addEventListener('hanaseru:leave',()=>{talkVersion++;stopVoice('');});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){talkVersion++;stopVoice('画面を離れたため音声対話を停止しました。');}});
 
 function needLogin(noteId) {
   if (getAuth(getApp()).currentUser) return false;
@@ -44,13 +54,13 @@ function needLogin(noteId) {
   return true;
 }
 function setNote(t) { const n = $("tkNote"); if (n) n.textContent = t || ""; }
-function setBusy(b) { busy = b; const s = $("tkSend"); if (s) { s.disabled = b; s.textContent = b ? "…" : "送る"; } }
+function setBusy(b) { busy = b; const s = $("tkSend"); if (s) { s.disabled = b; s.textContent = b ? "…" : "送る"; } if($("tkAuto"))$("tkAuto").disabled=!SR||(b&&!voice.active); }
 
 function addBubble(role, text, extra) {
   const log = $("tkLog"); if (!log) return;
   const div = document.createElement("div");
   div.className = "bubble " + role;
-  div.innerHTML = '<div class="btext">' + esc(text) + '</div>' + (extra || "");
+  div.innerHTML = (role==='ai' && $('tkListenFirst').checked ? '<details><summary>聞き取れなかったら英文を見る</summary><div class="btext">'+esc(text)+'</div></details>' : '<div class="btext">'+esc(text)+'</div>') + (extra || '');
   log.appendChild(div);
   log.scrollTop = log.scrollHeight;
 }
@@ -68,6 +78,8 @@ function feedbackHtml(r, said) {
 async function start(newScene, practiceCard) {
   if (busy) { setNote("返答を待ってから、もう一度始めてください。"); return; }
   if (needLogin()) return;
+  talkVersion++; stopVoice("最初の返答を聞いたら、音声対話を開始してください。");
+  $("tkInput").value="";
   scene = newScene || scene;
   history = [];
   $("tkLog").innerHTML = "";
@@ -82,9 +94,10 @@ async function start(newScene, practiceCard) {
   await ask(true);
 }
 
-async function send() {
+async function send(fromVoice=false) {
   if (busy) return;
   if (needLogin()) return;
+  if(!fromVoice)stopVoice("文字で送信しました。音声対話は再開できます。");
   const text = $("tkInput").value.trim(); if (!text) return;
   $("tkInput").value = "";
   addBubble("me", text);
@@ -94,20 +107,30 @@ async function send() {
 }
 
 async function ask(opening, said) {
+  const version=talkVersion;
   setBusy(true);
   try {
     const res = await call({ mode: "chat", scene, caseText: caseCtx ? caseCtx.parent : "", messages: history });
+    if(version!==talkVersion)return;
     const r = res.data.result;
     history.push({ role: "assistant", content: r.reply });
     if (!opening && said) {
       const log = $("tkLog"); const last = log.lastElementChild;
-      if (last) last.insertAdjacentHTML("beforeend", feedbackHtml(r, said));
+      if (last) last.insertAdjacentHTML("beforeend", '<details><summary>言い方のヒント・保存</summary>'+feedbackHtml(r, said)+'</details>');
     }
     addBubble("ai", r.reply, '<div class="speakrow"><button class="speak" data-say="' + esc(r.reply) + '">🔊 もう一度</button></div>');
-    H.speak(r.reply);
+    if(r.ended)voice.stop('この場面はここまでです。使いたい表現を保存するか、ふり返りへ。');
+    const voiceToken=voice.serial;
+    H.speak(r.reply, {
+      end:()=>{if(version===talkVersion && voiceToken===voice.serial && !busy)voice.afterReply();},
+      error:()=>{if(version===talkVersion)voice.stop('読み上げを終了しました。音声対話を再開するか文字で返してください。');}
+    });
     if (r.ended) setNote("この場面はここまで。別の場面を選ぶか、もう一度どうぞ。");
   } catch (e) {
+    if(version!==talkVersion)return;
+    voice.stop("送信が止まりました。入力欄を確認して再送できます。");
     history.pop();
+    if(said)$("tkInput").value=said;
     setNote("送れませんでした：" + (e && (e.message || e.code) || e));
   } finally { setBusy(false); }
 }
@@ -120,7 +143,7 @@ document.addEventListener("hanaseru:capture", (e) => {
 document.addEventListener("hanaseru:practiceTalk", (e) => {
   const c = e.detail; if (!c) return;
   const medical = ["medical", "visit", "asthma", "gut", "nutri", "sign"].includes(c.domain) || /診療/.test(c.ja);
-  start(medical ? "clinic" : c.domain === "me" ? "me" : "travel", c);
+  start(c.domain === "me" ? "me" : medical ? "clinic" : "travel", c);
 });
 async function translate() {
   if (busy) return;
@@ -184,6 +207,7 @@ async function explain(box, id, ja, en) {
 document.addEventListener("hanaseru:case", (e) => { caseCtx = e.detail; if (!SR) $("tkMic").hidden = true; start("case"); });
 async function review() {
   if (busy) return;
+  stopVoice("ふり返り中は音声対話を停止します。");
   if (needLogin()) return;
   const talk = history.slice(1);   // 先頭は「場面を始めて」の合図なので外す
   if (talk.filter((m) => m.role === "user").length < 2) { setNote("もう少し話してから、ふり返りを押してください（院長の発言が2回以上）。"); return; }
@@ -283,7 +307,7 @@ document.addEventListener("click", (e) => {
     if (box) t.setAttribute("aria-expanded", String(!box.hidden));
     return;
   }
-  if (t.hasAttribute("data-say")) { H.speak(t.getAttribute("data-say")); return; }
+  if (t.hasAttribute("data-say")) { stopVoice("もう一度聞いたら、音声対話を再開できます。"); H.speak(t.getAttribute("data-say")); return; }
   if (t.hasAttribute("data-save-en")) {
     const ok = H.addMine(t.getAttribute("data-save-ja"), t.getAttribute("data-save-en"));
     const m = H.getState().mine.find((m) => m.en === t.getAttribute("data-save-en").trim());
@@ -296,7 +320,15 @@ document.addEventListener("click", (e) => {
   }
   if (t.hasAttribute("data-scene")) { start(t.getAttribute("data-scene")); return; }
   const a = t.getAttribute("data-action");
-  if (a === "talk") { if (!SR) $("tkMic").hidden = true; if (!history.length) start(scene); }
+  if(a === "quickTalk") {
+    H.openTalk();
+    const mode=$('lpTrack').value;
+    const topic=$('lpTopic').value.trim();
+    const ja=mode==='clinic'?'架空の初診の保護者と会話する。医学判断の正解を教えず、聞き返しと理解確認を練習する。':mode==='travel'?'飛行機の隣席など旅先で、相手の言葉を受けて自然な雑談を続ける。':'現在の地域での一般・専門診療、小児外科の経験、便秘の本の目的、海外への希望を話す。未確認の経歴や刊行状況を創作しない。';
+    start(mode==='clinic'?'clinic':mode==='travel'?'travel':'me',{ja:ja+(topic?' 今日の話題：'+topic:''),en:'Ask one question at a time. The learner has studied English for years but needs to recognize spoken words and retrieve natural phrases faster. Invite connected explanations and useful relative clauses without requiring long sentences. Do not supply the learner’s answer.'});
+  }
+  else if(a === "tkAuto")micToggle(true);
+  else if (a === "talk") { if (!SR) $("tkMic").hidden = true; if (!history.length) start(scene); }
   else if (a === "tkSend") send();
   else if (a === "tkMic") micToggle();
   else if (a === "tkRestart") start(scene);
@@ -316,4 +348,5 @@ document.addEventListener("click", (e) => {
     document.dispatchEvent(new CustomEvent("hanaseru:practice", { detail: { id: m.id } }));
   }
 });
+if(!SR){$('tkAuto').disabled=true;$('tkMic').hidden=true;$('tkVoiceStatus').textContent='このブラウザでは音声入力を利用できません。文字でAIと会話できます。';}
 $("tkInput") && $("tkInput").addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } });
