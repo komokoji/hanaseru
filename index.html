@@ -103,6 +103,7 @@
     font-size:20px; font-weight:700; box-shadow:0 2px 8px rgba(0,0,0,.15); padding:0; }
   .chunk-line{display:block;width:100%;text-align:left;margin-top:8px;line-height:1.6;white-space:normal;}
   .quick-start{background:#eaf4f0;border:1px solid #bdd8cd;border-radius:20px;padding:20px;margin:12px 0;display:grid;gap:10px}
+  .quick-start>*{min-width:0;overflow-wrap:anywhere}.quick-start select,.quick-start textarea{width:100%;box-sizing:border-box}
   .quick-start h2{font-size:22px;margin:0}.quick-start p{margin:0}
   select{font:inherit;max-width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
   .library{margin:8px 0;padding:12px;background:#fff;border:1px solid var(--line);border-radius:12px}
@@ -136,6 +137,13 @@
       <h2>診療から、世界へ話す</h2>
       <p>外国人の親子を自然に迎える。便秘の本と自分の仕事を、ドバイで語る。</p>
       <p class="muted">週5〜7時間で続ける。まず4週間試し、12週間ごとに現在地を確かめます。</p>
+      <button type="button" class="big" data-action="sceneTrack" data-track="personal">自己紹介・接続表現を練習する ▸</button>
+      <p id="sceneHome-personal" class="stat"></p>
+      <p class="muted">ログインなしでも開始できます。6場面から一つ選び、聞く → まねる → 手本を閉じて返す。保存・進み具合はログイン時に同期します。</p>
+      <details><summary>15分で、言い慣れない表現を口に出す</summary>
+        <p>まず自分で返す1分 → 詰まる3表現を区切ってまねる4分 → 見ずに言う3分 → 内容を替え、理由や具体例を足す4分 → 違う質問に返す3分。</p>
+        <p>一文3〜5回が目安。言える文は短縮し、長い文は後半からつなげてもOK。翌日は手本を見る前に一度返します。既存の学習時間内で行い、忙しい日は1往復で終えられます。</p>
+      </details>
       <label for="lpTrack">今日のAI音声練習</label>
       <select id="lpTrack"><option value="clinic">診療：初診の保護者と話す</option><option value="book">本・ドバイ：本に関心のある相手と話す</option></select>
       <label for="lpTopic">今日は何を伝えたい？（任意）</label>
@@ -527,6 +535,7 @@
 <script src="listen.js"></script>
 <script src="practice-core.js"></script>
 <script src="scenes-data.js"></script>
+<script src="personal-scenes.js"></script>
 <script src="app.js"></script>
 <script src="practice.js"></script>
 <script src="shelf.js"></script>
