@@ -131,7 +131,45 @@
   <!-- 範囲えらび -->
   <section id="setup">
     <p class="muted" id="northstar" style="font-size:13px;margin:0 0 2px;color:var(--teal-d)">🧭 日本人らしい英語のまま、自分の考えと気持ちを、はっきり伝えられる人になる。</p>
-    <p class="muted" style="font-size:12px;margin:0 0 6px"><b>目標（2026-09-29 決定）</b>：この3つが、止まらずにできる。①自分の考えを、理由を添えて言える ②相手の話に、その場で返せる（聞き返しも含めて） ③詰まっても、言い換えて前に進める。目標は B2。カードの枚数だけでなく、初めての質問にも答えられるかを確かめます。</p>
+    <p class="muted" style="font-size:12px;margin:0 0 6px"><b>目標（2026-09-29 決定）</b>：この3つが、止まらずにできる。①自分の考えを、理由を添えて言える ②相手の話に、その場で返せる（聞き返しも含めて） ③詰まっても、言い換えて前に進める。目標は B2 を安定させ、その上側へ。カードの枚数だけでなく、初めての質問にも答えられるかを確かめます。</p>
+    <div class="quick-start" id="learningPlan">
+      <h2>診療から、世界へ話す</h2>
+      <p>外国人の親子を自然に迎える。便秘の本と自分の仕事を、ドバイで語る。</p>
+      <p class="muted">週5〜7時間で続ける。まず4週間試し、12週間ごとに現在地を確かめます。</p>
+      <label for="lpTrack">今日のAI音声練習</label>
+      <select id="lpTrack"><option value="clinic">診療：初診の保護者と話す</option><option value="book">本・ドバイ：本に関心のある相手と話す</option></select>
+      <label for="lpTopic">今日は何を伝えたい？（任意）</label>
+      <textarea id="lpTopic" rows="2" maxlength="1000" placeholder="例：本を書いた理由を、自分の言葉で説明したい"></textarea>
+      <p class="muted">架空の場面と確認済みの説明を使います。患者さんの氏名・カルテ番号・実際の会話は入力しないでください。</p>
+      <button type="button" class="big" id="lpCopy">練習指示をコピーする</button>
+      <p id="lpStatus" class="stat" role="status" aria-live="polite"></p>
+      <a class="speak" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">ChatGPTを開く ↗</a>
+      <p class="muted">コピーした指示を貼り、音声で始めます。診療用と本用の会話を分け、次回は同じ会話を開きます。指示や記録は自動送信・同期されません。</p>
+      <details class="library"><summary>指示を確認・手動コピー</summary>
+        <label for="lpPrompt">ChatGPTへ渡す練習指示</label>
+        <textarea id="lpPrompt" rows="8" readonly></textarea>
+      </details>
+      <details class="library"><summary>30分の練習と、週6時間の組み立て</summary>
+        <p><b>毎回30分：</b>前回の表現を見ずに5分 → 初見の会話15分 → 修正5分 → 違う質問で使い直す5分。時間は自分で区切ります。</p>
+        <ul><li>AI音声：30分×週5日（診療3日・本2日が目安）</li><li>人の音声教材：20分×週5日</li><li>人との英会話：25分×週2回</li><li>復習・翌週の準備：週60分</li></ul>
+        <p>合計6時間。忙しい週は復習・自習を減らして5時間に。休んだ分を翌週に積み増さず、1文から戻れます。</p>
+      </details>
+      <details class="library"><summary>会話のあと：言えなかったことを次へ</summary>
+        <p>ChatGPTに「言えなかったこと／短い言い方／次回の質問」を3件までまとめてもらいます。人とのレッスンにも持参し、直された表現を次回のAI会話で使い直します。</p>
+        <p>Hanaseruで反復したい表現は、既存のことば帳へ手動で残せます。今日の話題の入力は、この画面を再読み込みすると消えます。</p>
+        <button type="button" class="speak" data-action="openCaptureHome">言いたかったことを残す</button>
+      </details>
+      <details class="library"><summary>4週・12週・6〜12か月の到達点</summary>
+        <ul><li>開始時：聞く・話すのテストと、人との初見の会話で現在地を測る。</li><li>4週：保護者役と10分のやり取り。本の紹介90秒＋初見質問5問。</li><li>12週：同じ種類のテストと、別の相手との模擬面談で再評価。</li><li>6〜12か月：本・仕事について初回面談に臨む準備を進める。</li></ul>
+        <p>理由を添える／その場で返す／詰まっても言い換える、の3つを確かめます。これは練習の目標で、到達保証ではありません。AIの点数やカード枚数だけでB2判定はしません。</p>
+      </details>
+      <details class="library"><summary>使うサービス・申込み先</summary>
+        <p>ChatGPT音声を日々の練習相手に。既存の契約で利用できる範囲から始めます。</p>
+        <p><a href="https://www.bizmates.jp/price/" target="_blank" rel="noopener noreferrer">Bizmatesのプランを見る ↗</a>：通常英会話で週2回、人への伝わり方を確認。診療ロールプレイへの対応は体験で確認します。コーチングは4週後、必要なら追加。</p>
+        <p><a href="https://www.versant.jp/" target="_blank" rel="noopener noreferrer">Versantの受験案内 ↗</a>：Speaking &amp; Listeningを開始時と12週ごとに。4技能全体の評価とは区別します。</p>
+        <p class="muted">料金・更新条件は申込み先で確認してください。ここから契約・購入が自動で行われることはありません。</p>
+      </details>
+    </div>
     <div class="goal-start">
       <h2>今、話せるようになりたい2つのこと</h2>
       <p class="muted">単語や文の暗記から、相手に返す練習へ。今日は1往復でも。</p>
@@ -493,6 +531,7 @@
 <script src="practice.js"></script>
 <script src="shelf.js"></script>
 <script src="scenes.js"></script>
+<script src="learning-plan.js"></script>
 <script type="module" src="cloud.js"></script>
 <script type="module" src="talk.js"></script>
 <div id="jump" hidden>
