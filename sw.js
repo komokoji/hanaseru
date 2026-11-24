@@ -1,6 +1,9 @@
 /* Hanaseru service worker — オフラインで開けるように主要ファイルをキャッシュ */
-var CACHE = "hanaseru-v68";
+var CACHE = "hanaseru-v69";
 var ASSETS = ["./", "./index.html", "./app.js", "./navigation.js", "./practice-core.js", "./practice.js", "./shelf.js", "./scenes-data.js", "./personal-scenes.js", "./scenes.js", "./learning-plan.js", "./listening-route.js", "./daily-listening.js", "./data.js", "./trip.js", "./visit.js", "./gutnutri.js", "./me.js", "./basics.js", "./conversation.js", "./patterns.js", "./parts.js", "./listen.js", "./cloud.js", "./talk.js", "./speech-player.js", "./voice-loop.js", "./notifications.js", "./push-public.json", "./manifest.webmanifest", "./icon.svg"];
+
+importScripts("./listening-audio.js");
+ASSETS=ASSETS.concat(["./listening-audio.js"],Object.values(self.HANASERU_LISTENING_AUDIO));
 
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(ASSETS); }).then(function(){ return self.skipWaiting(); }));
@@ -17,7 +20,7 @@ self.addEventListener("fetch", function (e) {
   if (sameOrigin) {
     e.respondWith(
       fetch(e.request).then(function (res) {
-        return caches.open(CACHE).then(function (c) { try { c.put(e.request, res.clone()); } catch (x) {} return res; });
+        return caches.open(CACHE).then(function (c) { if(res.status===200)c.put(e.request, res.clone()).catch(function(){}); return res; });
       }).catch(function () {
         return caches.match(e.request).then(function (hit) { return hit || caches.match("./index.html"); });
       })
@@ -27,7 +30,7 @@ self.addEventListener("fetch", function (e) {
   e.respondWith(
     caches.match(e.request).then(function (hit) {
       return hit || fetch(e.request).then(function (res) {
-        return caches.open(CACHE).then(function (c) { try { c.put(e.request, res.clone()); } catch (x) {} return res; });
+        return caches.open(CACHE).then(function (c) { if(res.status===200)c.put(e.request, res.clone()).catch(function(){}); return res; });
       });
     })
   );

@@ -45,7 +45,7 @@ test('failed delivery does not produce repeated daily alerts, ten-device cap enf
 test('service worker displays a notification and click opens only our fixed practice URL',async()=>{
  const fs=require('node:fs'),vm=require('node:vm'),handlers={},shown=[],opened=[];
  const self={location:{origin:'https://hanaseru.web.app'},addEventListener:(n,f)=>handlers[n]=f,registration:{showNotification:async(...a)=>shown.push(a)},clients:{matchAll:async()=>[],openWindow:async u=>opened.push(u)}};
- vm.runInNewContext(fs.readFileSync(require.resolve('../sw.js'),'utf8'),{self,URL});
+ vm.runInNewContext(fs.readFileSync(require.resolve('../sw.js'),'utf8'),{self,URL,importScripts:()=>{self.HANASERU_LISTENING_AUDIO={};}});
  let pending;handlers.push({data:{json:()=>({tag:'hanaseru-test',url:'https://attacker.test'})},waitUntil:p=>pending=p});await pending;
  assert.equal(shown[0][0],'ハナセル：テスト通知');
  handlers.notificationclick({notification:{close(){}},waitUntil:p=>pending=p});await pending;assert.deepEqual(opened,['https://hanaseru.web.app/?practice=listening']);

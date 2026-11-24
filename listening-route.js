@@ -18,9 +18,21 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(_){$(
 function esc(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function button(action,text){return '<button type="button" data-lr="'+action+'">'+text+'</button>';}
 function home(){ $('lrHome').textContent=(state.step===4?'今日は一区切り：':state.step>0?'続きから：':'今日の会話：')+lessons[state.index].title+(state.review&&!state.reviewDone?' ＋ 昨日の一表現（約30秒）':''); }
-function stop(){token++;if(window.speechSynthesis)window.speechSynthesis.cancel();}
-function play(parts){stop();const t=token;let i=0;$('lrStatus').textContent='再生中…';const next=()=>{if(t!==token)return;if(i>=parts.length){state.heard=true;save();$('lrStatus').textContent='もう一度聞いても、次へ進んでも大丈夫です。';return;}H.speak(parts[i++],{end:next,error:()=>{if(t===token)$('lrStatus').textContent='音声を再生できません。端末の音量・音声設定を確認するか、英文を開いて進めてください。';}});};next();}
-function render(){
+const audio=$('lrAudio');let audioWait=null;
+function stop(){token++;clearTimeout(audioWait);audio.onplaying=audio.onended=audio.onerror=null;audio.pause();audio.removeAttribute('src');audio.load();if(window.speechSynthesis)window.speechSynthesis.cancel();}
+function play(parts){
+ stop();const t=token,path=(window.HANASERU_LISTENING_AUDIO||{})[parts.join(' ')];
+ if(!path){$('lrStatus').textContent='音声ファイルを読み込めません。ページを再読み込みしてください。';return;}
+ audio.hidden=false;audio.src=path;audio.currentTime=0;
+ $('lrStatus').textContent='音声を読み込んでいます…';
+ audio.onplaying=()=>{if(t!==token)return;clearTimeout(audioWait);$('lrStatus').textContent='再生中です。下の音声プレーヤーでも停止・聞き直しができます。';};
+ audio.onended=()=>{if(t!==token)return;clearTimeout(audioWait);state.heard=true;save();$('lrStatus').textContent='もう一度聞いても、次へ進んでも大丈夫です。';};
+ audio.onerror=()=>{if(t!==token)return;clearTimeout(audioWait);$('lrStatus').textContent='音声を読み込めませんでした。通信を確認し「会話を聞く」をもう一度押してください。';};
+ audioWait=setTimeout(()=>{if(t===token)$('lrStatus').textContent='音声プレーヤーの ▶ を押してください。聞こえない場合は音量とBluetoothの出力先を確認してください。';},8000);
+ const started=audio.play();if(started&&started.catch)started.catch(()=>{if(t===token){clearTimeout(audioWait);$('lrStatus').textContent='下の音声プレーヤーの ▶ を押してください。';}});
+}
+
+function render(){audio.hidden=true;
  const l=lessons[state.index];$('lrTitle').textContent=l.title;$('lrProgress').textContent=['1 / 4 聞く','2 / 4 つまずきを確認','3 / 4 聞き直す','4 / 4 自分の言葉で使う','今日の一区切り'][state.step];
  let html='';
  if(state.review&&!state.reviewDone){
@@ -44,7 +56,7 @@ document.addEventListener('click',e=>{
  if(a==='reviewPlay'&&state.review)return play([lessons[state.review.index].chunks[state.review.chunk][0]]);
  if(a==='play')return play(l.lines.map(x=>x[1]));
  if(a.startsWith('chunk-'))return play([l.chunks[Number(a.slice(6))][0]]);
- stop();
+ stop();if(a==='stop'){$('lrStatus').textContent='音声を停止しました。';return;}
  if(a==='reviewDone'||a==='reviewSkip'){state.reviewDone=true;if(a==='reviewDone')H.recordActivity();save();render();}
  if(a.startsWith('mark-')){const i=Number(a.slice(5));if(l.chunks[i]){state.markedChunk=state.markedChunk===i?null:i;save();render();}}
  if(a==='next'){if(state.step===0)state.answer=$('lrAnswer').value;if(state.step===1){state.issue=$('lrIssue').value;if(!state.issue){$('lrStatus').textContent='近いものを一つ選んでください。';return;}}state.step++;save();render();}

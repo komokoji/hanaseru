@@ -126,6 +126,7 @@
   .nav-controls{display:flex;gap:6px}.nav-controls button{min-height:44px;padding:8px 10px;background:#fff;color:var(--teal);border:1px solid var(--line);font-size:14px}
   #appMenu{flex-basis:100%;display:grid;gap:5px;max-height:65dvh;overflow:auto;padding:8px 0}#appMenu[hidden]{display:none}
   #appMenu button{min-height:44px;text-align:left;padding:10px 14px;background:#fff;color:var(--ink);border:1px solid var(--line)}
+  #lrBody button,#lrBack{min-height:44px;padding:10px 14px;margin:4px 6px 6px 0;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--teal,#087c78);font:inherit;font-weight:600}
   #capBox{width:min(560px,calc(100% - 24px));max-height:85dvh;overflow:auto;border:1px solid var(--line);border-radius:20px;padding:20px;background:var(--bg,#f6f5f1);color:var(--ink)}
   #capBox::backdrop{background:#0006} #capBox .row{flex-wrap:wrap} #capBox textarea{box-sizing:border-box;width:100%}
   .nav-controls{flex-wrap:wrap} #navCapture{font-weight:700}
@@ -146,7 +147,7 @@
       <button type="button" data-nav="talk">AIと会話する</button>
       <button type="button" data-nav="shelfOpen">自分のことば帳</button>
       <button type="button" data-nav="settings">通知の設定</button>
-      <button type="button" data-nav="account">ログイン・同期</button><button type="button" onclick="location.reload()">最新版を読み込む（v68）</button>
+      <button type="button" data-nav="account">ログイン・同期</button><button type="button" onclick="location.reload()">最新版を読み込む（v69）</button>
     </nav>
   </header>
   <aside id="legacySite" class="goal-start" hidden><strong>こちらは旧公開先です</strong><p>ログイン・AI会話・通知は正規版でご利用ください。</p><a class="big" href="https://hanaseru.web.app/?practice=talk">正規版のハナセルを開く →</a><p class="muted">このページの端末内記録は残ります。正規版とは保存先が別です。</p></aside>
@@ -154,7 +155,7 @@
   <p id="activityStatus" class="activity-status" role="status">今日は、ひとつ取り組めばOK。</p>
 
   <!-- 範囲えらび -->
-  <section id="listeningRoute" hidden><div class="bar"><h2 id="lrTitle" tabindex="-1"></h2><button class="link" data-action="home">中断してホームへ</button></div><p id="lrProgress" class="stat"></p><p class="muted">3分は目安。今日の内容は日本時間で日替わり、同じ日は続きから。教材は旅行場面を想定した創作会話・端末の合成音声です。</p><div id="lrBody" style="overflow-wrap:anywhere"></div><p id="lrStatus" role="status"></p><button id="lrBack" data-lr="back">← 一つ前へ</button><p class="muted">この練習の続き・つまずきメモはこの端末に保存します。AI会話にはログインと通信が必要です。</p></section>
+  <section id="listeningRoute" hidden><div class="bar"><h2 id="lrTitle" tabindex="-1"></h2><button class="link" data-action="home">中断してホームへ</button></div><p id="lrProgress" class="stat"></p><p class="muted">3分は目安。今日の内容は日本時間で日替わり、同じ日は続きから。教材は旅行場面を想定した創作会話・合成音声の教材です。</p><audio id="lrAudio" controls preload="none" hidden aria-label="会話音声の再生と停止" style="width:100%;margin-top:12px"></audio><p id="lrStatus" role="status"></p><div id="lrBody" style="overflow-wrap:anywhere"></div><button id="lrBack" data-lr="back">← 一つ前へ</button><p class="muted">この練習の続き・つまずきメモはこの端末に保存します。AI会話にはログインと通信が必要です。</p></section>
   <section id="setup">
     <div class="quick-start"><h2>今日は、耳から3分</h2><p id="lrHome"></p><button type="button" class="big" data-action="listeningRoute">今日の3分を始める ▸</button><p class="muted">昨日の一表現を約30秒 → 今日の会話を約2分30秒。内容は自動で選びます。復習がない日は、そのまま今日の会話へ。</p></div>
     <details class="goal-start" id="pushSettings"><summary>🔔 毎日20時の通知を設定</summary><p>通知をタップすると「今日の3分」が開きます。日本時間20時・この端末への通知です。</p><p id="pushStatus" role="status">通知の状態を確認しています…</p><button type="button" id="pushEnable" disabled>毎日20時の通知を有効にする</button><button type="button" id="pushTest" disabled>テスト通知を送る</button><button type="button" id="pushDisable" disabled>この端末の通知を停止</button><button type="button" id="pushRefresh">状態を確認</button><p class="muted">iPhoneはiOS 16.4以降で、ホーム画面に追加して開きます。初回の通知許可はご本人の操作が必要です。集中モード・通信状態などで通知が遅れることがあります。</p></details>
@@ -584,6 +585,7 @@
 <script src="scenes.js"></script>
 <script src="learning-plan.js"></script>
 <script src="daily-listening.js"></script>
+<script src="listening-audio.js"></script>
 <script src="listening-route.js"></script>
 <script src="voice-loop.js"></script>
 <script type="module" src="cloud.js"></script>
