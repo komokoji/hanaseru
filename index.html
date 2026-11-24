@@ -130,13 +130,15 @@
   <p id="activityStatus" class="activity-status" role="status">今日は、ひとつ取り組めばOK。</p>
 
   <!-- 範囲えらび -->
+  <section id="listeningRoute" hidden><div class="bar"><h2 id="lrTitle" tabindex="-1"></h2><button class="link" data-action="home">中断してホームへ</button></div><p id="lrProgress" class="stat"></p><p class="muted">3分は目安。急がず、一つだけでもOK。教材は旅行場面を想定した創作会話・端末の合成音声です。</p><div id="lrBody" style="overflow-wrap:anywhere"></div><p id="lrStatus" role="status"></p><button id="lrBack" data-lr="back">← 一つ前へ</button><p class="muted">この練習の続き・つまずきメモはこの端末に保存します。AI会話にはログインと通信が必要です。</p></section>
   <section id="setup">
+    <div class="quick-start"><h2>今日は、耳から3分</h2><p id="lrHome"></p><button type="button" class="big" data-action="listeningRoute">今日の3分を始める ▸</button><p class="muted">聞く → つまずきを確認 → 聞き直す → 自分の言葉で使う。余裕があればAIと会話。途中でも終えて大丈夫です。</p></div>
     <p class="muted" id="northstar" style="font-size:13px;margin:0 0 2px;color:var(--teal-d)">🧭 日本人らしい英語のまま、自分の考えと気持ちを、はっきり伝えられる人になる。</p>
     <p class="muted" style="font-size:12px;margin:0 0 6px"><b>目標（2026-09-29 決定）</b>：この3つが、止まらずにできる。①自分の考えを、理由を添えて言える ②相手の話に、その場で返せる（聞き返しも含めて） ③詰まっても、言い換えて前に進める。目標は B2 を安定させ、その上側へ。カードの枚数だけでなく、初めての質問にも答えられるかを確かめます。</p>
     <div class="quick-start" id="learningPlan">
       <h2>診療から、世界へ話す</h2>
       <p>外国人の親子を自然に迎える。便秘の本と自分の仕事を、ドバイで語る。</p>
-      <p class="muted">週5〜7時間で続ける。まず4週間試し、12週間ごとに現在地を確かめます。</p>
+      <p class="muted">忙しい日は3分から。まず4週間、無理なく続く流れを確かめます。</p>
       <button type="button" class="big" data-action="sceneTrack" data-track="personal">自己紹介・接続表現を練習する ▸</button>
       <p id="sceneHome-personal" class="stat"></p>
       <p class="muted">ログインなしでも開始できます。6場面から一つ選び、聞く → まねる → 手本を閉じて返す。保存・進み具合はログイン時に同期します。</p>
@@ -551,6 +553,7 @@
 <script src="shelf.js"></script>
 <script src="scenes.js"></script>
 <script src="learning-plan.js"></script>
+<script src="listening-route.js"></script>
 <script src="voice-loop.js"></script>
 <script type="module" src="cloud.js"></script>
 <script type="module" src="talk.js"></script>

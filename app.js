@@ -306,7 +306,7 @@
     var s = document.getElementById("shadow"); if (s) s.hidden = true;
     var l = document.getElementById("listen"); if (l) l.hidden = true;
     var tk = document.getElementById("talk"); if (tk) tk.hidden = true;
-    ["clinic", "build", "patterns", "mono", "practice", "shelf", "scenes"].forEach(function (id) { var n = document.getElementById(id); if (n) n.hidden = true; });
+    ["clinic", "build", "patterns", "mono", "practice", "shelf", "scenes", "listeningRoute"].forEach(function (id) { var n = document.getElementById(id); if (n) n.hidden = true; });
     var co = document.getElementById("coach"); if (co) co.hidden = true;
   }
 
@@ -646,6 +646,7 @@
     onChange: function (f) { saveListeners.push(f); },
     cards: allCards,
     recordActivity: recordActivity,
+    openListeningRoute: function () { hideMain(); document.getElementById("listeningRoute").hidden = false; window.scrollTo(0, 0); },
     openScenes: function () { hideMain(); document.getElementById("scenes").hidden = false; window.scrollTo(0, 0); },
     updateScene: function (id, patch) {
       if (!(window.HANASERU_SCENES || []).some(function (s) { return s.id === id; })) return;
