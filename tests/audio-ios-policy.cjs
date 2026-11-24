@@ -59,6 +59,15 @@ const paused=p=>p.locator('#hsAudio').evaluate(a=>a.paused);
   await p.waitForFunction(()=>document.querySelector('#hsPlayer').dataset.state==='idle');
   console.log('PASS 2 未ログイン・MP3なし：断られたら ▶ を出し、▶ のタップで読み上げが始まる');
 
+  // 2b) 未ログイン：カードの手本は公開済みMP3で鳴る（端末の読み上げ・ログイン・通信待ちなし）
+  const before=await p.evaluate(()=>window.TEST_TTS.length);
+  await p.click('#navHome');await p.selectOption('#practiceFocus','travel');await p.click('#practiceStart');
+  await p.click('[data-action=prListen]');await playing(p);
+  assert.match(await p.locator('#hsAudio').evaluate(a=>a.src),/audio\/cards\//);
+  assert.equal(await p.evaluate(()=>window.TEST_TTS.length),before);
+  await p.click('[data-action=prNext]');assert.equal(await paused(p),true);
+  console.log('PASS 2b 未ログイン・カードの手本：公開済みMP3で鳴り、次の画面で止まる');
+
   // 3) ログイン中のAI会話：場面をタップ → 返答は通信のあとに届く → それでも自動で鳴る（最初のタップで <audio> を開けてあるため）
   p=await open('/',true);
   await p.waitForFunction(()=>window.Hanaseru&&window.HanaseruAudio);
