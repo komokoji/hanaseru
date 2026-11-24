@@ -55,7 +55,8 @@
     "source": "functions",
     "runtime": "nodejs22",
     "predeploy": [
-      "node \"$RESOURCE_DIR/selftest.js\""
+      "node \"$RESOURCE_DIR/selftest.js\"",
+      "node --test \"$RESOURCE_DIR/../tests/push.test.cjs\""
     ]
   }
 }

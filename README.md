@@ -139,3 +139,9 @@ Safari で開く → 共有 → 「ホーム画面に追加」。全画面アプ
 
 ## v61：通知から練習へ（2026-11-24）
 https://hanaseru.web.app/?practice=listening で3分練習画面へ直接入る。保存された途中から再開し、音声は本人が再生する。通知配信はこのURLの機能とは別。
+
+## v62：毎日20時のWeb Push（2026-11-24）
+ホーム「毎日20時の通知を設定」でGoogleログイン後に本人が許可→登録。iPhoneはiOS 16.4以降のホーム画面Webアプリから操作。通知タップで `/?practice=listening` へ。テスト通知・端末単位停止・状態照合付き。集中モード、通信状態、OSの都合で到着は遅れる場合がある。
+`hanaseruPush`（owner verified email限定）でAdmin SDK専用 `hanaseru_push_devices` へ登録。公開ルール変更なし。最大10端末、テスト毎分1回、HTTP送信先はApple/FCM/Mozillaだけ。`hanaseruDailyReminder` はCloud Schedulerで `0 20 * * *` / Asia/Tokyo。重複ジョブは日ごとのtransaction claimで抑制、送信失敗の同日自動再試行なし。404/410は登録削除、停止中の送信完了で登録を復活させない。通知ペイロードに患者・学習内容なし。
+秘密鍵は新規Secret Manager `HANASERU_WEBPUSH_V1_PRIVATE`。public keyだけ `push-public.json` とFunctions側に置く（一致必須）。鍵は今後むやみに再生成しない。秘密値・ブラウザの通知先URLはGit/ログに載せない。旧鍵取得はしていない。通知配信に生成AIは使わないが、Scheduler/Functions/Firestore等の通常の利用料はありうる。
+公開コマンドは `firebase deploy --only functions:hanaseruPush,functions:hanaseruDailyReminder,hosting:hanaseru --project komori-clinic-platform`。既存AI関数や他アプリ関数を再公開/削除しない。`node --test tests/push.test.cjs` が認証・送信先・重複・停止・期限切れ・通知リンクを点検。`tests/push-browser.cjs` が許可前未送信・登録/停止/テスト・iPhone通常タブ案内をモック検証。実iPhoneの到着は本人による許可とテストが必要。

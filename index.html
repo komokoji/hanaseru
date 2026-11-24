@@ -133,6 +133,7 @@
   <section id="listeningRoute" hidden><div class="bar"><h2 id="lrTitle" tabindex="-1"></h2><button class="link" data-action="home">中断してホームへ</button></div><p id="lrProgress" class="stat"></p><p class="muted">3分は目安。急がず、一つだけでもOK。教材は旅行場面を想定した創作会話・端末の合成音声です。</p><div id="lrBody" style="overflow-wrap:anywhere"></div><p id="lrStatus" role="status"></p><button id="lrBack" data-lr="back">← 一つ前へ</button><p class="muted">この練習の続き・つまずきメモはこの端末に保存します。AI会話にはログインと通信が必要です。</p></section>
   <section id="setup">
     <div class="quick-start"><h2>今日は、耳から3分</h2><p id="lrHome"></p><button type="button" class="big" data-action="listeningRoute">今日の3分を始める ▸</button><p class="muted">聞く → つまずきを確認 → 聞き直す → 自分の言葉で使う。余裕があればAIと会話。途中でも終えて大丈夫です。</p></div>
+    <details class="goal-start" id="pushSettings"><summary>🔔 毎日20時の通知を設定</summary><p>通知をタップすると「今日の3分」が開きます。日本時間20時・この端末への通知です。</p><p id="pushStatus" role="status">通知の状態を確認しています…</p><button type="button" id="pushEnable" disabled>毎日20時の通知を有効にする</button><button type="button" id="pushTest" disabled>テスト通知を送る</button><button type="button" id="pushDisable" disabled>この端末の通知を停止</button><button type="button" id="pushRefresh">状態を確認</button><p class="muted">iPhoneはiOS 16.4以降で、ホーム画面に追加して開きます。初回の通知許可はご本人の操作が必要です。集中モード・通信状態などで通知が遅れることがあります。</p></details>
     <p class="muted" id="northstar" style="font-size:13px;margin:0 0 2px;color:var(--teal-d)">🧭 日本人らしい英語のまま、自分の考えと気持ちを、はっきり伝えられる人になる。</p>
     <p class="muted" style="font-size:12px;margin:0 0 6px"><b>目標（2026-09-29 決定）</b>：この3つが、止まらずにできる。①自分の考えを、理由を添えて言える ②相手の話に、その場で返せる（聞き返しも含めて） ③詰まっても、言い換えて前に進める。目標は B2 を安定させ、その上側へ。カードの枚数だけでなく、初めての質問にも答えられるかを確かめます。</p>
     <div class="quick-start" id="learningPlan">
@@ -557,6 +558,7 @@
 <script src="voice-loop.js"></script>
 <script type="module" src="cloud.js"></script>
 <script type="module" src="talk.js"></script>
+<script type="module" src="notifications.js"></script>
 <div id="jump" hidden>
   <button data-action="goTop" aria-label="いちばん上へ">↑</button>
   <button data-action="goBottom" aria-label="いちばん下へ">↓</button>

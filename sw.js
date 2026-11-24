@@ -1,6 +1,6 @@
 /* Hanaseru service worker — オフラインで開けるように主要ファイルをキャッシュ */
-var CACHE = "hanaseru-v61";
-var ASSETS = ["./", "./index.html", "./app.js", "./practice-core.js", "./practice.js", "./shelf.js", "./scenes-data.js", "./personal-scenes.js", "./scenes.js", "./learning-plan.js", "./listening-route.js", "./data.js", "./trip.js", "./visit.js", "./gutnutri.js", "./me.js", "./basics.js", "./conversation.js", "./patterns.js", "./parts.js", "./listen.js", "./cloud.js", "./talk.js", "./voice-loop.js", "./manifest.webmanifest", "./icon.svg"];
+var CACHE = "hanaseru-v62";
+var ASSETS = ["./", "./index.html", "./app.js", "./practice-core.js", "./practice.js", "./shelf.js", "./scenes-data.js", "./personal-scenes.js", "./scenes.js", "./learning-plan.js", "./listening-route.js", "./data.js", "./trip.js", "./visit.js", "./gutnutri.js", "./me.js", "./basics.js", "./conversation.js", "./patterns.js", "./parts.js", "./listen.js", "./cloud.js", "./talk.js", "./voice-loop.js", "./notifications.js", "./push-public.json", "./manifest.webmanifest", "./icon.svg"];
 
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(ASSETS); }).then(function(){ return self.skipWaiting(); }));
@@ -31,4 +31,27 @@ self.addEventListener("fetch", function (e) {
       });
     })
   );
+});
+
+// Every push displays a notification; no silent push or background learning tracking.
+self.addEventListener('push', function(e){
+  var data={};try{data=e.data?e.data.json():{};}catch(_){}
+  var test=data.tag==='hanaseru-test';
+  e.waitUntil(self.registration.showNotification(test?'ハナセル：テスト通知':'ハナセル：今日の3分',{
+    body:'今日は3分だけ。途中で終えても大丈夫です。',
+    tag:test?'hanaseru-test':'hanaseru-daily',
+    icon:'./icon.svg',data:{url:'/?practice=listening'}
+  }));
+});
+self.addEventListener('notificationclick', function(e){
+  e.notification.close();
+  var url=new URL('/?practice=listening',self.location.origin).href;
+  e.waitUntil(self.clients.matchAll({type:'window',includeUncontrolled:true}).then(async function(list){
+    for(var client of list){
+      if(new URL(client.url).origin===self.location.origin && 'navigate' in client){
+        try{var target=await client.navigate(url);if(target){await target.focus();return;}}catch(_){}
+      }
+    }
+    return self.clients.openWindow(url);
+  }));
 });

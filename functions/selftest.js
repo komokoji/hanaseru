@@ -21,6 +21,7 @@ class FakeAnthropic {
 
 const origLoad = Module._load;
 Module._load = function (req, ...rest) {
+  if (req === "./push") return {}; // notification handlers have their own tests
   if (req === "firebase-functions/v2/https") return fakeFunctions;
   if (req === "@anthropic-ai/sdk") return FakeAnthropic;
   return origLoad.call(this, req, ...rest);
