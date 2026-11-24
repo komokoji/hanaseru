@@ -18,7 +18,9 @@ const BASE = process.env.HANASERU_TEST_URL || 'http://127.0.0.1:8087';
     });
 
     const page=await context.newPage(), errors=[];page.on('pageerror',e=>errors.push(e.message));
-    await page.goto(BASE);
+    await page.goto(BASE+"/?practice=listening");
+    await page.waitForSelector("#listeningRoute:visible");
+    await page.click("#listeningRoute [data-action=home]");
     await page.waitForFunction(()=>window.Hanaseru && window.HANASERU_LISTENING_LESSONS);
     await page.evaluate(()=>{window.Hanaseru.speak=(t,c)=>{window.TEST_AUDIO=t;if(c)setTimeout(c.end,1);};});
     await page.click('[data-action=listeningRoute]');

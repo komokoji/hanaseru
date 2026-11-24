@@ -47,4 +47,5 @@ document.addEventListener('change',e=>{if(e.target.id==='lrIssue'){state.issue=e
 document.addEventListener('hanaseru:leave',stop);
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&!$('listeningRoute').hidden)stop();});
 home();
+if(new URLSearchParams(location.search).get("practice")==="listening"){H.openListeningRoute();render();}
 }());

@@ -1,5 +1,5 @@
 /* Hanaseru service worker — オフラインで開けるように主要ファイルをキャッシュ */
-var CACHE = "hanaseru-v60";
+var CACHE = "hanaseru-v61";
 var ASSETS = ["./", "./index.html", "./app.js", "./practice-core.js", "./practice.js", "./shelf.js", "./scenes-data.js", "./personal-scenes.js", "./scenes.js", "./learning-plan.js", "./listening-route.js", "./data.js", "./trip.js", "./visit.js", "./gutnutri.js", "./me.js", "./basics.js", "./conversation.js", "./patterns.js", "./parts.js", "./listen.js", "./cloud.js", "./talk.js", "./voice-loop.js", "./manifest.webmanifest", "./icon.svg"];
 
 self.addEventListener("install", function (e) {
