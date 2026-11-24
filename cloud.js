@@ -41,6 +41,7 @@ function isStandalone() {
 
 function isIOS() { return /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1); }
 async function login() {
+  if(location.hostname==="komokoji.github.io"){location.assign("https://hanaseru.web.app/?practice=talk");return;}
   await setPersistence(auth, browserLocalPersistence);
   setStatus("Google のログイン画面へ移ります…", false);
   if (isStandalone() || isIOS()) return signInWithRedirect(auth, provider);   // iPhone はポップアップが不安定なので、同じ画面で行って戻る
@@ -50,6 +51,8 @@ async function login() {
     throw e;
   }
 }
+
+H.login = login;
 
 // ---- 進捗のマージ（端末ごとの差分を"良い方"で合わせる） ----
 function mergeStates(local, remote) {

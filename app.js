@@ -153,12 +153,14 @@
     try {
       if (!window.speechSynthesis) { if(callbacks && callbacks.error) callbacks.error(); return; }
       var u = new SpeechSynthesisUtterance(String(text).replace(/___/g, "…"));
-      if(callbacks){ u.onend=callbacks.end; u.onerror=callbacks.error; }
+      if(callbacks){ u.onstart=callbacks.start; u.onend=callbacks.end; u.onerror=callbacks.error; }
       u.lang = lang || "en-US"; u.rate = (state.rate === "fast") ? 1.05 : 0.85;
       var v = pickVoice(u.lang); if (v) u.voice = v;   // 良い声だけを名前で選ぶ（おもちゃ声を拾わない）
       window.speechSynthesis.cancel(); window.speechSynthesis.speak(u);
     } catch (e) { if(callbacks && callbacks.error) callbacks.error(); }
   }
+
+  if(document.getElementById("legacySite"))document.getElementById("legacySite").hidden=location.hostname!=="komokoji.github.io";
 
   // ---- 画面 ----
   var el = {};

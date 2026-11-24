@@ -4,7 +4,7 @@
    ・「言い直し」と「英訳」は 🔖保存 で state.mine に入り、瞬発トレ／シャドーイングでリピートできる */
 import { getApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-functions.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
 const H = window.Hanaseru;
@@ -20,7 +20,9 @@ let capturedSource = null, translationDraft = null, translationVersion = 0;
 
 // Voice recognition availability depends on browser and device; text stays available.
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-let talkVersion=0;
+let talkVersion=0, speechWait=null;
+const PENDING="hanaseru-pending-talk";
+const legacy=location.hostname==="komokoji.github.io";
 const voice = new window.HanaseruVoiceLoop({
   Recognition: SR,
   visible: () => !$("talk").hidden && !document.hidden,
@@ -34,6 +36,7 @@ const voice = new window.HanaseruVoiceLoop({
   }
 });
 function stopVoice(message='音声対話を停止しました。') {
+  clearTimeout(speechWait);
   voice.stop(message);
   if(window.speechSynthesis)window.speechSynthesis.cancel();
 }
@@ -48,11 +51,17 @@ document.addEventListener('hanaseru:leave',()=>{talkVersion++;stopVoice('');});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){talkVersion++;stopVoice('画面を離れたため音声対話を停止しました。');}});
 
 function needLogin(noteId) {
-  if (getAuth(getApp()).currentUser) return false;
-  const target = $(noteId || "tkNote");
-  if (target) target.textContent = "ホームの「Google でログインして同期」でログインしてください。AI機能にはインターネット接続が必要です。";
+  const logged=!!getAuth(getApp()).currentUser && !legacy;
+  $("tkGate").hidden=logged;
+  $("tkLogin").hidden=legacy;$("tkCanonical").hidden=!legacy;
+  if(logged)return false;
+  const message=legacy?'この旧公開先ではなく、正規版を開いてログインしてください。':'Googleログインが必要です。上のボタンからログインすると、選んだ会話を始められます。';
+  $("tkGateNote").textContent=message;
+  const target=$(noteId||"tkNote");if(target)target.textContent=message;
+  if(!$("talk").hidden)$("tkGate").scrollIntoView({block:'start'});
   return true;
 }
+
 function setNote(t) { const n = $("tkNote"); if (n) n.textContent = t || ""; }
 function setBusy(b) { busy = b; const s = $("tkSend"); if (s) { s.disabled = b; s.textContent = b ? "…" : "送る"; } if($("tkAuto"))$("tkAuto").disabled=!SR||(b&&!voice.active); }
 
@@ -77,7 +86,11 @@ function feedbackHtml(r, said) {
 
 async function start(newScene, practiceCard) {
   if (busy) { setNote("返答を待ってから、もう一度始めてください。"); return; }
-  if (needLogin()) return;
+  if (needLogin()) {
+    try{sessionStorage.setItem(PENDING,JSON.stringify({scene:newScene==='case'?'clinic':newScene||scene,card:practiceCard||null,at:Date.now()}));}catch(_){}
+    return;
+  }
+  try{sessionStorage.removeItem(PENDING);}catch(_){}
   talkVersion++; stopVoice("最初の返答を聞いたら、音声対話を開始してください。");
   $("tkInput").value="";
   scene = newScene || scene;
@@ -118,12 +131,15 @@ async function ask(opening, said) {
       const log = $("tkLog"); const last = log.lastElementChild;
       if (last) last.insertAdjacentHTML("beforeend", '<details><summary>言い方のヒント・保存</summary>'+feedbackHtml(r, said)+'</details>');
     }
-    addBubble("ai", r.reply, '<div class="speakrow"><button class="speak" data-say="' + esc(r.reply) + '">🔊 もう一度</button></div>');
+    addBubble("ai", r.reply, '<div class="speakrow"><button class="speak" data-say="' + esc(r.reply) + '">🔊 相手の声を聞く</button></div>');
     if(r.ended)voice.stop('この場面はここまでです。使いたい表現を保存するか、ふり返りへ。');
     const voiceToken=voice.serial;
+    clearTimeout(speechWait);
+    speechWait=setTimeout(()=>{if(version===talkVersion && voiceToken===voice.serial){voice.stop('音声が始まりませんでした。「相手の声を聞く」を押してください。');}},4000);
     H.speak(r.reply, {
-      end:()=>{if(version===talkVersion && voiceToken===voice.serial && !busy)voice.afterReply();},
-      error:()=>{if(version===talkVersion)voice.stop('読み上げを終了しました。音声対話を再開するか文字で返してください。');}
+      start:()=>clearTimeout(speechWait),
+      end:()=>{clearTimeout(speechWait);if(version===talkVersion && voiceToken===voice.serial && !busy)voice.afterReply();},
+      error:()=>{clearTimeout(speechWait);if(version===talkVersion)voice.stop('音声を再生できませんでした。「相手の声を聞く」を押すか、英文を開いて返してください。');}
     });
     if (r.ended) setNote("この場面はここまで。別の場面を選ぶか、もう一度どうぞ。");
   } catch (e) {
@@ -350,3 +366,19 @@ document.addEventListener("click", (e) => {
 });
 if(!SR){$('tkAuto').disabled=true;$('tkMic').hidden=true;$('tkVoiceStatus').textContent='このブラウザでは音声入力を利用できません。文字でAIと会話できます。';}
 $("tkInput") && $("tkInput").addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } });
+
+$("tkLogin").addEventListener('click',async()=>{
+  if(!window.Hanaseru.login){$("tkGateNote").textContent='ログインへの接続ができません。通信を確認して画面を再読み込みしてください。';return;}
+  $("tkLogin").disabled=true;$("tkGateNote").textContent='Googleログインを開いています…';
+  try{await window.Hanaseru.login();}
+  catch(e){$("tkGateNote").textContent='ログインできませんでした：'+(e.code||e.message||'再度お試しください');}
+  finally{$("tkLogin").disabled=false;}
+});
+onAuthStateChanged(getAuth(getApp()),user=>{
+  if(user&&!legacy){
+    $("tkGate").hidden=true;
+    let pending;try{pending=JSON.parse(sessionStorage.getItem(PENDING));}catch(_){}
+    if(pending&&Date.now()-pending.at<3600000){H.openTalk();start(pending.scene,pending.card);}
+  }else if(!$("talk").hidden)needLogin();
+});
+if(new URLSearchParams(location.search).get('practice')==='talk'){H.openTalk();start('travel');}

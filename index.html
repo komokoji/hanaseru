@@ -119,10 +119,12 @@
   .activity-status.achieved{background:#e0f2e9;color:var(--teal-d);font-weight:600}
   .goal-start{padding:16px;border:1px solid var(--line);border-radius:18px;margin:14px 0;background:#fff}
   #scBody,#scActions{overflow-wrap:anywhere}#scBody details{margin:12px 0}#scActions{gap:10px}#scBody .en{font-size:21px}
+#tkLog:empty{min-height:0;height:0;margin:0}#tkGate a,#legacySite a{display:block;text-align:center;margin-top:12px}#tkGate [hidden]{display:none}
 </style>
 </head>
 <body>
 <div class="wrap">
+  <aside id="legacySite" class="goal-start" hidden><strong>こちらは旧公開先です</strong><p>ログイン・AI会話・通知は正規版でご利用ください。</p><a class="big" href="https://hanaseru.web.app/?practice=talk">正規版のハナセルを開く →</a><p class="muted">このページの端末内記録は残ります。正規版とは保存先が別です。</p></aside>
   <header>
     <div class="logo">Hanaseru<small>話せる</small></div>
     <div class="pill" id="habitPill">今日のひとこと</div>
@@ -436,6 +438,7 @@
 
   <!-- 🗣 AI会話 -->
   <section id="talk" hidden>
+    <div id="tkGate" class="goal-start" hidden><h2>AI会話を始めるには</h2><p id="tkGateNote" role="status">Googleログインが必要です。この画面からログインできます。</p><button type="button" id="tkLogin">Googleでログインして会話を始める</button><a id="tkCanonical" class="big" href="https://hanaseru.web.app/?practice=talk" hidden>正規版でAI会話を開く →</a></div>
     <div id="tkChips" class="chips">
       <button class="chip on" data-scene="clinic">診察室（親役）</button>
       <button class="chip" data-scene="travel">旅先の雑談</button>
@@ -448,9 +451,10 @@
       <label><input type="checkbox" id="tkListenFirst" checked> まず耳で聞く（英文は必要なときに開く）</label>
       <button type="button" class="big" id="tkAuto" data-action="tkAuto">音声対話を開始（最大5往復・5分）</button>
       <p id="tkVoiceStatus" class="stat" role="status" aria-live="polite">最初の返答を聞いたら、開始を押して話してください。</p>
-      <p class="muted">開始後は、話し終わると認識された英文を自動送信します。声はブラウザの音声認識、返答は既存のAIで処理します。患者情報は話さないでください。音声非対応・認識が合わないときは文字でも返せます。</p>
-      <p class="muted">ChatGPTへの移動や新しい契約は不要です。AIの利用には既存APIの従量料金がかかります。5回話すか5分で音声対話を停止します。</p>
+      <details><summary>音声・料金について</summary><p class="muted">開始後は、話し終わると認識された英文を自動送信します。声はブラウザの音声認識、返答は既存のAIで処理します。患者情報は話さないでください。音声非対応・認識が合わないときは文字でも返せます。</p>
+      <p class="muted">ChatGPTへの移動や新しい契約は不要です。AIの利用には既存APIの従量料金がかかります。5回話すか5分で音声対話を停止します。</p></details>
     </div>
+    <p class="muted">① 相手の声を聞く → ②「🎤 1回話す」で返す。音声が使えないときは、下の入力欄に文字で返せます。</p>
     <div id="tkLog" class="tklog"></div>
     <p class="stat" id="tkNote"></p>
     <textarea id="tkInput" rows="2" placeholder="英語で返す（日本語でも可＝英語にして返します）"></textarea>
