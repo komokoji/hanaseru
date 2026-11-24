@@ -126,6 +126,9 @@
   .nav-controls{display:flex;gap:6px}.nav-controls button{min-height:44px;padding:8px 10px;background:#fff;color:var(--teal);border:1px solid var(--line);font-size:14px}
   #appMenu{flex-basis:100%;display:grid;gap:5px;max-height:65dvh;overflow:auto;padding:8px 0}#appMenu[hidden]{display:none}
   #appMenu button{min-height:44px;text-align:left;padding:10px 14px;background:#fff;color:var(--ink);border:1px solid var(--line)}
+  #capBox{width:min(560px,calc(100% - 24px));max-height:85dvh;overflow:auto;border:1px solid var(--line);border-radius:20px;padding:20px;background:var(--bg,#f6f5f1);color:var(--ink)}
+  #capBox::backdrop{background:#0006} #capBox .row{flex-wrap:wrap} #capBox textarea{box-sizing:border-box;width:100%}
+  .nav-controls{flex-wrap:wrap} #navCapture{font-weight:700}
   @media(max-width:400px){.app-header .logo small{display:none}}
   html{scroll-padding-top:110px}button:focus-visible,a:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
 </style>
@@ -135,7 +138,7 @@
 
   <header class="app-header">
     <button type="button" class="logo" data-nav="home" aria-label="Hanaseru ホーム">Hanaseru<small>話せる</small></button>
-    <div class="nav-controls"><button type="button" data-nav="home" id="navHome">ホーム</button><button type="button" id="navToggle" aria-expanded="false" aria-controls="appMenu">☰ メニュー</button></div>
+    <div class="nav-controls"><button type="button" data-action="capOpen" id="navCapture">＋伝えたい</button><button type="button" data-nav="home" id="navHome">ホーム</button><button type="button" id="navToggle" aria-expanded="false" aria-controls="appMenu">☰ メニュー</button></div>
     <nav id="appMenu" aria-label="ハナセルのメニュー" hidden>
       <button type="button" data-nav="home">ホームに戻る</button>
       <button type="button" data-nav="listeningRoute">今日の3分</button>
@@ -268,18 +271,19 @@
       <button class="choice" data-action="capOpen"><span>思いついたら貯める</span><b>＋ 言いたいこと ▸</b></button>
     </div>
     </details>
-    <div id="capBox" hidden style="margin-top:8px">
-      <h2>今日つまずいたこと</h2>
-      <div class="capture-options"><label>場面<select id="capScene"><option>診療</option><option>旅行</option><option>日常・自分の考え</option></select></label><label>つまずき<select id="capObstacle"><option>言えなかった</option><option>聞き取れなかった</option><option>返せなかった</option></select></label></div>
-      <textarea id="capInput" rows="3" maxlength="1000" aria-label="つまずいたこと" placeholder="例：ホテルで、静かな部屋に変えてほしいと頼めなかった。"></textarea>
+    <dialog id="capBox" aria-labelledby="capTitle">
+      <h2 id="capTitle">これを英語で伝えたい</h2><p class="muted">日本語でひとこと。iPhoneのキーボードのマイクで話して入力しても大丈夫です。</p>
+      <div class="capture-options"><label>場面<select id="capScene"><option>診療</option><option>旅行</option><option>日常・自分の考え</option></select></label><label>つまずき<select id="capObstacle"><option>これから伝えたい</option><option>言えなかった</option><option>聞き取れなかった</option><option>返せなかった</option></select></label></div>
+      <textarea id="capInput" rows="3" maxlength="1000" aria-label="伝えたいこと" placeholder="例：（旅先で隣の人に）小児外科の経験を生かして、今は地域の子どもたちを診ています。"></textarea>
       <div class="row" style="margin-top:8px">
         <button class="ng" data-action="capCancel">閉じる</button>
-        <button class="ok" data-action="capSave">メモを保存</button>
+        <button class="ng" data-action="capSave">メモだけ保存</button>
+        <button class="ok" data-action="capNow">保存して話す練習へ</button>
       </div>
       <p class="muted">患者さんの名前など、個人を特定できる情報は書かず、言いたかった内容だけ残してください。</p>
-      <div id="capList"></div>
+      <p id="capStatus" role="status"></p><h3>保存した「伝えたいこと」</h3><div id="capList"></div>
       <button class="link" id="capCopyBtn" data-action="capCopy" hidden>📋 メモをコピー</button>
-    </div>
+    </dialog>
     <footer>
       <div id="cloudStatus">☁️ この端末だけに保存（ログイン前）</div>
       <button class="link" data-action="cloud" id="cloudBtn">Google でログインして同期</button>
@@ -492,6 +496,7 @@
     <textarea id="trInput" rows="3" placeholder="例：（診察室・親へ）熱は高いけど、水分が取れていれば今夜は様子を見て大丈夫です。"></textarea>
     <div class="row" style="margin-top:8px"><button class="ok" data-action="trGo">英語にする</button></div>
     <p class="stat" id="trNote" role="status"></p>
+    <button class="link" id="trLogin" hidden>Googleでログインして英語にする</button>
     <div id="trOut" style="margin-top:10px"></div>
     <div class="bar"><button class="link" data-action="home">← 範囲を選ぶ</button></div>
   </section>

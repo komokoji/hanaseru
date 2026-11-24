@@ -472,16 +472,34 @@
   }
 
   // ---- 「＋言いたいこと」捕獲（その場は日本語で貯めるだけ） ----
-  function capToggle(on) { var box = document.getElementById("capBox"); if (box) box.hidden = !on; }
-  function capOpen() { capToggle(true); renderCaptures(); var i = document.getElementById("capInput"); if (i) i.focus(); }
+  var capBox = document.getElementById("capBox");
+  document.body.appendChild(capBox);
+  var capInput = document.getElementById("capInput");
+  try { var draft=JSON.parse(localStorage.getItem("hanaseru-capture-draft")||"null"); if(draft){capInput.value=draft.text||"";document.getElementById("capScene").value=draft.scene;document.getElementById("capObstacle").value=draft.obstacle;} } catch (_) {}
+  function saveCaptureDraft(){try{localStorage.setItem("hanaseru-capture-draft",JSON.stringify({text:capInput.value,scene:document.getElementById("capScene").value,obstacle:document.getElementById("capObstacle").value}));}catch(_){} }
+  capInput.addEventListener("input",saveCaptureDraft);
+  document.getElementById("capScene").addEventListener("change",saveCaptureDraft);
+  document.getElementById("capObstacle").addEventListener("change",saveCaptureDraft);
+  function capToggle(on) { if (on) { if(!capBox.open)capBox.showModal(); } else capBox.close(); }
+  function capCoach(captured, immediate) {
+    if(!captured)return;
+    capToggle(false); hideMain(); document.getElementById("coach").hidden=false;
+    document.getElementById("trInput").value='(' + [captured.scene,captured.obstacle].filter(Boolean).join('・') + ') ' + captured.ja;
+    document.dispatchEvent(new CustomEvent("hanaseru:capture",{detail:captured}));
+    window.scrollTo(0,0);
+    if(immediate)document.dispatchEvent(new CustomEvent("hanaseru:translateCapture"));
+  }
+  function capOpen() { document.dispatchEvent(new CustomEvent("hanaseru:leave")); capToggle(true); document.getElementById("capStatus").textContent=""; renderCaptures(); var i = document.getElementById("capInput"); if (i) i.focus(); }
   function capSave() {
     var i = document.getElementById("capInput"); if (!i) return;
-    var v = (i.value || "").trim(); if (!v) return;
+    var v = (i.value || "").trim(); if (!v) {document.getElementById("capStatus").textContent="伝えたいことを入力してください。";i.focus();return null;}
     state.captures.push({ ja: v.slice(0, 1000), ts: Date.now(),
       scene: document.getElementById("capScene").value,
       obstacle: document.getElementById("capObstacle").value }); save(state);
     recordActivity();
-    i.value = ""; renderCaptures();
+    i.value = ""; try{localStorage.removeItem("hanaseru-capture-draft");}catch(_){} renderCaptures();
+    document.getElementById("capStatus").textContent="保存しました。あとでここから練習できます。";
+    return state.captures[state.captures.length-1];
   }
   function capDelete(k) { state.captures.splice(k, 1); save(state); renderCaptures(); }
   function capCopy() {
@@ -503,7 +521,7 @@
           + (c.phraseId ? '<button class="speak" data-action="practiceOne" data-id="' + escapeHtml(c.phraseId) + '">保存済み・練習する</button>'
             : '<button class="speak" data-action="capCoach" data-idx="' + k + '">英語にする</button>')
           + '</span><button class="capx" aria-label="このメモを削除" data-action="capDel" data-idx="' + k + '">×</button></div>';
-      }).join("");
+      }).reverse().join("");
     }
     var btn = document.getElementById("capCopyBtn"); if (btn) btn.hidden = !state.captures.length;
   }
@@ -581,6 +599,7 @@
     else if (a === "capOpen") capOpen();
     else if (a === "capCancel") capToggle(false);
     else if (a === "capSave") capSave();
+    else if (a === "capNow") {var savedCapture=capSave();if(savedCapture)capCoach(savedCapture,true);}
     else if (a === "capCopy") capCopy();
     else if (a === "planCard") {
       var planned = cardState(t.getAttribute("data-id")); planned.plannedAt = Date.now(); planned.paused = false;
@@ -589,11 +608,7 @@
     else if (a === "openCaptureHome") { backToSetup(); capOpen(); }
     else if (a === "capDel") capDelete(+t.getAttribute("data-idx"));
     else if (a === "capCoach") {
-      var captured = state.captures[+t.getAttribute("data-idx")]; if (!captured) return;
-      hideMain(); document.getElementById("coach").hidden = false;
-      document.getElementById("trInput").value = '(' + [captured.scene, captured.obstacle].filter(Boolean).join('・') + ') ' + captured.ja;
-      document.getElementById("trNote").textContent = "AI英訳にはログインとインターネット接続が必要です。";
-      document.dispatchEvent(new CustomEvent("hanaseru:capture", { detail: captured }));
+      capCoach(state.captures[+t.getAttribute("data-idx")],false);
     }
     else if (a === "checklist") openChecklist();
     else if (a === "clDomain") setClDomain(t.getAttribute("data-domain"));

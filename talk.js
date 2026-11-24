@@ -166,9 +166,11 @@ document.addEventListener("hanaseru:practiceTalk", (e) => {
   const medical = ["medical", "visit", "asthma", "gut", "nutri", "sign"].includes(c.domain) || /診療/.test(c.ja);
   start(c.domain === "me" ? "me" : medical ? "clinic" : "travel", c);
 });
+document.addEventListener("hanaseru:translateCapture",()=>translate());
 async function translate() {
   if (busy) return;
-  if (needLogin("trNote")) return;
+  if (needLogin("trNote")) {$("trLogin").hidden=false;return;}
+  $("trLogin").hidden=true;
   const text = $("trInput").value.trim(); if (!text) return;
   const source = capturedSource, version = ++translationVersion;
   translationDraft = null; $("trNote").textContent = "";
@@ -184,7 +186,7 @@ async function translate() {
       + '<div class="speakrow" style="margin-top:6px"><button class="speak" data-say="' + esc(en) + '">🔊</button><button class="speak" data-save-en="' + esc(en) + '" data-save-ja="' + esc(ja) + '">🔖 保存</button></div></div></div>';
     // 院長の型：王道1本を覚える → 文法・ニュアンスを理解 → 類似2つは眺める
     out.innerHTML = row("① 王道（まずこれを覚える）", r.en, "", text)
-      + '<div class="grid"><button class="big" data-action="trPractice">この英文を保存して練習する</button></div>'
+      + '<div class="grid"><button class="big" data-action="trPractice">保存して口に慣らす</button><button class="big" data-action="trTalk">保存してAIとの対話で使う</button></div>'
       + explainHtml({ chunks: r.chunks || [], grammar: r.grammar, swap: null })
       + '<p class="muted" style="font-size:12px;margin:12px 0 0">② 類似（眺めるだけでOK）</p>'
       + row("もう一つの王道", r.alt, r.alt_ja, text) + row("ていねいに", r.polite, r.polite_ja, text);
@@ -360,13 +362,17 @@ document.addEventListener("click", (e) => {
   else if (a === "moAgain") moStart(30);
   else if (a === "trGo") translate();
   else if (a === "coach") { capturedSource = null; translationDraft = null; translationVersion++; $("trOut").innerHTML = ""; $("trNote").textContent = ""; }
-  else if (a === "trPractice" && translationDraft) {
+  else if ((a === "trPractice" || a === "trTalk") && translationDraft) {
     const d = translationDraft;
     H.addMine(d.ja, d.en);
     const m = H.getState().mine.find((m) => m.en === d.en.trim());
     if (!m) return;
     if (d.source) H.linkCapture(d.source.ts, d.source.ja, m.id);
-    document.dispatchEvent(new CustomEvent("hanaseru:practice", { detail: { id: m.id } }));
+    if(a === "trTalk") {
+      H.openTalk();
+      const topic=d.source?.scene==='診療'?'clinic':d.source?.scene==='旅行'?'travel':'free';
+      start(topic,{...m,ja:d.ja,en:d.en,domain:topic});
+    } else document.dispatchEvent(new CustomEvent("hanaseru:practice", { detail: { id: m.id } }));
   }
 });
 if(!SR){$('tkAuto').disabled=true;$('tkMic').hidden=true;$('tkVoiceStatus').textContent='このブラウザでは音声入力を利用できません。文字でAIと会話できます。';}
@@ -387,3 +393,5 @@ onAuthStateChanged(getAuth(getApp()),user=>{
   }else if(!$("talk").hidden)needLogin();
 });
 if(new URLSearchParams(location.search).get('practice')==='talk'){H.openTalk();start('travel');}
+
+$("trLogin").addEventListener("click",async()=>{try{if(!H.login)throw new Error("接続を確認して再読み込みしてください。");await H.login();if(getAuth(getApp()).currentUser&&!legacy)translate();}catch(e){$("trNote").textContent=e.message||"ログインできませんでした。";}});

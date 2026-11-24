@@ -195,6 +195,27 @@ const BASE = process.env.HANASERU_TEST_URL || 'http://127.0.0.1:8087';
     await page.screenshot({path:'/tmp/hanaseru-response.png',fullPage:true});
     console.log('PASS: sentence audio, response hints survive reload without false transfer success, question retest preserves retention');
 
+    // Capture is available inside practice, preserves a draft, and passes the saved idea to AI.
+    await page.click('#navCapture');
+    await page.selectOption('#capScene',{label:'旅行'});
+    await page.fill('#capInput','空港で次の便への乗り継ぎを確認したい');
+    await page.reload(); await page.waitForFunction(()=>window.Hanaseru);
+    await page.evaluate(()=>window.TEST_LOGGED_IN=true);
+    await page.click('#navCapture');
+    assert.equal(await page.inputValue('#capInput'),'空港で次の便への乗り継ぎを確認したい');
+    assert.equal(await page.inputValue('#capScene'),'旅行');
+    await page.click('[data-action=capNow]');
+    await page.waitForSelector('[data-action=trTalk]');
+    assert.equal(await page.locator('#capBox').evaluate(e=>e.open),false);
+    await page.click('[data-action=trTalk]');
+    await page.waitForSelector('#tkLog .speak');
+    const request=await page.evaluate(()=>window.TEST_CALLS.filter(x=>x.mode==='chat').at(-1));
+    assert.equal(request.scene,'travel');
+    assert.match(request.messages[0].content,/乗り継ぎ/);
+    assert.ok(await page.evaluate(()=>window.Hanaseru.getState().captures.some(c=>c.ja.includes('乗り継ぎ')&&c.phraseId)));
+    await page.click('#navCapture'); await page.click('[data-action=capCancel]');
+    assert.equal(await page.locator('#talk').isVisible(),true);
+    console.log('PASS: global capture, draft/context persistence, save → spoken English → focused AI conversation');
     assert.deepEqual(errors,[]);
     console.log('PASS: mobile layout (320/390/768), hidden-answer recall, focus/single-card resume, grading, capture → translation → saved practice, mock audio cleanup, mic denial/pending permission cleanup, focused AI conversation');
     await context.close();
