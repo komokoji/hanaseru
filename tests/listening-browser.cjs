@@ -35,7 +35,7 @@ const BASE = process.env.HANASERU_TEST_URL || 'http://127.0.0.1:8087';
     await page.click('[data-lr=next]');
     assert.match(await page.locator('#lrBody').innerText(),/条件/);
     await page.reload();
-    await page.click('[data-action=listeningRoute]');
+    await page.waitForSelector('#listeningRoute:visible');
     assert.match(await page.locator('#lrProgress').innerText(),/3 \/ 4/);
     await page.click('[data-lr=next]');
     assert.equal(await page.locator('#lrBody').innerText().then(t=>t.includes('We should')),false);
