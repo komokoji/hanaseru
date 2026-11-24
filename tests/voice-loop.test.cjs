@@ -25,3 +25,14 @@ test('permission denial and empty speech stop rather than restart forever',()=>{
 test('single microphone mode never automatically listens again',()=>{
  const f=fixture();f.v.start(false);finish(f.R.last);assert.equal(f.v.active,false);assert.equal(f.sent.length,1);f.v.afterReply();assert.equal(f.v.rec,null);
 });
+
+test('unstarted recognition reports waiting then exits rather than falsely listening',async()=>{
+ const f=fixture();f.v.o.startTimeoutMs=10;f.v.start();assert.match(f.states.at(-1)[0],/開始を待って/);await new Promise(r=>setTimeout(r,25));assert.equal(f.v.active,false);assert.match(f.states.at(-1)[0],/開始しません/);assert.equal(f.R.last.aborted,true);
+});
+test('started but silent recognition exits with no accidental send',async()=>{
+ const f=fixture();f.v.o.silenceTimeoutMs=10;f.v.start();f.R.last.onstart();assert.match(f.states.at(-1)[0],/聞いています/);await new Promise(r=>setTimeout(r,25));assert.equal(f.v.active,false);assert.equal(f.sent.length,0);
+});
+test('final result without browser end is sent once, and stop cancels a pending final',async()=>{
+ const f=fixture();f.v.o.finalTimeoutMs=10;f.v.start();const r=f.R.last,end=r.onend;r.onresult({results:[Object.assign([{transcript:'Hello there'}],{isFinal:true})]});await new Promise(r=>setTimeout(r,25));assert.deepEqual(f.sent,['Hello there']);end();assert.equal(f.sent.length,1);f.v.stop();
+ f.v.start();f.R.last.onresult({results:[Object.assign([{transcript:'Do not send'}],{isFinal:true})]});f.v.stop();await new Promise(r=>setTimeout(r,25));assert.equal(f.sent.length,1);
+});
