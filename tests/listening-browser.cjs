@@ -49,12 +49,29 @@ const BASE = process.env.HANASERU_TEST_URL || 'http://127.0.0.1:8087';
     await page.click('#talk [data-action=home]');
     await page.click('[data-action=listeningRoute]');
     await page.click('[data-lr=new]');
+    assert.match(await page.locator('#lrTitle').innerText(),/乗り継ぎ/);
+    // Yesterday's explicitly marked chunk appears once before the automatically selected next scene.
+    await page.evaluate(()=>{
+      const key='hanaseru-listening-route-v1',s=JSON.parse(localStorage.getItem(key));
+      s.planDay=window.HanaseruDailyListening.day(Date.now())-1;s.step=2;s.issue='structure';s.markedChunk=2;
+      localStorage.setItem(key,JSON.stringify(s));
+    });
+    await page.reload();
+    await page.waitForSelector('[data-lr=reviewDone]');
+    assert.match(await page.locator('#lrTitle').innerText(),/昨日/);
+    assert.equal(await page.locator('#lrBody').innerText().then(t=>t.includes('If it doesn’t')),false);
+    await page.click('#lrBody summary');assert.match(await page.locator('#lrBody').innerText(),/If it doesn’t/);
+    await page.click('[data-lr=reviewDone]');
+    assert.match(await page.locator('#lrTitle').innerText(),/隣席/);
+    await page.reload();
+    await page.waitForSelector('#listeningRoute:visible');
+    assert.equal(await page.locator('[data-lr=reviewDone]').count(),0);
     assert.match(await page.locator('#lrTitle').innerText(),/隣席/);
     for(const width of [320,390,768]){
       await page.setViewportSize({width,height:844});
       assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
     }
     assert.deepEqual(errors,[]);
-    console.log('PASS: listening route hidden transcript, diagnosis, persistence, completion, AI transfer, next lesson, mobile fit');
+    console.log('PASS: listening route hidden transcript, diagnosis, persistence, completion, AI transfer, same-day stability, yesterday review, mobile fit');
   }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

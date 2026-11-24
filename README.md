@@ -145,3 +145,7 @@ https://hanaseru.web.app/?practice=listening で3分練習画面へ直接入る�
 `hanaseruPush`（owner verified email限定）でAdmin SDK専用 `hanaseru_push_devices` へ登録。公開ルール変更なし。最大10端末、テスト毎分1回、HTTP送信先はApple/FCM/Mozillaだけ。`hanaseruDailyReminder` はCloud Schedulerで `0 20 * * *` / Asia/Tokyo。重複ジョブは日ごとのtransaction claimで抑制、送信失敗の同日自動再試行なし。404/410は登録削除、停止中の送信完了で登録を復活させない。通知ペイロードに患者・学習内容なし。
 秘密鍵は新規Secret Manager `HANASERU_WEBPUSH_V1_PRIVATE`。public keyだけ `push-public.json` とFunctions側に置く（一致必須）。鍵は今後むやみに再生成しない。秘密値・ブラウザの通知先URLはGit/ログに載せない。旧鍵取得はしていない。通知配信に生成AIは使わないが、Scheduler/Functions/Firestore等の通常の利用料はありうる。
 公開コマンドは `firebase deploy --only functions:hanaseruPush,functions:hanaseruDailyReminder,hosting:hanaseru --project komori-clinic-platform`。既存AI関数や他アプリ関数を再公開/削除しない。`node --test tests/push.test.cjs` が認証・送信先・重複・停止・期限切れ・通知リンクを点検。`tests/push-browser.cjs` が許可前未送信・登録/停止/テスト・iPhone通常タブ案内をモック検証。実iPhoneの到着は本人による許可とテストが必要。
+
+## v63：今日の会話＋昨日の一表現（2026-11-24）
+通知用URL／ホームの3分入口から日本時間の日付で自動選択。新しい日に次の旅行会話へ進み、同じ日は内容と途中状態を維持。前日に明示選択したchunkを優先し、なければ前日のつまずきのある会話から一表現を選ぶ（自動診断とは表記しない）。未完了でも記録済みのつまずきは使う。復習約30秒＋本編約2分30秒が目安。前日の記録なし／要点理解のみなら復習なし。休んだ日の復習は積み上げない。
+日替わりと復習状態は既存の端末ローカル保存でクラウド同期なし。過去の完了履歴を維持し、旧データの初回移行にも対応。明示的に「一度まねた」とした時のみ実施記録、再生やスキップでは習得を上げない。単体とChromeモックで日付境界・同日固定・未完了のつまずき・翌日復習・直接リンク再開を検証。
