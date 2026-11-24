@@ -130,38 +130,11 @@
   }
 
   // ---- 音声（英語の手本） ----
-  // Mac/iOS には英語扱いの"おもちゃ声"（Bubbles, Bells, Bahh…）が多数あり、言語だけで選ぶとそれを拾う。
-  // 質の良い声を名前の優先順で選び、見つからなければブラウザ既定（＝以前と同じ）に任せる。
-  var GOOD_VOICES = {
-    "en-US": ["Google US English", "Samantha", "Ava", "Allison", "Zoe", "Nicky", "Alex", "Evan", "Tom", "Microsoft Aria Online", "Microsoft Jenny Online"],
-    "en-GB": ["Google UK English Female", "Google UK English Male", "Daniel", "Kate", "Serena", "Oliver", "Jamie", "Stephanie", "Microsoft Sonia Online", "Microsoft Ryan Online"]
-  };
-  function pickVoice(lang) {
-    var all = window.speechSynthesis.getVoices();
-    var names = GOOD_VOICES[lang] || [];
-    for (var i = 0; i < names.length; i++) {
-      for (var j = 0; j < all.length; j++) {
-        if (all[j].name.indexOf(names[i]) === 0 && all[j].lang.replace("_", "-").indexOf(lang) === 0) return all[j];
-      }
-    }
-    if (lang !== "en-US") return pickVoice("en-US");   // 英国声が無ければ米国の良い声
-    return null;
-  }
-  if (window.speechSynthesis) window.speechSynthesis.getVoices();   // 一覧を先に読み込ませる（初回が空になる対策）
-  var activeUtterance = null;
+  // 鳴らす・止めるは audio-core.js（HanaseruAudio）の1か所。ここは記録と速度だけを足す。
   function speak(text, lang, callbacks) {
     if (String(text || '').trim()) recordActivity();
-    try {
-      if (!window.speechSynthesis) { if(callbacks && callbacks.error) callbacks.error(); return; }
-      var u = new SpeechSynthesisUtterance(String(text).replace(/___/g, "…"));
-      activeUtterance = u;
-      u.onstart=function(e){if(callbacks && callbacks.start)callbacks.start(e);};
-      u.onend=function(e){if(activeUtterance===u)activeUtterance=null;if(callbacks && callbacks.end)callbacks.end(e);};
-      u.onerror=function(e){if(activeUtterance===u)activeUtterance=null;if(callbacks && callbacks.error)callbacks.error(e);};
-      u.lang = lang || "en-US"; u.rate = (state.rate === "fast") ? 1.05 : 0.85;
-      var v = pickVoice(u.lang); if (v) u.voice = v;   // 良い声だけを名前で選ぶ（おもちゃ声を拾わない）
-      window.speechSynthesis.cancel(); window.speechSynthesis.resume(); window.speechSynthesis.speak(u);
-    } catch (e) { if(callbacks && callbacks.error) callbacks.error(); }
+    var fast = state.rate === "fast";
+    window.HanaseruAudio.say(text, { lang: lang || "en-US", rate: fast ? 1.15 : 0.95, ttsRate: fast ? 1.05 : 0.85, callbacks: callbacks });
   }
 
   if(document.getElementById("legacySite"))document.getElementById("legacySite").hidden=location.hostname!=="komokoji.github.io";

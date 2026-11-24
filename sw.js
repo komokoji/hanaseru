@@ -1,6 +1,6 @@
 /* Hanaseru service worker — オフラインで開けるように主要ファイルをキャッシュ */
-var CACHE = "hanaseru-v69";
-var ASSETS = ["./", "./index.html", "./app.js", "./navigation.js", "./practice-core.js", "./practice.js", "./shelf.js", "./scenes-data.js", "./personal-scenes.js", "./scenes.js", "./learning-plan.js", "./listening-route.js", "./daily-listening.js", "./data.js", "./trip.js", "./visit.js", "./gutnutri.js", "./me.js", "./basics.js", "./conversation.js", "./patterns.js", "./parts.js", "./listen.js", "./cloud.js", "./talk.js", "./speech-player.js", "./voice-loop.js", "./notifications.js", "./push-public.json", "./manifest.webmanifest", "./icon.svg"];
+var CACHE = "hanaseru-v70";
+var ASSETS = ["./", "./index.html", "./app.js", "./navigation.js", "./practice-core.js", "./practice.js", "./shelf.js", "./scenes-data.js", "./personal-scenes.js", "./scenes.js", "./learning-plan.js", "./listening-route.js", "./daily-listening.js", "./data.js", "./trip.js", "./visit.js", "./gutnutri.js", "./me.js", "./basics.js", "./conversation.js", "./patterns.js", "./parts.js", "./listen.js", "./cloud.js", "./talk.js", "./audio-core.js", "./card-audio.js", "./voice-loop.js", "./notifications.js", "./push-public.json", "./manifest.webmanifest", "./icon.svg"];
 
 importScripts("./listening-audio.js");
 ASSETS=ASSETS.concat(["./listening-audio.js"],Object.values(self.HANASERU_LISTENING_AUDIO));
@@ -10,7 +10,7 @@ self.addEventListener("install", function (e) {
 });
 self.addEventListener("activate", function (e) {
   e.waitUntil(caches.keys().then(function (keys) {
-    return Promise.all(keys.filter(function (k) { return k !== CACHE; }).map(function (k) { return caches.delete(k); }));
+    return Promise.all(keys.filter(function (k) { return k !== CACHE && k.indexOf("hanaseru-tts-") !== 0; /* その場で作った音声の控えは残す */ }).map(function (k) { return caches.delete(k); }));
   }).then(function(){ return self.clients.claim(); }));
 });
 self.addEventListener("fetch", function (e) {

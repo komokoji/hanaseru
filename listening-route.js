@@ -18,21 +18,20 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(_){$(
 function esc(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function button(action,text){return '<button type="button" data-lr="'+action+'">'+text+'</button>';}
 function home(){ $('lrHome').textContent=(state.step===4?'今日は一区切り：':state.step>0?'続きから：':'今日の会話：')+lessons[state.index].title+(state.review&&!state.reviewDone?' ＋ 昨日の一表現（約30秒）':''); }
-const audio=$('lrAudio');let audioWait=null;
-function stop(){token++;clearTimeout(audioWait);audio.onplaying=audio.onended=audio.onerror=null;audio.pause();audio.removeAttribute('src');audio.load();if(window.speechSynthesis)window.speechSynthesis.cancel();}
+// 鳴らす・止めるは共通プレーヤー（audio-core.js）。公開済みMP3を使うのでログイン不要。
+function stop(){token++;window.HanaseruAudio.stop('');}
 function play(parts){
- stop();const t=token,path=(window.HANASERU_LISTENING_AUDIO||{})[parts.join(' ')];
- if(!path){$('lrStatus').textContent='音声ファイルを読み込めません。ページを再読み込みしてください。';return;}
- audio.hidden=false;audio.src=path;audio.currentTime=0;
+ stop();const t=token;
  $('lrStatus').textContent='音声を読み込んでいます…';
- audio.onplaying=()=>{if(t!==token)return;clearTimeout(audioWait);$('lrStatus').textContent='再生中です。下の音声プレーヤーでも停止・聞き直しができます。';};
- audio.onended=()=>{if(t!==token)return;clearTimeout(audioWait);state.heard=true;save();$('lrStatus').textContent='もう一度聞いても、次へ進んでも大丈夫です。';};
- audio.onerror=()=>{if(t!==token)return;clearTimeout(audioWait);$('lrStatus').textContent='音声を読み込めませんでした。通信を確認し「会話を聞く」をもう一度押してください。';};
- audioWait=setTimeout(()=>{if(t===token)$('lrStatus').textContent='音声プレーヤーの ▶ を押してください。聞こえない場合は音量とBluetoothの出力先を確認してください。';},8000);
- const started=audio.play();if(started&&started.catch)started.catch(()=>{if(t===token){clearTimeout(audioWait);$('lrStatus').textContent='下の音声プレーヤーの ▶ を押してください。';}});
+ window.HanaseruAudio.say(parts.join(' '),{rate:1,ttsRate:0.9,callbacks:{
+  start:()=>{if(t===token)$('lrStatus').textContent='再生中です。画面下の ■ で停止、▶ で聞き直しができます。';},
+  end:()=>{if(t!==token)return;state.heard=true;save();$('lrStatus').textContent='もう一度聞いても、次へ進んでも大丈夫です。';},
+  blocked:()=>{if(t===token)$('lrStatus').textContent='画面下の ▶ を押してください。聞こえない場合は音量とBluetoothの出力先を確認してください。';},
+  error:()=>{if(t===token)$('lrStatus').textContent='音声を読み込めませんでした。通信を確認し「会話を聞く」をもう一度押してください。';}
+ }});
 }
 
-function render(){audio.hidden=true;
+function render(){
  const l=lessons[state.index];$('lrTitle').textContent=l.title;$('lrProgress').textContent=['1 / 4 聞く','2 / 4 つまずきを確認','3 / 4 聞き直す','4 / 4 自分の言葉で使う','今日の一区切り'][state.step];
  let html='';
  if(state.review&&!state.reviewDone){

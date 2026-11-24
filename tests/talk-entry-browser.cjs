@@ -22,11 +22,12 @@ const BASE = process.env.HANASERU_TEST_URL || 'http://127.0.0.1:8087';
     assert.match(await page.locator('#tkNote').innerText(),/ログイン/);
     assert.equal(await page.evaluate(()=>window.TEST_CALLS?.length||0),0);
     assert(await page.locator('#tkLog').evaluate(e=>e.getBoundingClientRect().height<10));
-    await page.evaluate(()=>window.Hanaseru.speak=()=>{});
+    // ログイン直後はタップの外なので、再生が断られた想定（共通プレーヤーが ▶ を出す）
+    await page.evaluate(()=>window.Hanaseru.speak=(t,c)=>{if(c&&c.blocked)setTimeout(c.blocked,5);});
     await page.click('#tkLogin');
     await page.waitForSelector('#tkLog .ai');
     assert.equal(await page.locator('#tkGate').isVisible(),false);
-    await page.waitForFunction(()=>document.querySelector('#tkVoiceStatus').textContent.includes('音声が始まりません'));
+    await page.waitForFunction(()=>document.querySelector('#tkVoiceStatus').textContent.includes('▶ を押すと相手の声'));
     assert.match(await page.locator('#tkLog .speak').innerText(),/相手の声を聞く/);
     await page.evaluate(()=>window.Hanaseru.speak=text=>window.TEST_MANUAL_AUDIO=text);
     await page.click('#tkLog .speak');

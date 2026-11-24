@@ -43,6 +43,17 @@ else bad "辞書・部品・流れ・症例のどこかで id が重複／参照
 if node functions/selftest.js >/dev/null 2>&1; then ok "AI の型の自己点検（functions/selftest.js）"
 else bad "AI の型の自己点検が NG（どこかのモードが壊れている）" "node functions/selftest.js"; fi
 
+# 音声（v70〜）：版の表示・公開版・手本のMP3・ログインの戻り先
+local_v=$(sed -n 's/.*CACHE = "hanaseru-\(v[0-9]*\)".*/\1/p' sw.js)
+if grep -q "最新版を読み込む（${local_v}）" index.html; then ok "版の表示がそろっている（sw.js と メニュー＝${local_v}）"
+else bad "sw.js の版（${local_v}）とメニューの表示が違う" "index.html の「最新版を読み込む（v◯）」を ${local_v} に直す"; fi
+prod_v=$(curl -s https://hanaseru.web.app/sw.js | sed -n 's/.*CACHE = "hanaseru-\(v[0-9]*\)".*/\1/p')
+[ "$prod_v" = "$local_v" ] && ok "本番が手元と同じ版（${local_v}）" || bad "本番は ${prod_v:-不明}・手元は ${local_v}（未公開）" "firebase login --reauth のあと firebase deploy --only hosting"
+if node -e "global.self=global;require('./card-audio.js');require('./listening-audio.js');const fs=require('fs');const m=Object.assign({},self.HANASERU_CARD_AUDIO,self.HANASERU_LISTENING_AUDIO);const c=Object.keys(self.HANASERU_CARD_AUDIO).length;const miss=Object.values(m).filter(f=>!fs.existsSync(f));if(!c||miss.length){console.log(c,miss.length);process.exit(1)}" >/dev/null 2>&1; then ok "手本のMP3（カード・場面・聞き取り）が作成済みで、ファイルがそろっている"
+else bad "手本のMP3が未作成、または足りない（未ログインのiPhoneでは端末の読み上げになる）" "firebase login --reauth のあと node ops/build-card-audio.cjs"; fi
+auth=$(curl -s -o /dev/null -w '%{http_code}' https://hanaseru.web.app/__/auth/handler || echo 000)
+[ "$auth" = 200 ] && ok "ログインの戻り先（hanaseru.web.app/__/auth/handler）が開く" || bad "ログインの戻り先が $auth" "Firebase Hosting の公開先と authDomain（cloud.js）を確認"
+
 # ⑦ 作者の印（AGENTS.md）：2026-10-01 以降、定期バックアップに作者不明のコードが混ざっていないか
 git fetch -q origin 'refs/notes/*:refs/notes/*' 2>/dev/null
 unmarked=""

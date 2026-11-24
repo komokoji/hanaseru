@@ -131,10 +131,17 @@
   #capBox::backdrop{background:#0006} #capBox .row{flex-wrap:wrap} #capBox textarea{box-sizing:border-box;width:100%}
   .nav-controls{flex-wrap:wrap} #navCapture{font-weight:700}
   @media(max-width:400px){.app-header .logo small{display:none}}
+  /* 音声の共通プレーヤー：鳴っている間と、タップが要るときだけ画面下に出る */
+  .hs-player{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;align-items:center;gap:8px;padding:10px 12px;padding-bottom:max(10px,env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--line);box-shadow:0 -4px 14px #0002}
+  .hs-player[hidden]{display:none}.hs-player p{flex:1;min-width:0;margin:0;font-size:13px;line-height:1.35;color:var(--ink)}
+  .hs-player button{min-height:44px;min-width:64px;padding:8px 12px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--teal);font:inherit;font-weight:700;white-space:nowrap}
+  .hs-player[data-state="blocked"]{background:#fff7e0}.hs-player[data-state="blocked"] #hsPlay{background:var(--teal);color:#fff;border-color:var(--teal)}
+  .hs-player audio{display:none}body.hs-on{padding-bottom:84px}body.hs-on #jump{bottom:calc(96px + env(safe-area-inset-bottom))}
   html{scroll-padding-top:110px}button:focus-visible,a:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
 </style>
 </head>
 <body>
+<div id="hsPlayer" class="hs-player" hidden data-state="idle"><p id="hsStatus" role="status" aria-live="polite"></p><button type="button" id="hsPlay">▶ もう一度</button><button type="button" id="hsStop">■ 停止</button><audio id="hsAudio" playsinline preload="auto"></audio></div>
 <div class="wrap">
 
   <header class="app-header">
@@ -147,7 +154,7 @@
       <button type="button" data-nav="talk">AIと会話する</button>
       <button type="button" data-nav="shelfOpen">自分のことば帳</button>
       <button type="button" data-nav="settings">通知の設定</button>
-      <button type="button" data-nav="account">ログイン・同期</button><button type="button" onclick="location.reload()">最新版を読み込む（v69）</button>
+      <button type="button" data-nav="account">ログイン・同期</button><button type="button" onclick="location.reload()">最新版を読み込む（v70）</button>
     </nav>
   </header>
   <aside id="legacySite" class="goal-start" hidden><strong>こちらは旧公開先です</strong><p>ログイン・AI会話・通知は正規版でご利用ください。</p><a class="big" href="https://hanaseru.web.app/?practice=talk">正規版のハナセルを開く →</a><p class="muted">このページの端末内記録は残ります。正規版とは保存先が別です。</p></aside>
@@ -155,7 +162,7 @@
   <p id="activityStatus" class="activity-status" role="status">今日は、ひとつ取り組めばOK。</p>
 
   <!-- 範囲えらび -->
-  <section id="listeningRoute" hidden><div class="bar"><h2 id="lrTitle" tabindex="-1"></h2><button class="link" data-action="home">中断してホームへ</button></div><p id="lrProgress" class="stat"></p><p class="muted">3分は目安。今日の内容は日本時間で日替わり、同じ日は続きから。教材は旅行場面を想定した創作会話・合成音声の教材です。</p><audio id="lrAudio" controls preload="none" hidden aria-label="会話音声の再生と停止" style="width:100%;margin-top:12px"></audio><p id="lrStatus" role="status"></p><div id="lrBody" style="overflow-wrap:anywhere"></div><button id="lrBack" data-lr="back">← 一つ前へ</button><p class="muted">この練習の続き・つまずきメモはこの端末に保存します。AI会話にはログインと通信が必要です。</p></section>
+  <section id="listeningRoute" hidden><div class="bar"><h2 id="lrTitle" tabindex="-1"></h2><button class="link" data-action="home">中断してホームへ</button></div><p id="lrProgress" class="stat"></p><p class="muted">3分は目安。今日の内容は日本時間で日替わり、同じ日は続きから。教材は旅行場面を想定した創作会話・合成音声の教材です。</p><p id="lrStatus" role="status"></p><div id="lrBody" style="overflow-wrap:anywhere"></div><button id="lrBack" data-lr="back">← 一つ前へ</button><p class="muted">この練習の続き・つまずきメモはこの端末に保存します。AI会話にはログインと通信が必要です。</p></section>
   <section id="setup">
     <div class="quick-start"><h2>今日は、耳から3分</h2><p id="lrHome"></p><button type="button" class="big" data-action="listeningRoute">今日の3分を始める ▸</button><p class="muted">昨日の一表現を約30秒 → 今日の会話を約2分30秒。内容は自動で選びます。復習がない日は、そのまま今日の会話へ。</p></div>
     <details class="goal-start" id="pushSettings"><summary>🔔 毎日20時の通知を設定</summary><p>通知をタップすると「今日の3分」が開きます。日本時間20時・この端末への通知です。</p><p id="pushStatus" role="status">通知の状態を確認しています…</p><button type="button" id="pushEnable" disabled>毎日20時の通知を有効にする</button><button type="button" id="pushTest" disabled>テスト通知を送る</button><button type="button" id="pushDisable" disabled>この端末の通知を停止</button><button type="button" id="pushRefresh">状態を確認</button><p class="muted">iPhoneはiOS 16.4以降で、ホーム画面に追加して開きます。初回の通知許可はご本人の操作が必要です。集中モード・通信状態などで通知が遅れることがあります。</p></details>
@@ -578,6 +585,8 @@
 <script src="practice-core.js"></script>
 <script src="scenes-data.js"></script>
 <script src="personal-scenes.js"></script>
+<script src="audio-core.js"></script>
+<script src="card-audio.js"></script>
 <script src="app.js"></script>
 <script src="navigation.js"></script>
 <script src="practice.js"></script>

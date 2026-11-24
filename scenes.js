@@ -11,7 +11,7 @@
   function index(s){var i=state(s).index; return Number.isInteger(i)&&i>=0&&i<=count(s)?i:0;}
   function chunks(t){return t.chunks || t.en.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [t.en];}
   function current(s){return s.turns[index(s)]||s.challenge;}
-  function stopAudio(){if(window.speechSynthesis) window.speechSynthesis.cancel();}
+  function stopAudio(){window.HanaseruAudio.stop('');}
   function status(s){
     var p=state(s),i=index(s);
     if(i>0&&i<count(s))return '続きから：'+(i+1)+'往復目';

@@ -60,7 +60,7 @@
     if (stream) stream.getTracks().forEach(function(t){t.stop();}); stream = null;
     var a = $('prAudio'); a.pause(); a.removeAttribute('src'); a.hidden = true;
     if (audioURL) URL.revokeObjectURL(audioURL); audioURL = null;
-    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    window.HanaseruAudio.stop('');
     $('prRecord').textContent = '🎙 自分の声を録る'; $('prRecord').disabled = false;
     $('prRecordNote').textContent = '録音はこの画面で聞き比べるためだけに使います。送信・保存はしません。';
   }

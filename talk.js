@@ -1,4 +1,3 @@
-import { createSpeechPlayer } from "./speech-player.js";
 /* Hanaseru — 🗣 AI会話（FR-12）と ✍️ 英訳コーチ（FR-17）の画面側
    ・Cloud Functions `hanaseruChat`（asia-northeast1）を Firebase Auth 付きで呼ぶ。ログイン必須（院長のみ）
    ・相手役の返事は音声で読み上げ、院長は 🎤（音声入力）か文字で返す
@@ -9,9 +8,12 @@ import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/
 import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
 const H = window.Hanaseru;
+const legacyHost=location.hostname==="komokoji.github.io";
 const call = httpsCallable(getFunctions(getApp(), "asia-northeast1"), "hanaseruChat");
 const speechCall=httpsCallable(getFunctions(getApp(), "asia-northeast1"), "hanaseruSpeech");
-const speechPlayer=createSpeechPlayer(async text=>(await speechCall({text})).data.audioContent);
+// ログイン中だけ、その場でMP3を作る（未ログインは null＝端末の読み上げへ）。鳴らすのは audio-core.js。
+const canMakeSpeech=text=>!!getAuth(getApp()).currentUser&&!legacyHost&&text.length<=1200;
+window.HanaseruAudio.setLoader(async text=>canMakeSpeech(text)?(await speechCall({text})).data.audioContent:null,canMakeSpeech);
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
 
@@ -40,16 +42,14 @@ const voice = new window.HanaseruVoiceLoop({
 });
 function stopVoice(message='音声対話を停止しました。') {
   clearTimeout(speechWait);
-  speechPlayer.stop();
+  window.HanaseruAudio.stop('');
   voice.stop(message);
-  if(window.speechSynthesis)window.speechSynthesis.cancel();
 }
 function micToggle(continuous=false) {
   if(voice.active){stopVoice();return;}
   if(busy||needLogin())return;
   if(!history.some(m=>m.role==='assistant')){setNote('先に場面を選んで、相手の最初の言葉を聞いてください。');return;}
-  if(window.speechSynthesis)window.speechSynthesis.cancel();
-  speechPlayer.stop();
+  window.HanaseruAudio.stop('');
   voice.start(continuous);
 }
 document.addEventListener('hanaseru:leave',()=>{talkVersion++;stopVoice('');});
@@ -140,11 +140,13 @@ async function ask(opening, said) {
     if(r.ended)voice.stop('この場面はここまでです。使いたい表現を保存するか、ふり返りへ。');
     const voiceToken=voice.serial;
     clearTimeout(speechWait);
-    speechWait=setTimeout(()=>{if(version===talkVersion && voiceToken===voice.serial){voice.stop('音声が始まりませんでした。「相手の声を聞く」を押してください。');}},4000);
+    // 返答の音は共通プレーヤーへ。始まらないときは ▶ が出るので、音声対話は一度止めて案内する。
+    speechWait=setTimeout(()=>{if(version===talkVersion && voiceToken===voice.serial){voice.stop('相手の声が始まりませんでした。画面下の ▶ を押して聞いてから、もう一度開始してください。');}},20000);
     H.speak(r.reply, {
       start:()=>clearTimeout(speechWait),
       end:()=>{clearTimeout(speechWait);if(version===talkVersion && voiceToken===voice.serial && !busy)voice.afterReply();},
-      error:()=>{clearTimeout(speechWait);if(version===talkVersion)voice.stop('音声を再生できませんでした。「相手の声を聞く」を押すか、英文を開いて返してください。');}
+      blocked:()=>{clearTimeout(speechWait);if(version===talkVersion)voice.stop('画面下の ▶ を押すと相手の声を聞けます。聞いたら、音声対話を開始してください。');},
+      error:()=>{clearTimeout(speechWait);if(version===talkVersion)voice.stop('相手の声を再生できませんでした。英文を開いて返すか、「相手の声を聞く」を押してください。');}
     });
     if (r.ended) setNote("この場面はここまで。別の場面を選ぶか、もう一度どうぞ。");
   } catch (e) {
@@ -285,7 +287,13 @@ function moStart(secs) {
   moRec = new SR(); moRec.lang = "en-US"; moRec.interimResults = true; moRec.continuous = true;
   moRec.onresult = (e) => { let fin = "", tmp = ""; for (let i = 0; i < e.results.length; i++) { if (e.results[i].isFinal) fin += e.results[i][0].transcript + " "; else tmp += e.results[i][0].transcript; } moText = (fin + tmp).trim(); };
   moRec.onend = () => { if (moTick) { try { moRec.start(); } catch (e) {} } };   // iOS は途中で切れるので、時間内は再開
-  moRec.onerror = () => {};
+  moRec.onerror = (e) => {   // 許可なし・利用不可のまま「聞いています」で止まらないようにする
+    if (e && (e.error === "not-allowed" || e.error === "service-not-allowed")) {
+      clearInterval(moTick); moTick = null; $("moStart").hidden = false; $("moStop").hidden = true;
+      $("moNote").textContent = "マイクが許可されていません。Safariの設定でマイクを許可してから、もう一度どうぞ。";
+    }
+  };
+  window.HanaseruAudio.stop('');
   moRec.start();
   const t0 = Date.now();
   moTick = setInterval(() => {
@@ -330,7 +338,7 @@ document.addEventListener("click", (e) => {
     if (box) t.setAttribute("aria-expanded", String(!box.hidden));
     return;
   }
-  if (t.hasAttribute("data-say")) { stopVoice("もう一度聞いたら、音声対話を再開できます。"); speechPlayer.play(t.getAttribute("data-say"),t); return; }
+  if (t.hasAttribute("data-say")) { stopVoice("もう一度聞いたら、音声対話を再開できます。"); H.speak(t.getAttribute("data-say")); return; }
   if (t.hasAttribute("data-save-en")) {
     const ok = H.addMine(t.getAttribute("data-save-ja"), t.getAttribute("data-save-en"));
     const m = H.getState().mine.find((m) => m.en === t.getAttribute("data-save-en").trim());
