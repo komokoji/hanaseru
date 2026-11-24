@@ -148,15 +148,19 @@
     return null;
   }
   if (window.speechSynthesis) window.speechSynthesis.getVoices();   // 一覧を先に読み込ませる（初回が空になる対策）
+  var activeUtterance = null;
   function speak(text, lang, callbacks) {
     if (String(text || '').trim()) recordActivity();
     try {
       if (!window.speechSynthesis) { if(callbacks && callbacks.error) callbacks.error(); return; }
       var u = new SpeechSynthesisUtterance(String(text).replace(/___/g, "…"));
-      if(callbacks){ u.onstart=callbacks.start; u.onend=callbacks.end; u.onerror=callbacks.error; }
+      activeUtterance = u;
+      u.onstart=function(e){if(callbacks && callbacks.start)callbacks.start(e);};
+      u.onend=function(e){if(activeUtterance===u)activeUtterance=null;if(callbacks && callbacks.end)callbacks.end(e);};
+      u.onerror=function(e){if(activeUtterance===u)activeUtterance=null;if(callbacks && callbacks.error)callbacks.error(e);};
       u.lang = lang || "en-US"; u.rate = (state.rate === "fast") ? 1.05 : 0.85;
       var v = pickVoice(u.lang); if (v) u.voice = v;   // 良い声だけを名前で選ぶ（おもちゃ声を拾わない）
-      window.speechSynthesis.cancel(); window.speechSynthesis.speak(u);
+      window.speechSynthesis.cancel(); window.speechSynthesis.resume(); window.speechSynthesis.speak(u);
     } catch (e) { if(callbacks && callbacks.error) callbacks.error(); }
   }
 

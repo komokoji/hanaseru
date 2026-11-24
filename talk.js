@@ -1,3 +1,4 @@
+import { createSpeechPlayer } from "./speech-player.js";
 /* Hanaseru — 🗣 AI会話（FR-12）と ✍️ 英訳コーチ（FR-17）の画面側
    ・Cloud Functions `hanaseruChat`（asia-northeast1）を Firebase Auth 付きで呼ぶ。ログイン必須（院長のみ）
    ・相手役の返事は音声で読み上げ、院長は 🎤（音声入力）か文字で返す
@@ -9,6 +10,8 @@ import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.
 
 const H = window.Hanaseru;
 const call = httpsCallable(getFunctions(getApp(), "asia-northeast1"), "hanaseruChat");
+const speechCall=httpsCallable(getFunctions(getApp(), "asia-northeast1"), "hanaseruSpeech");
+const speechPlayer=createSpeechPlayer(async text=>(await speechCall({text})).data.audioContent);
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
 
@@ -37,6 +40,7 @@ const voice = new window.HanaseruVoiceLoop({
 });
 function stopVoice(message='音声対話を停止しました。') {
   clearTimeout(speechWait);
+  speechPlayer.stop();
   voice.stop(message);
   if(window.speechSynthesis)window.speechSynthesis.cancel();
 }
@@ -45,6 +49,7 @@ function micToggle(continuous=false) {
   if(busy||needLogin())return;
   if(!history.some(m=>m.role==='assistant')){setNote('先に場面を選んで、相手の最初の言葉を聞いてください。');return;}
   if(window.speechSynthesis)window.speechSynthesis.cancel();
+  speechPlayer.stop();
   voice.start(continuous);
 }
 document.addEventListener('hanaseru:leave',()=>{talkVersion++;stopVoice('');});
@@ -323,7 +328,7 @@ document.addEventListener("click", (e) => {
     if (box) t.setAttribute("aria-expanded", String(!box.hidden));
     return;
   }
-  if (t.hasAttribute("data-say")) { stopVoice("もう一度聞いたら、音声対話を再開できます。"); H.speak(t.getAttribute("data-say")); return; }
+  if (t.hasAttribute("data-say")) { stopVoice("もう一度聞いたら、音声対話を再開できます。"); speechPlayer.play(t.getAttribute("data-say"),t); return; }
   if (t.hasAttribute("data-save-en")) {
     const ok = H.addMine(t.getAttribute("data-save-ja"), t.getAttribute("data-save-en"));
     const m = H.getState().mine.find((m) => m.en === t.getAttribute("data-save-en").trim());

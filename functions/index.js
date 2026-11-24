@@ -284,3 +284,5 @@ exports.hanaseruChat = onCall(
 
 // Notification functions are deployed independently; the AI handler above is unchanged.
 Object.assign(exports, require('./push'));
+
+exports.hanaseruSpeech = require("./speech").hanaseruSpeech;
