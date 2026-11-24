@@ -268,6 +268,7 @@
     hideMain();
     show(el.setup, true);
     renderSetup();
+    window.scrollTo(0,0);
   }
 
   function renderSetup() {
@@ -649,6 +650,7 @@
     cards: allCards,
     recordActivity: recordActivity,
     openListeningRoute: function () { hideMain(); document.getElementById("listeningRoute").hidden = false; window.scrollTo(0, 0); },
+    openHome: backToSetup,
     openScenes: function () { hideMain(); document.getElementById("scenes").hidden = false; window.scrollTo(0, 0); },
     updateScene: function (id, patch) {
       if (!(window.HANASERU_SCENES || []).some(function (s) { return s.id === id; })) return;

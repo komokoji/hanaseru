@@ -120,15 +120,34 @@
   .goal-start{padding:16px;border:1px solid var(--line);border-radius:18px;margin:14px 0;background:#fff}
   #scBody,#scActions{overflow-wrap:anywhere}#scBody details{margin:12px 0}#scActions{gap:10px}#scBody .en{font-size:21px}
 #tkLog:empty{min-height:0;height:0;margin:0}#tkGate a,#legacySite a{display:block;text-align:center;margin-top:12px}#tkGate [hidden]{display:none}
+
+  .app-header{position:sticky;top:0;z-index:30;align-items:center;gap:8px;background:var(--bg,#f6f5f1);padding:10px 0;padding-top:max(10px,env(safe-area-inset-top));border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .app-header .logo{background:transparent;padding:0;text-align:left;font-size:20px;flex:1;min-width:0}
+  .nav-controls{display:flex;gap:6px}.nav-controls button{min-height:44px;padding:8px 10px;background:#fff;color:var(--teal);border:1px solid var(--line);font-size:14px}
+  #appMenu{flex-basis:100%;display:grid;gap:5px;max-height:65dvh;overflow:auto;padding:8px 0}#appMenu[hidden]{display:none}
+  #appMenu button{min-height:44px;text-align:left;padding:10px 14px;background:#fff;color:var(--ink);border:1px solid var(--line)}
+  @media(max-width:400px){.app-header .logo small{display:none}}
+  html{scroll-padding-top:110px}button:focus-visible,a:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <aside id="legacySite" class="goal-start" hidden><strong>こちらは旧公開先です</strong><p>ログイン・AI会話・通知は正規版でご利用ください。</p><a class="big" href="https://hanaseru.web.app/?practice=talk">正規版のハナセルを開く →</a><p class="muted">このページの端末内記録は残ります。正規版とは保存先が別です。</p></aside>
-  <header>
-    <div class="logo">Hanaseru<small>話せる</small></div>
-    <div class="pill" id="habitPill">今日のひとこと</div>
+
+  <header class="app-header">
+    <button type="button" class="logo" data-nav="home" aria-label="Hanaseru ホーム">Hanaseru<small>話せる</small></button>
+    <div class="nav-controls"><button type="button" data-nav="home" id="navHome">ホーム</button><button type="button" id="navToggle" aria-expanded="false" aria-controls="appMenu">☰ メニュー</button></div>
+    <nav id="appMenu" aria-label="ハナセルのメニュー" hidden>
+      <button type="button" data-nav="home">ホームに戻る</button>
+      <button type="button" data-nav="listeningRoute">今日の3分</button>
+      <button type="button" data-nav="personal">自己紹介・接続表現</button>
+      <button type="button" data-nav="talk">AIと会話する</button>
+      <button type="button" data-nav="shelfOpen">自分のことば帳</button>
+      <button type="button" data-nav="settings">通知の設定</button>
+      <button type="button" data-nav="account">ログイン・同期</button>
+    </nav>
   </header>
+  <aside id="legacySite" class="goal-start" hidden><strong>こちらは旧公開先です</strong><p>ログイン・AI会話・通知は正規版でご利用ください。</p><a class="big" href="https://hanaseru.web.app/?practice=talk">正規版のハナセルを開く →</a><p class="muted">このページの端末内記録は残ります。正規版とは保存先が別です。</p></aside>
+  <div class="pill" id="habitPill" style="align-self:flex-start">今日のひとこと</div>
   <p id="activityStatus" class="activity-status" role="status">今日は、ひとつ取り組めばOK。</p>
 
   <!-- 範囲えらび -->
@@ -554,6 +573,7 @@
 <script src="scenes-data.js"></script>
 <script src="personal-scenes.js"></script>
 <script src="app.js"></script>
+<script src="navigation.js"></script>
 <script src="practice.js"></script>
 <script src="shelf.js"></script>
 <script src="scenes.js"></script>
