@@ -43,6 +43,7 @@ const cases = [
   ["chat(split+focus)", { mode: "chat", split: true, scene: "travel", messages: opening, focus: ["end up", "to be honest"] }],
   ["assess", { mode: "assess", items: [{ kind: "opinion", prompt: "What do you think?", said: "I think so because it helps." }, { kind: "respond", prompt: "There is a problem.", said: "" }, { kind: "rephrase", prompt: "What is that?", said: "I mean a clinic." }] }],
   ["listen", { mode: "listen", topic: "hotel", seed: "1", focus: ["sort out"] }],
+  ["listen(own)", { mode: "listen", style: "own", chunks: ["First chunk of pasted text.", "Second chunk."] }],
   ["listen(talk)", { mode: "listen", style: "talk", topicText: "a pilot explaining how much a small jet can carry" }],
   ["chat(case)", { mode: "chat", scene: "case", caseText: "a parent", messages: opening }],
   ["translate", { mode: "translate", text: "こんにちは" }],

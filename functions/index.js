@@ -214,6 +214,18 @@ const TalkOut = z.object({
   parts: z.array(z.object({ en: z.string(), gist_ja: z.string(), q_ja: z.string(), options_ja: z.array(z.string()), answer: z.number() })),
   note_ja: z.string()
 });
+// 📋 自分で貼った英文（mode "listen" + style "own"）。区切りごとの要点と問いだけを作る。
+const OWN_SYSTEM = `A Japanese adult learner has pasted an English text he chose himself, for his own private listening practice.
+It is already split into numbered chunks. He will hear each chunk read aloud with the text hidden, then answer
+one question about it. For EACH chunk, in order, return:
+- gist_ja: the main point of that chunk in one or two Japanese sentences.
+- q_ja: a Japanese question about that main point (not a trivial detail).
+- options_ja: exactly 3 Japanese answers of similar length, one correct; the wrong ones should be what a
+  listener who caught only a few words might guess.
+- answer: index 0–2 of the correct one; vary the position between chunks.
+Do not rewrite, continue, translate in full, or quote the English text. Work only from what the chunk says;
+do not add outside facts. Return exactly one entry per chunk.`;
+const OwnOut = z.object({ parts: z.array(z.object({ gist_ja: z.string(), q_ja: z.string(), options_ja: z.array(z.string()), answer: z.number() })) });
 // 練習中の言い回し（最大5つ・短い句だけ）。本文としては保存しない。
 function cleanFocus(list) {
   return (Array.isArray(list) ? list : []).slice(0, 5).map((x) => String(x || "").replace(/\s+/g, " ").trim().slice(0, 80)).filter(Boolean);
@@ -397,6 +409,30 @@ exports.hanaseruChat = onCall(
       }
 
       // 👂 耳トレの新しい会話を作る（創作）。話し手ごとに声を分けて1本の音声にする。
+      // 📋 院長が自分で貼った英文（区切り済み）に、区切りごとの要点と問いを付ける。英文そのものは作らない・返さない・残さない。
+      if (data.mode === "listen" && data.style === "own") {
+        const chunks = (Array.isArray(data.chunks) ? data.chunks : []).slice(0, 8).map((x) => String(x || "").replace(/\s+/g, " ").trim().slice(0, 800)).filter(Boolean);
+        if (!chunks.length) throw new HttpsError("invalid-argument", "英文が空です");
+        const ownParams = {
+          model: REPLY_MODEL,
+          max_tokens: 2500,
+          system: [{ type: "text", text: OWN_SYSTEM, cache_control: { type: "ephemeral" } }],
+          messages: [{ role: "user", content: chunks.map((c, i) => `#${i + 1}\n${c}`).join("\n\n") }],
+          output_config: { effort: "low", format: zodOutputFormat(OwnOut) }
+        };
+        let res;
+        try { res = await client.messages.parse(ownParams); }
+        catch (e) { console.error("hanaseruChat own fallback", e && e.name, e && e.status); res = await client.messages.parse(Object.assign({}, ownParams, { model: MODEL })); }
+        if (res.stop_reason === "refusal" || !res.parsed_output) throw new HttpsError("failed-precondition", "この英文では問いを作れませんでした。問いなしで聞く練習はできます");
+        const parts = chunks.map((c, i) => {
+          const p = (res.parsed_output.parts || [])[i] || {};
+          const options = (Array.isArray(p.options_ja) ? p.options_ja : []).slice(0, 3).map(String);
+          return { gist_ja: String(p.gist_ja || ""), q_ja: options.length === 3 ? String(p.q_ja || "") : "", options_ja: options.length === 3 ? options : [], answer: Math.max(0, Math.min(2, Math.round(Number(p.answer) || 0))) };
+        });
+        console.log(JSON.stringify({ at: "own", chunks: chunks.length }));   // 本文は残さない
+        return { mode: "listen", style: "own", result: { parts } };
+      }
+
       // 📻 長い話（一人が1分ほど話す）。院長が入れた話題で、創作の話を作る。区切りごとに要点の問い。
       if (data.mode === "listen" && data.style === "talk") {
         const topicText = String(data.topicText || "").replace(/\s+/g, " ").trim().slice(0, 160) || "a traveler describing an ordinary day abroad";

@@ -201,6 +201,11 @@
     S = null; frame('📻 長い話', '区切って聞き、要点をつかむ');
     var logged = H.loggedIn && H.loggedIn();
     $('skBody').innerHTML = (window.HANASERU_TALKS || []).map(function (t) { return '<button class="sc-row" data-sk="talkOpen" data-id="' + t.id + '"><b>' + esc(t.title) + '</b><span>' + esc(t.topic) + '</span></button>'; }).join('')
+      + '<div class="card"><p><b>📋 自分で選んだ英文を貼って聞く</b></p>'
+      + '<textarea id="skOwn" rows="4" maxlength="4000" placeholder="好きなページの英文を、ここに貼る（この端末の中だけに保存）" lang="en"></textarea>'
+      + btn('ownStart', '区切って聞く', 'big')
+      + ownList().map(function (o) { return '<div class="sk-own"><button class="sc-row" data-sk="ownOpen" data-id="' + o.id + '"><b lang="en">' + esc(o.text.slice(0, 44)) + '…</b><span>' + o.words + '語</span></button><button class="speak" data-sk="ownDel" data-id="' + o.id + '" aria-label="この英文を消す">✕</button></div>'; }).join('')
+      + '<p class="muted" style="font-size:11px">ご自身の学習用です。患者さんの情報は貼らないでください。ログイン中は、区切りごとの要点の問いをAIが作ります。</p></div>'
       + '<div class="card"><p><b>✨ 好きな話題で、新しい話を作る</b></p>'
       + '<input id="skTopic" type="text" maxlength="120" placeholder="例：小型機のパイロットが、着陸の手順を話す" lang="ja">'
       + '<div class="speakrow sk-topics">' + ['飛行機・パイロットの話', '旅の工夫', '医師の仕事の一日', '料理・食べ物'].map(function (x) { return '<button class="chip" data-sk="talkTopic" data-t="' + x + '">' + x + '</button>'; }).join('') + '</div>'
@@ -208,13 +213,40 @@
       + '<p class="stat" id="skStatus" role="status">' + esc(note || '') + '</p></div>';
     $('skActions').innerHTML = btn('menu', '基礎トレへ戻る');
   }
+  // ---- 📋 自分で貼った英文（この端末の中だけ。同期しない・公開しない） ----
+  var OWN_KEY = 'hanaseru-own-texts-v1';
+  function ownList() { try { var a = JSON.parse(localStorage.getItem(OWN_KEY)); return Array.isArray(a) ? a : []; } catch (_) { return []; } }
+  function ownSave(a) { try { localStorage.setItem(OWN_KEY, JSON.stringify(a.slice(0, 12))); } catch (_) {} }
+  // 文の切れ目で、40〜70語ずつの区切りにする（最大8区切り）
+  function ownChunks(text) {
+    var sents = String(text).replace(/\s+/g, ' ').trim().split(/(?<=[.!?])\s+(?=[A-Z0-9"'“(])/), out = [], cur = [];
+    var count = function (a) { return a.join(' ').split(/\s+/).filter(Boolean).length; };
+    sents.forEach(function (x) {
+      if (!x) return;
+      if (cur.length && count(cur.concat([x])) > 70) { out.push(cur.join(' ')); cur = []; }
+      cur.push(x);
+      if (count(cur) >= 40) { out.push(cur.join(' ')); cur = []; }
+    });
+    if (cur.length) { if (out.length && count(cur) < 15) out[out.length - 1] += ' ' + cur.join(' '); else out.push(cur.join(' ')); }
+    return out.map(function (c) { return c.slice(0, 780); }).slice(0, 8);
+  }
+  function ownBegin(o) {
+    var chunks = ownChunks(o.text); if (!chunks.length) return;
+    var t = { id: o.id, own: true, title: '自分で選んだ英文', speaker: chunks.length + '区切り・' + o.words + '語', note: '', parts: chunks.map(function (c) { return { en: c, ja: '', q: '', options: null, answer: -1 }; }) };
+    talkBegin(t);
+    // ログイン中は、区切りごとの要点と問いをAIに作ってもらう（英文は作らせない）。届いた分から使う。
+    if (H.loggedIn && H.loggedIn() && H.ai) H.ai({ mode: 'listen', style: 'own', chunks: chunks }).then(function (res) {
+      (res.data.result.parts || []).forEach(function (x, i) { var p = t.parts[i]; if (!p) return; p.ja = x.gist_ja || ''; if (x.options_ja && x.options_ja.length === 3) { p.q = x.q_ja; p.options = x.options_ja; p.answer = x.answer; } });
+      if (S && S.t === t && S.phase === 'answer') talkRender();
+    }).catch(function () {});
+  }
   function talkBegin(t, audio) { S = { kind: 'talk', t: t, i: 0, phase: 'ready', ok: 0, audio: audio || null }; talkRender(); talkPlay(); }
   function talkPlay() {
     var t = ++token, p = S.t.parts[S.i]; S.phase = 'listening'; talkRender(); H.recordActivity();
     A.say(p.en, { rate: 1, audio: S.audio ? S.audio[S.i] : null, callbacks: {
       end: function () { if (t === token && S && S.kind === 'talk') { S.phase = 'answer'; talkRender(); } },
       error: function () { if (t === token && S && S.kind === 'talk') { S.phase = 'answer'; talkRender(); } },
-      blocked: function () { if (t === token) $('skProgress').textContent = '画面下の ▶ を押すと再生します。'; } } });
+      blocked: function () { if (t !== token) return; $('skProgress').textContent = '画面下の ▶ を押すと再生します。'; if (S && S.kind === 'talk' && S.t.own) { S.phase = 'answer'; talkRender(); } } } });   // 自分の英文は読み上げが始まらないことがあるので、先へ進めるようにする
   }
   function talkAll() {
     var t = ++token, i = 0; H.recordActivity();
@@ -236,12 +268,13 @@
     else if (S.phase === 'listening') html += '<p class="stat">聞いています…</p>';
     else {
       var done = S.phase === 'done';
-      html += '<p class="qz-q">' + esc(p.q) + '</p>' + p.options.map(function (o, i) {
+      if (p.options) html += '<p class="qz-q">' + esc(p.q) + '</p>' + p.options.map(function (o, i) {
         var cls = 'qz-opt' + (done ? (i === p.answer ? ' right' : i === S.pick ? ' wrong' : '') : '');
         return '<button class="' + cls + '" data-sk="talkPick" data-n="' + i + '"' + (done ? ' disabled' : '') + '>' + esc(o) + '</button>';
       }).join('');
+      else if (!done) html += '<p class="qz-q">いまの区切りの要点を、日本語で言えますか。</p><div class="speakrow">' + btn('talkSelf', '言えた', 'ok', 'data-ok="1"') + btn('talkSelf', 'あいまい', 'ng', 'data-ok="0"') + '</div>';
       if (!done) html += btn('talkPlay', '🔁 もう一度聞く');
-      else html += '<div class="qz-after"><p class="' + (S.pick === p.answer ? 'fbok' : 'fbtip') + '">' + (S.pick === p.answer ? '✓ 要点をつかめました' : '✗ ここが抜けました') + '</p><p>' + esc(p.ja) + '</p><details><summary>英文を見る</summary><p class="en" lang="en">' + esc(p.en) + '</p></details></div>';
+      else html += '<div class="qz-after"><p class="' + (S.right ? 'fbok' : 'fbtip') + '">' + (S.right ? '✓ 要点をつかめました' : '✗ ここが抜けました') + '</p>' + (p.ja ? '<p>' + esc(p.ja) + '</p>' : '') + '<details' + (S.t.own ? ' open' : '') + '><summary>英文を見る</summary><p class="en" lang="en">' + esc(p.en) + '</p></details></div>';
     }
     $('skBody').innerHTML = html + '</div>';
     $('skActions').innerHTML = (S.phase === 'done' ? btn('talkNext', S.i + 1 < n ? '続きを聞く →' : '通しで聞く →', 'big') + btn('talkPlay', '🔊 この区切りをもう一度') : '') + btn('talkBack', 'ほかの話へ');
@@ -271,12 +304,22 @@
     if (k === 'talkOpen') { var tk = (window.HANASERU_TALKS || []).find(function (x) { return x.id === id; }); if (tk) talkBegin(tk); return; }
     if (k === 'talkTopic') { $('skTopic').value = b.dataset.t; return; }
     if (k === 'talkMake') return talkMake();
+    if (k === 'ownStart') {
+      var text = ($('skOwn').value || '').replace(/\s+/g, ' ').trim(), n = text.split(/\s+/).filter(Boolean).length;
+      if (n < 15 || !/[a-zA-Z]{3}/.test(text)) { $('skStatus').textContent = '英文を15語以上、貼ってください。'; return; }
+      var o = { id: 'own' + Date.now().toString(36), text: text.slice(0, 4000), words: n, ts: Date.now() };
+      ownSave([o].concat(ownList())); return ownBegin(o);
+    }
+    if (k === 'ownOpen') { var ow = ownList().find(function (x) { return x.id === id; }); if (ow) ownBegin(ow); return; }
+    if (k === 'ownDel') { ownSave(ownList().filter(function (x) { return x.id !== id; })); return talkList('消しました。'); }
     if (k === 'talkBack') { token++; A.stop(''); return talkList(); }
     if (!S) return;
     if (k === 'talkPlay') talkPlay();
     else if (k === 'talkAll') talkAll();
-    else if (k === 'talkPick' && S.phase === 'answer') {
-      var part = S.t.parts[S.i]; S.pick = +b.dataset.n; S.phase = 'done'; A.stop(''); if (S.pick === part.answer) S.ok++; else H.focus.add(part.en.split(/(?<=[.!?])\s+/)[0], part.ja, 'listen'); talkRender();
+    else if ((k === 'talkPick' || k === 'talkSelf') && S.phase === 'answer') {
+      var part = S.t.parts[S.i]; S.pick = k === 'talkPick' ? +b.dataset.n : -1; S.right = k === 'talkPick' ? S.pick === part.answer : b.dataset.ok === '1'; S.phase = 'done'; A.stop('');
+      if (S.right) S.ok++; else if (!S.t.own) H.focus.add(part.en.split(/(?<=[.!?])\s+/)[0], part.ja, 'listen');   // 自分で貼った英文は、つまずき直し（同期される記録）には入れない
+      talkRender();
     }
     else if (k === 'talkNext') {
       if (S.i + 1 < S.t.parts.length) { S.i++; talkPlay(); }
