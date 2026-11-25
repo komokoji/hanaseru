@@ -16,7 +16,7 @@ const init=`class Rec{start(){setTimeout(()=>{if(this.onresult&&window.TEST_HEAR
   const playing=()=>p.waitForFunction(()=>{const a=document.querySelector('#hsAudio');return !a.paused&&a.currentTime>0.05;},null,{timeout:8000});
   // ホームは1画面のまま。基礎トレの入口がある
   assert.equal(await p.locator('#homeTiles .tile').count(),16);assert(await p.locator('#homeTiles').evaluate(e=>e.getBoundingClientRect().bottom<720),'ボタンは最初の1画面に収まる');
-  await p.click('#homeTiles [data-action="skillsOpen"]');assert.equal(await p.locator('#skBody .sc-row').count(),7);
+  await p.click('#homeTiles [data-action="skillsOpen"]');assert.equal(await p.locator('#skBody .sc-row').count(),8);
   // 🧠 持つ：続けて聞く → 聞き終わってから選ぶ → 持てた長さを記録
   await p.evaluate(()=>{window.TEST_FAST=true;});
   await p.click('[data-sk="open"][data-id="hold"]');

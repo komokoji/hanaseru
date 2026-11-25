@@ -18,7 +18,8 @@
       ".claude/**",
       "bin/**",
       "tests/**",
-      "ops/**"
+      "ops/**",
+      "data/**"
     ],
     "headers": [
       {

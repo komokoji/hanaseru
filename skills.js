@@ -47,6 +47,7 @@
       + row('repeat', '🗣', 'まねる：聞いてすぐ言う', k.repeat ? k.repeat.n + '回' : '')
       + row('talk', '📻', '長い話：区切って聞き、要点をつかむ', k.talk ? k.talk.n + '本' : '')
       + row('build', '🧱', '文にする：単語から、つながった文へ', k.build ? Object.keys(k.build).length + ' / ' + (window.HANASERU_BUILDS || []).length : '');
+    $('skBody').insertAdjacentHTML('afterbegin', '<button class="sc-row" data-action="ownAudioOpen"><b>🎧 原音で聞く・書く・話す</b><span>自分の音声を、原速で使える英語へ</span></button>');
     $('skActions').innerHTML = '';
   }
 

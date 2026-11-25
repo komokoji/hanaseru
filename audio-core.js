@@ -10,6 +10,7 @@
   var audio = doc.getElementById('hsAudio'), bar = doc.getElementById('hsPlayer');
   var statusEl = doc.getElementById('hsStatus'), playBtn = doc.getElementById('hsPlay');
   var token = 0, current = null, watch = null, hideTimer = null, loader = null, canLoad = null, unlocked = false, utterance = null;
+  var originalUrl = null;
   var memory = new Map(), TTS_CACHE = 'hanaseru-tts-v1', silentUrl = null;
 
   var GOOD_VOICES = {
@@ -45,6 +46,7 @@
     try { if (!audio.paused) heard(audio.currentTime || 0); } catch (_) {}
     token++; clearTimeout(watch);
     try { audio.pause(); } catch (_) {}
+    if (originalUrl) { root.URL.revokeObjectURL(originalUrl); originalUrl = null; }
     var S = root.speechSynthesis;
     try { if (S && (S.speaking || S.pending)) S.cancel(); } catch (_) {}
     utterance = null;
@@ -88,6 +90,7 @@
   audio.addEventListener('error', function () {
     if (!current || current.kind !== 'audio' || !audio.getAttribute('src') || audio.src === silentUrl) return;
     var t = token; clearTimeout(watch);
+    if (current.original) { fail(t, '原音を読み込めませんでした。教材をもう一度読み込んでください。'); return; }
     if (!current.triedTts) { speakDevice(t, '音声ファイルを読み込めなかったため、端末の読み上げに切り替えました。'); return; }
     fail(t, '音声を読み込めませんでした。通信を確認して、もう一度押してください。');
   });
@@ -190,6 +193,14 @@
     else prepare(clean, t);
   }
 
+  // 個人の原音と練習録音。合成音声に置き換えず、既存プレーヤーで再生する。
+  function playBlob(blob, options) {
+    options = options || {}; halt();
+    current = { original: true, text: '', rate: options.rate || 1, callbacks: options.callbacks || null, kind: 'audio' };
+    originalUrl = root.URL.createObjectURL(blob);
+    playUrl(originalUrl, token);
+  }
+
   // ▶：断られたとき・聞き直すとき。必ずタップの中で鳴らす。
   playBtn.addEventListener('click', function (e) {
     e.stopPropagation();
@@ -228,7 +239,7 @@
   root.addEventListener('pagehide', function () { stop(); });
 
   root.HanaseruAudio = {
-    say: say, stop: stop,
+    say: say, stop: stop, playBlob: playBlob,
     setLoader: function (f, can) { loader = f; canLoad = can || null; },
     isActive: function () { return !!current; }
   };
