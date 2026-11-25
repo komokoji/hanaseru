@@ -39,6 +39,7 @@ if (fs.existsSync(root)) C.kitFolders.forEach((d) => {
   out.kits.push({ folder: d, total: kits.length, used: done.length, rest });
 }); else out.kitsNote = '院長の説明文のフォルダが見つからない（この Mac に Vault が無い）';
 
+out.skills = ((C.skills || {}).items || []).map((x) => ({ name: x.name, have: x.have.length, plan: x.plan.length, planList: x.plan }));
 if (JSONOUT) { console.log(JSON.stringify(out, null, 1)); process.exit(0); }
 console.log('📚 Hanaseru 教材の量（' + out.at + '）　目標は AI の提案・院長の確認待ち');
 out.rows.forEach((r) => console.log('  ' + bar(r.n, r.target) + ' ' + String(r.n).padStart(4) + ' / ' + String(r.target).padEnd(4) + r.unit + '　' + r.name));
@@ -47,4 +48,8 @@ if (out.kitsNote) console.log('  ' + out.kitsNote);
 else {
   console.log('📝 院長の説明文（既製品チャット）のうち、会話にした数');
   out.kits.forEach((k) => console.log('  ' + bar(k.used, k.total || 1) + ' ' + String(k.used).padStart(3) + ' / ' + String(k.total).padEnd(3) + '本　' + k.folder + (k.rest.length ? '　次の候補：' + (ALL ? k.rest : k.rest.slice(0, 4)).map((x) => x.replace(/^K-[^-]+-[^-]+-/, '')).join('、') + (!ALL && k.rest.length > 4 ? ' ほか' + (k.rest.length - 4) : '') : '')));
+}
+if (out.skills.length) {
+  console.log('🧭 院長の4つの課題と、練習の型（ある＝いま使える／これから＝未着手の案）');
+  out.skills.forEach((k) => console.log('  ' + k.name + '　ある ' + k.have + '・これから ' + k.plan + (ALL ? '\n' + k.planList.map((x) => '      - ' + x).join('\n') : '')));
 }
