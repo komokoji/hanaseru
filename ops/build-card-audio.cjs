@@ -45,6 +45,9 @@ const addCustom=(t,voice,rate)=>{t=norm(t);if(t&&!custom.has(t))custom.set(t,{pa
 // 🧩 熟語の耳トレと 📏 現在地チェック：問題ごとの声で、自然な速さ
 (global.HANASERU_PHRASALS||[]).forEach(p=>addCustom(p.en,p.voice,1));
 ((global.HANASERU_ASSESS||{}).forms||[]).forEach(f=>{f.listening.forEach(x=>addCustom(x.en,x.voice,1));f.speaking.forEach(x=>addCustom(x.promptEn,x.voice,1));});
+// 🎯 基礎トレ：音の変化（自然な速さ＋ゆっくり版）と、文にする（院長の手本の声）
+(global.HANASERU_SOUNDS||[]).forEach(x=>{addCustom(x.en,x.voice,1.05);if(x.slow)addCustom(x.slow,x.voice,0.85);});
+(global.HANASERU_BUILDS||[]).forEach(x=>{addCustom(x.model,'en-US-Neural2-D',0.9);addCustom(x.longer,'en-US-Neural2-D',0.9);});
 const file=(t,lang)=>'audio/cards/'+crypto.createHash('sha256').update(VOICES[lang]+':0.9:'+t).digest('hex').slice(0,20)+'.mp3';
 const list=[...texts].filter(([text])=>!custom.has(text)).map(([text,lang])=>({text,lang,path:file(text,lang)})).concat([...custom].map(([text,c])=>({text,path:c.path,parts:c.parts})));
 const chars=list.reduce((n,x)=>n+x.text.length,0),todo=list.filter(x=>!fs.existsSync(x.path));

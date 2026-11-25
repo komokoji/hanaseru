@@ -23,12 +23,12 @@
       + '<p class="qz-q">' + esc(x.q) + '</p>'
       + x.options.map(function (t, n) {
         var cls = 'qz-opt' + (answered ? (n === x.answer ? ' right' : n === picked ? ' wrong' : '') : (picked === n ? ' picked' : ''));
-        return '<button class="' + cls + '" data-qz="pick" data-n="' + n + '"' + (answered ? ' disabled' : '') + '>' + esc(t) + '</button>';
+        return '<button class="' + cls + '" data-qz="pick" data-n="' + n + '"' + (x.optLang ? ' lang="' + x.optLang + '"' : '') + (answered ? ' disabled' : '') + '>' + esc(t) + '</button>';
       }).join('')
       + (answered ? '<div class="qz-after"><p class="' + (picked === x.answer ? 'fbok' : 'fbtip') + '">' + (picked === x.answer ? '✓ 聞き取れました' : '✗ ここが聞き取りの伸びしろです（つまずき直しに入れました）') + '</p>'
         + '<p class="en" lang="en">' + esc(x.en) + '</p><p>' + esc(x.ja) + '</p>' + (x.after ? '<p class="muted">' + esc(x.after) + '</p>' : '') + '</div>' : '')
       + '</div>';
-    $('qzActions').innerHTML = (answered ? '<button class="speak" data-qz="play">🔊 英文を見ながら、もう一度</button><button class="big" data-qz="next">' + (run.i + 1 < run.items.length ? '次へ' : '結果を見る') + '</button>'
+    $('qzActions').innerHTML = (answered ? '<button class="speak" data-qz="play">🔊 もう一度</button><button class="speak" data-qz="slow">🐢 ゆっくり</button><button class="big" data-qz="next">' + (run.i + 1 < run.items.length ? '次へ' : '結果を見る') + '</button>'
       : (!o.feedback && picked != null ? '<button class="big" data-qz="next">' + (run.i + 1 < run.items.length ? '次へ' : '聞き取りを終える') + '</button>' : ''))
       + '<button class="speak" data-action="home">中断してホームへ</button>';
   }
@@ -39,6 +39,7 @@
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-qz]'); if (!b || !run) return; var a = b.dataset.qz, x = run.items[run.i];
     if (a === 'play') { play(x); if (run.opts.maxPlays) render(); }
+    else if (a === 'slow') { H.recordActivity(); if (x.slow) window.HanaseruAudio.say(x.slow, { rate: 1 }); else window.HanaseruAudio.say(x.en, { rate: 0.72 }); }   // ゆっくり版（省略のない形）が無ければ、同じ音を遅く
     else if (a === 'pick') {
       run.picks[run.i] = +b.dataset.n;
       if (run.opts.feedback) { window.HanaseruAudio.stop(''); if (run.opts.onAnswer) run.opts.onAnswer(x, run.picks[run.i] === x.answer); }

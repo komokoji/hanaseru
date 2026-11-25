@@ -115,6 +115,8 @@ function mergeStates(local, remote) {
   Object.keys((out.quiz || {}).pv || {}).forEach(function (k) { const a = out.quiz.pv[k], b = pv[k]; if (!b || (a.ok + a.ng) >= (b.ok + b.ng)) pv[k] = a; });
   out.quiz = { pv: pv };
   if (remote.menu && (!out.menu || remote.menu.d > out.menu.d)) out.menu = remote.menu;
+  // 🎯 基礎トレの記録＝新しい方
+  if (remote.skills && (!out.skills || (remote.skills.updatedAt || 0) > (out.skills.updatedAt || 0))) out.skills = remote.skills;
   return out;
 }
 

@@ -288,7 +288,7 @@
     var s = document.getElementById("shadow"); if (s) s.hidden = true;
     var l = document.getElementById("listen"); if (l) l.hidden = true;
     var tk = document.getElementById("talk"); if (tk) tk.hidden = true;
-    ["clinic", "build", "patterns", "mono", "practice", "shelf", "scenes", "listeningRoute", "quiz", "assess", "focus"].forEach(function (id) { var n = document.getElementById(id); if (n) n.hidden = true; });
+    ["clinic", "build", "patterns", "mono", "practice", "shelf", "scenes", "listeningRoute", "quiz", "assess", "focus", "skills"].forEach(function (id) { var n = document.getElementById(id); if (n) n.hidden = true; });
     var co = document.getElementById("coach"); if (co) co.hidden = true;
   }
 

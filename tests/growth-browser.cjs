@@ -38,7 +38,7 @@ const firebase=logged=>route=>{
     window.HANASERU_DUBAI_SCENES.forEach(s=>{if(!m[n(s.turns.map(t=>t.heard+' '+t.en).join(' '))]||!s.source)out.push('full:'+s.id);});return out;});
   assert.deepEqual(missing,[]);
   // 今日のメニュー：3行＋現在地チェックの案内
-  assert.equal(await p.locator('#homeTiles .tile').count(),15);assert.equal(await p.locator('#homeTiles .tile.today').count(),3);assert.match(await p.locator('#coachStat').innerText(),/まず現在地チェックを1回/);
+  assert.equal(await p.locator('#homeTiles .tile').count(),16);assert.equal(await p.locator('#homeTiles .tile.today').count(),3);assert.match(await p.locator('#coachStat').innerText(),/まず現在地チェックを1回/);
   assert(await p.locator('#homeTiles').evaluate(e=>e.getBoundingClientRect().bottom<700),'ボタンは最初の1画面に収まる');assert.equal(await p.locator('#practiceStart').isVisible(),true);
   // 熟語の耳トレ：音が鳴る→外す→英文と意味が出る→つまずき直しに入る
   await p.click('#homeTiles [data-action="quizPhrasal"]');await playing(p);
