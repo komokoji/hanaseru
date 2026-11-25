@@ -2,7 +2,7 @@
 // 使い方：node ops/build-card-audio.cjs   （作成済みのファイルは作り直さない。--dry で件数だけ）
 const fs=require('node:fs'),crypto=require('node:crypto');
 global.window=global;global.self=global;
-['data','trip','visit','gutnutri','me','basics','conversation','patterns','parts','listen','practice-core','scenes-data','personal-scenes','clinic-dialogues','clinic-dialogues-constipation','clinic-dialogues-respiratory'].forEach(f=>require('../'+f+'.js'));
+['data','trip','visit','gutnutri','me','basics','conversation','patterns','parts','listen','practice-core','scenes-data','personal-scenes','clinic-dialogues','clinic-dialogues-constipation','clinic-dialogues-respiratory','clinic-dialogues-nutrition'].forEach(f=>require('../'+f+'.js'));
 const VOICES={'en-US':'en-US-Standard-F','en-GB':'en-GB-Standard-A'};
 const texts=new Map();   // text -> lang（先に入れた声を優先）
 const norm=t=>String(t==null?'':t).replace(/___/g,'…').trim();

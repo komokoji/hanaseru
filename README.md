@@ -167,3 +167,26 @@ AI会話の手動「聞く」は、認証済み専用Functionで英語MP3を生�
 
 ### v69 今日の3分の音声をMP3へ
 旅行6会話と復習チャンク22個の静的MP3を公開し、登録・ログイン・SpeechSynthesisなしで再生。標準audio controlsを併設し、停止・再生失敗の状態を表示。音声は既存の創作教材から生成した合成音声。再生成手順ops/build-listening-audio.cjs（明示実行時のみAPI利用、既存ファイルは再利用）。他の教材の端末読み上げとマイク入力は別経路であり、iPhone全音声の解消確認とは区別する。
+
+## 🩺 診察を英語で（2026-11-25〜）
+
+病気ごとに、診察1回分を「通しで聞く → 保護者の言葉を聞く → 自分で返す → 手本（医師の声）→ 台本なしで AI の保護者と通し稽古」で練習する。
+データは `clinic-dialogues*.js`（track "consult"）。画面は既存の場面練習（`scenes.js`）に乗っている。
+
+### 診察の会話を足す（1分野＝1ファイル）
+
+1. 元にする文を読む：Vault `22_アプリ開発/KarteAIアプリ設計/プロンプト資産/チャット/既製品/`（院長承認の患者さん向け説明文）。
+2. `clinic-dialogues-〈分野〉.js` を書く（見本＝`clinic-dialogues-respiratory.js`）。1本＝5〜7往復＋`challenge`（聞き返されたら短く言い直す）。
+   - **医師の言葉の中身は元の文にあることだけ**。量・薬の名前・見通しを足さない。効果を約束しない。`source` にキットIDを書く。
+   - 保護者の言葉と症例の設定は創作。実在の患者さんの会話・個人が分かる情報を入れない。
+   - 分野に1本は、院長が聞く側の問診（答えを一言で受ける → And / One more thing でつなぐ）。
+   - 長い一覧は2〜3文に分ける。`note` に受け・つなぎの言い方を日本語で書く。
+3. 登録する：`ops/build-card-audio.cjs` の読み込み一覧、`index.html` の `<script>`、`sw.js` の ASSETS に1行ずつ。`sw.js` の CACHE と、メニューの「最新版を読み込む（v◯）」を上げる。
+4. 音声を作る：`node ops/build-card-audio.cjs`（Firebase CLI のログインが要る。保護者と医師で声を分け、通しの1本も作る）。
+5. `tests/consult-browser.cjs` の本数を直す → `bin/test` → コミット → push → `firebase deploy --only hosting` → `bin/check`。
+
+### 音声と AI 会話のきまり
+
+- 音を鳴らす・止めるのは `audio-core.js`（`H.speak()`）だけ。画面側に `new Audio` や `speechSynthesis` を書かない（iPhone は、タップ直後でないと鳴らせない）。
+- AI 会話は、返答（`mode:"chat", split:true`・速さ優先）と言い方の助言（`mode:"feedback"`）を別の呼び出しで並行して作る。
+- 試験は `bin/test`（模擬）。**実iPhoneでの確認とは区別して記録する。**
