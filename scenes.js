@@ -43,21 +43,21 @@
       var results=p.results||[],miss=results.filter(function(r){return r==='again';}).length;
       var independent=results.filter(function(r){return r==='own';}).length;
       $('scBody').innerHTML='<div class="card"><h3>今日の一歩、できました</h3><p>手本を開かず返せた：'+independent+' / '+count(s)+'往復<br>もう一度練習したい：'+miss+'往復</p><p>これは自分で振り返った記録です。音声の正確さやB2到達を判定したものではありません。</p><p>次は'+(p.due<=H.today()?'今日':p.due===H.today()+1?'明日':'少し間を空けて')+'、相手の言葉だけで返してみましょう。</p></div>';
-      $('scActions').innerHTML=button('scRestart','相手の言葉だけでもう一度')+button('scAI','この場面でAIと話す（要ログイン）')+button('scList','場面を選ぶ')+button('home','今日はここまで');
+      $('scActions').innerHTML=button('scRestart','相手の言葉だけでもう一度')+button('scAI','🗣 AIと話す')+button('scList','場面を選ぶ')+button('home','今日はここまで');
       return;
     }
     var test=p.mode==='test';
-    $('scBody').innerHTML=((s.track==='consult'||s.track==='dubai')&&s.voices&&!challenge&&i===0?'<div class="card"><p class="muted">'+(s.track==='dubai'?'まず、やり取りを通しで聞く（相手と自分の声・自然な速さ）':'まず、診察1回分を通しで聞く（保護者と医師の声・自然な速さ）')+'</p>'+button('scFull','▶ 通しで聞く')+button('scStop','■ 停止')+'<p class="muted">慣れてきたら、台本なしで。AIが'+(s.track==='dubai'?'聞き手になり、質問を変えて':'保護者になり、細部を変えて')+'話しかけます。</p>'+button('scAI',s.track==='dubai'?'🗣 台本なしで、AIの聞き手と質疑の稽古（要ログイン）':'🗣 台本なしで、AIの保護者と通し稽古（要ログイン）')+'</div>':'')+'<p class="stat">'+(challenge?'最後に、違う質問に返す':(i+1)+' / '+s.turns.length+'往復')+' · 1往復で終えてもOK</p>'
-      +'<div class="card"><p class="muted">'+esc(s.role)+'の言葉</p>'+button('scHear','相手の言葉を聞く')
-      +(test?'<details><summary>相手の英文を見る</summary><p class="en">'+esc(t.heard)+'</p></details>':'<p class="en">'+esc(t.heard)+'</p>')
-      +'<details><summary>相手の言葉の意味</summary><p>'+esc(t.heardJa)+'</p></details></div>'
-      +(test?'<p>相手の問いに、自分の言葉で声に出して返してください。</p>':'<p><b>伝えたいこと：</b>'+esc(t.intent)+'</p>')
-      +(model?'<div class="card sc-model"><p class="muted">自分の返し方の例 · 一字一句同じでなくてOK</p><p class="en">'+esc(t.en)+'</p>'+button('scModelAudio','手本を聞く・少し遅れてまねる')+'<span id="scListenCount" class="stat" role="status"></span><details><summary>区切って練習・言い方のヒント</summary><p>'+esc(t.note)+'</p>'+chunks(t).map(function(chunk,n){return '<p>'+esc(chunk.trim())+' '+button('scChunk','このまとまりを聞く','data-chunk="'+n+'"')+'</p>';}).join('')+'</details>'+button('scSave','自分のことば帳にも保存')+'<span id="scSaveNote" role="status"></span></div>':'')
+    $('scBody').innerHTML=((s.track==='consult'||s.track==='dubai')&&s.voices&&!challenge&&i===0?'<div class="speakrow sc-top">'+button('scFull','▶ 通しで聞く')+button('scStop','■')+button('scAI','🗣 台本なしでAIと稽古')+'</div>':'')+'<p class="stat">'+(challenge?'最後に、違う質問に返す':(i+1)+' / '+s.turns.length+'往復')+'</p>'
+      +'<div class="card"><p class="muted">'+esc(s.role)+'</p>'+button('scHear','▶ 聞く')
+      +(test?'<details><summary>英文</summary><p class="en">'+esc(t.heard)+'</p></details>':'<p class="en">'+esc(t.heard)+'</p>')
+      +'<details><summary>意味</summary><p>'+esc(t.heardJa)+'</p></details></div>'
+      +(test?'':'<p><b>伝える：</b>'+esc(t.intent)+'</p>')
+      +(model?'<div class="card sc-model"><p class="muted">手本</p><p class="en">'+esc(t.en)+'</p>'+button('scModelAudio','▶ 手本を聞く')+'<span id="scListenCount" class="stat" role="status"></span><details><summary>区切り・ヒント</summary><p>'+esc(t.note)+'</p>'+chunks(t).map(function(chunk,n){return '<p>'+esc(chunk.trim())+' '+button('scChunk','▶','data-chunk="'+n+'"')+'</p>';}).join('')+'</details>'+button('scSave','🔖 保存')+'<span id="scSaveNote" role="status"></span></div>':'')
       +(t.transfer?'<details><summary>次は内容を変えて、もう一度</summary><p>'+esc(t.transfer)+'</p><p>理由や具体例を一文足し、声に出してみましょう。</p></details>':'')
-      +'<p class="muted">'+(model?'音をまねたら、手本を閉じて相手に返しましょう。':'まず声に出してみましょう。詰まったら手本を見て、閉じてもう一度。')+'</p>';
-    $('scActions').innerHTML=button('scModel',model?'手本を閉じて、自分で返す':'返し方の手本・解説を開く')
-      +(!model?'<div class="speakrow">'+button('scGrade','声に出して返せた','data-result="said"')+button('scGrade','まだ難しい・次でまた練習','data-result="again"')+'</div>':'')
-      +button('scAI','この題材でAIと話す（要ログイン）')+button('home','今日はここまで（続きは保存済み）')+button('scList','別の場面へ');
+      ;
+    $('scActions').innerHTML=button('scModel',model?'手本を閉じる':'手本を見る')
+      +(!model?'<div class="speakrow">'+button('scGrade','言えた','data-result="said"')+button('scGrade','まだ','data-result="again"')+'</div>':'')
+      +((s.track==='consult'||s.track==='dubai')?'':button('scAI','🗣 AIと話す'))+button('scList','一覧へ');
   }
   document.addEventListener('click',function(e){
     var el=e.target.closest('[data-action]');if(!el)return;var a=el.dataset.action;
@@ -71,7 +71,7 @@
     if(a==='scFull'){window.HanaseruAudio.say(s.turns.map(function(x){return x.heard+' '+x.en;}).join(' '),{rate:1});H.recordActivity();}
     else if(a==='scStop')stopAudio();
     else if(a==='scHear')H.speak(t.heard);
-    else if(a==='scModelAudio'){H.speak(t.en);listens++;var counter=$('scListenCount');if(counter)counter.textContent=' 手本の再生：'+listens+'回（発話の採点ではありません）';}
+    else if(a==='scModelAudio'){H.speak(t.en);listens++;var counter=$('scListenCount');if(counter)counter.textContent=' '+listens+'回';}
     else if(a==='scChunk'){var parts=chunks(t);if(parts[+el.dataset.chunk])H.speak(parts[+el.dataset.chunk].trim());}
     else if(a==='scModel'){
       model=!model;

@@ -62,7 +62,7 @@
     if (audioURL) URL.revokeObjectURL(audioURL); audioURL = null;
     window.HanaseruAudio.stop('');
     $('prRecord').textContent = '🎙 自分の声を録る'; $('prRecord').disabled = false;
-    $('prRecordNote').textContent = '録音はこの画面で聞き比べるためだけに使います。送信・保存はしません。';
+    $('prRecordNote').textContent = '録音は保存しません。';
   }
   function render() {
     cleanup(); var c = card(); $('prNote').textContent = '';
@@ -89,20 +89,20 @@
     if (session.retest) $('prCounter').textContent = (session.index + 1) + ' / ' + session.ids.length + '文 ・ 質問から再挑戦';
     var body = '', actions = '';
     if (phase === 0) {
-      body = '<p class="ja">' + esc(c.ja) + '</p><p class="muted">手本を聞く前に、今の英語で言ってみましょう。詰まっても大丈夫。ここから練習します。</p>'
+      body = '<p class="ja">' + esc(c.ja) + '</p><p class="muted">まず、今の英語で言ってみる。</p>'
         + '<details><summary>練習前の手応えを残す（任意）</summary><div class="speakrow">'
         + btn('prBeforeStuck','言葉が出なかった') + btn('prBeforeSome','途中まで言えた') + btn('prBeforeSaid','言えた')
         + '</div><p id="prBeforeNote" class="stat" role="status"></p></details>';
       actions = btn('prListen','🔊 手本を聞く','big') + btn('prNext','意味と英文を見る');
     } else if (phase === 1) {
-      body = '<p class="ja-sm">' + esc(c.ja) + '</p><p class="en">' + esc(c.en) + '</p><p class="muted">意味を確かめて、まず一緒に読む。慣れたら少し遅れて追いかける。録音と手本を聞き比べ、つながりやリズムを一つだけ意識しましょう。</p>';
+      body = '<p class="ja-sm">' + esc(c.ja) + '</p><p class="en">' + esc(c.en) + '</p>';
       var chunks = Core.sentences(c.en);
-      body += '<details class="practice-chunks"><summary>一文ずつ聞いて、まねる</summary><p class="muted">一文を聞く → 声に出す → つまずいた一文だけもう一度。最後に全文をつなげます。</p>'
+      body += '<details class="practice-chunks"><summary>一文ずつ聞いて、まねる</summary>'
         + chunks.map(function(text,i){return '<button class="speak chunk-line" data-action="prChunk" data-index="'+i+'">🔊 '+esc(text)+'</button>';}).join('') + '</details>';
       body += '<button class="explain-link" data-action="explain" data-id="'+esc(c.id)+'" data-box="xpPractice" aria-expanded="false" aria-controls="xpPractice">解説・似た言い方</button><div id="xpPractice" hidden aria-live="polite"></div>';
       actions = btn('prListen','🔊 手本をもう一度') + btn('rate','速度を切り替える') + btn('prNext','英文を隠して言ってみる','big');
     } else if (phase === 2) {
-      body = '<p class="ja">' + esc(c.ja) + '</p><p class="muted">英語を見ずに声に出してください。同じ意味なら、違う言い方でも大丈夫です。</p>';
+      body = '<p class="ja">' + esc(c.ja) + '</p><p class="muted">見ずに言う。違う言い方でもOK。</p>';
       if (peek) body += '<p class="en">' + esc(c.en) + '</p>';
       actions = btn('prPeek', peek ? 'もう一度隠す' : '手本を確認する') + (!peek ? btn('prRecall',session.brief ? '見ずに言えた・今日はここまで' : '見ずに言えた → 場面を変える','big') + btn('prAgain','まだ → 明日もう一度') : btn('prListen','🔊 手本を聞く'));
     } else {

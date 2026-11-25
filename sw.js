@@ -1,5 +1,5 @@
 /* Hanaseru service worker — オフラインで開けるように主要ファイルをキャッシュ */
-var CACHE = "hanaseru-v78";
+var CACHE = "hanaseru-v79";
 var ASSETS = ["./", "./index.html", "./app.js", "./navigation.js", "./practice-core.js", "./practice.js", "./shelf.js", "./scenes-data.js", "./personal-scenes.js", "./clinic-dialogues.js", "./clinic-dialogues-constipation.js", "./clinic-dialogues-respiratory.js", "./clinic-dialogues-nutrition.js", "./connector-drills.js", "./dubai-scenes.js", "./phrasal-verbs.js", "./assess-data.js", "./growth.js", "./quiz.js", "./assess.js", "./listening-extra.js", "./scenes.js", "./learning-plan.js", "./listening-lessons.js", "./listening-route.js", "./daily-listening.js", "./data.js", "./trip.js", "./visit.js", "./gutnutri.js", "./me.js", "./basics.js", "./conversation.js", "./patterns.js", "./parts.js", "./listen.js", "./cloud.js", "./talk.js", "./audio-core.js", "./card-audio.js", "./voice-loop.js", "./notifications.js", "./push-public.json", "./manifest.webmanifest", "./icon.svg"];
 
 importScripts("./listening-audio.js");

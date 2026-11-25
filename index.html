@@ -154,6 +154,7 @@
   /* 場面の一覧：1行ずつのボタン（題と進み具合だけ） */
   .sc-row{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;text-align:left;margin:5px 0;padding:12px 14px;min-height:52px;border:1px solid var(--line);border-radius:14px;background:#fff;font:inherit;color:var(--ink)}
   .sc-row b{font-size:15px;min-width:0}.sc-row span{flex:none;font-size:11px;color:var(--sub)}.sc-row:active{background:#f0efe9}
+  .sc-top{flex-wrap:wrap;gap:6px;margin:4px 0 8px}#scContext{font-size:13px;margin:2px 0 6px}#scActions{flex-wrap:wrap;gap:8px}
   .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
   /* ホームのタイルは1行ずつ：題を大きく、説明は小さく1行、進み具合は一覧の中で見る */
   #setup .grid.two .choice{padding:8px 10px;min-height:52px;justify-content:center}#setup .grid.two .choice span{font-size:11px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;order:2}
@@ -203,7 +204,7 @@
       <button type="button" data-nav="talk">AIと会話する</button>
       <button type="button" data-nav="shelfOpen">自分のことば帳</button>
       <button type="button" data-nav="settings">通知の設定</button>
-      <button type="button" data-nav="account">ログイン・同期</button><button type="button" onclick="location.reload()">最新版を読み込む（v78）</button>
+      <button type="button" data-nav="account">ログイン・同期</button><button type="button" onclick="location.reload()">最新版を読み込む（v79）</button>
     </nav>
   </header>
   <aside id="legacySite" class="goal-start" hidden><strong>こちらは旧公開先です</strong><p>ログイン・AI会話・通知は正規版でご利用ください。</p><a class="big" href="https://hanaseru.web.app/?practice=talk">正規版のハナセルを開く →</a><p class="muted">このページの端末内記録は残ります。正規版とは保存先が別です。</p></aside>
@@ -371,7 +372,7 @@
 
   <section id="shelf" hidden aria-label="自分のことば帳">
     <div class="bar"><h2 tabindex="-1" id="shelfTitle">自分のことば帳</h2><button class="link" data-action="home">ホームへ</button></div>
-    <p class="muted">集めた文を全部、今日覚える必要はありません。必要になったときに戻れます。</p>
+    <p class="muted"></p>
     <div id="shelfTabs" class="chips" aria-label="練習の状態"></div>
     <div class="capture-options"><label>場面<select id="shelfTopic"><option value="all">すべて</option><option value="clinic">診療</option><option value="travel">旅行・日常</option><option value="me">自分の考え</option></select></label></div>
     <label for="shelfSearch">ことばを探す</label><input type="search" id="shelfSearch" placeholder="日本語・英語で検索">
@@ -385,7 +386,7 @@
     <div id="prBody"></div>
     <div id="prRecording" class="xp" hidden>
       <button class="speak" data-action="prRecord" id="prRecord">🎙 自分の声を録る</button>
-      <p class="stat" id="prRecordNote" role="status">録音はこの画面で聞き比べるためだけに使います。送信・保存はしません。</p>
+      <p class="stat" id="prRecordNote" role="status">録音は保存しません。</p>
       <audio id="prAudio" controls hidden aria-label="自分の録音"></audio>
     </div>
     <p class="muted" id="prNote" role="status"></p>
@@ -544,8 +545,8 @@
     </div>
     <div class="goal-start">
       <label><input type="checkbox" id="tkListenFirst" checked> 英文を隠して、まず耳で聞く</label>
-      <button type="button" class="big" id="tkAuto" data-action="tkAuto">音声対話を開始（最大5往復・5分）</button>
-      <p id="tkVoiceStatus" class="stat" role="status" aria-live="polite">最初の返答を聞いたら、開始を押して話してください。</p>
+      <button type="button" class="big" id="tkAuto" data-action="tkAuto">🎙 声で続けて話す（5往復）</button>
+      <p id="tkVoiceStatus" class="stat" role="status" aria-live="polite"></p>
       <details><summary>音声・料金について</summary><p class="muted">開始後は、話し終わると認識された英文を自動送信します。声はブラウザの音声認識、返答は既存のAIで処理します。患者情報は話さないでください。音声非対応・認識が合わないときは文字でも返せます。</p>
       <p class="muted">ChatGPTへの移動や新しい契約は不要です。AIの利用には既存APIの従量料金がかかります。5回話すか5分で音声対話を停止します。</p></details>
     </div>

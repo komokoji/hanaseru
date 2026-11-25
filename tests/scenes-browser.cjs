@@ -89,7 +89,7 @@ const BASE = process.env.HANASERU_TEST_URL || 'http://127.0.0.1:8087';
     assert.equal(await page.locator('.sc-model').count(),0);
     await page.click('[data-action=scModel]');
     assert.match(await page.locator('.sc-model').innerText(),/general and specialist/);
-    await page.getByText('区切って練習・言い方のヒント',{exact:true}).click();
+    await page.getByText('区切り・ヒント',{exact:true}).click();
     assert.equal(await page.locator('[data-action=scChunk]').count(),4);
     await page.locator('[data-action=scChunk]').first().click();
     await page.click('[data-action=scModelAudio]');

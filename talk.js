@@ -38,7 +38,7 @@ const voice = new window.HanaseruVoiceLoop({
   text: text => { $("tkInput").value=text; send(true); },
   state: (message,active) => {
     $("tkVoiceStatus").textContent=message;
-    $("tkAuto").textContent=active?'音声対話を停止':'音声対話を開始（最大5往復・5分）';
+    $("tkAuto").textContent=active?'■ 声の会話を止める':'🎙 声で続けて話す（5往復）';
     $("tkAuto").disabled=!SR||(busy&&!active);
     $("tkMic").textContent=active?'音声入力を停止':'🎤 1回話す';
   }
@@ -130,7 +130,7 @@ async function start(newScene, practiceCard) {
     return;
   }
   try{sessionStorage.removeItem(PENDING);}catch(_){}
-  talkVersion++; stopVoice("最初の返答を聞いたら、音声対話を開始してください。");
+  talkVersion++; stopVoice("");
   $("tkInput").value="";
   scene = newScene || scene;
   history = [];

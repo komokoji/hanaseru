@@ -30,7 +30,7 @@ const BASE=process.env.HANASERU_TEST_URL||'http://127.0.0.1:8087';
   await p.click('[data-action="scList"]');
   assert.match(await p.locator('#scBody').innerText(),/便秘外来/);assert.equal(await p.locator('[data-id="consult-const-history"]').count(),1);
   await p.click('[data-action="scChoose"][data-id="consult-const-history"]');
-  assert.match(await p.locator('#scBody').innerText(),/台本なしで、AIの保護者と通し稽古/);
+  assert.match(await p.locator('#scBody').innerText(),/台本なしでAIと稽古/);
   await p.click('#navHome');assert.equal(await p.locator('#hsAudio').evaluate(a=>a.paused),true);
   assert.equal(await p.evaluate(()=>window.TEST_TTS||0),0);assert.deepEqual(errors,[]);
   console.log('PASS consult: 42 scenes with prepared audio, full playback, parent and doctor voices, progress, no device TTS');
