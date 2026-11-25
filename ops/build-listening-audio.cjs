@@ -1,7 +1,9 @@
 // 今日の耳トレの音声を作る（創作会話・学習者の文は含めない）。話し手ごとに男女の声を分ける。
 // 使い方：node ops/build-listening-audio.cjs   （作成済みは作り直さない）
 const fs=require('node:fs'),crypto=require('node:crypto');
-require('../listening-lessons.js');
+global.window=global;global.HANASERU_SCENES=[];require('../listening-lessons.js');
+// 耳トレの会話を足す教材ファイル（packs/）も対象にする
+fs.readdirSync(require('node:path').join(__dirname,'..','packs')).filter(f=>f.endsWith('.js')).sort().forEach(f=>require('../packs/'+f));
 const lessons=globalThis.HANASERU_LISTENING_LESSONS;
 const hash=s=>crypto.createHash('sha256').update(s).digest('hex').slice(0,20);
 const esc=t=>t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');

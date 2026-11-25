@@ -1,7 +1,7 @@
 /* 簡単な言葉の熟語（句動詞）を、耳で聞き取る練習のデータ。創作の例文（実在の人物・患者さんの会話ではない）。 */
 (function (root) {
 'use strict';
-root.HANASERU_PHRASALS = [
+root.HANASERU_PHRASALS = (root.HANASERU_PHRASALS || []).concat([
   { id: "pv-get-over", base: "get", pv: "get over", ja: "（病気やショックから）回復する", en: "It took her about a week to get over the flu.", enJa: "彼女はインフルエンザから回復するのに1週間ほどかかりました。", scene: "clinic", voice: "en-US-Neural2-D" },
   { id: "pv-get-up", base: "get", pv: "get up", ja: "起床する", en: "I usually get up at six, even on the weekends.", enJa: "週末でも、たいてい6時に起きます。", scene: "daily", voice: "en-US-Neural2-F" },
   { id: "pv-get-along-with", base: "get", pv: "get along with", ja: "（人と）仲良くやる", en: "Do you get along with the people you work with?", enJa: "職場の人たちとはうまくやれていますか。", scene: "daily", voice: "en-GB-Neural2-B" },
@@ -74,5 +74,5 @@ root.HANASERU_PHRASALS = [
   { id: "pv-calm-down", base: "calm", pv: "calm down", ja: "落ち着く", en: "He usually calms down once he's sitting on my lap.", enJa: "ひざの上に座ると、たいてい落ち着きます。", scene: "clinic", voice: "en-GB-Neural2-A" },
   { id: "pv-cut-down-on", base: "cut", pv: "cut down on", ja: "（摂る量を）減らす", en: "We're trying to cut down on sweet drinks and offer water instead.", enJa: "甘い飲み物を減らして、代わりに水をあげるようにしています。", scene: "clinic", voice: "en-AU-Neural2-B" },
   { id: "pv-flare-up", base: "flare", pv: "flare up", ja: "（症状が）急に悪化する", en: "His eczema tends to flare up whenever the air gets dry.", enJa: "空気が乾燥すると、湿疹が急に悪くなりがちです。", scene: "clinic", voice: "en-AU-Neural2-A" }
-];
+]);
 }(typeof window !== 'undefined' ? window : globalThis));

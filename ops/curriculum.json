@@ -1,0 +1,19 @@
+{
+  "note": "教材の骨格（どの柱に・何を・どこまで増やすか）。target は AI の提案で、院長の確認待ち。数字を変えたらここだけ直す（bin/coverage が読む）。",
+  "status": "AIの提案・院長の確認待ち（2026-11-25）",
+  "vision": ["診察を英語で行える", "ドバイで便秘と Clinical AI Core を語り、質問に返せる", "現地の人と雑談のキャッチボールができる"],
+  "consultGroups": {
+    "便秘外来": { "target": 30, "kits": "便秘" },
+    "熱・かぜ": { "target": 20, "kits": "一般" },
+    "咳・ゼーゼー": { "target": 15, "kits": "一般" },
+    "発疹・感染症": { "target": 12, "kits": "一般" },
+    "お腹": { "target": 8, "kits": "一般" },
+    "栄養外来": { "target": 20, "kits": "栄養" },
+    "皮ふ・けが": { "target": 12, "kits": "皮膚" },
+    "外科": { "target": 15, "kits": "外科" },
+    "予防接種・健診": { "target": 6, "kits": "一般" }
+  },
+  "targets": { "links": 16, "dubai": 10, "phrasals": 200, "listeningLessons": 40, "assessForms": 4, "dialogueMinutes": 180 },
+  "kitsRoot": "~/Obsidian/KK-Vault/22_アプリ開発/KarteAIアプリ設計/プロンプト資産/チャット/既製品",
+  "kitFolders": ["便秘", "一般", "栄養", "外科", "皮膚", "肛門", "その他外来"]
+}

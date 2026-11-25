@@ -211,6 +211,8 @@ var list = [
     "Please wait until twenty-four hours have passed. If he's the same as usual by then, he can go.", 'by then＝そのときまでに。目安をそのまま当てはめて答える。') }
 ];
 list.forEach(function (s) { s.track = 'consult'; });
-root.HANASERU_CONSULT_SCENES = list;
+// 便秘の2本は「便秘外来」のまとまりへ。ほかの教材ファイルと読み込みの順が入れ替わっても同じ結果になるよう、足し合わせる。
+list.forEach(function (s) { if (/^consult-(constipation-first|enema)$/.test(s.id)) s.group = '便秘外来'; });
+root.HANASERU_CONSULT_SCENES = (root.HANASERU_CONSULT_SCENES || []).concat(list);
 if (root.HANASERU_SCENES) Array.prototype.push.apply(root.HANASERU_SCENES, list);
 }(typeof window !== 'undefined' ? window : globalThis));

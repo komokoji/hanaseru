@@ -173,17 +173,25 @@ AI会話の手動「聞く」は、認証済み専用Functionで英語MP3を生�
 病気ごとに、診察1回分を「通しで聞く → 保護者の言葉を聞く → 自分で返す → 手本（医師の声）→ 台本なしで AI の保護者と通し稽古」で練習する。
 データは `clinic-dialogues*.js`（track "consult"）。画面は既存の場面練習（`scenes.js`）に乗っている。
 
-### 診察の会話を足す（1分野＝1ファイル）
+### 教材を足す（置く → 1コマンド）
 
-1. 元にする文を読む：Vault `22_アプリ開発/KarteAIアプリ設計/プロンプト資産/チャット/既製品/`（院長承認の患者さん向け説明文）。
-2. `clinic-dialogues-〈分野〉.js` を書く（見本＝`clinic-dialogues-respiratory.js`）。1本＝5〜7往復＋`challenge`（聞き返されたら短く言い直す）。
-   - **医師の言葉の中身は元の文にあることだけ**。量・薬の名前・見通しを足さない。効果を約束しない。`source` にキットIDを書く。
-   - 保護者の言葉と症例の設定は創作。実在の患者さんの会話・個人が分かる情報を入れない。
-   - 分野に1本は、院長が聞く側の問診（答えを一言で受ける → And / One more thing でつなぐ）。
-   - 長い一覧は2〜3文に分ける。`note` に受け・つなぎの言い方を日本語で書く。
-3. 登録する：`ops/build-card-audio.cjs` の読み込み一覧、`index.html` の `<script>`、`sw.js` の ASSETS に1行ずつ。`sw.js` の CACHE と、メニューの「最新版を読み込む（v◯）」を上げる。
-4. 音声を作る：`node ops/build-card-audio.cjs`（Firebase CLI のログインが要る。保護者と医師で声を分け、通しの1本も作る）。
-5. `tests/consult-browser.cjs` の本数を直す → `bin/test` → コミット → push → `firebase deploy --only hosting` → `bin/check`。
+教材は `packs/` に置く。置いたファイルは自動で点検・登録され、音声が作られる。**index.html・sw.js・音声づくりの一覧を手で直さない。**
+
+1. 元にする文を読む：診察は Vault `22_アプリ開発/KarteAIアプリ設計/プロンプト資産/チャット/既製品/`（院長承認の患者さん向け説明文）。何が残っているかは `bin/coverage --all`。
+2. `packs/〈名前〉.js` を書く（見本＝`packs/clinic-dialogues-respiratory.js`）。型は4つ：
+   - 場面（`HANASERU_SCENES` に push。track＝consult／links／dubai ほか。1本＝3〜9往復＋`challenge`）
+   - 熟語（`HANASERU_PHRASALS` に concat）／現在地チェック（`HANASERU_ASSESS`）／耳トレの会話（`HANASERU_LISTENING_LESSONS` に concat）
+3. `bin/content`（点検 → 登録 → 音声づくり → 版を上げる → 点検 → 量の集計）。音声づくりには Firebase CLI のログインが要る。
+4. `bin/test` → コミット → push → `firebase deploy --only hosting` → `bin/check`。
+
+**診察とドバイの中身のきまり**（点検でも一部を確かめる）
+- 医師・院長の言葉の中身は、元の文にあることだけ。量・薬の名前・製品名・見通しを足さない。効果を約束しない。`source` に出典。
+- 保護者・相手の言葉と症例の設定は創作。実在の患者さんの会話・個人が分かる情報を入れない。
+- 分野に1本は、院長が聞く側の問診（答えを一言で受ける → And / One more thing でつなぐ）。
+- 長い一覧は2〜3文に分ける（手本は70語以内）。`note` に受け・つなぎの言い方を日本語で書く。
+- 新しい診察の分野は `ops/curriculum.json` の `consultGroups` と、`scenes.js` の並び順に足す。
+
+**骨格（どの柱を・どこまで増やすか）**＝`ops/curriculum.json`（目標は AI の提案・院長の確認待ち）。いまの量と残り＝`bin/coverage`。
 
 ### 音声と AI 会話のきまり
 

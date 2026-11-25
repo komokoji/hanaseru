@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# 教材を足したときの1本：点検 → 登録 → 音声づくり → 版を上げる → 点検（exit 0=OK / 1=要対応）
+#   packs/ に教材ファイルを置いてから実行する。音声づくりには Firebase CLI のログインが要る（切れていたら firebase login --reauth）。
+#   このあと：bin/test → コミット → push → firebase deploy --only hosting → bin/check
+set -eu
+cd "$(dirname "$0")/.."
+export PATH="$HOME/.npm-global/bin:/opt/homebrew/bin:$PATH"
+node ops/sync-content.cjs --bump
+node ops/build-card-audio.cjs 2>&1 | grep -v -i "punycode\|trace-deprecation" | grep -E "texts|ready|rror" || true
+node ops/build-listening-audio.cjs 2>&1 | grep -v -i "punycode\|trace-deprecation" | grep -E "audio|ready|rror" || true
+node ops/sync-content.cjs --check
+bin/coverage

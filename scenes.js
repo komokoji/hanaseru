@@ -30,7 +30,7 @@
   function renderList(){
     $('scTitle').textContent=track==='links'?'🔗 会話のつなぎ':track==='dubai'?'🎤 ドバイ：発表と質疑':track==='consult'?'🩺 診察を英語で':track==='personal'?'自己紹介・接続表現を練習する':track==='clinic'?'診療で話す':'12月のドイツで話す';
     $('scContext').textContent=track==='links'?'聞く → 指定のつなぎの一言から返す → 手本':track==='dubai'?'聞く → 返す → 手本。決まっていないことは言い切らない':'聞く → 自分で返す → 手本 → 見ずにもう一度';
-    var list=scenes.filter(function(s){return s.track===track;}).sort(function(a,b){var o=['便秘外来','熱・かぜ','咳・ゼーゼー','お腹','栄養外来','皮ふ・けが'],x=o.indexOf(a.group),y=o.indexOf(b.group);return (x<0?99:x)-(y<0?99:y)||String(a.group||'').localeCompare(String(b.group||''),'ja');});   // 診察は便秘外来を先頭に
+    var list=scenes.filter(function(s){return s.track===track;}).sort(function(a,b){var o=['便秘外来','熱・かぜ','咳・ゼーゼー','発疹・感染症','お腹','栄養外来','皮ふ・けが','外科','予防接種・健診'],x=o.indexOf(a.group),y=o.indexOf(b.group);return (x<0?99:x)-(y<0?99:y)||String(a.group||'').localeCompare(String(b.group||''),'ja');});   // 診察は便秘外来を先頭に
     $('scBody').innerHTML=list.map(function(s,n){return (s.group&&(n===0||list[n-1].group!==s.group)?'<h3 class="sc-group">'+esc(s.group)+'</h3>':'')+'<button class="sc-row" data-action="scChoose" data-id="'+s.id+'"><b>'+esc(s.title)+'</b><span>'+esc(status(s))+'</span></button>';}).join('')+'<p class="muted" style="font-size:11px">練習用に組み直した会話です。患者さんの情報は含みません。</p>';
     $('scActions').innerHTML='';$('scTitle').focus();
   }

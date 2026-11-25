@@ -351,6 +351,6 @@ var list = [
 
 ];
 list.forEach(function (s) { s.track = 'links'; });
-root.HANASERU_LINK_SCENES = list;
+root.HANASERU_LINK_SCENES = (root.HANASERU_LINK_SCENES || []).concat(list);
 if (root.HANASERU_SCENES) Array.prototype.push.apply(root.HANASERU_SCENES, list);
 }(typeof window !== 'undefined' ? window : globalThis));

@@ -87,6 +87,6 @@ var list = [
     "I can't give you a date yet. But I'm glad you're interested, and I'd like to keep in touch.", 'I can\'t give you a date yet.（約束しない）keep in touch＝連絡を取り合う。') }
 ];
 list.forEach(function (s) { s.track = 'dubai'; });
-root.HANASERU_DUBAI_SCENES = list;
+root.HANASERU_DUBAI_SCENES = (root.HANASERU_DUBAI_SCENES || []).concat(list);
 if (root.HANASERU_SCENES) Array.prototype.push.apply(root.HANASERU_SCENES, list);
 }(typeof window !== 'undefined' ? window : globalThis));

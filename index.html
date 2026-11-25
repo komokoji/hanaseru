@@ -204,7 +204,7 @@
       <button type="button" data-nav="talk">AIと会話する</button>
       <button type="button" data-nav="shelfOpen">自分のことば帳</button>
       <button type="button" data-nav="settings">通知の設定</button>
-      <button type="button" data-nav="account">ログイン・同期</button><button type="button" onclick="location.reload()">最新版を読み込む（v79）</button>
+      <button type="button" data-nav="account">ログイン・同期</button><button type="button" onclick="location.reload()">最新版を読み込む（v80）</button>
     </nav>
   </header>
   <aside id="legacySite" class="goal-start" hidden><strong>こちらは旧公開先です</strong><p>ログイン・AI会話・通知は正規版でご利用ください。</p><a class="big" href="https://hanaseru.web.app/?practice=talk">正規版のハナセルを開く →</a><p class="muted">このページの端末内記録は残ります。正規版とは保存先が別です。</p></aside>
@@ -650,14 +650,17 @@
 <script src="practice-core.js"></script>
 <script src="scenes-data.js"></script>
 <script src="personal-scenes.js"></script>
-<script src="clinic-dialogues.js"></script>
-<script src="clinic-dialogues-constipation.js"></script>
-<script src="clinic-dialogues-respiratory.js"></script>
-<script src="clinic-dialogues-nutrition.js"></script>
-<script src="connector-drills.js"></script>
-<script src="dubai-scenes.js"></script>
-<script src="phrasal-verbs.js"></script>
-<script src="assess-data.js"></script>
+<script src="listening-lessons.js"></script>
+<!-- content:start（ops/sync-content.cjs が書く。手で直さない） -->
+<script src="packs/assess-data.js"></script>
+<script src="packs/clinic-dialogues-constipation.js"></script>
+<script src="packs/clinic-dialogues-nutrition.js"></script>
+<script src="packs/clinic-dialogues-respiratory.js"></script>
+<script src="packs/clinic-dialogues.js"></script>
+<script src="packs/connector-drills.js"></script>
+<script src="packs/dubai-scenes.js"></script>
+<script src="packs/phrasal-verbs.js"></script>
+<!-- content:end -->
 <script src="audio-core.js"></script>
 <script src="card-audio.js"></script>
 <script src="app.js"></script>
@@ -671,7 +674,6 @@
 <script src="learning-plan.js"></script>
 <script src="daily-listening.js"></script>
 <script src="listening-audio.js"></script>
-<script src="listening-lessons.js"></script>
 <script src="listening-route.js"></script>
 <script src="listening-extra.js"></script>
 <script src="voice-loop.js"></script>

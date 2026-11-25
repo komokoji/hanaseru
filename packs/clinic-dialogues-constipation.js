@@ -225,8 +225,6 @@ var list = [
     "Two things: how her stools have been, and one thing you kept up with food.", 'Two things: A, and B.') }
 ];
 list.forEach(function (s) { s.track = 'consult'; s.group = '便秘外来'; });
-// 先に作った2本（初診・浣腸は癖になるか）も、便秘外来のまとまりに入れる
-(root.HANASERU_CONSULT_SCENES || []).forEach(function (s) { if (/^consult-(constipation-first|enema)$/.test(s.id)) s.group = '便秘外来'; });
 root.HANASERU_CONSULT_SCENES = (root.HANASERU_CONSULT_SCENES || []).concat(list);
 if (root.HANASERU_SCENES) Array.prototype.push.apply(root.HANASERU_SCENES, list);
 }(typeof window !== 'undefined' ? window : globalThis));
