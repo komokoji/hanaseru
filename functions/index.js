@@ -140,6 +140,61 @@ He is in a spoken-English roleplay. Look only at his LAST message in the convers
   Return an empty list if his wording was already natural.
 If his message is in Japanese or mixed, treat it as "I want to say this" and put the English in better.`;
 
+// 📏 現在地チェック（mode "assess"）：院長の3つの目標に対応する物差しで、0〜4で見る。
+const ASSESS_SYSTEM = `${WHO}
+
+You are scoring a short in-app self-check (not an official test). For each numbered item you get what the
+partner said and a speech-recognition transcript of his spoken answer. Judge communication only: ignore
+pronunciation, spelling, and obvious recognition errors, and do not punish simple vocabulary or an accent.
+Score each item 0–4 on the ONE criterion for its kind:
+- opinion: did he state his own view AND support it with a reason or example, in connected speech?
+- respond: did he react to what was said and keep the exchange going on the spot, for example with a
+  relevant clarifying question?
+- rephrase: did he explain the idea in other, simpler words so that a non-specialist would understand?
+Scale: 0 = nothing usable / no answer; 1 = isolated words or one fragment; 2 = the basic job is done but
+thin or halting (e.g. a view with no reason; a reaction with no follow-up); 3 = done clearly in connected
+sentences; 4 = done clearly, naturally linked, with a little development. Be consistent and a little strict:
+the same answer must get the same score next time. Return one entry per item, in order.
+- comment_ja: ONE short Japanese sentence (40字以内) naming what worked or the one thing that would raise
+  the score. No lecture.`;
+const AssessOut = z.object({ scores: z.array(z.object({ score: z.number(), comment_ja: z.string() })) });
+
+// 👂 耳トレの新しい会話（mode "listen"）。旅先と学会で「ベラベラと話しかけられる」場面の創作会話。
+const LISTEN_TOPICS = {
+  airport: "an airport (check-in, security, a gate change, a delayed bag, or a transfer desk)",
+  plane: "on a plane (a talkative seatmate or cabin crew)",
+  hotel: "a hotel (front desk, a problem with the room, breakfast, or asking the concierge)",
+  street: "out in a city (asking directions, a taxi, a shop, a pharmacy, or a cafe)",
+  conference: "a medical conference in Dubai (coffee-break small talk between attendees; one of them may be a Japanese pediatric doctor who works on childhood constipation and nutrition, but invent no facts about his career)",
+  daily: "everyday small talk between two people who have just met (weather, weekend, food, family, work)",
+  travel: "a traveler dealing with an everyday situation abroad"
+};
+const LISTEN_SYSTEM = `You write short original practice dialogues for a Japanese adult learner who reads English well
+but cannot yet catch fast everyday speech. He wants his ear trained on how people really talk when they
+start chatting to him: natural pace, linking phrases (Right, / Actually, / To be honest, / By the way,), and
+phrasal verbs made of simple words (get through, held up, sort out, end up, come across, look into...).
+Write a dialogue between two speakers, A and B: 7–9 lines in total, alternating, each line 1–3 spoken
+sentences. Standard, polite-but-conversational English with contractions; no slang, no rare words, nothing
+offensive; no real people or brands. Include a small complication or twist so there is something to follow.
+Return:
+- title_ja: a short Japanese title (12字以内). place_ja: the place in Japanese (15字以内).
+- who_a / who_b: who each speaker is, in Japanese (e.g. 地上係員, 旅行者). gender_a / gender_b: "m" or "f".
+- lines: the dialogue; s is "A" or "B", en is the spoken English.
+- gist_ja: the gist in Japanese, 2 sentences.
+- chunks: 5–7 key chunks copied EXACTLY from the lines (a phrasal verb, a linking phrase, or a reduced
+  stretch that is hard to catch), each with ja: its meaning plus a brief note in Japanese.
+- reply_ja: one Japanese line suggesting what he could say back in the same situation.`;
+const ListenOut = z.object({
+  title_ja: z.string(), place_ja: z.string(), who_a: z.string(), who_b: z.string(),
+  gender_a: z.string(), gender_b: z.string(),
+  lines: z.array(z.object({ s: z.string(), en: z.string() })),
+  gist_ja: z.string(), chunks: z.array(z.object({ en: z.string(), ja: z.string() })), reply_ja: z.string()
+});
+// 練習中の言い回し（最大5つ・短い句だけ）。本文としては保存しない。
+function cleanFocus(list) {
+  return (Array.isArray(list) ? list : []).slice(0, 5).map((x) => String(x || "").replace(/\s+/g, " ").trim().slice(0, 80)).filter(Boolean);
+}
+
 const ReplyOut = z.object({ reply: z.string(), ended: z.boolean() });
 const FeedbackOut = z.object({ better: z.string(), better_ja: z.string(), tip: z.string(),
   phrases: z.array(z.object({ en: z.string(), ja: z.string() })) });
@@ -298,9 +353,67 @@ exports.hanaseruChat = onCall(
         return { mode, result: r };
       }
 
+      // 📏 現在地チェック：話した内容を、3つの物差しのうち該当する1つで見る（発音は見ない）。
+      if (data.mode === "assess") {
+        const items = (Array.isArray(data.items) ? data.items : []).slice(0, 3).map((x) => ({
+          kind: ["opinion", "respond", "rephrase"].indexOf(x && x.kind) >= 0 ? x.kind : "opinion",
+          prompt: String((x && x.prompt) || "").slice(0, 400), said: String((x && x.said) || "").slice(0, 2000)
+        }));
+        if (!items.length) throw new HttpsError("invalid-argument", "items が空です");
+        const res = await client.messages.parse({
+          model: MODEL,
+          max_tokens: 1500,
+          system: [{ type: "text", text: ASSESS_SYSTEM, cache_control: { type: "ephemeral" } }],
+          messages: [{ role: "user", content: items.map((x, i) => `#${i + 1} kind=${x.kind}\nPartner said: ${x.prompt}\nHe answered (speech recognition transcript, may contain recognition errors): ${x.said || "(nothing was recognized)"}`).join("\n\n") }],
+          output_config: { effort: "low", format: zodOutputFormat(AssessOut) }
+        });
+        if (!res.parsed_output) throw new HttpsError("internal", "AI の返答を読めませんでした");
+        const scores = res.parsed_output.scores.slice(0, items.length).map((s) => ({ score: Math.max(0, Math.min(4, Math.round(s.score))), comment_ja: String(s.comment_ja || "") }));
+        return { mode: "assess", result: { scores } };
+      }
+
+      // 👂 耳トレの新しい会話を作る（創作）。話し手ごとに声を分けて1本の音声にする。
+      if (data.mode === "listen") {
+        const topic = LISTEN_TOPICS[data.topic] ? data.topic : "travel";
+        const focus = cleanFocus(data.focus);
+        const t0 = Date.now();
+        const listenParams = {
+          model: REPLY_MODEL,
+          max_tokens: 3000,
+          system: [{ type: "text", text: LISTEN_SYSTEM, cache_control: { type: "ephemeral" } }],
+          messages: [{ role: "user", content: `Situation: ${LISTEN_TOPICS[topic]}\nSeed (use it only to vary the details): ${String(data.seed || "").slice(0, 40)}`
+            + (focus.length ? `\nWork these expressions into the dialogue naturally, each at least once: ${focus.join(" / ")}` : "") }],
+          output_config: { effort: "low", format: zodOutputFormat(ListenOut) }
+        };
+        let res;
+        try { res = await client.messages.parse(listenParams); }
+        catch (e) {   // 新しいモデルが使えないときは、これまで動いていた設定でやり直す
+          console.error("hanaseruChat listen fallback", e && e.name, e && e.status);
+          res = await client.messages.parse(Object.assign({}, listenParams, { model: MODEL }));
+        }
+        const d = res.parsed_output;
+        if (!d || !Array.isArray(d.lines) || d.lines.length < 4) throw new HttpsError("internal", "会話を作れませんでした。もう一度お試しください");
+        d.lines = d.lines.slice(0, 10).map((l) => ({ s: l.s === "B" ? "B" : "A", en: String(l.en).slice(0, 400) }));
+        d.chunks = (d.chunks || []).slice(0, 8);
+        const aiMs = Date.now() - t0;
+        let audioContent = null;
+        if (typeof speech.speak === "function") {
+          try {
+            const pick = (g, n) => (g === "m" ? ["en-GB-Neural2-B", "en-US-Neural2-D", "en-AU-Neural2-B"] : ["en-US-Neural2-F", "en-GB-Neural2-A", "en-AU-Neural2-A"])[n % 3];
+            const n = Math.floor(Math.random() * 3);
+            const voices = { A: pick(d.gender_a, n), B: pick(d.gender_b, n + 1) };
+            const parts = await Promise.all(d.lines.map((l) => speech.speak(l.en, { voice: voices[l.s], rate: 1, timeoutMs: 15000 })));
+            audioContent = Buffer.concat(parts.map((p) => Buffer.from(p, "base64"))).toString("base64");
+          } catch (e) { console.error("hanaseruChat listen speech unavailable", e.name); }
+        }
+        console.log(JSON.stringify({ at: "listen", topic, ai_ms: aiMs, tts_ms: Date.now() - t0 - aiMs, audio: !!audioContent, lines: d.lines.length }));   // 本文は残さない
+        return { mode: "listen", result: d, audioContent };
+      }
+
       const scene = String(data.scene || "free");
       const caseText = String(data.caseText || "").slice(0, 600);
       const messages = cleanMessages(data.messages);
+      const focus = cleanFocus(data.focus);
 
       if (data.mode === "feedback") {
         const res = await client.messages.parse({
@@ -319,7 +432,10 @@ exports.hanaseruChat = onCall(
         const params = {
           model: REPLY_MODEL,
           max_tokens: 600,
-          system: [{ type: "text", text: REPLY_SYSTEM(scene, caseText), cache_control: { type: "ephemeral" } }],
+          // 前につまずいた言い回しを、相手役の言葉や質問の中にもう一度出す（記録から次が変わる）
+          system: [{ type: "text", text: REPLY_SYSTEM(scene, caseText), cache_control: { type: "ephemeral" } }].concat(focus.length ? [{ type: "text", text:
+            "RECYCLE (do this lightly, at most one per reply, and only where it fits the conversation): he is trying to learn these expressions. "
+            + "Either use one yourself so that he hears it in context, or ask something that naturally invites him to use it. Never mention that you are doing this, and never quiz him.\n- " + focus.join("\n- ") }] : []),
           messages,
           output_config: { effort: "low", format: zodOutputFormat(ReplyOut) }
         };

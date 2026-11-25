@@ -143,6 +143,21 @@
   #lrBody label{display:block;margin-top:8px}
   .lr-lines p{margin:6px 0;line-height:1.45}.lr-lines b{display:block;font-size:12px;color:var(--sub);font-weight:600}.lr-where{font-size:13px;color:var(--sub);margin:0}
   .consult-tile{width:100%;margin-top:8px;border-color:var(--teal)}.sc-group{font-size:14px;color:var(--sub);margin:14px 0 2px}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  /* ホームのタイルは1行ずつ：題を大きく、説明は小さく1行、進み具合は一覧の中で見る */
+  #setup .grid.two .choice{padding:8px 10px;min-height:52px;justify-content:center}#setup .grid.two .choice span{font-size:11px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;order:2}
+  #setup .grid.two .choice b{font-size:15px;order:1}#setup .grid.two .stat{display:none}#setup .consult-tile{padding:10px 12px}#setup .consult-tile+ .stat{font-size:12px;margin:2px 2px 6px}
+  #setup .grid.two .speak{padding:8px 6px;font-size:14px;min-height:44px}#practiceTarget,#practiceSummary{font-size:12px}
+  /* 今日のメニュー・聞いて選ぶ・現在地チェック */
+  #coachMenu{display:grid;gap:6px}.menu-row{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 12px;border:1px solid #bdd8cd;border-radius:14px;background:#fff;font:inherit;color:var(--ink);min-height:52px}
+  .menu-row.done{background:#f3f8f6;color:var(--sub)}.menu-mark{flex:none;width:24px;height:24px;border-radius:50%;border:2px solid var(--teal);display:grid;place-items:center;color:#fff;font-size:14px;font-weight:700}
+  .menu-row.done .menu-mark{background:var(--teal)}.menu-text{display:flex;flex-direction:column;min-width:0}.menu-text b{font-size:16px}.menu-text small{font-size:12px;color:var(--sub)}
+  .menu-stat{margin:4px 2px 0;font-size:12px;color:var(--sub)}.menu-stat b{color:var(--teal-d)}
+  .qz-q{font-weight:700;margin:14px 0 6px}.qz-opt{display:block;width:100%;text-align:left;margin:6px 0;padding:12px 14px;min-height:48px;border:1px solid var(--line);border-radius:12px;background:#fff;font:inherit;color:var(--ink)}
+  .qz-opt.picked{border-color:var(--teal);background:#eaf4f0}.qz-opt.right{border-color:var(--teal);background:#e3f3ec;font-weight:700}.qz-opt.wrong{border-color:#d9a05b;background:#fff3e2}
+  .qz-after{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}#qzBody .en,#asBody .en,#fcBody .en{font-size:19px}
+  .as-table{width:100%;border-collapse:collapse;font-size:14px}.as-table th,.as-table td{padding:6px 4px;border-bottom:1px solid var(--line);text-align:left}
+  #quiz h2,#assess h2,#focus h2{font-size:18px}#qzActions,#asActions,#fcActions{flex-wrap:wrap;gap:8px;margin-top:10px}#lrBody select{width:100%;min-height:44px;margin:4px 0 8px}
   /* 教材の一覧を引き締める：範囲は横に1行、各行は1段 */
   #clChips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch}#clChips .chip{white-space:nowrap;padding:6px 12px;flex:none}
   #clList .clrow{flex-wrap:nowrap;align-items:center;padding:8px 10px;margin-top:5px}#clList .cltext{flex:1 1 auto}
@@ -168,11 +183,16 @@
       <button type="button" data-nav="home">ホームに戻る</button>
       <button type="button" data-nav="listeningRoute">今日の耳トレ</button>
       <button type="button" data-nav="consult">🩺 診察を英語で</button>
+      <button type="button" data-nav="links">🔗 会話のつなぎ</button>
+      <button type="button" data-nav="dubai">🎤 ドバイ：発表と質疑</button>
+      <button type="button" data-nav="quizPhrasal">🧩 熟語の耳トレ</button>
+      <button type="button" data-nav="focusOpen">🔁 つまずき直し</button>
+      <button type="button" data-nav="assessOpen">📏 現在地チェック</button>
       <button type="button" data-nav="personal">自己紹介・接続表現</button>
       <button type="button" data-nav="talk">AIと会話する</button>
       <button type="button" data-nav="shelfOpen">自分のことば帳</button>
       <button type="button" data-nav="settings">通知の設定</button>
-      <button type="button" data-nav="account">ログイン・同期</button><button type="button" onclick="location.reload()">最新版を読み込む（v76）</button>
+      <button type="button" data-nav="account">ログイン・同期</button><button type="button" onclick="location.reload()">最新版を読み込む（v77）</button>
     </nav>
   </header>
   <aside id="legacySite" class="goal-start" hidden><strong>こちらは旧公開先です</strong><p>ログイン・AI会話・通知は正規版でご利用ください。</p><a class="big" href="https://hanaseru.web.app/?practice=talk">正規版のハナセルを開く →</a><p class="muted">このページの端末内記録は残ります。正規版とは保存先が別です。</p></aside>
@@ -182,29 +202,38 @@
   <!-- 範囲えらび -->
   <section id="listeningRoute" hidden><div class="bar"><h2 id="lrTitle" tabindex="-1"></h2><button class="link" data-action="home">中断してホームへ</button></div><p id="lrProgress" class="stat"></p><p class="muted">日替わりの会話（約45秒）。同じ日は続きから。創作の会話を合成音声で読んでいます。</p><p id="lrStatus" role="status"></p><div id="lrBody" style="overflow-wrap:anywhere"></div><button id="lrBack" data-lr="back">← 一つ前へ</button><p class="muted">この練習の続き・つまずきメモはこの端末に保存します。AI会話にはログインと通信が必要です。</p></section>
   <section id="setup">
-    <div class="quick-start">
-      <h2>👂 今日の耳トレ</h2><p id="lrHome"></p>
-      <button type="button" class="big" data-action="listeningRoute">今日の会話を聞く ▸</button>
-      <p class="muted">空港・機内・ホテル・街なか・学会の会話を、男女の声・自然な速さで。日替わりで自動に選びます。</p>
-    </div>
-    <div class="quick-start" id="learningPlan">
-      <h2>🗣 AIと話す</h2>
-      <label for="lpTrack">場面</label>
-      <select id="lpTrack"><option value="clinic">診療：初診の保護者と話す</option><option value="book">本・ドバイ：本に関心のある相手と話す</option><option value="travel">旅先での自然な雑談</option></select>
-      <label for="lpTopic">今日は何を伝えたい？（任意）</label>
-      <textarea id="lpTopic" rows="1" maxlength="1000" placeholder="例：本を書いた理由を説明したい"></textarea>
-      <button type="button" class="big" data-action="quickTalk">AIと話す（5往復から）</button>
-      <p class="muted">架空の場面で話します。患者さんの氏名・カルテ番号・実際の会話は入力しないでください。</p>
+    <div class="quick-start" id="coachCard">
+      <h2>📋 今日のメニュー</h2>
+      <div id="coachMenu"></div>
     </div>
     <div class="goal-start">
-      <h2>🔁 場面で口に慣らす</h2>
+      <h2>練習をえらぶ</h2>
       <button class="choice consult-tile" data-action="sceneTrack" data-track="consult"><span>病気ごとに、診察1回分を通しで（保護者と医師の声）</span><b>🩺 診察を英語で ▸</b></button><p id="sceneHome-consult" class="stat"></p>
       <div class="grid two">
         <div><button class="choice" data-action="sceneTrack" data-track="personal"><span>自己紹介・接続表現</span><b>自分を語る ▸</b></button><p id="sceneHome-personal" class="stat"></p></div>
         <div><button class="choice" data-action="sceneTrack" data-track="clinic"><span>いつもの説明を、やり取りで</span><b>診療で話す ▸</b></button><p id="sceneHome-clinic" class="stat"></p></div>
         <div><button class="choice" data-action="sceneTrack" data-track="travel"><span>用事を済ませる・雑談</span><b>旅先で話す ▸</b></button><p id="sceneHome-travel" class="stat"></p></div>
+        <div><button class="choice" data-action="sceneTrack" data-track="links"><span>受ける・足す・言い換える</span><b>🔗 会話のつなぎ ▸</b></button><p id="sceneHome-links" class="stat"></p></div>
+        <div><button class="choice" data-action="sceneTrack" data-track="dubai"><span>自己紹介・便秘・Clinical AI Core</span><b>🎤 ドバイで話す ▸</b></button><p id="sceneHome-dubai" class="stat"></p></div>
+        <div><button class="choice" data-action="quizPhrasal"><span>get・come・put…を耳で</span><b>🧩 熟語の耳トレ ▸</b></button></div>
+        <div><button class="choice" data-action="focusOpen"><span>詰まった言い回しを出し直す</span><b>🔁 つまずき直し ▸</b></button></div>
+        <div><button class="choice" data-action="assessOpen"><span>聞く10問・話す3問・12週ごと</span><b>📏 現在地チェック ▸</b></button></div>
         <div><button class="choice" data-action="shelfOpen"><span>これから・練習中・使えた</span><b>自分のことば帳 ▸</b></button></div>
       </div>
+    </div>
+    <div class="quick-start">
+      <h2>👂 今日の耳トレ</h2><p id="lrHome"></p>
+      <button type="button" class="big" data-action="listeningRoute">今日の会話を聞く ▸</button>
+      <div class="grid two" style="margin-top:0"><button type="button" class="speak" data-action="lrLoop">🎧 連続で聞く</button><button type="button" class="speak" data-action="lrNew">✨ 新しい会話（AI）</button></div>
+    </div>
+    <div class="quick-start" id="learningPlan">
+      <h2>🗣 AIと話す</h2>
+      <label for="lpTrack" class="sr-only">場面</label>
+      <select id="lpTrack"><option value="clinic">診療：初診の保護者と話す</option><option value="book">本・ドバイ：本に関心のある相手と話す</option><option value="travel">旅先での自然な雑談</option></select>
+      <label for="lpTopic" class="sr-only">今日は何を伝えたい？（任意）</label>
+      <textarea id="lpTopic" rows="1" maxlength="1000" placeholder="今日伝えたいこと（任意）例：本を書いた理由"></textarea>
+      <button type="button" class="big" data-action="quickTalk">AIと話す（5往復から）</button>
+      <p class="muted" style="font-size:11px">架空の場面で話します。患者さんの氏名・カルテ番号・実際の会話は入力しないでください。</p>
     </div>
     <div class="quick-start">
       <h2>⏱ 3分練習（1文から）</h2>
@@ -212,9 +241,8 @@
       <select id="practiceFocus"><option value="all">自分の保存文＋復習を優先</option><option value="clinic">診療</option><option value="travel">旅行・日常</option><option value="me">自分の考え</option><option value="mine">保存した言い方</option><option value="bridge">会話をつなぐ18表現</option></select>
       <p id="practiceTarget" class="stat"></p>
       <button class="big" data-action="practiceStart" id="practiceStart">3分練習を始める</button>
-      <button class="speak" data-action="practiceBrief">忙しい日は1文だけ（約1分）</button>
+      <div class="grid two" style="margin-top:0"><button class="speak" data-action="practiceBrief">1文だけ（約1分）</button><button class="speak" data-action="capOpen">＋ つまずきを残す</button></div>
       <p class="stat" id="practiceSummary" aria-live="polite"></p>
-      <button class="speak" data-action="capOpen">＋ 今日つまずいたことを残す</button>
     </div>
     <details class="library"><summary>📚 教材の一覧から選ぶ（英文を見る・聞く）</summary>
     <p class="muted">場面ごとの英文の一覧です。日本語を見て声に出す → 行をタップすると英語と音声。</p>
@@ -318,6 +346,9 @@
     </footer>
   </section>
 
+  <section id="quiz" hidden aria-label="聞いて意味を選ぶ練習"><div class="bar"><h2 id="qzTitle" tabindex="-1"></h2><button class="link" data-action="home">ホームへ</button></div><p id="qzProgress" class="stat"></p><div id="qzBody"></div><div id="qzActions" class="speakrow"></div></section>
+  <section id="assess" hidden aria-label="現在地チェック"><div class="bar"><h2 id="asTitle" tabindex="-1"></h2><button class="link" data-action="home">ホームへ</button></div><div id="asBody"></div><div id="asActions" class="speakrow"></div></section>
+  <section id="focus" hidden aria-label="つまずき直し"><div class="bar"><h2 id="fcTitle" tabindex="-1"></h2><button class="link" data-action="home">ホームへ</button></div><div id="fcBody"></div><div id="fcActions" class="speakrow"></div></section>
   <section id="scenes" hidden aria-label="場面で返す練習">
     <div class="bar"><h2 id="scTitle" tabindex="-1"></h2><button class="link" data-action="home">ホームへ</button></div>
     <p id="scContext" class="muted"></p>
@@ -611,9 +642,16 @@
 <script src="clinic-dialogues-constipation.js"></script>
 <script src="clinic-dialogues-respiratory.js"></script>
 <script src="clinic-dialogues-nutrition.js"></script>
+<script src="connector-drills.js"></script>
+<script src="dubai-scenes.js"></script>
+<script src="phrasal-verbs.js"></script>
+<script src="assess-data.js"></script>
 <script src="audio-core.js"></script>
 <script src="card-audio.js"></script>
 <script src="app.js"></script>
+<script src="growth.js"></script>
+<script src="quiz.js"></script>
+<script src="assess.js"></script>
 <script src="navigation.js"></script>
 <script src="practice.js"></script>
 <script src="shelf.js"></script>
@@ -623,6 +661,7 @@
 <script src="listening-audio.js"></script>
 <script src="listening-lessons.js"></script>
 <script src="listening-route.js"></script>
+<script src="listening-extra.js"></script>
 <script src="voice-loop.js"></script>
 <script type="module" src="cloud.js"></script>
 <script type="module" src="talk.js"></script>

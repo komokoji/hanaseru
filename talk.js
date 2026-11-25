@@ -13,6 +13,9 @@ const call = httpsCallable(getFunctions(getApp(), "asia-northeast1"), "hanaseruC
 const speechCall=httpsCallable(getFunctions(getApp(), "asia-northeast1"), "hanaseruSpeech");
 // ログイン中だけ、その場でMP3を作る（未ログインは null＝端末の読み上げへ）。鳴らすのは audio-core.js。
 const canMakeSpeech=text=>!!getAuth(getApp()).currentUser&&!legacyHost&&text.length<=1200;
+// ほかの画面（現在地チェック・新しい耳トレ）からAIを呼ぶ口。ログイン中だけ使える。
+H.ai = (data) => call(data);
+H.loggedIn = () => !!getAuth(getApp()).currentUser && !legacyHost;
 window.HanaseruAudio.setLoader(async text=>canMakeSpeech(text)?(await speechCall({text})).data.audioContent:null,canMakeSpeech);
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
@@ -152,6 +155,8 @@ async function send(fromVoice=false) {
   addBubble("me", text);
   history.push({ role: "user", content: text });
   H.bumpTalk(1);
+  if (H.focus) { const used = H.focus.noticeUse(text); if (used.length) setNote('✓ 練習中の言い回しを使えました：' + used.join(' / ')); }
+  if (H.menuDone) H.menuDone('speak');
   await ask(false, text);
 }
 
@@ -159,13 +164,17 @@ async function ask(opening, said) {
   const version=talkVersion;
   setBusy(true);
   try {
-    const context = { scene, caseText: caseCtx ? caseCtx.parent : "", messages: history.slice() };
+    // 練習中の言い回し（つまずき直し）を相手役に渡す＝会話の中でもう一度聞く・使う機会を作ってもらう
+    const context = { scene, caseText: caseCtx ? caseCtx.parent : "", messages: history.slice(), focus: H.focus ? H.focus.forAI() : [] };
     // 言い方のヒントは別の呼び出しで並行して作り、届いたら自分の吹き出しに足す（返答を待たせない）。
     if (!opening && said) {
       const mine = $("tkLog").lastElementChild;
       call({ mode: "feedback", ...context }).then((fb) => {
         if (version !== talkVersion || !mine || !mine.isConnected || !fb.data.result) return;
-        mine.insertAdjacentHTML("beforeend", feedbackHtml(fb.data.result, said));
+        const r2 = fb.data.result;
+        // 詰まった所を「つまずき直し」に入れる：言い直しの文と、次に使える言い回し
+        if (H.focus) { if (r2.better && r2.better.trim() !== said.trim()) H.focus.add(r2.better, r2.better_ja, 'talk'); (r2.phrases || []).slice(0, 3).forEach((p) => H.focus.add(p.en, p.ja, 'talk')); }
+        mine.insertAdjacentHTML("beforeend", feedbackHtml(r2, said));
         $("tkLog").scrollTop = $("tkLog").scrollHeight;
       }).catch(() => {});
     }

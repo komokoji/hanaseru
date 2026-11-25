@@ -101,6 +101,20 @@ function mergeStates(local, remote) {
   out.mine = (out.mine || []).concat(remote.mine || []).filter(function (m) {
     if (ids[m.id]) return false; ids[m.id] = true; return true;
   });
+  // 🔁 つまずき直し＝id ごとに新しい方。📏 現在地＝日時で和集合。👂 聞いた時間＝日ごとに大きい方。🧩 熟語＝問題ごとに大きい方。
+  const fx = new Map();
+  (out.focus || []).concat(remote.focus || []).forEach(function (x) { const p = fx.get(x.id); if (!p || (x.updatedAt || 0) > (p.updatedAt || 0)) fx.set(x.id, x); });
+  out.focus = Array.from(fx.values()).sort(function (a, b) { return a.ts - b.ts; }).slice(-300);
+  const ax = new Map();
+  (out.assess || []).concat(remote.assess || []).forEach(function (x) { ax.set(x.at, x); });
+  out.assess = Array.from(ax.values()).sort(function (a, b) { return a.at - b.at; }).slice(-40);
+  const lx = {};
+  (out.listen || []).concat(remote.listen || []).forEach(function (x) { lx[x.d] = Math.max(lx[x.d] || 0, x.s); });
+  out.listen = Object.keys(lx).sort().map(function (d) { return { d: +d, s: lx[d] }; }).slice(-120);
+  const pv = Object.assign({}, (remote.quiz || {}).pv || {});
+  Object.keys((out.quiz || {}).pv || {}).forEach(function (k) { const a = out.quiz.pv[k], b = pv[k]; if (!b || (a.ok + a.ng) >= (b.ok + b.ng)) pv[k] = a; });
+  out.quiz = { pv: pv };
+  if (remote.menu && (!out.menu || remote.menu.d > out.menu.d)) out.menu = remote.menu;
   return out;
 }
 

@@ -14,7 +14,7 @@ for t in tests/*.test.cjs; do
   if node --test "$t" >/dev/null 2>&1; then printf '  ✅ %s\n' "$t"; else printf '  ❌ %s\n     → node --test %s\n' "$t" "$t"; ng=1; fi
 done
 if [ -z "${HANASERU_TEST_URL:-}" ]; then browser=$(ls tests/*-browser.cjs tests/browser-smoke.cjs tests/listening-audio-webkit.cjs tests/audio-ios-policy.cjs)
-else browser="tests/audio-ios-policy.cjs tests/consult-browser.cjs"; fi   # 本番には、模擬だけで完結する2本を回す
+else browser="tests/audio-ios-policy.cjs tests/consult-browser.cjs tests/growth-browser.cjs"; fi   # 本番には、模擬だけで完結する2本を回す
 for t in $browser; do
   ok=0; for try in 1 2; do timeout 240 node "$t" >/tmp/hanaseru-test.log 2>&1 && { ok=1; break; }; done   # 試験用サーバーの接続切れに備えて2回まで
   if [ $ok = 1 ]; then printf '  ✅ %s\n' "$t"; else printf '  ❌ %s\n     → NODE_PATH=%s node %s\n' "$t" "$NODE_PATH" "$t"; grep -v '^\s*at ' /tmp/hanaseru-test.log | tail -4 | sed 's/^/       /'; ng=1; fi

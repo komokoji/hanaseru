@@ -250,6 +250,7 @@
   }
 
   function renderSetup() {
+    if (window.Hanaseru && window.Hanaseru.renderGrowth) window.Hanaseru.renderGrowth();   // 今日のメニューを、ホームに戻るたびに描き直す
     el.streak.textContent = "連続 " + state.streak + " 日";
     el.progress.textContent = "身についた：" + mastered("all") + " / " + totalIn("all");
     // 🗣 今週、声で話した回数（AI会話の発言＋1分で語る）＝B2 の3つは「話した回数」で決まる
@@ -287,7 +288,7 @@
     var s = document.getElementById("shadow"); if (s) s.hidden = true;
     var l = document.getElementById("listen"); if (l) l.hidden = true;
     var tk = document.getElementById("talk"); if (tk) tk.hidden = true;
-    ["clinic", "build", "patterns", "mono", "practice", "shelf", "scenes", "listeningRoute"].forEach(function (id) { var n = document.getElementById(id); if (n) n.hidden = true; });
+    ["clinic", "build", "patterns", "mono", "practice", "shelf", "scenes", "listeningRoute", "quiz", "assess", "focus"].forEach(function (id) { var n = document.getElementById(id); if (n) n.hidden = true; });
     var co = document.getElementById("coach"); if (co) co.hidden = true;
   }
 
@@ -660,6 +661,9 @@
       save(state);
     },
     openPractice: function () { hideMain(); document.getElementById("practice").hidden = false; window.scrollTo(0, 0); },
+    // 記録を保存して同期に回す（growth.js・quiz.js・assess.js が状態を直接書いたあとに呼ぶ）
+    commit: function () { save(state); },
+    openSection: function (id) { hideMain(); document.getElementById(id).hidden = false; window.scrollTo(0, 0); },
     openTalk: function () {
       hideMain(); document.getElementById("talk").hidden = false;
       document.getElementById("tkNote").textContent = "AI会話にはログインとインターネット接続が必要です。";

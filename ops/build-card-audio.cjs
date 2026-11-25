@@ -2,11 +2,11 @@
 // 使い方：node ops/build-card-audio.cjs   （作成済みのファイルは作り直さない。--dry で件数だけ）
 const fs=require('node:fs'),crypto=require('node:crypto');
 global.window=global;global.self=global;
-['data','trip','visit','gutnutri','me','basics','conversation','patterns','parts','listen','practice-core','scenes-data','personal-scenes','clinic-dialogues','clinic-dialogues-constipation','clinic-dialogues-respiratory','clinic-dialogues-nutrition'].forEach(f=>require('../'+f+'.js'));
+['data','trip','visit','gutnutri','me','basics','conversation','patterns','parts','listen','practice-core','scenes-data','personal-scenes','clinic-dialogues','clinic-dialogues-constipation','clinic-dialogues-respiratory','clinic-dialogues-nutrition','connector-drills','dubai-scenes','phrasal-verbs','assess-data'].forEach(f=>require('../'+f+'.js'));
 const VOICES={'en-US':'en-US-Standard-F','en-GB':'en-GB-Standard-A'};
 const texts=new Map();   // text -> lang（先に入れた声を優先）
 const norm=t=>String(t==null?'':t).replace(/___/g,'…').trim();
-const add=(t,lang)=>{t=norm(t);if(t&&t.length<=1200&&/[A-Za-z]/.test(t)&&!texts.has(t)&&!((global.HANASERU_CONSULT_SCENES||[]).some(c=>c.turns.concat([c.challenge]).some(u=>norm(u.en)===t||norm(u.heard)===t))))texts.set(t,lang||'en-US');};
+const add=(t,lang)=>{t=norm(t);if(t&&t.length<=1200&&/[A-Za-z]/.test(t)&&!texts.has(t)&&!((global.HANASERU_SCENES||[]).filter(c=>c.voices).some(c=>c.turns.concat([c.challenge]).some(u=>norm(u.en)===t||norm(u.heard)===t))))texts.set(t,lang||'en-US');};
 const Core=global.HanaseruPracticeCore;
 // 聞き取り教材（英国の声の単元を先に）
 (global.HANASERU_LISTEN||[]).forEach(u=>{
@@ -32,13 +32,17 @@ Object.values(global.HANASERU_RESPONSE_CUES||{}).forEach(list=>list.forEach(x=>a
 const custom=new Map();   // text -> {path, parts:[{text,voice,rate,pause}]}
 const hashOf=s=>crypto.createHash('sha256').update(s).digest('hex').slice(0,20);
 const addCustom=(t,voice,rate)=>{t=norm(t);if(t&&!custom.has(t))custom.set(t,{path:'audio/cards/'+hashOf(voice+':'+rate+':'+t)+'.mp3',parts:[{text:t,voice,rate,pause:0}]});};
-(global.HANASERU_CONSULT_SCENES||[]).forEach(s=>{
+(global.HANASERU_SCENES||[]).filter(s=>s.voices).forEach(s=>{
   const all=s.turns.concat([s.challenge]);
   all.forEach(t=>{addCustom(t.heard,s.voices.heard,1);addCustom(t.en,s.voices.en,0.9);(String(t.en).match(/[^.!?]+[.!?]+|[^.!?]+$/g)||[]).forEach(x=>{if(!texts.has(norm(x)))addCustom(x,s.voices.en,0.9);});});
+  if(s.track!=='consult'&&s.track!=='dubai')return;   // 通しの1本は、診察とドバイだけ
   const parts=[];s.turns.forEach(t=>{parts.push({text:t.heard,voice:s.voices.heard,rate:1,pause:350});parts.push({text:t.en,voice:s.voices.en,rate:1,pause:450});});
   const key=norm(s.turns.map(t=>t.heard+' '+t.en).join(' '));
   custom.set(key,{path:'audio/cards/'+hashOf('consult-dialogue:'+parts.map(p=>p.voice+':'+p.text).join('|'))+'.mp3',parts});
 });
+// 🧩 熟語の耳トレと 📏 現在地チェック：問題ごとの声で、自然な速さ
+(global.HANASERU_PHRASALS||[]).forEach(p=>addCustom(p.en,p.voice,1));
+((global.HANASERU_ASSESS||{}).forms||[]).forEach(f=>{f.listening.forEach(x=>addCustom(x.en,x.voice,1));f.speaking.forEach(x=>addCustom(x.promptEn,x.voice,1));});
 const file=(t,lang)=>'audio/cards/'+crypto.createHash('sha256').update(VOICES[lang]+':0.9:'+t).digest('hex').slice(0,20)+'.mp3';
 const list=[...texts].filter(([text])=>!custom.has(text)).map(([text,lang])=>({text,lang,path:file(text,lang)})).concat([...custom].map(([text,c])=>({text,path:c.path,parts:c.parts})));
 const chars=list.reduce((n,x)=>n+x.text.length,0),todo=list.filter(x=>!fs.existsSync(x.path));

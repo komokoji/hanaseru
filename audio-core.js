@@ -39,7 +39,10 @@
   function hideSoon(ms) { clearTimeout(hideTimer); hideTimer = setTimeout(function () { bar.hidden = true; doc.body.classList.remove('hs-on'); }, ms); }
 
   // ---- 停止（すべての音はここで止まる） ----
+  // 聞いた時間を数える（growth.js が日ごとに足す）。無音の準備音と、読み上げは数えない。
+  function heard(sec) { if (current && current.kind === 'audio' && audio.src !== silentUrl && sec > 0.5) { try { doc.dispatchEvent(new CustomEvent('hanaseru:listened', { detail: { sec: sec - (current.counted || 0) } })); current.counted = sec; } catch (_) {} } }
   function halt() {
+    try { if (!audio.paused) heard(audio.currentTime || 0); } catch (_) {}
     token++; clearTimeout(watch);
     try { audio.pause(); } catch (_) {}
     var S = root.speechSynthesis;
@@ -79,6 +82,7 @@
   });
   audio.addEventListener('ended', function () {
     if (!current || current.kind !== 'audio' || audio.src === silentUrl) return;
+    heard(audio.duration || audio.currentTime || 0); if (current) current.counted = 0;
     show('もう一度聞くには ▶ を押してください。', 'idle'); hideSoon(6000); call('end');
   });
   audio.addEventListener('error', function () {

@@ -19,7 +19,8 @@
     return 'まず1往復から';
   }
   function home(){
-    ['consult','clinic','travel','personal'].forEach(function(t){
+    ['consult','links','dubai','clinic','travel','personal'].forEach(function(t){
+      if(!$('sceneHome-'+t))return;
       var list=scenes.filter(function(s){return s.track===t;});
       var n=list.filter(function(s){return index(s)===count(s);}).length;
       $('sceneHome-'+t).textContent=n+' / '+list.length+' 場面を練習';
@@ -27,8 +28,8 @@
   }
   function openList(t){H.openScenes();track=t;selected=null;model=false;renderList();}
   function renderList(){
-    $('scTitle').textContent=track==='consult'?'🩺 診察を英語で':track==='personal'?'自己紹介・接続表現を練習する':track==='clinic'?'診療で話す':'12月のドイツで話す';
-    $('scContext').textContent=track==='consult'?'病気ごとに、診察1回分を通しで。保護者の言葉を聞く → 自分で返す → 手本（医師の声）→ 見ずにもう一度。説明の中身は、院長の患者さん向けの説明文から取っています。':'相手の言葉を聞く → 自分で返す → 必要なら手本 → 見ずにもう一度。最後に違う質問にも答えてみます。';
+    $('scTitle').textContent=track==='links'?'🔗 会話のつなぎ':track==='dubai'?'🎤 ドバイ：発表と質疑':track==='consult'?'🩺 診察を英語で':track==='personal'?'自己紹介・接続表現を練習する':track==='clinic'?'診療で話す':'12月のドイツで話す';
+    $('scContext').textContent=track==='links'?'相手の言葉を聞く → 指定のつなぎの一言から返す → 手本。受ける・時間を稼ぐ・足す・やわらかく反対する・言い換える・確かめる・話題を変える、の7つの働きを反射で出せるようにします。':track==='dubai'?'学会や面談で、自分の仕事・便秘の診療・Clinical AI Core を話し、質問に返す練習。答えの中身は院長の原稿と説明文から取っています。決まっていないことは言い切らない練習も入っています。':track==='consult'?'病気ごとに、診察1回分を通しで。保護者の言葉を聞く → 自分で返す → 手本（医師の声）→ 見ずにもう一度。説明の中身は、院長の患者さん向けの説明文から取っています。':'相手の言葉を聞く → 自分で返す → 必要なら手本 → 見ずにもう一度。最後に違う質問にも答えてみます。';
     var list=scenes.filter(function(s){return s.track===track;}).sort(function(a,b){return String(a.group||'').localeCompare(String(b.group||''),'ja');});
     $('scBody').innerHTML='<p class="muted">休んだ分のまとめ取りは不要です。今日は使いたい場面を一つ。進み具合はこの端末に保存し、ログイン中は同期します。</p>'+list.map(function(s,n){return (s.group&&(n===0||list[n-1].group!==s.group)?'<h3 class="sc-group">'+esc(s.group)+'</h3>':'')+'<div class="shelf-entry"><h3>'+esc(s.title)+'</h3><p>'+esc(s.goal)+'</p><p class="stat">'+esc(status(s))+'</p>'+button('scChoose','この場面を開く','data-id="'+s.id+'"')+'</div>';}).join('')+'<p class="muted">診療は普段の説明の流れをもとに組み直した練習用会話です。個別の治療判断や患者情報をそのまま収録したものではありません。旅行の返答・時刻・条件も練習用です。</p>';
     $('scActions').innerHTML='';$('scTitle').focus();
@@ -46,7 +47,7 @@
       return;
     }
     var test=p.mode==='test';
-    $('scBody').innerHTML=(s.voices&&!challenge&&i===0?'<div class="card"><p class="muted">まず、診察1回分を通しで聞く（保護者と医師の声・自然な速さ）</p>'+button('scFull','▶ 通しで聞く')+button('scStop','■ 停止')+'<p class="muted">慣れてきたら、台本なしで。AIが保護者になり、細部を変えて話しかけます。</p>'+button('scAI','🗣 台本なしで、AIの保護者と通し稽古（要ログイン）')+'</div>':'')+'<p class="stat">'+(challenge?'最後に、違う質問に返す':(i+1)+' / '+s.turns.length+'往復')+' · 1往復で終えてもOK</p>'
+    $('scBody').innerHTML=((s.track==='consult'||s.track==='dubai')&&s.voices&&!challenge&&i===0?'<div class="card"><p class="muted">'+(s.track==='dubai'?'まず、やり取りを通しで聞く（相手と自分の声・自然な速さ）':'まず、診察1回分を通しで聞く（保護者と医師の声・自然な速さ）')+'</p>'+button('scFull','▶ 通しで聞く')+button('scStop','■ 停止')+'<p class="muted">慣れてきたら、台本なしで。AIが'+(s.track==='dubai'?'聞き手になり、質問を変えて':'保護者になり、細部を変えて')+'話しかけます。</p>'+button('scAI',s.track==='dubai'?'🗣 台本なしで、AIの聞き手と質疑の稽古（要ログイン）':'🗣 台本なしで、AIの保護者と通し稽古（要ログイン）')+'</div>':'')+'<p class="stat">'+(challenge?'最後に、違う質問に返す':(i+1)+' / '+s.turns.length+'往復')+' · 1往復で終えてもOK</p>'
       +'<div class="card"><p class="muted">'+esc(s.role)+'の言葉</p>'+button('scHear','相手の言葉を聞く')
       +(test?'<details><summary>相手の英文を見る</summary><p class="en">'+esc(t.heard)+'</p></details>':'<p class="en">'+esc(t.heard)+'</p>')
       +'<details><summary>相手の言葉の意味</summary><p>'+esc(t.heardJa)+'</p></details></div>'
@@ -81,6 +82,9 @@
       $('scSaveNote').textContent='保存しました。ことば帳で繰り返し練習できます。';el.disabled=true;
     }else if(a==='scGrade'&&!model&&index(s)<count(s)){
       var results=(p.results||[]).slice();results[index(s)]=el.dataset.result==='again'?'again':p.hinted?'supported':'own';
+      // 「まだ難しい」は、つまずき直しへ（間をあけてもう一度出し、AI会話にも出す）
+      if(el.dataset.result==='again'&&H.focus)H.focus.add(t.en,t.intent.replace(/^〈[^〉]*〉/,''),'scene');
+      if(H.menuDone)H.menuDone('speak');
       var next=index(s)+1,complete=next===count(s);
       var update={index:next,results:results,hinted:false};
       if(complete){update.finishedAt=Date.now();update.due=H.today()+(results.every(function(r){return r==='own';})?3:1);}
@@ -90,14 +94,18 @@
     }else if(a==='scAI'){
       H.openTalk();
       // 診察は「台本なし」で：AIが保護者になり、細部を変え、院長が質問でリードする。手本の文は言わせない。
-      var brief=s.track==='consult'
+      var brief=s.track==='dubai'
+        ? 'ROLEPLAY BRIEF (not a script). You are an attendee at a medical conference in Dubai talking with Dr. Komori after his talk ('+s.role+'). Topic (Japanese): '+s.context
+          +' Ask ONE question at a time, in one or two natural spoken sentences, then follow up on what he actually says. Vary your questions from any sample; sometimes challenge him politely or say you did not quite follow.'
+          +' If he says something is not measured, not decided, or still in progress, accept that and move on; never push him to claim results, dates, or agreements. Examples of the kind of thing you might ask: '+s.turns.slice(0,4).map(function(t){return '"'+t.heard+'"';}).join(' / ')
+        : s.track==='consult'
         ? 'ROLEPLAY BRIEF (not a script). You are the '+(s.role==='父親'?'father':'mother')+' of a child in Dr. Komori\'s clinic. Situation (Japanese): '+s.context
           +' Change small details from any sample (age, number of days, wording). Open with ONE short natural sentence about why you came, then stop and let the doctor lead.'
           +' Answer only what he asks, in one or two natural spoken sentences. Sometimes be a little vague, so that he has to ask a follow-up question.'
           +' When there is a natural pause, bring up one worry of your own, such as: '+s.turns.slice(0,4).map(function(t){return '"'+t.heard+'"';}).join(' / ')
           +' React to what he actually says (Oh, right. / Hmm, but ... / Sorry, what does that mean?). Never explain the medicine yourself.'
         : s.context+' 練習の目標：'+s.goal;
-      document.dispatchEvent(new CustomEvent('hanaseru:practiceTalk',{detail:{domain:s.track==='personal'?'me':s.track==='clinic'||s.track==='consult'?'medical':'travel',ja:brief,en:s.track==='consult'?'(The points he may want to get across, for your reference only; do not say them for him: '+s.turns.map(function(t){return t.en;}).join(' ')+')':s.turns.map(function(t){return t.en;}).join(' ')}}));
+      document.dispatchEvent(new CustomEvent('hanaseru:practiceTalk',{detail:{domain:s.track==='personal'||s.track==='dubai'?'me':s.track==='clinic'||s.track==='consult'?'medical':'travel',ja:brief,en:s.track==='consult'||s.track==='dubai'?'(The points he may want to get across, for your reference only; do not say them for him: '+s.turns.map(function(t){return t.en;}).join(' ')+')':s.turns.map(function(t){return t.en;}).join(' ')}}));
     }
   });
   document.addEventListener('hanaseru:leave',stopAudio);
