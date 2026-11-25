@@ -46,7 +46,7 @@
       return;
     }
     var test=p.mode==='test';
-    $('scBody').innerHTML=(s.voices&&!challenge&&i===0?'<div class="card"><p class="muted">まず、診察1回分を通しで聞く（保護者と医師の声・自然な速さ）</p>'+button('scFull','▶ 通しで聞く')+button('scStop','■ 停止')+'</div>':'')+'<p class="stat">'+(challenge?'最後に、違う質問に返す':(i+1)+' / '+s.turns.length+'往復')+' · 1往復で終えてもOK</p>'
+    $('scBody').innerHTML=(s.voices&&!challenge&&i===0?'<div class="card"><p class="muted">まず、診察1回分を通しで聞く（保護者と医師の声・自然な速さ）</p>'+button('scFull','▶ 通しで聞く')+button('scStop','■ 停止')+'<p class="muted">慣れてきたら、台本なしで。AIが保護者になり、細部を変えて話しかけます。</p>'+button('scAI','🗣 台本なしで、AIの保護者と通し稽古（要ログイン）')+'</div>':'')+'<p class="stat">'+(challenge?'最後に、違う質問に返す':(i+1)+' / '+s.turns.length+'往復')+' · 1往復で終えてもOK</p>'
       +'<div class="card"><p class="muted">'+esc(s.role)+'の言葉</p>'+button('scHear','相手の言葉を聞く')
       +(test?'<details><summary>相手の英文を見る</summary><p class="en">'+esc(t.heard)+'</p></details>':'<p class="en">'+esc(t.heard)+'</p>')
       +'<details><summary>相手の言葉の意味</summary><p>'+esc(t.heardJa)+'</p></details></div>'
@@ -88,7 +88,16 @@
     }else if(a==='scRestart'){
       H.updateScene(s.id,{index:0,results:[],hinted:false,mode:'test'});model=false;render();
     }else if(a==='scAI'){
-      H.openTalk();document.dispatchEvent(new CustomEvent('hanaseru:practiceTalk',{detail:{domain:s.track==='personal'?'me':s.track==='clinic'||s.track==='consult'?'medical':'travel',ja:s.context+' 練習の目標：'+s.goal,en:s.turns.map(function(t){return t.en;}).join(' ')}}));
+      H.openTalk();
+      // 診察は「台本なし」で：AIが保護者になり、細部を変え、院長が質問でリードする。手本の文は言わせない。
+      var brief=s.track==='consult'
+        ? 'ROLEPLAY BRIEF (not a script). You are the '+(s.role==='父親'?'father':'mother')+' of a child in Dr. Komori\'s clinic. Situation (Japanese): '+s.context
+          +' Change small details from any sample (age, number of days, wording). Open with ONE short natural sentence about why you came, then stop and let the doctor lead.'
+          +' Answer only what he asks, in one or two natural spoken sentences. Sometimes be a little vague, so that he has to ask a follow-up question.'
+          +' When there is a natural pause, bring up one worry of your own, such as: '+s.turns.slice(0,4).map(function(t){return '"'+t.heard+'"';}).join(' / ')
+          +' React to what he actually says (Oh, right. / Hmm, but ... / Sorry, what does that mean?). Never explain the medicine yourself.'
+        : s.context+' 練習の目標：'+s.goal;
+      document.dispatchEvent(new CustomEvent('hanaseru:practiceTalk',{detail:{domain:s.track==='personal'?'me':s.track==='clinic'||s.track==='consult'?'medical':'travel',ja:brief,en:s.track==='consult'?'(The points he may want to get across, for your reference only; do not say them for him: '+s.turns.map(function(t){return t.en;}).join(' ')+')':s.turns.map(function(t){return t.en;}).join(' ')}}));
     }
   });
   document.addEventListener('hanaseru:leave',stopAudio);
