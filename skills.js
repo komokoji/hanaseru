@@ -41,6 +41,7 @@
     frame('🎯 基礎トレ', '聞く力と、文にする力');
     var row = function (id, icon, name, sub) { return '<button class="sc-row" data-sk="open" data-id="' + id + '"><b>' + icon + ' ' + name + '</b><span>' + sub + '</span></button>'; };
     $('skBody').innerHTML = row('sound', '🔊', '音：つながる音・まぎらわしい音', k.sound ? Object.keys(k.sound).length + ' / ' + (window.HANASERU_SOUNDS || []).length : '')
+      + row('number', '🔢', '数字：速い数字を聞き取り、量をつかむ', k.number ? Object.keys(k.number).length + ' / ' + (window.HANASERU_NUMBERS || []).length : '')
       + row('hold', '🧠', '持つ：前に言ったことを覚えておく', k.hold ? '最長 ' + (k.hold.best || 1) + '文' : '')
       + row('recover', '⏩', '止まらない：最後の一文をつかむ', k.recover ? k.recover.ok + ' / ' + (k.recover.ok + k.recover.ng) : '')
       + row('repeat', '🗣', 'まねる：聞いてすぐ言う', k.repeat ? k.repeat.n + '回' : '')
@@ -125,6 +126,34 @@
         frame('🔊 音：' + ok + ' / ' + r.items.length, 'これまでに聞いた ' + Object.keys(log().sound || {}).length + ' / ' + all.length);
         $('skBody').innerHTML = '<div class="card">' + r.items.map(function (x, i) { return '<p>' + (r.picks[i] === x.answer ? '✓' : '✗') + ' <span lang="en">' + esc(x.written) + '</span></p>'; }).join('') + '</div>';
         $('skActions').innerHTML = btn('open', 'もう8問', 'big', 'data-id="sound"') + btn('menu', '基礎トレへ戻る') + '<button class="speak" data-action="home">ホームへ</button>';
+        H.menuDone('pv');
+      } });
+    window.HanaseruQuiz.playFirst();
+  }
+
+  // ---- 🔢 数字 ----
+  // 2026-11-25 院長「数字が、パッと聞いた時にわからない」。換算で止まらないよう、答えのあとに「量のイメージ」を一言で見せる。
+  var GUIDE = '<details class="library"><summary>単位の目安（換算せず、絵で覚える）</summary>'
+    + '<p>ポンド：半分にして1割引くとkg。大人1人＝約170ポンド。1,000ポンド＝大人6人ぶん。</p>'
+    + '<p>ガロン：4倍弱でリットル。ジェット燃料は1ガロン＝約3kg。</p>'
+    + '<p>ノット：2倍弱で時速km。300ノット＝時速約550km。</p>'
+    + '<p>フィート：3で割るとメートル。3万フィート＝約9,000m。</p>'
+    + '<p>海里：2倍弱でkm。1,000海里＝約1,850km。</p>'
+    + '<p>数字の言い方：1,200 は twelve hundred、6:15 は quarter past six か six fifteen、38.5 は thirty-eight point five。</p></details>';
+  function numberStart(scene) {
+    var all = (window.HANASERU_NUMBERS || []).filter(function (x) { return !scene || x.scene === scene; }), seen = log().number || {};
+    var rank = function (x) { var g = seen[x.id]; return !g ? 1 : g.ng > g.ok ? 0 : 2; };
+    var items = shuffle(all).sort(function (a, b) { return rank(a) - rank(b); }).slice(0, 8).map(function (x) {
+      return { id: x.id, en: x.en, ja: x.ja, q: 'いくつと言いましたか。（' + x.unit + '）', options: x.options, answer: x.answer, after: 'イメージ：' + x.image + '　' + x.note, optLang: 'en', img: x.image };
+    });
+    if (!items.length) return;
+    window.HanaseruQuiz.start(items, { title: '🔢 数字', sub: scene === 'aviation' ? '航空' : scene === 'clinic' ? '診察' : scene === 'travel' ? '旅' : '速い数字を聞き取る', feedback: true,
+      onAnswer: function (x, ok) { var s = log(); if (!s.number) s.number = {}; var g = s.number[x.id] || { ok: 0, ng: 0 }; if (ok) g.ok++; else g.ng++; s.number[x.id] = g; save(); if (!ok) H.focus.add(x.en, x.ja + '（' + x.img + '）', 'listen'); },
+      onDone: function (r) {
+        var ok = r.items.filter(function (x, i) { return r.picks[i] === x.answer; }).length;
+        frame('🔢 数字：' + ok + ' / ' + r.items.length, 'これまでに聞いた ' + Object.keys(log().number || {}).length + ' / ' + (window.HANASERU_NUMBERS || []).length);
+        $('skBody').innerHTML = '<div class="card">' + r.items.map(function (x, i) { return '<p>' + (r.picks[i] === x.answer ? '✓' : '✗') + ' <b lang="en">' + esc(x.options[x.answer]) + '</b>　' + esc(x.img) + '</p>'; }).join('') + '</div>' + GUIDE;
+        $('skActions').innerHTML = btn('open', 'もう8問', 'big', 'data-id="number"') + btn('open', '✈️ 航空だけ', 'speak', 'data-id="number" data-scene="aviation"') + btn('open', '🩺 診察だけ', 'speak', 'data-id="number" data-scene="clinic"') + btn('menu', '基礎トレへ戻る') + '<button class="speak" data-action="home">ホームへ</button>';
         H.menuDone('pv');
       } });
     window.HanaseruQuiz.playFirst();
@@ -296,6 +325,7 @@
       stopRec(); token++;
       if (id === 'hold' || id === 'recover') { S = null; spanRound(id); spanPlay(); }
       else if (id === 'sound') { S = null; soundStart(); }
+      else if (id === 'number') { S = null; numberStart(b.dataset.scene || ''); }
       else if (id === 'repeat') { S = { kind: 'repeat', items: repeatItems(), i: 0, heard: null, shown: false, scores: [] }; repeatRender(); A.say(S.items[0].en, { rate: 1 }); }
       else if (id === 'build') buildStart();
       else if (id === 'talk') talkList();

@@ -11,12 +11,12 @@ const init=`class Rec{start(){setTimeout(()=>{if(this.onresult&&window.TEST_HEAR
 (async()=>{const b=await webkit.launch({headless:true});try{
   const c=await b.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true,serviceWorkers:'block'});await c.addInitScript(init);await c.route('https://www.gstatic.com/**',r=>r.abort());
   const p=await openMore(await c.newPage());const errors=[];p.on('pageerror',e=>errors.push(e.message));
-  await p.goto(BASE+'/');await p.waitForFunction(()=>window.Hanaseru&&window.Hanaseru.focus&&window.HANASERU_SOUNDS&&window.HANASERU_BUILDS&&window.HANASERU_TALKS);
+  await p.goto(BASE+'/');await p.waitForFunction(()=>window.Hanaseru&&window.Hanaseru.focus&&window.HANASERU_SOUNDS&&window.HANASERU_BUILDS&&window.HANASERU_TALKS&&window.HANASERU_NUMBERS);
   const state=()=>p.evaluate(()=>JSON.parse(JSON.stringify(window.Hanaseru.getState())));
   const playing=()=>p.waitForFunction(()=>{const a=document.querySelector('#hsAudio');return !a.paused&&a.currentTime>0.05;},null,{timeout:8000});
   // ホームは1画面のまま。基礎トレの入口がある
   assert.equal(await p.locator('#homeTiles .tile').count(),16);assert(await p.locator('#homeTiles').evaluate(e=>e.getBoundingClientRect().bottom<720),'ボタンは最初の1画面に収まる');
-  await p.click('#homeTiles [data-action="skillsOpen"]');assert.equal(await p.locator('#skBody .sc-row').count(),6);
+  await p.click('#homeTiles [data-action="skillsOpen"]');assert.equal(await p.locator('#skBody .sc-row').count(),7);
   // 🧠 持つ：続けて聞く → 聞き終わってから選ぶ → 持てた長さを記録
   await p.evaluate(()=>{window.TEST_FAST=true;});
   await p.click('[data-sk="open"][data-id="hold"]');
@@ -60,6 +60,11 @@ const init=`class Rec{start(){setTimeout(()=>{if(this.onresult&&window.TEST_HEAR
   await p.locator('.qz-opt').nth(0).click();assert.equal(await p.locator('#qzBody .en').count(),1);
   await p.click('[data-qz="slow"]');await playing();
   s=await state();assert.equal(Object.keys(s.skills.sound).length,1);
+  // 🔢 数字：速い数字を聞く → 4つの数字から選ぶ → 量のイメージを見る
+  await p.click('#navHome');await p.click('#homeTiles [data-action="skillsOpen"]');await p.click('[data-sk="open"][data-id="number"]');await playing();
+  assert.equal(await p.locator('.qz-opt').count(),4);assert((await p.locator('.qz-opt').allInnerTexts()).every(t=>/[0-9]/.test(t)));
+  await p.locator('.qz-opt').nth(2).click();assert.match(await p.locator('.qz-after').innerText(),/イメージ：/);
+  s=await state();assert.equal(Object.keys(s.skills.number).length,1);
   // 🗣 まねる：聞く → 言う → 拾えなかった語に印
   await p.click('#navHome');await p.click('#homeTiles [data-action="skillsOpen"]');await p.click('[data-sk="open"][data-id="repeat"]');await playing();
   assert.equal(await p.locator('#skBody .en').count(),0);
@@ -75,5 +80,5 @@ const init=`class Rec{start(){setTimeout(()=>{if(this.onresult&&window.TEST_HEAR
   await p.click('[data-sk="bldShow"]');const longer=await p.locator('#skBody .en').innerText();await p.click('[data-sk="bldNg"]');
   s=await state();assert.equal(Object.keys(s.skills.build).length,1);assert(s.focus.some(x=>x.en===longer),'「まだ」はつまずき直しへ');
   assert.deepEqual(errors,[]);
-  console.log('PASS 基礎トレ：長い話（区切って要点）／自分で貼った英文（端末の中だけ）／持つ（持てた長さを記録）／止まらない（前は速く）／音（ゆっくり版）／まねる（拾えなかった語）／文にする（足して伸ばす）');
+  console.log('PASS 基礎トレ：数字（量のイメージ）／長い話（区切って要点）／自分で貼った英文（端末の中だけ）／持つ（持てた長さを記録）／止まらない（前は速く）／音（ゆっくり版）／まねる（拾えなかった語）／文にする（足して伸ばす）');
 }finally{await b.close();}})().catch(e=>{console.error(e);process.exit(1)});
