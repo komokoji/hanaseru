@@ -22,6 +22,7 @@ row('🎤 ドバイ', scenes.filter((s) => s.track === 'dubai').length, C.target
 row('🧩 熟語の耳トレ', (global.HANASERU_PHRASALS || []).length, C.targets.phrasals, '問');
 row('👂 耳トレの会話', global.HANASERU_LISTENING_LESSONS.length, C.targets.listeningLessons);
 row('🔊 基礎トレ：音の変化', (global.HANASERU_SOUNDS || []).length, (C.targets.sounds || 150), '問');
+row('📻 基礎トレ：長い話', (global.HANASERU_TALKS || []).length, (C.targets.talks || 30), '本');
 row('🧱 基礎トレ：文にする', (global.HANASERU_BUILDS || []).length, (C.targets.builds || 150), '文');
 row('📏 現在地チェックの版', ((global.HANASERU_ASSESS || {}).forms || []).length, C.targets.assessForms, '版');
 // 通しで聞ける会話の長さ（耳トレ＋診察＋ドバイの「通し」の音声）

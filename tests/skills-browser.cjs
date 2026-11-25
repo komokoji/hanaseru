@@ -9,12 +9,12 @@ const init=`class Rec{start(){setTimeout(()=>{if(this.onresult&&window.TEST_HEAR
 (async()=>{const b=await webkit.launch({headless:true});try{
   const c=await b.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true,serviceWorkers:'block'});await c.addInitScript(init);await c.route('https://www.gstatic.com/**',r=>r.abort());
   const p=await openMore(await c.newPage());const errors=[];p.on('pageerror',e=>errors.push(e.message));
-  await p.goto(BASE+'/');await p.waitForFunction(()=>window.Hanaseru&&window.Hanaseru.focus&&window.HANASERU_SOUNDS&&window.HANASERU_BUILDS);
+  await p.goto(BASE+'/');await p.waitForFunction(()=>window.Hanaseru&&window.Hanaseru.focus&&window.HANASERU_SOUNDS&&window.HANASERU_BUILDS&&window.HANASERU_TALKS);
   const state=()=>p.evaluate(()=>JSON.parse(JSON.stringify(window.Hanaseru.getState())));
   const playing=()=>p.waitForFunction(()=>{const a=document.querySelector('#hsAudio');return !a.paused&&a.currentTime>0.05;},null,{timeout:8000});
   // ホームは1画面のまま。基礎トレの入口がある
   assert.equal(await p.locator('#homeTiles .tile').count(),16);assert(await p.locator('#homeTiles').evaluate(e=>e.getBoundingClientRect().bottom<720),'ボタンは最初の1画面に収まる');
-  await p.click('#homeTiles [data-action="skillsOpen"]');assert.equal(await p.locator('#skBody .sc-row').count(),5);
+  await p.click('#homeTiles [data-action="skillsOpen"]');assert.equal(await p.locator('#skBody .sc-row').count(),6);
   // 🧠 持つ：続けて聞く → 聞き終わってから選ぶ → 持てた長さを記録
   await p.evaluate(()=>{window.TEST_FAST=true;});
   await p.click('[data-sk="open"][data-id="hold"]');
@@ -31,6 +31,15 @@ const init=`class Rec{start(){setTimeout(()=>{if(this.onresult&&window.TEST_HEAR
   assert(rates.length>=2&&rates.slice(0,-1).every(r=>r>1.2)&&rates[rates.length-1]===1,'前は速く・最後はふつう：'+rates);
   await p.locator('.qz-opt').nth(1).click();assert.match(await p.locator('.qz-after').innerText(),/could you say the last part again/);
   s=await state();assert.equal(s.skills.recover.ok+s.skills.recover.ng,1);
+  // 📻 長い話：区切りごとに聞く → 聞き終わってから要点を選ぶ → 最後に通しで
+  await p.click('[data-sk="menu"]');await p.click('[data-sk="open"][data-id="talk"]');assert.equal(await p.locator('[data-sk="talkOpen"]').count(),3);
+  await p.click('[data-sk="talkOpen"][data-id="talk-jet-load"]');
+  const key=await p.evaluate(()=>window.HANASERU_TALKS.find(t=>t.id==='talk-jet-load').parts.map(x=>x.answer));
+  for(let i=0;i<3;i++){assert.equal(await p.locator('.qz-opt').count(),0);await p.waitForSelector('.qz-opt',{timeout:30000});assert.equal(await p.locator('#skBody .en').isVisible().catch(()=>false),false,'答える前に英文を見せない');
+    await p.locator('.qz-opt').nth(i<2?key[i]:(key[i]+1)%3).click();await p.waitForSelector('.qz-after');await p.click('[data-sk="talkNext"]');}
+  assert.match(await p.locator('#skProgress').innerText(),/要点 2 \/ 3/);assert.equal(await p.locator('[data-sk="talkAll"]').count(),1);
+  s=await state();assert.equal(s.skills.talk.n,1);assert(s.focus.some(x=>x.src==='listen'));
+  await p.click('[data-sk="talkBack"]');assert.match(await p.locator('#skBody').innerText(),/Googleログインが必要/);
   // 🔊 音：聞いて、書かれた文から選ぶ → ゆっくり版
   await p.evaluate(()=>{window.TEST_FAST=false;});
   await p.click('[data-sk="menu"]');await p.click('[data-sk="open"][data-id="sound"]');await playing();
@@ -53,5 +62,5 @@ const init=`class Rec{start(){setTimeout(()=>{if(this.onresult&&window.TEST_HEAR
   await p.click('[data-sk="bldShow"]');const longer=await p.locator('#skBody .en').innerText();await p.click('[data-sk="bldNg"]');
   s=await state();assert.equal(Object.keys(s.skills.build).length,1);assert(s.focus.some(x=>x.en===longer),'「まだ」はつまずき直しへ');
   assert.deepEqual(errors,[]);
-  console.log('PASS 基礎トレ：持つ（持てた長さを記録）／止まらない（前は速く）／音（ゆっくり版）／まねる（拾えなかった語）／文にする（足して伸ばす）');
+  console.log('PASS 基礎トレ：長い話（区切って要点）／持つ（持てた長さを記録）／止まらない（前は速く）／音（ゆっくり版）／まねる（拾えなかった語）／文にする（足して伸ばす）');
 }finally{await b.close();}})().catch(e=>{console.error(e);process.exit(1)});

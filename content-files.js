@@ -8,6 +8,7 @@ self.HANASERU_CONTENT_FILES=[
  "./packs/clinic-dialogues.js",
  "./packs/connector-drills.js",
  "./packs/dubai-scenes.js",
+ "./packs/long-talks.js",
  "./packs/phrasal-verbs.js",
  "./packs/sound-drills.js"
 ];

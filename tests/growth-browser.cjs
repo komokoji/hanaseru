@@ -17,6 +17,7 @@ const firebase=logged=>route=>{
   if(url.endsWith('firebase-functions.js'))body=`export const getFunctions=()=>({}); export const httpsCallable=(f,name)=>async(data)=>{(window.TEST_CALLS=window.TEST_CALLS||[]).push(data);
     if(name==='hanaseruSpeech')return {data:{audioContent:window.TEST_MP3}};
     if(data.mode==='assess')return {data:{result:{scores:data.items.map((x,i)=>({score:[3,2,4][i],comment_ja:'理由を一つ足すと上がります'}))}}};
+    if(data.mode==='listen'&&data.style==='talk')return {data:{result:{title_ja:'着陸の手順',speaker_ja:'パイロット',gender:'m',note_ja:'合図の言葉',parts:[{en:'First part of the talk.',gist_ja:'最初の要点',q_ja:'何と言った？',options_ja:['あ','い','う'],answer:1},{en:'Second part of the talk.',gist_ja:'次の要点',q_ja:'何と言った？',options_ja:['あ','い','う'],answer:0}]},audioParts:[window.TEST_MP3,window.TEST_MP3]}};
     if(data.mode==='listen')return {data:{result:{title_ja:'部屋の鍵',place_ja:'ホテル',who_a:'フロント係',who_b:'宿泊客',gender_a:'f',gender_b:'m',lines:[{s:'A',en:'Good evening. How can I help?'},{s:'B',en:'My key card has stopped working.'},{s:'A',en:'Let me sort that out for you.'},{s:'B',en:'Thanks. I ended up waiting outside.'}],gist_ja:'鍵が使えない。直してもらう。',chunks:[{en:'sort that out',ja:'解決する'}],reply_ja:'困っていることを一文で伝える。'},audioContent:window.TEST_MP3}};
     if(data.mode==='feedback')return {data:{result:{better:'It ended up taking longer than I expected.',better_ja:'思ったより長くかかりました',tip:'end up を使う',phrases:[{en:'end up',ja:'結局〜になる'}]}}};
     return {data:{result:{reply:'Oh, I see. What happened then?',ended:false},audioContent:window.TEST_MP3}};};`;
@@ -85,6 +86,11 @@ const firebase=logged=>route=>{
   // AIの新しい会話：作る→音が鳴る→要所をつまずき直しへ。練習中の言い回しがAIに渡る
   await p.click('#setup [data-action="lrNew"]');await p.click('[data-lx="make"]');await p.waitForFunction(()=>document.querySelector('#lrTitle').textContent==='部屋の鍵');await playing(p);
   assert.deepEqual(await p.evaluate(()=>window.TEST_CALLS.find(c=>c.mode==='listen').focus),['sort out']);
+  // 好きな話題で、AIが長い話を作る：話題を選ぶ→作る→区切りごとに要点
+  await p.click('#navHome');await p.click('#homeTiles [data-action="skillsOpen"]');await p.click('[data-sk="open"][data-id="talk"]');
+  await p.click('[data-sk="talkTopic"] >> nth=0');await p.click('[data-sk="talkMake"]');await p.waitForFunction(()=>/着陸の手順/.test(document.querySelector('#skTitle').textContent));
+  await p.waitForSelector('.qz-opt',{timeout:20000});await p.locator('.qz-opt').nth(1).click();assert.match(await p.locator('.qz-after').innerText(),/要点をつかめました/);
+  assert.equal(await p.evaluate(()=>window.TEST_CALLS.find(c=>c.style==='talk').topicText),'飛行機・パイロットの話');
   // AI会話：練習中の言い回しが相手役に渡り、助言の言い回しがつまずき直しに入る。使えたら「使えた」になる
   await p.evaluate(()=>window.Hanaseru.openTalk());await p.click('#tkChips [data-scene]');await p.waitForSelector('#tkLog .ai');
   await p.fill('#tkInput','It took long time.');await p.click('#tkSend');await p.waitForSelector('#tkLog .me .fb');

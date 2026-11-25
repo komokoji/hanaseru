@@ -44,6 +44,7 @@
       + row('hold', '🧠', '持つ：前に言ったことを覚えておく', k.hold ? '最長 ' + (k.hold.best || 1) + '文' : '')
       + row('recover', '⏩', '止まらない：最後の一文をつかむ', k.recover ? k.recover.ok + ' / ' + (k.recover.ok + k.recover.ng) : '')
       + row('repeat', '🗣', 'まねる：聞いてすぐ言う', k.repeat ? k.repeat.n + '回' : '')
+      + row('talk', '📻', '長い話：区切って聞き、要点をつかむ', k.talk ? k.talk.n + '本' : '')
       + row('build', '🧱', '文にする：単語から、つながった文へ', k.build ? Object.keys(k.build).length + ' / ' + (window.HANASERU_BUILDS || []).length : '');
     $('skActions').innerHTML = '';
   }
@@ -194,6 +195,66 @@
       .then(function (res) { if (S && S.kind === 'build' && S.i + ':' + S.step === at) { S.tip = res.data.result.tip; buildRender(); } }).catch(function () {});
   }
 
+  // ---- 📻 長い話 ----
+  // 一人が1分ほど話す英語を、3つの区切りで聞く。区切りごとに要点を確かめ、最後に通しで聞く（保持の練習）。
+  function talkList(note) {
+    S = null; frame('📻 長い話', '区切って聞き、要点をつかむ');
+    var logged = H.loggedIn && H.loggedIn();
+    $('skBody').innerHTML = (window.HANASERU_TALKS || []).map(function (t) { return '<button class="sc-row" data-sk="talkOpen" data-id="' + t.id + '"><b>' + esc(t.title) + '</b><span>' + esc(t.topic) + '</span></button>'; }).join('')
+      + '<div class="card"><p><b>✨ 好きな話題で、新しい話を作る</b></p>'
+      + '<input id="skTopic" type="text" maxlength="120" placeholder="例：小型機のパイロットが、着陸の手順を話す" lang="ja">'
+      + '<div class="speakrow sk-topics">' + ['飛行機・パイロットの話', '旅の工夫', '医師の仕事の一日', '料理・食べ物'].map(function (x) { return '<button class="chip" data-sk="talkTopic" data-t="' + x + '">' + x + '</button>'; }).join('') + '</div>'
+      + (logged ? btn('talkMake', '話を作る（10〜20秒）', 'big') : '<p class="fbtip">新しい話を作るには、Googleログインが必要です。上の3本はログインなしで使えます。</p>')
+      + '<p class="stat" id="skStatus" role="status">' + esc(note || '') + '</p></div>';
+    $('skActions').innerHTML = btn('menu', '基礎トレへ戻る');
+  }
+  function talkBegin(t, audio) { S = { kind: 'talk', t: t, i: 0, phase: 'ready', ok: 0, audio: audio || null }; talkRender(); talkPlay(); }
+  function talkPlay() {
+    var t = ++token, p = S.t.parts[S.i]; S.phase = 'listening'; talkRender(); H.recordActivity();
+    A.say(p.en, { rate: 1, audio: S.audio ? S.audio[S.i] : null, callbacks: {
+      end: function () { if (t === token && S && S.kind === 'talk') { S.phase = 'answer'; talkRender(); } },
+      error: function () { if (t === token && S && S.kind === 'talk') { S.phase = 'answer'; talkRender(); } },
+      blocked: function () { if (t === token) $('skProgress').textContent = '画面下の ▶ を押すと再生します。'; } } });
+  }
+  function talkAll() {
+    var t = ++token, i = 0; H.recordActivity();
+    var next = function () { if (t !== token || !S || i >= S.t.parts.length) return; var p = S.t.parts[i], a = S.audio ? S.audio[i] : null; i++; A.say(p.en, { rate: 1, audio: a, callbacks: { end: function () { setTimeout(next, 200); }, error: next } }); };
+    next();
+  }
+  function talkRender() {
+    var T = S.t, n = T.parts.length, p = T.parts[S.i];
+    if (S.phase === 'all') {
+      frame('📻 ' + T.title, '要点 ' + S.ok + ' / ' + n);
+      $('skBody').innerHTML = '<div class="card">' + btn('talkAll', '▶ 通しで聞く（区切りなし）', 'big') + '<p class="muted">' + esc(T.note || '') + '</p>'
+        + '<details><summary>英文と要点を見る</summary>' + T.parts.map(function (x, i) { return '<p lang="en">' + (i + 1) + '. ' + esc(x.en) + '</p><p class="muted">' + esc(x.ja) + '</p>'; }).join('') + '</details></div>';
+      $('skActions').innerHTML = btn('talkBack', 'ほかの話へ', 'big') + btn('menu', '基礎トレへ戻る') + '<button class="speak" data-action="home">ホームへ</button>';
+      return;
+    }
+    frame('📻 ' + T.title, (S.i + 1) + ' / ' + n + ' ・ ' + (T.speaker || ''));
+    var html = '<div class="card">';
+    if (S.phase === 'ready') html += btn('talkPlay', '▶ 聞く', 'big');
+    else if (S.phase === 'listening') html += '<p class="stat">聞いています…</p>';
+    else {
+      var done = S.phase === 'done';
+      html += '<p class="qz-q">' + esc(p.q) + '</p>' + p.options.map(function (o, i) {
+        var cls = 'qz-opt' + (done ? (i === p.answer ? ' right' : i === S.pick ? ' wrong' : '') : '');
+        return '<button class="' + cls + '" data-sk="talkPick" data-n="' + i + '"' + (done ? ' disabled' : '') + '>' + esc(o) + '</button>';
+      }).join('');
+      if (!done) html += btn('talkPlay', '🔁 もう一度聞く');
+      else html += '<div class="qz-after"><p class="' + (S.pick === p.answer ? 'fbok' : 'fbtip') + '">' + (S.pick === p.answer ? '✓ 要点をつかめました' : '✗ ここが抜けました') + '</p><p>' + esc(p.ja) + '</p><details><summary>英文を見る</summary><p class="en" lang="en">' + esc(p.en) + '</p></details></div>';
+    }
+    $('skBody').innerHTML = html + '</div>';
+    $('skActions').innerHTML = (S.phase === 'done' ? btn('talkNext', S.i + 1 < n ? '続きを聞く →' : '通しで聞く →', 'big') + btn('talkPlay', '🔊 この区切りをもう一度') : '') + btn('talkBack', 'ほかの話へ');
+  }
+  function talkMake() {
+    var topic = ($('skTopic').value || '').trim(); if (!topic) { $('skStatus').textContent = '話題を入れるか、下の例を選んでください。'; return; }
+    var t = ++token; $('skStatus').textContent = '話を作っています…（10〜20秒）';
+    H.ai({ mode: 'listen', style: 'talk', topicText: topic, focus: H.focus.forAI() }).then(function (res) {
+      if (t !== token) return; var d = res.data.result;
+      talkBegin({ id: 'ai', title: d.title_ja, speaker: d.speaker_ja, note: d.note_ja, parts: d.parts.map(function (x) { return { en: x.en, ja: x.gist_ja, q: x.q_ja, options: x.options_ja, answer: x.answer }; }) }, res.data.audioParts);
+    }).catch(function (e) { if (t === token && $('skStatus')) $('skStatus').textContent = '作れませんでした：' + (e && (e.message || e.code) || e); });
+  }
+
   document.addEventListener('click', function (e) {
     var a = e.target.closest('[data-action="skillsOpen"]'); if (a) { menu(); return; }
     var b = e.target.closest('[data-sk]'); if (!b) return; var k = b.dataset.sk, id = b.dataset.id;
@@ -204,10 +265,24 @@
       else if (id === 'sound') { S = null; soundStart(); }
       else if (id === 'repeat') { S = { kind: 'repeat', items: repeatItems(), i: 0, heard: null, shown: false, scores: [] }; repeatRender(); A.say(S.items[0].en, { rate: 1 }); }
       else if (id === 'build') buildStart();
+      else if (id === 'talk') talkList();
       return;
     }
+    if (k === 'talkOpen') { var tk = (window.HANASERU_TALKS || []).find(function (x) { return x.id === id; }); if (tk) talkBegin(tk); return; }
+    if (k === 'talkTopic') { $('skTopic').value = b.dataset.t; return; }
+    if (k === 'talkMake') return talkMake();
+    if (k === 'talkBack') { token++; A.stop(''); return talkList(); }
     if (!S) return;
-    if (k === 'spanPlay' || k === 'spanAgain') spanPlay();
+    if (k === 'talkPlay') talkPlay();
+    else if (k === 'talkAll') talkAll();
+    else if (k === 'talkPick' && S.phase === 'answer') {
+      var part = S.t.parts[S.i]; S.pick = +b.dataset.n; S.phase = 'done'; A.stop(''); if (S.pick === part.answer) S.ok++; else H.focus.add(part.en.split(/(?<=[.!?])\s+/)[0], part.ja, 'listen'); talkRender();
+    }
+    else if (k === 'talkNext') {
+      if (S.i + 1 < S.t.parts.length) { S.i++; talkPlay(); }
+      else { var lg = log(); lg.talk = { n: ((lg.talk || {}).n || 0) + 1, last: S.ok + '/' + S.t.parts.length }; save(); H.menuDone('pv'); S.phase = 'all'; talkRender(); }
+    }
+    else if (k === 'spanPlay' || k === 'spanAgain') spanPlay();
     else if (k === 'spanReplay') { S.replay++; spanPlay(); }
     else if (k === 'spanPick' && S.phase === 'answer') spanPicked(+b.dataset.n);
     else if (k === 'spanNext') { if (S.round >= 6) spanSummary(); else { var kind = S.kind; if (kind === 'hold') S.span = S.nextSpan; spanRound(kind); spanPlay(); } }

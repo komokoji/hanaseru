@@ -190,6 +190,30 @@ const ListenOut = z.object({
   lines: z.array(z.object({ s: z.string(), en: z.string() })),
   gist_ja: z.string(), chunks: z.array(z.object({ en: z.string(), ja: z.string() })), reply_ja: z.string()
 });
+// 📻 長い話（mode "listen" + style "talk"）。院長の好きな話題で、一人が話し続ける創作の話。
+const TALK_SYSTEM = `You write short original monologues for a Japanese adult learner who reads English well but loses the
+thread when someone talks for a while: he understands the beginning, forgets it while concentrating on what
+comes next, and ends with only a vague idea. He wants to follow the kind of English he enjoys online (for
+example pilots, travelers, or professionals explaining what they do).
+Write ONE speaker talking naturally to camera about the topic he gives you, in 3 parts of 40–60 words each
+(about one minute in total). It must be entirely your own writing: do not quote, imitate, or reconstruct any
+real person, video, article, or site, and do not present invented figures as facts about a real product,
+aircraft, company, or person (keep details generic, e.g. "a small jet like this"). No medical, legal, or
+financial advice. Standard spoken English with contractions and natural signposts (So here's the thing, /
+The trick is, / which means / What I do is / And honestly,); no slang, no rare words.
+Each part must carry ONE clear main point that the next part builds on.
+Return:
+- title_ja: a short Japanese title (18字以内). speaker_ja: who is talking, in Japanese. gender: "m" or "f".
+- parts: for each part — en (the spoken English); gist_ja (its main point, one or two Japanese sentences);
+  q_ja (a Japanese question about that main point); options_ja (exactly 3 Japanese answers of similar
+  length, one correct; the wrong ones should be what a listener who caught only a few words might guess);
+  answer (index 0–2 of the correct one; vary the position between parts).
+- note_ja: one Japanese line pointing out the signpost phrases used, so he learns to listen for them.`;
+const TalkOut = z.object({
+  title_ja: z.string(), speaker_ja: z.string(), gender: z.string(),
+  parts: z.array(z.object({ en: z.string(), gist_ja: z.string(), q_ja: z.string(), options_ja: z.array(z.string()), answer: z.number() })),
+  note_ja: z.string()
+});
 // 練習中の言い回し（最大5つ・短い句だけ）。本文としては保存しない。
 function cleanFocus(list) {
   return (Array.isArray(list) ? list : []).slice(0, 5).map((x) => String(x || "").replace(/\s+/g, " ").trim().slice(0, 80)).filter(Boolean);
@@ -373,6 +397,38 @@ exports.hanaseruChat = onCall(
       }
 
       // 👂 耳トレの新しい会話を作る（創作）。話し手ごとに声を分けて1本の音声にする。
+      // 📻 長い話（一人が1分ほど話す）。院長が入れた話題で、創作の話を作る。区切りごとに要点の問い。
+      if (data.mode === "listen" && data.style === "talk") {
+        const topicText = String(data.topicText || "").replace(/\s+/g, " ").trim().slice(0, 160) || "a traveler describing an ordinary day abroad";
+        const focus = cleanFocus(data.focus);
+        const t0 = Date.now();
+        const talkParams = {
+          model: REPLY_MODEL,
+          max_tokens: 3000,
+          system: [{ type: "text", text: TALK_SYSTEM, cache_control: { type: "ephemeral" } }],
+          messages: [{ role: "user", content: `Topic he is interested in: ${topicText}` + (focus.length ? `\nWork these expressions in naturally where they fit: ${focus.join(" / ")}` : "") }],
+          output_config: { effort: "low", format: zodOutputFormat(TalkOut) }
+        };
+        let res;
+        try { res = await client.messages.parse(talkParams); }
+        catch (e) { console.error("hanaseruChat talk fallback", e && e.name, e && e.status); res = await client.messages.parse(Object.assign({}, talkParams, { model: MODEL })); }
+        if (res.stop_reason === "refusal") throw new HttpsError("failed-precondition", "AI がこの話題では作れませんでした。別の話題でお試しください");
+        const d = res.parsed_output;
+        if (!d || !Array.isArray(d.parts) || d.parts.length < 2) throw new HttpsError("internal", "話を作れませんでした。もう一度お試しください");
+        d.parts = d.parts.slice(0, 4).map((p) => ({ en: String(p.en).slice(0, 700), gist_ja: String(p.gist_ja || ""), q_ja: String(p.q_ja || ""),
+          options_ja: (Array.isArray(p.options_ja) ? p.options_ja : []).slice(0, 3).map(String), answer: Math.max(0, Math.min(2, Math.round(Number(p.answer) || 0))) }));
+        const aiMs = Date.now() - t0;
+        let audioParts = null;
+        if (typeof speech.speak === "function") {
+          try {
+            const voice = (d.gender === "m" ? ["en-GB-Neural2-B", "en-US-Neural2-D", "en-AU-Neural2-B"] : ["en-US-Neural2-F", "en-GB-Neural2-A", "en-AU-Neural2-A"])[Math.floor(Math.random() * 3)];
+            audioParts = await Promise.all(d.parts.map((p) => speech.speak(p.en, { voice, rate: 1, timeoutMs: 15000 })));
+          } catch (e) { console.error("hanaseruChat talk speech unavailable", e.name); }
+        }
+        console.log(JSON.stringify({ at: "talk", ai_ms: aiMs, tts_ms: Date.now() - t0 - aiMs, audio: !!audioParts, parts: d.parts.length }));   // 話題も本文も残さない
+        return { mode: "listen", style: "talk", result: d, audioParts };
+      }
+
       if (data.mode === "listen") {
         const topic = LISTEN_TOPICS[data.topic] ? data.topic : "travel";
         const focus = cleanFocus(data.focus);

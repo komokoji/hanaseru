@@ -21,15 +21,15 @@ global.window = global; global.self = global;
 ['practice-core', 'scenes-data', 'personal-scenes', 'listening-lessons'].forEach((f) => require('../' + f + '.js'));
 const baseScenes = new Set(global.HANASERU_SCENES.map((s) => s.id)), baseLessons = global.HANASERU_LISTENING_LESSONS.length;
 const packs = fs.readdirSync('packs').filter((f) => f.endsWith('.js')).sort();
-const count = () => ({ sounds: (global.HANASERU_SOUNDS || []).length, builds: (global.HANASERU_BUILDS || []).length, scenes: global.HANASERU_SCENES.length, pv: (global.HANASERU_PHRASALS || []).length, assess: ((global.HANASERU_ASSESS || {}).forms || []).length, lessons: global.HANASERU_LISTENING_LESSONS.length });
+const count = () => ({ talks: (global.HANASERU_TALKS || []).length, sounds: (global.HANASERU_SOUNDS || []).length, builds: (global.HANASERU_BUILDS || []).length, scenes: global.HANASERU_SCENES.length, pv: (global.HANASERU_PHRASALS || []).length, assess: ((global.HANASERU_ASSESS || {}).forms || []).length, lessons: global.HANASERU_LISTENING_LESSONS.length });
 const owner = {};   // 教材の id → どのファイルのものか
 const report = [];
 packs.forEach((file) => {
   const before = count();
   try { require('../packs/' + file); } catch (e) { err(file, '読み込めない（' + e.message + '）'); return; }
   const after = count();
-  const added = { sounds: after.sounds - before.sounds, builds: after.builds - before.builds, scenes: after.scenes - before.scenes, pv: after.pv - before.pv, assess: after.assess - before.assess, lessons: after.lessons - before.lessons };
-  if (!added.scenes && !added.pv && !added.assess && !added.lessons && !added.sounds && !added.builds) err(file, '教材が1つも足されていない（HANASERU_SCENES への push などを確かめる）');
+  const added = { talks: after.talks - before.talks, sounds: after.sounds - before.sounds, builds: after.builds - before.builds, scenes: after.scenes - before.scenes, pv: after.pv - before.pv, assess: after.assess - before.assess, lessons: after.lessons - before.lessons };
+  if (!added.scenes && !added.pv && !added.assess && !added.lessons && !added.sounds && !added.builds && !added.talks) err(file, '教材が1つも足されていない（HANASERU_SCENES への push などを確かめる）');
   global.HANASERU_SCENES.slice(before.scenes).forEach((s) => { s.__file = file; });
   (global.HANASERU_PHRASALS || []).slice(before.pv).forEach((p) => { p.__file = file; });
   global.HANASERU_LISTENING_LESSONS.slice(before.lessons).forEach((l) => { l.__file = file; });
@@ -85,6 +85,19 @@ const bldIds = new Set();
   if (x.model && x.longer && !x.longer.startsWith(x.model.replace(/[.!?]$/, ''))) at('longer は model から始める');
   if (x.longer && words(x.longer) > 40) at('longer が長い（40語以内）');
 });
+// ---- 点検：長い話 ----
+const talkIds = new Set();
+(global.HANASERU_TALKS || []).forEach((t) => {
+  const at = (m) => err('packs/talks', (t.id || '(idなし)') + ' ' + m);
+  ['id', 'topic', 'title', 'speaker', 'voice'].forEach((k) => { if (typeof t[k] !== 'string' || !t[k]) at(k + ' が無い'); });
+  if (talkIds.has(t.id)) at('id が重なっている'); talkIds.add(t.id);
+  if (VOICES.indexOf(t.voice) < 0) at('voice は決まった6つの声から');
+  if (!Array.isArray(t.parts) || t.parts.length < 2 || t.parts.length > 5) at('parts は2〜5区切り');
+  (t.parts || []).forEach((p, i) => {
+    if (!p.en || !p.ja || !p.q || !Array.isArray(p.options) || p.options.length !== 3 || !(p.answer >= 0 && p.answer <= 2)) at((i + 1) + '区切り目の形が違う（en・ja・q・options×3・answer）');
+    if (p.en && (words(p.en) < 25 || words(p.en) > 80)) at((i + 1) + '区切り目は25〜80語');
+  });
+});
 // ---- 点検：現在地チェック ----
 ((global.HANASERU_ASSESS || {}).forms || []).forEach((form) => {
   const f = 'packs/assess', at = (m) => err(f, '版 ' + form.id + ' ' + m);
@@ -127,6 +140,7 @@ if (CHECK) {
     if (s.track === 'consult' || s.track === 'dubai') need(cards, s.turns.map((t) => t.heard + ' ' + t.en).join(' '), s.id + '（通し）', s.__file);
   });
   (global.HANASERU_PHRASALS || []).forEach((p) => need(cards, p.en, p.id, p.__file || 'packs'));
+  (global.HANASERU_TALKS || []).forEach((t) => t.parts.forEach((p, i) => need(cards, p.en, t.id + '（' + (i + 1) + '）', 'packs/talks')));
   (global.HANASERU_SOUNDS || []).forEach((x) => { need(cards, x.en, x.id, 'packs/sound'); if (x.slow) need(cards, x.slow, x.id + '（ゆっくり）', 'packs/sound'); });
   (global.HANASERU_BUILDS || []).forEach((x) => { need(cards, x.model, x.id, 'packs/build'); need(cards, x.longer, x.id + '（伸ばした文）', 'packs/build'); });
   ((global.HANASERU_ASSESS || {}).forms || []).forEach((f) => { f.listening.forEach((x) => need(cards, x.en, x.id, 'packs/assess')); f.speaking.forEach((x) => need(cards, x.promptEn, x.id, 'packs/assess')); });
@@ -142,7 +156,7 @@ if (!CHECK) {
     html = fs.readFileSync('index.html', 'utf8'); fs.writeFileSync('index.html', html.replace('最新版を読み込む（v' + v + '）', '最新版を読み込む（v' + next + '）'));
     console.log('版を上げました：v' + v + ' → v' + next);
   }
-  report.forEach((r) => console.log('  ' + r.file + '：' + [['音', r.added.sounds], ['文にする', r.added.builds], ['場面', r.added.scenes], ['熟語', r.added.pv], ['現在地の版', r.added.assess], ['耳トレ', r.added.lessons]].filter((x) => x[1]).map((x) => x[0] + ' ' + x[1]).join('・')));
+  report.forEach((r) => console.log('  ' + r.file + '：' + [['長い話', r.added.talks], ['音', r.added.sounds], ['文にする', r.added.builds], ['場面', r.added.scenes], ['熟語', r.added.pv], ['現在地の版', r.added.assess], ['耳トレ', r.added.lessons]].filter((x) => x[1]).map((x) => x[0] + ' ' + x[1]).join('・')));
   console.log(inSync ? '登録は最新です（' + packs.length + ' ファイル）' : '登録を書き直しました（' + packs.length + ' ファイル）');
 }
 warns.forEach((w) => console.log('  ⚠ ' + w));
