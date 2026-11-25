@@ -27,7 +27,7 @@ const firebase=route=>{
   if(url.endsWith('firebase-app.js'))body='export const initializeApp=()=>({}); export const getApp=()=>({});';
   if(url.endsWith('firebase-auth.js'))body=`export const getAuth=()=>({currentUser:window.TEST_LOGGED_IN?{uid:'test'}:null}); export class GoogleAuthProvider{}; export const onAuthStateChanged=(a,f)=>{f(a.currentUser);}; export const signInWithPopup=async()=>{}; export const signInWithRedirect=async()=>{}; export const getRedirectResult=async()=>null; export const signOut=async()=>{}; export const setPersistence=async()=>{}; export const browserLocalPersistence={};`;
   if(url.endsWith('firebase-firestore.js'))body='export const getFirestore=()=>({}); export const doc=()=>({}); export const getDoc=async()=>({exists:()=>false}); export const setDoc=async()=>{}; export const serverTimestamp=()=>0;';
-  if(url.endsWith('firebase-functions.js'))body=`const wait=ms=>new Promise(r=>setTimeout(r,ms)); export const getFunctions=()=>({}); export const httpsCallable=(f,name)=>async(data)=>{await wait(300); if(name==='hanaseruSpeech'){window.TEST_SPEECH_CALLS=(window.TEST_SPEECH_CALLS||0)+1; if(window.TEST_SPEECH_FAIL)throw new Error('unavailable'); return {data:{audioContent:window.TEST_MP3}};} return {data:{result:{reply:'Why is that important to you? '+(window.TEST_N=(window.TEST_N||0)+1),better:'I think so.',better_ja:'',tip:'',ended:false}}};};`;
+  if(url.endsWith('firebase-functions.js'))body=`const wait=ms=>new Promise(r=>setTimeout(r,ms)); export const getFunctions=()=>({}); export const httpsCallable=(f,name)=>async(data)=>{await wait(300); if(name==='hanaseruSpeech'){window.TEST_SPEECH_CALLS=(window.TEST_SPEECH_CALLS||0)+1; if(window.TEST_SPEECH_FAIL)throw new Error('unavailable'); return {data:{audioContent:window.TEST_MP3}};} (window.TEST_CHAT=window.TEST_CHAT||[]).push({mode:data.mode,split:data.split}); if(data.mode==='feedback'){await wait(400);return {data:{result:{better:'I think so.',better_ja:'そう思います',tip:'伝わります'}}};} return {data:{result:{reply:'Why is that important to you? '+(window.TEST_N=(window.TEST_N||0)+1),ended:false},audioContent:window.TEST_SPEECH_FAIL?null:window.TEST_MP3}};};`;
   route.fulfill({status:200,contentType:'text/javascript',body});
 };
 const playing=p=>p.waitForFunction(()=>{const a=document.querySelector('#hsAudio');return a&&!a.paused&&a.currentTime>0.05;},null,{timeout:8000});
@@ -76,10 +76,13 @@ const paused=p=>p.locator('#hsAudio').evaluate(a=>a.paused);
   await p.waitForSelector('#tkLog .ai');await playing(p);
   assert.equal(await p.evaluate(()=>window.TEST_REJECTED||0),0);
   assert.equal(await p.evaluate(()=>window.TEST_TTS.length+window.TEST_TTS_DROPPED),0);
+  // 返答と一緒に音声が届く＝音声を作るための別の通信はしない
+  assert.equal(await p.evaluate(()=>window.TEST_SPEECH_CALLS||0),0);
+  assert.deepEqual(await p.evaluate(()=>window.TEST_CHAT),[{mode:'chat',split:true}]);
   // 「相手の声を聞く」＝同じ文は作り直さず、すぐ鳴る
-  await p.click('#hsStop');const calls=await p.evaluate(()=>window.TEST_SPEECH_CALLS);
+  await p.click('#hsStop');const calls=await p.evaluate(()=>window.TEST_SPEECH_CALLS||0);
   await p.click('#tkLog .speak[data-say]');await playing(p);
-  assert.equal(await p.evaluate(()=>window.TEST_SPEECH_CALLS),calls);
+  assert.equal(await p.evaluate(()=>window.TEST_SPEECH_CALLS||0),calls);
   // マイクを始めると、相手の声は止まる
   await p.click('#tkMic');assert.equal(await paused(p),true);
   await p.waitForFunction(()=>document.querySelector('#tkVoiceStatus').textContent.includes('聞いています'));
@@ -87,6 +90,9 @@ const paused=p=>p.locator('#hsAudio').evaluate(a=>a.paused);
   // 文字で送る → 次の返答も自動で鳴る
   await p.fill('#tkInput','Because it helps children.');await p.click('#tkSend');
   await p.waitForFunction(()=>document.querySelectorAll('#tkLog .ai').length===2);await playing(p);
+  // 言い方のヒントは返答のあとから届き、自分の吹き出しに付く（返答を待たせない）
+  await p.waitForSelector('#tkLog .me details');assert.match(await p.locator('#tkLog .me details').innerText(),/言い方のヒント/);
+  assert.equal(await p.evaluate(()=>window.TEST_CHAT.filter(c=>c.mode==='feedback').length),1);
   await p.click('#navHome');assert.equal(await paused(p),true);
   console.log('PASS 3 ログイン中・AI会話：通信後の返答が自動で鳴る／聞き直し／マイク開始で停止／ホームで停止');
 

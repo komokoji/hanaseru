@@ -131,6 +131,20 @@
   #capBox::backdrop{background:#0006} #capBox .row{flex-wrap:wrap} #capBox textarea{box-sizing:border-box;width:100%}
   .nav-controls{flex-wrap:wrap} #navCapture{font-weight:700}
   @media(max-width:400px){.app-header .logo small{display:none}}
+  /* ホームを引き締める（2026-11-25 院長「上下に間延びしている」） */
+  #setup .quick-start{padding:14px;margin:6px 0;gap:8px;border-radius:16px}#setup .quick-start h2,#setup .goal-start h2{font-size:18px;margin:0}
+  #setup .goal-start{padding:12px;margin:6px 0;border-radius:16px}#setup .big{padding:13px}#setup .muted{font-size:13px;margin:0}
+  #setup .library{margin:6px 0;padding:10px 12px}#setup .library .library{margin:6px 0}#setup label{font-size:13px;color:var(--sub)}
+  .grid.two{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px}.grid.two .choice{width:100%;padding:10px 12px;flex-direction:column;align-items:flex-start;gap:2px}.grid.two>.choice{height:100%}
+  .grid.two .stat{font-size:12px;margin:2px 2px 0}#setup #lpTopic{min-height:44px}
+  #habitPill{margin-bottom:0}#activityStatus{margin:4px 0}
+  #lrBody label{display:block;margin-top:8px}
+  .lr-lines p{margin:6px 0;line-height:1.45}.lr-lines b{display:block;font-size:12px;color:var(--sub);font-weight:600}.lr-where{font-size:13px;color:var(--sub);margin:0}
+  /* 教材の一覧を引き締める：範囲は横に1行、各行は1段 */
+  #clChips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch}#clChips .chip{white-space:nowrap;padding:6px 12px;flex:none}
+  #clList .clrow{flex-wrap:nowrap;align-items:center;padding:8px 10px;margin-top:5px}#clList .cltext{flex:1 1 auto}
+  #clList .clrow > .speak{margin-left:0;padding:6px 8px;font-size:12px;white-space:nowrap;flex:none}
+  #checklist h2{font-size:18px;margin:4px 0 6px}
   /* 音声の共通プレーヤー：鳴っている間と、タップが要るときだけ画面下に出る */
   .hs-player{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;align-items:center;gap:8px;padding:10px 12px;padding-bottom:max(10px,env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--line);box-shadow:0 -4px 14px #0002}
   .hs-player[hidden]{display:none}.hs-player p{flex:1;min-width:0;margin:0;font-size:13px;line-height:1.35;color:var(--ink)}
@@ -149,12 +163,12 @@
     <div class="nav-controls"><button type="button" data-action="capOpen" id="navCapture">＋伝えたい</button><button type="button" data-nav="home" id="navHome">ホーム</button><button type="button" id="navToggle" aria-expanded="false" aria-controls="appMenu">☰ メニュー</button></div>
     <nav id="appMenu" aria-label="ハナセルのメニュー" hidden>
       <button type="button" data-nav="home">ホームに戻る</button>
-      <button type="button" data-nav="listeningRoute">今日の3分</button>
+      <button type="button" data-nav="listeningRoute">今日の耳トレ</button>
       <button type="button" data-nav="personal">自己紹介・接続表現</button>
       <button type="button" data-nav="talk">AIと会話する</button>
       <button type="button" data-nav="shelfOpen">自分のことば帳</button>
       <button type="button" data-nav="settings">通知の設定</button>
-      <button type="button" data-nav="account">ログイン・同期</button><button type="button" onclick="location.reload()">最新版を読み込む（v70）</button>
+      <button type="button" data-nav="account">ログイン・同期</button><button type="button" onclick="location.reload()">最新版を読み込む（v71）</button>
     </nav>
   </header>
   <aside id="legacySite" class="goal-start" hidden><strong>こちらは旧公開先です</strong><p>ログイン・AI会話・通知は正規版でご利用ください。</p><a class="big" href="https://hanaseru.web.app/?practice=talk">正規版のハナセルを開く →</a><p class="muted">このページの端末内記録は残ります。正規版とは保存先が別です。</p></aside>
@@ -162,29 +176,76 @@
   <p id="activityStatus" class="activity-status" role="status">今日は、ひとつ取り組めばOK。</p>
 
   <!-- 範囲えらび -->
-  <section id="listeningRoute" hidden><div class="bar"><h2 id="lrTitle" tabindex="-1"></h2><button class="link" data-action="home">中断してホームへ</button></div><p id="lrProgress" class="stat"></p><p class="muted">3分は目安。今日の内容は日本時間で日替わり、同じ日は続きから。教材は旅行場面を想定した創作会話・合成音声の教材です。</p><p id="lrStatus" role="status"></p><div id="lrBody" style="overflow-wrap:anywhere"></div><button id="lrBack" data-lr="back">← 一つ前へ</button><p class="muted">この練習の続き・つまずきメモはこの端末に保存します。AI会話にはログインと通信が必要です。</p></section>
+  <section id="listeningRoute" hidden><div class="bar"><h2 id="lrTitle" tabindex="-1"></h2><button class="link" data-action="home">中断してホームへ</button></div><p id="lrProgress" class="stat"></p><p class="muted">日替わりの会話（約45秒）。同じ日は続きから。創作の会話を合成音声で読んでいます。</p><p id="lrStatus" role="status"></p><div id="lrBody" style="overflow-wrap:anywhere"></div><button id="lrBack" data-lr="back">← 一つ前へ</button><p class="muted">この練習の続き・つまずきメモはこの端末に保存します。AI会話にはログインと通信が必要です。</p></section>
   <section id="setup">
-    <div class="quick-start"><h2>今日は、耳から3分</h2><p id="lrHome"></p><button type="button" class="big" data-action="listeningRoute">今日の3分を始める ▸</button><p class="muted">昨日の一表現を約30秒 → 今日の会話を約2分30秒。内容は自動で選びます。復習がない日は、そのまま今日の会話へ。</p></div>
-    <details class="goal-start" id="pushSettings"><summary>🔔 毎日20時の通知を設定</summary><p>通知をタップすると「今日の3分」が開きます。日本時間20時・この端末への通知です。</p><p id="pushStatus" role="status">通知の状態を確認しています…</p><button type="button" id="pushEnable" disabled>毎日20時の通知を有効にする</button><button type="button" id="pushTest" disabled>テスト通知を送る</button><button type="button" id="pushDisable" disabled>この端末の通知を停止</button><button type="button" id="pushRefresh">状態を確認</button><p class="muted">iPhoneはiOS 16.4以降で、ホーム画面に追加して開きます。初回の通知許可はご本人の操作が必要です。集中モード・通信状態などで通知が遅れることがあります。</p></details>
+    <div class="quick-start">
+      <h2>👂 今日の耳トレ</h2><p id="lrHome"></p>
+      <button type="button" class="big" data-action="listeningRoute">今日の会話を聞く ▸</button>
+      <p class="muted">空港・機内・ホテル・街なか・学会の会話を、男女の声・自然な速さで。日替わりで自動に選びます。</p>
+    </div>
+    <div class="quick-start" id="learningPlan">
+      <h2>🗣 AIと話す</h2>
+      <label for="lpTrack">場面</label>
+      <select id="lpTrack"><option value="clinic">診療：初診の保護者と話す</option><option value="book">本・ドバイ：本に関心のある相手と話す</option><option value="travel">旅先での自然な雑談</option></select>
+      <label for="lpTopic">今日は何を伝えたい？（任意）</label>
+      <textarea id="lpTopic" rows="1" maxlength="1000" placeholder="例：本を書いた理由を説明したい"></textarea>
+      <button type="button" class="big" data-action="quickTalk">AIと話す（5往復から）</button>
+      <p class="muted">架空の場面で話します。患者さんの氏名・カルテ番号・実際の会話は入力しないでください。</p>
+    </div>
+    <div class="goal-start">
+      <h2>🔁 場面で口に慣らす</h2>
+      <div class="grid two">
+        <div><button class="choice" data-action="sceneTrack" data-track="personal"><span>自己紹介・接続表現</span><b>自分を語る ▸</b></button><p id="sceneHome-personal" class="stat"></p></div>
+        <div><button class="choice" data-action="sceneTrack" data-track="clinic"><span>いつもの説明を、やり取りで</span><b>診療で話す ▸</b></button><p id="sceneHome-clinic" class="stat"></p></div>
+        <div><button class="choice" data-action="sceneTrack" data-track="travel"><span>用事を済ませる・雑談</span><b>旅先で話す ▸</b></button><p id="sceneHome-travel" class="stat"></p></div>
+        <div><button class="choice" data-action="shelfOpen"><span>これから・練習中・使えた</span><b>自分のことば帳 ▸</b></button></div>
+      </div>
+    </div>
+    <div class="quick-start">
+      <h2>⏱ 3分練習（1文から）</h2>
+      <label for="practiceFocus">練習する場面</label>
+      <select id="practiceFocus"><option value="all">自分の保存文＋復習を優先</option><option value="clinic">診療</option><option value="travel">旅行・日常</option><option value="me">自分の考え</option><option value="mine">保存した言い方</option><option value="bridge">会話をつなぐ18表現</option></select>
+      <p id="practiceTarget" class="stat"></p>
+      <button class="big" data-action="practiceStart" id="practiceStart">3分練習を始める</button>
+      <button class="speak" data-action="practiceBrief">忙しい日は1文だけ（約1分）</button>
+      <p class="stat" id="practiceSummary" aria-live="polite"></p>
+      <button class="speak" data-action="capOpen">＋ 今日つまずいたことを残す</button>
+    </div>
+    <details class="library"><summary>📚 教材の一覧から選ぶ（英文を見る・聞く）</summary>
+    <p class="muted">場面ごとの英文の一覧です。日本語を見て声に出す → 行をタップすると英語と音声。</p>
+    <div class="grid two">
+      <button class="choice" data-action="start" data-domain="trip"><span>12月の旅：まずここだけ（単語20＋15文）</span><b>✈️ 最優先35 ▸</b></button>
+      <button class="choice" data-action="start" data-domain="trip2"><span>12月の旅：空港の場面と、雑談を広げる</span><b>✈️ 場面別と雑談 ▸</b></button>
+      <button class="choice" data-action="start" data-domain="travel"><span>いま困っている</span><b>旅行・日常 ▸</b></button>
+      <button class="choice" data-action="start" data-domain="flow:basics"><span>取り違えやすい・忘れやすい日常の型（37文）</span><b>🔰 日常の基本 ▸</b></button>
+      <button class="choice" data-action="start" data-domain="flow:me"><span>診察室の外で、小森が何者かを伝える</span><b>🧑‍⚕️ 自分を語る ▸</b></button>
+      <button class="choice" data-action="clinic"><span>流れ・部品・症例で組み立て・AIと本番</span><b>🧩 診察の会話 ▸</b></button>
+      <button class="choice" data-action="patterns"><span>共通する文の入り方＋ミニ解説（文法・使われ方）</span><b>🧱 喋り始めの型 ▸</b></button>
+      <button class="choice" data-action="start" data-domain="medical"><span>診察室で</span><b>診療英語 ▸</b></button>
+      <button class="choice" data-action="start" data-domain="sign"><span>院長の型</span><b>署名フレーズ ▸</b></button>
+      <button class="choice" data-action="start" data-domain="bridge"><span>質問・理由・言い換え</span><b>会話をつなぐ18表現 ▸</b></button>
+      <button class="choice" data-action="start" data-domain="all"><span>まとめて</span><b>ぜんぶ ▸</b></button>
+      <button class="choice" data-action="start" data-domain="mine"><span>私が保存した言い方</span><b>🔖 保存フレーズ ▸</b></button>
+      <button class="choice" data-action="start" data-domain="listen"><span>実際に聞いた英語の定型句</span><b>👂 聞いた英語 ▸</b></button>
+    </div>
+    <p class="muted" style="margin:10px 0 0">練習のしかたを選ぶ</p><div class="grid two" style="margin-top:6px">
+      <button class="choice" data-action="shadow"><span>手本を聞いて追いかける</span><b>🎧 シャドーイング ▸</b></button>
+      <button class="choice" data-action="listen"><span>機内アナウンスなど、その場の音</span><b>👂 聞き取り（実際に聞いた英語） ▸</b></button>
+      <button class="choice" data-action="checklist"><span>覚えたかでなく、見た所にチェック</span><b>📋 チェックリスト ▸</b></button>
+      <button class="choice" data-action="talk"><span>AIを相手に数往復＋言い直しFB</span><b>🗣 AI会話 ▸</b></button>
+      <button class="choice" data-action="mono"><span>お題に1分、声だけで語る → 3つの物差しで見る → 別の言い方でもう一度</span><b>🎤 1分で語る ▸</b></button>
+      <button class="choice" data-action="coach"><span>「こう言いたい」を自然な英語に</span><b>✍️ 英訳コーチ ▸</b></button>
+      <button class="choice" data-action="capOpen"><span>思いついたら貯める</span><b>＋ 言いたいこと ▸</b></button>
+    </div>
+    </details>
+    <details class="library" id="pushSettings"><summary>🔔 毎日20時の通知を設定</summary><p>通知をタップすると「今日の3分」が開きます。日本時間20時・この端末への通知です。</p><p id="pushStatus" role="status">通知の状態を確認しています…</p><button type="button" id="pushEnable" disabled>毎日20時の通知を有効にする</button><button type="button" id="pushTest" disabled>テスト通知を送る</button><button type="button" id="pushDisable" disabled>この端末の通知を停止</button><button type="button" id="pushRefresh">状態を確認</button><p class="muted">iPhoneはiOS 16.4以降で、ホーム画面に追加して開きます。初回の通知許可はご本人の操作が必要です。集中モード・通信状態などで通知が遅れることがあります。</p></details>
+    <details class="library"><summary>🧭 目標・学習計画・続け方</summary>
     <p class="muted" id="northstar" style="font-size:13px;margin:0 0 2px;color:var(--teal-d)">🧭 日本人らしい英語のまま、自分の考えと気持ちを、はっきり伝えられる人になる。</p>
     <p class="muted" style="font-size:12px;margin:0 0 6px"><b>目標（2026-09-29 決定）</b>：この3つが、止まらずにできる。①自分の考えを、理由を添えて言える ②相手の話に、その場で返せる（聞き返しも含めて） ③詰まっても、言い換えて前に進める。目標は B2 を安定させ、その上側へ。カードの枚数だけでなく、初めての質問にも答えられるかを確かめます。</p>
-    <div class="quick-start" id="learningPlan">
-      <h2>診療から、世界へ話す</h2>
-      <p>外国人の親子を自然に迎える。便秘の本と自分の仕事を、ドバイで語る。</p>
-      <p class="muted">忙しい日は3分から。まず4週間、無理なく続く流れを確かめます。</p>
-      <button type="button" class="big" data-action="sceneTrack" data-track="personal">自己紹介・接続表現を練習する ▸</button>
-      <p id="sceneHome-personal" class="stat"></p>
-      <p class="muted">ログインなしでも開始できます。6場面から一つ選び、聞く → まねる → 手本を閉じて返す。保存・進み具合はログイン時に同期します。</p>
       <details><summary>15分で、言い慣れない表現を口に出す</summary>
         <p>まず自分で返す1分 → 詰まる3表現を区切ってまねる4分 → 見ずに言う3分 → 内容を替え、理由や具体例を足す4分 → 違う質問に返す3分。</p>
         <p>一文3〜5回が目安。言える文は短縮し、長い文は後半からつなげてもOK。翌日は手本を見る前に一度返します。既存の学習時間内で行い、忙しい日は1往復で終えられます。</p>
       </details>
-      <button type="button" class="big" data-action="quickTalk">AIと話す（5往復から）</button>
-      <label for="lpTrack">AIと話す場面</label>
-      <select id="lpTrack"><option value="clinic">診療：初診の保護者と話す</option><option value="book">本・ドバイ：本に関心のある相手と話す</option><option value="travel">旅先での自然な雑談</option></select>
-      <label for="lpTopic">今日は何を伝えたい？（任意）</label>
-      <textarea id="lpTopic" rows="2" maxlength="1000" placeholder="例：本を書いた理由を、自分の言葉で説明したい"></textarea>
-      <p class="muted">架空の場面と確認済みの説明を使います。患者さんの氏名・カルテ番号・実際の会話は入力しないでください。</p>
       <details class="library"><summary>外部のChatGPTで練習するとき</summary>
       <button type="button" class="big" id="lpCopy">練習指示をコピーする</button>
       <p id="lpStatus" class="stat" role="status" aria-live="polite"></p>
@@ -215,27 +276,6 @@
         <p><a href="https://www.versant.jp/" target="_blank" rel="noopener noreferrer">Versantの受験案内 ↗</a>：Speaking &amp; Listeningを開始時と12週ごとに。4技能全体の評価とは区別します。</p>
         <p class="muted">料金・更新条件は申込み先で確認してください。ここから契約・購入が自動で行われることはありません。</p>
       </details>
-    </div>
-    <div class="goal-start">
-      <h2>今、話せるようになりたい2つのこと</h2>
-      <p class="muted">単語や文の暗記から、相手に返す練習へ。今日は1往復でも。</p>
-      <button class="choice" data-action="sceneTrack" data-track="clinic"><span>いつもの説明を、やり取りの中で</span><b>診療で話す ▸</b></button>
-      <p id="sceneHome-clinic" class="stat"></p>
-      <button class="choice" data-action="sceneTrack" data-track="travel"><span>用事を済ませる・短い会話を楽しむ</span><b>12月のドイツで話す ▸</b></button>
-      <p id="sceneHome-travel" class="stat"></p>
-    </div>
-    <div class="quick-start">
-      <h2>今日のひとことから。</h2>
-      <p class="muted">3分を目安に、1文だけでも。聞く → 一文ずつまねる → 見ずに言う → 質問に答える。</p>
-      <label for="practiceFocus">練習する場面</label>
-      <select id="practiceFocus"><option value="all">自分の保存文＋復習を優先</option><option value="clinic">診療</option><option value="travel">旅行・日常</option><option value="me">自分の考え</option><option value="mine">保存した言い方</option><option value="bridge">会話をつなぐ18表現</option></select>
-      <p id="practiceTarget" class="stat"></p>
-      <button class="big" data-action="practiceStart" id="practiceStart">3分練習を始める</button>
-      <button class="speak" data-action="practiceBrief">忙しい日は1文だけ（約1分）</button>
-      <p class="stat" id="practiceSummary" aria-live="polite"></p>
-      <button class="speak" data-action="capOpen">＋ 今日つまずいたことを残す</button>
-    </div>
-    <button class="choice" data-action="shelfOpen"><span>これから・練習中・使えた</span><b>自分のことば帳 ▸</b></button>
     <details class="library"><summary>無理なく続けるための使い方</summary>
       <p><b>忙しい日：</b>1文を聞いて、まねて、見ずに言う。そこで終わって大丈夫。</p>
       <p><b>ふだんの日：</b>今日の3文。新しく覚える文を増やすより、使いたい文を繰り返す。</p>
@@ -244,6 +284,7 @@
       <p><b>週に一度：</b>ことば帳を見て、実際に使えた文を記録。今は必要ない文を休ませる。</p>
       <p class="muted">昼食のあとなど、開く合図を一つ決めましょう。休んだ分のまとめ取りは不要です。戻った日は1文から。</p>
     </details>
+    </details>
     <details class="library"><summary>練習の記録を見る</summary>
     <p class="stat" id="streak">連続 0 日</p>
     <p class="stat" id="goalLine"></p>
@@ -251,33 +292,6 @@
     <p class="stat" id="todayLine"></p>
     <h2>復習の記録</h2>
     <p class="stat" id="progress">身についた：0 / 0</p>
-    </details>
-    <details class="library"><summary>教材を選ぶ・AIと会話する</summary>
-    <p class="muted">範囲を選ぶと一覧が開きます。日本語を見て声に出す → タップで英語と音声。</p>
-    <div class="grid">
-      <button class="choice" data-action="start" data-domain="trip"><span>12月の旅：まずここだけ（単語20＋15文）</span><b>✈️ 最優先35 ▸</b></button>
-      <button class="choice" data-action="start" data-domain="trip2"><span>12月の旅：空港の場面と、雑談を広げる</span><b>✈️ 場面別と雑談 ▸</b></button>
-      <button class="choice" data-action="start" data-domain="travel"><span>いま困っている</span><b>旅行・日常 ▸</b></button>
-      <button class="choice" data-action="start" data-domain="flow:basics"><span>取り違えやすい・忘れやすい日常の型（37文）</span><b>🔰 日常の基本 ▸</b></button>
-      <button class="choice" data-action="start" data-domain="flow:me"><span>診察室の外で、小森が何者かを伝える</span><b>🧑‍⚕️ 自分を語る ▸</b></button>
-      <button class="choice" data-action="clinic"><span>流れ・部品・症例で組み立て・AIと本番</span><b>🧩 診察の会話 ▸</b></button>
-      <button class="choice" data-action="patterns"><span>共通する文の入り方＋ミニ解説（文法・使われ方）</span><b>🧱 喋り始めの型 ▸</b></button>
-      <button class="choice" data-action="start" data-domain="medical"><span>診察室で</span><b>診療英語 ▸</b></button>
-      <button class="choice" data-action="start" data-domain="sign"><span>院長の型</span><b>署名フレーズ ▸</b></button>
-      <button class="choice" data-action="start" data-domain="bridge"><span>質問・理由・言い換え</span><b>会話をつなぐ18表現 ▸</b></button>
-      <button class="choice" data-action="start" data-domain="all"><span>まとめて</span><b>ぜんぶ ▸</b></button>
-      <button class="choice" data-action="start" data-domain="mine"><span>私が保存した言い方</span><b>🔖 保存フレーズ ▸</b></button>
-      <button class="choice" data-action="start" data-domain="listen"><span>実際に聞いた英語の定型句</span><b>👂 聞いた英語 ▸</b></button>
-    </div>
-    <div class="grid" style="margin-top:10px">
-      <button class="choice" data-action="shadow"><span>手本を聞いて追いかける</span><b>🎧 シャドーイング ▸</b></button>
-      <button class="choice" data-action="listen"><span>機内アナウンスなど、その場の音</span><b>👂 聞き取り（実際に聞いた英語） ▸</b></button>
-      <button class="choice" data-action="checklist"><span>覚えたかでなく、見た所にチェック</span><b>📋 チェックリスト ▸</b></button>
-      <button class="choice" data-action="talk"><span>AIを相手に数往復＋言い直しFB</span><b>🗣 AI会話 ▸</b></button>
-      <button class="choice" data-action="mono"><span>お題に1分、声だけで語る → 3つの物差しで見る → 別の言い方でもう一度</span><b>🎤 1分で語る ▸</b></button>
-      <button class="choice" data-action="coach"><span>「こう言いたい」を自然な英語に</span><b>✍️ 英訳コーチ ▸</b></button>
-      <button class="choice" data-action="capOpen"><span>思いついたら貯める</span><b>＋ 言いたいこと ▸</b></button>
-    </div>
     </details>
     <dialog id="capBox" aria-labelledby="capTitle">
       <h2 id="capTitle">これを英語で伝えたい</h2><p class="muted">日本語でひとこと。iPhoneのキーボードのマイクで話して入力しても大丈夫です。</p>
@@ -377,6 +391,7 @@
 
   <!-- チェックリスト -->
   <section id="checklist" hidden>
+    <h2>📚 教材の一覧</h2>
     <div id="clChips" class="chips">
       <button class="chip" data-action="clDomain" data-domain="trip">✈️最優先</button>
       <button class="chip" data-action="clDomain" data-domain="trip2">✈️場面</button>
@@ -392,7 +407,7 @@
       <button class="chip" data-action="clDomain" data-domain="all">ぜんぶ</button>
     </div>
     <p class="stat" id="clCount" style="margin:8px 0 2px"></p>
-    <p class="muted" style="font-size:13px">タップで英語＋音声。チェックは「見た・練習した」印です（覚えたかのテストではありません）。</p>
+    <p class="muted" style="font-size:13px;margin:0 0 6px">日本語を見て声に出す → 行をタップすると英語と音声。□ は「見た・練習した」の印です。</p>
     <div class="speakrow" style="margin:0 0 8px">
       <button class="speak rateBtn" data-action="rate">🐢 ゆっくり</button>
       <button class="speak" data-action="cards">🃏 カードで（言えた／まだ・翌日また出る）</button>
@@ -595,6 +610,7 @@
 <script src="learning-plan.js"></script>
 <script src="daily-listening.js"></script>
 <script src="listening-audio.js"></script>
+<script src="listening-lessons.js"></script>
 <script src="listening-route.js"></script>
 <script src="voice-loop.js"></script>
 <script type="module" src="cloud.js"></script>

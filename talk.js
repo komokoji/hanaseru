@@ -128,14 +128,19 @@ async function ask(opening, said) {
   const version=talkVersion;
   setBusy(true);
   try {
-    const res = await call({ mode: "chat", scene, caseText: caseCtx ? caseCtx.parent : "", messages: history });
+    const context = { scene, caseText: caseCtx ? caseCtx.parent : "", messages: history.slice() };
+    // 言い方のヒントは別の呼び出しで並行して作り、届いたら自分の吹き出しに足す（返答を待たせない）。
+    if (!opening && said) {
+      const mine = $("tkLog").lastElementChild;
+      call({ mode: "feedback", ...context }).then((fb) => {
+        if (version !== talkVersion || !mine || !mine.isConnected || !fb.data.result) return;
+        mine.insertAdjacentHTML("beforeend", '<details><summary>言い方のヒント・保存</summary>' + feedbackHtml(fb.data.result, said) + '</details>');
+      }).catch(() => {});
+    }
+    const res = await call({ mode: "chat", split: true, ...context });
     if(version!==talkVersion)return;
     const r = res.data.result;
     history.push({ role: "assistant", content: r.reply });
-    if (!opening && said) {
-      const log = $("tkLog"); const last = log.lastElementChild;
-      if (last) last.insertAdjacentHTML("beforeend", '<details><summary>言い方のヒント・保存</summary>'+feedbackHtml(r, said)+'</details>');
-    }
     addBubble("ai", r.reply, '<div class="speakrow"><button class="speak" data-say="' + esc(r.reply) + '">🔊 相手の声を聞く</button></div>');
     if(r.ended)voice.stop('この場面はここまでです。使いたい表現を保存するか、ふり返りへ。');
     const voiceToken=voice.serial;
@@ -147,7 +152,7 @@ async function ask(opening, said) {
       end:()=>{clearTimeout(speechWait);if(version===talkVersion && voiceToken===voice.serial && !busy)voice.afterReply();},
       blocked:()=>{clearTimeout(speechWait);if(version===talkVersion)voice.stop('画面下の ▶ を押すと相手の声を聞けます。聞いたら、音声対話を開始してください。');},
       error:()=>{clearTimeout(speechWait);if(version===talkVersion)voice.stop('相手の声を再生できませんでした。英文を開いて返すか、「相手の声を聞く」を押してください。');}
-    });
+    }, res.data.audioContent);
     if (r.ended) setNote("この場面はここまで。別の場面を選ぶか、もう一度どうぞ。");
   } catch (e) {
     if(version!==talkVersion)return;

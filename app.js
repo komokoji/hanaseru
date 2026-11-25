@@ -131,10 +131,11 @@
 
   // ---- 音声（英語の手本） ----
   // 鳴らす・止めるは audio-core.js（HanaseruAudio）の1か所。ここは記録と速度だけを足す。
-  function speak(text, lang, callbacks) {
+  function speak(text, lang, callbacks, audio) {
     if (String(text || '').trim()) recordActivity();
     var fast = state.rate === "fast";
-    window.HanaseruAudio.say(text, { lang: lang || "en-US", rate: fast ? 1.15 : 0.95, ttsRate: fast ? 1.05 : 0.85, callbacks: callbacks });
+    // audio＝すでに届いているMP3（AI会話の返答）。会話の音は自然な速さで作ってあるので、そのままの速さで鳴らす。
+    window.HanaseruAudio.say(text, { lang: lang || "en-US", rate: audio ? (fast ? 1.1 : 1) : (fast ? 1.15 : 0.95), ttsRate: fast ? 1.05 : 0.85, callbacks: callbacks, audio: audio });
   }
 
   if(document.getElementById("legacySite"))document.getElementById("legacySite").hidden=location.hostname!=="komokoji.github.io";
@@ -687,7 +688,7 @@
       recordPracticeDay();
       save(state); return true;
     },
-    speak: function (t, callbacks) { speak(t, null, callbacks); },
+    speak: function (t, callbacks, audio) { speak(t, null, callbacks, audio); },
     bumpTalk: function (n) {               // 声で話した回数を記録（今日の分に足す）
       recordPracticeDay();
       var d = dayNum(), last = state.talks[state.talks.length - 1];

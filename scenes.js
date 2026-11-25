@@ -22,7 +22,7 @@
     ['clinic','travel','personal'].forEach(function(t){
       var list=scenes.filter(function(s){return s.track===t;});
       var n=list.filter(function(s){return index(s)===count(s);}).length;
-      $('sceneHome-'+t).textContent=n+' / '+list.length+'場面をひと通り練習。途中からでも、1往復だけでも。';
+      $('sceneHome-'+t).textContent=n+' / '+list.length+' 場面を練習';
     });
   }
   function openList(t){H.openScenes();track=t;selected=null;model=false;renderList();}

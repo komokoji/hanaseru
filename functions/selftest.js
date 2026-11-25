@@ -17,7 +17,7 @@ class FakeAnthropic {
     return { parsed_output: JSON.parse(JSON.stringify(anything)), stop_reason: "end_turn" };
   } }; }
 }
-["RateLimitError", "AuthenticationError", "APIConnectionError"].forEach((n) => { FakeAnthropic[n] = class extends Error {}; });
+["RateLimitError", "AuthenticationError", "APIConnectionError", "BadRequestError"].forEach((n) => { FakeAnthropic[n] = class extends Error {}; });
 
 const origLoad = Module._load;
 Module._load = function (req, ...rest) {
@@ -33,6 +33,8 @@ const call = (data) => handler({ auth: { token: { email: "komorikoji@lifecrescen
 const opening = [{ role: "user", content: "(start)" }];
 const cases = [
   ["chat", { mode: "chat", scene: "clinic", messages: opening }],
+  ["chat(split)", { mode: "chat", split: true, scene: "travel", messages: opening }],
+  ["feedback", { mode: "feedback", scene: "travel", messages: opening }],
   ["chat(case)", { mode: "chat", scene: "case", caseText: "a parent", messages: opening }],
   ["translate", { mode: "translate", text: "こんにちは" }],
   ["explain", { mode: "explain", en: "Hello.", ja: "こんにちは" }],

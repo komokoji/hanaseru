@@ -177,6 +177,8 @@
     current = { text: clean, callbacks: options.callbacks || null, lang: options.lang || 'en-US',
       rate: options.rate || 1, ttsRate: options.ttsRate || 0.9, kind: null, triedTts: false };
     if (!clean) { call('error'); current = null; return; }
+    // 呼び出し側がMP3を持っているとき（AI会話の返答は、返答と一緒に音声が届く）は、それをすぐ鳴らす。
+    if (typeof options.audio === 'string' && options.audio && !memory.get(clean)) { try { remember(clean, toBlob(options.audio)); } catch (_) {} }
     var url = staticUrl(clean) || memory.get(clean);
     if (url) playUrl(url, t);
     // その場で作るMP3は「ログイン中・米国の声」だけ。それ以外は、タップの中ですぐ端末の読み上げを始める（待つと iPhone で断られる）。

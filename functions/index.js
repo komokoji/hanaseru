@@ -9,9 +9,13 @@ const { onCall, HttpsError } = require("firebase-functions/v2/https");
 const Anthropic = require("@anthropic-ai/sdk");
 const { z } = require("zod/v4");
 const { zodOutputFormat } = require("@anthropic-ai/sdk/helpers/zod");
+const speech = require("./speech");
 
 const OWNER_EMAIL = "komorikoji@lifecrescendo.com";
 const MODEL = "claude-opus-5";
+// 会話の返答だけは速さを優先する（2026-11-25 院長「テンポよく。使用料が若干高くなっても大丈夫」）。
+// 返答は短い英文だけを作り、言い直しの助言（feedback）は別の呼び出しで後から届ける。
+const REPLY_MODEL = "claude-opus-5-5";
 const MAX_TURNS = 24;            // 送る履歴の上限（発言数）
 const MAX_CHARS = 1200;          // 1発言の上限
 
@@ -105,6 +109,35 @@ Return:
 - polite_ja: a short Japanese note on when polite fits better.
 Japanese plain style (敬体でなくて良い), no lecturing.`;
 
+// 速い返答（mode "chat" + split）：相手役の次の一言だけ。
+const REPLY_SYSTEM = (scene, caseText) => `${WHO}
+
+You are running a spoken-English roleplay. ${scene === "case" && caseText ? caseRole(caseText) : (SCENES[scene] || SCENES.free)}
+
+Produce only your next line in character:
+- reply: 1–3 short sentences of natural spoken English, at a normal conversational pace. React to what he
+  just said first (a short acknowledgement or linking phrase such as "Oh, I see", "Right", "That makes
+  sense", "Actually"), then move the conversation forward and end with something that invites him to
+  keep talking. Never correct him; stay in character.
+- ended: true only if the scene has naturally concluded (goodbye said).
+If his message is in Japanese or mixed, reply as if he had said it in English.`;
+
+// 言い直しの助言（mode "feedback"）：返答とは別に、後から届く。
+const FEEDBACK_SYSTEM = `${WHO}
+
+He is in a spoken-English roleplay. Look only at his LAST message in the conversation and coach it:
+- better: return his wording unchanged if it already conveys his meaning clearly, accurately, and
+  appropriately politely. Otherwise make the smallest useful correction, preserving his meaning
+  and warmth. Prefer short sentences, but never drop meaning to meet a sentence limit.
+- better_ja: a short Japanese gloss of "better" (自然な日本語、敬体でなくて良い).
+- tip: ONE short coaching note in Japanese (30–60字). Explain the most useful correction, or, if
+  none is needed, say specifically what communicated well. When it helps the flow of the conversation,
+  suggest one linking or opening phrase he could have started with. Do not invent a fault. No lecture.
+If his message is in Japanese or mixed, treat it as "I want to say this" and put the English in better.`;
+
+const ReplyOut = z.object({ reply: z.string(), ended: z.boolean() });
+const FeedbackOut = z.object({ better: z.string(), better_ja: z.string(), tip: z.string() });
+
 const ChatOut = z.object({
   reply: z.string(),
   better: z.string(),
@@ -192,7 +225,8 @@ function cleanMessages(raw) {
 }
 
 exports.hanaseruChat = onCall(
-  { region: "asia-northeast1", secrets: ["ANTHROPIC_API_KEY"], cors: true, invoker: "public", timeoutSeconds: 60, memory: "256MiB" },
+  // minInstances: 1 ＝ 使うたびの起動待ちをなくす（待機の料金がかかる。2026-11-25 院長が速さを優先）
+  { region: "asia-northeast1", secrets: ["ANTHROPIC_API_KEY"], cors: true, invoker: "public", timeoutSeconds: 60, memory: "512MiB", minInstances: 1 },
   async (request) => {
     const email = request.auth && request.auth.token && request.auth.token.email;
     if (!request.auth) throw new HttpsError("unauthenticated", "ログインが必要です");
@@ -261,6 +295,47 @@ exports.hanaseruChat = onCall(
       const scene = String(data.scene || "free");
       const caseText = String(data.caseText || "").slice(0, 600);
       const messages = cleanMessages(data.messages);
+
+      if (data.mode === "feedback") {
+        const res = await client.messages.parse({
+          model: MODEL,
+          max_tokens: 1000,
+          system: [{ type: "text", text: FEEDBACK_SYSTEM, cache_control: { type: "ephemeral" } }],
+          messages,
+          output_config: { effort: "low", format: zodOutputFormat(FeedbackOut) }
+        });
+        if (!res.parsed_output) throw new HttpsError("internal", "AI の返答を読めませんでした");
+        return { mode: "feedback", result: res.parsed_output };
+      }
+
+      if (data.split === true) {
+        const t0 = Date.now();
+        const params = {
+          model: REPLY_MODEL,
+          max_tokens: 600,
+          system: [{ type: "text", text: REPLY_SYSTEM(scene, caseText), cache_control: { type: "ephemeral" } }],
+          messages,
+          output_config: { effort: "low", format: zodOutputFormat(ReplyOut) }
+        };
+        let res, fast = true;
+        try { res = await client.messages.parse(Object.assign({ speed: "fast" }, params)); }
+        catch (e) {
+          // 高速モードが使えない・混んでいるときは、これまで動いていた設定（MODEL・通常の速さ）でやり直す。会話を止めない。
+          console.error("hanaseruChat fast reply unavailable", e && e.name, e && e.status);
+          fast = false; res = await client.messages.parse(Object.assign({}, params, { model: MODEL }));
+        }
+        if (res.stop_reason === "refusal") throw new HttpsError("failed-precondition", "AI がこの内容には答えませんでした");
+        if (!res.parsed_output) throw new HttpsError("internal", "AI の返答を読めませんでした");
+        const aiMs = Date.now() - t0;
+        // 返答の音声も同じ呼び出しで作る（往復を1回減らす）。作れなくても返答は返す。
+        let audioContent = null;
+        if (typeof speech.speak === "function" && res.parsed_output.reply) {
+          try { audioContent = await speech.speak(res.parsed_output.reply.slice(0, MAX_CHARS), { voice: "en-US-Neural2-F", rate: 1, timeoutMs: 8000 }); }
+          catch (e) { console.error("hanaseruChat speech unavailable", e.name); }
+        }
+        console.log(JSON.stringify({ at: "chat-split", fast, ai_ms: aiMs, tts_ms: Date.now() - t0 - aiMs, audio: !!audioContent, turns: messages.length }));   // 本文は残さない
+        return { mode, scene, result: res.parsed_output, audioContent };
+      }
       const res = await client.messages.parse({
         model: MODEL,
         max_tokens: 2000,
@@ -273,7 +348,7 @@ exports.hanaseruChat = onCall(
       return { mode, scene, result: res.parsed_output };
     } catch (e) {
       if (e instanceof HttpsError) throw e;
-      if (e instanceof Anthropic.RateLimitError) throw new HttpsError("resource-exhausted", "AI が混み合っています。少し待ってもう一度");
+      if (Anthropic.RateLimitError && e instanceof Anthropic.RateLimitError) throw new HttpsError("resource-exhausted", "AI が混み合っています。少し待ってもう一度");
       if (e instanceof Anthropic.AuthenticationError) throw new HttpsError("failed-precondition", "AI の鍵が設定されていません（ANTHROPIC_API_KEY）");
       if (e instanceof Anthropic.APIConnectionError) throw new HttpsError("unavailable", "AI に接続できませんでした");
       console.error("hanaseruChat", e);
@@ -285,4 +360,4 @@ exports.hanaseruChat = onCall(
 // Notification functions are deployed independently; the AI handler above is unchanged.
 Object.assign(exports, require('./push'));
 
-exports.hanaseruSpeech = require("./speech").hanaseruSpeech;
+exports.hanaseruSpeech = speech.hanaseruSpeech;
