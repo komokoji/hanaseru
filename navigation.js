@@ -14,7 +14,7 @@ document.addEventListener('click',e=>{
  if(action==='settings'){
   window.Hanaseru.openHome();const settings=document.getElementById('pushSettings');settings.open=true;settings.scrollIntoView({block:'start'});settings.querySelector('summary').focus({preventScroll:true});return;
  }
- const selector=action==='personal'?'[data-action="sceneTrack"][data-track="personal"]':'[data-action="'+action+'"]';
+ const selector=action==='personal'||action==='consult'?'[data-action="sceneTrack"][data-track="'+action+'"]':'[data-action="'+action+'"]';
  const target=document.querySelector('#setup '+selector);
  if(target){target.click();window.scrollTo(0,0);}
 });

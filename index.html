@@ -140,6 +140,7 @@
   #habitPill{margin-bottom:0}#activityStatus{margin:4px 0}
   #lrBody label{display:block;margin-top:8px}
   .lr-lines p{margin:6px 0;line-height:1.45}.lr-lines b{display:block;font-size:12px;color:var(--sub);font-weight:600}.lr-where{font-size:13px;color:var(--sub);margin:0}
+  .consult-tile{width:100%;margin-top:8px;border-color:var(--teal)}.sc-group{font-size:14px;color:var(--sub);margin:14px 0 2px}
   /* 教材の一覧を引き締める：範囲は横に1行、各行は1段 */
   #clChips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch}#clChips .chip{white-space:nowrap;padding:6px 12px;flex:none}
   #clList .clrow{flex-wrap:nowrap;align-items:center;padding:8px 10px;margin-top:5px}#clList .cltext{flex:1 1 auto}
@@ -164,11 +165,12 @@
     <nav id="appMenu" aria-label="ハナセルのメニュー" hidden>
       <button type="button" data-nav="home">ホームに戻る</button>
       <button type="button" data-nav="listeningRoute">今日の耳トレ</button>
+      <button type="button" data-nav="consult">🩺 診察を英語で</button>
       <button type="button" data-nav="personal">自己紹介・接続表現</button>
       <button type="button" data-nav="talk">AIと会話する</button>
       <button type="button" data-nav="shelfOpen">自分のことば帳</button>
       <button type="button" data-nav="settings">通知の設定</button>
-      <button type="button" data-nav="account">ログイン・同期</button><button type="button" onclick="location.reload()">最新版を読み込む（v71）</button>
+      <button type="button" data-nav="account">ログイン・同期</button><button type="button" onclick="location.reload()">最新版を読み込む（v72）</button>
     </nav>
   </header>
   <aside id="legacySite" class="goal-start" hidden><strong>こちらは旧公開先です</strong><p>ログイン・AI会話・通知は正規版でご利用ください。</p><a class="big" href="https://hanaseru.web.app/?practice=talk">正規版のハナセルを開く →</a><p class="muted">このページの端末内記録は残ります。正規版とは保存先が別です。</p></aside>
@@ -194,6 +196,7 @@
     </div>
     <div class="goal-start">
       <h2>🔁 場面で口に慣らす</h2>
+      <button class="choice consult-tile" data-action="sceneTrack" data-track="consult"><span>病気ごとに、診察1回分を通しで（保護者と医師の声）</span><b>🩺 診察を英語で ▸</b></button><p id="sceneHome-consult" class="stat"></p>
       <div class="grid two">
         <div><button class="choice" data-action="sceneTrack" data-track="personal"><span>自己紹介・接続表現</span><b>自分を語る ▸</b></button><p id="sceneHome-personal" class="stat"></p></div>
         <div><button class="choice" data-action="sceneTrack" data-track="clinic"><span>いつもの説明を、やり取りで</span><b>診療で話す ▸</b></button><p id="sceneHome-clinic" class="stat"></p></div>
@@ -600,6 +603,7 @@
 <script src="practice-core.js"></script>
 <script src="scenes-data.js"></script>
 <script src="personal-scenes.js"></script>
+<script src="clinic-dialogues.js"></script>
 <script src="audio-core.js"></script>
 <script src="card-audio.js"></script>
 <script src="app.js"></script>

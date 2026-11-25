@@ -19,7 +19,7 @@
     return 'まず1往復から';
   }
   function home(){
-    ['clinic','travel','personal'].forEach(function(t){
+    ['consult','clinic','travel','personal'].forEach(function(t){
       var list=scenes.filter(function(s){return s.track===t;});
       var n=list.filter(function(s){return index(s)===count(s);}).length;
       $('sceneHome-'+t).textContent=n+' / '+list.length+' 場面を練習';
@@ -27,10 +27,10 @@
   }
   function openList(t){H.openScenes();track=t;selected=null;model=false;renderList();}
   function renderList(){
-    $('scTitle').textContent=track==='personal'?'自己紹介・接続表現を練習する':track==='clinic'?'診療で話す':'12月のドイツで話す';
-    $('scContext').textContent='相手の言葉を聞く → 自分で返す → 必要なら手本 → 見ずにもう一度。最後に違う質問にも答えてみます。';
-    var list=scenes.filter(function(s){return s.track===track;});
-    $('scBody').innerHTML='<p class="muted">休んだ分のまとめ取りは不要です。今日は使いたい場面を一つ。進み具合はこの端末に保存し、ログイン中は同期します。</p>'+list.map(function(s){return '<div class="shelf-entry"><h3>'+esc(s.title)+'</h3><p>'+esc(s.goal)+'</p><p class="stat">'+esc(status(s))+'</p>'+button('scChoose','この場面を開く','data-id="'+s.id+'"')+'</div>';}).join('')+'<p class="muted">診療は普段の説明の流れをもとに組み直した練習用会話です。個別の治療判断や患者情報をそのまま収録したものではありません。旅行の返答・時刻・条件も練習用です。</p>';
+    $('scTitle').textContent=track==='consult'?'🩺 診察を英語で':track==='personal'?'自己紹介・接続表現を練習する':track==='clinic'?'診療で話す':'12月のドイツで話す';
+    $('scContext').textContent=track==='consult'?'病気ごとに、診察1回分を通しで。保護者の言葉を聞く → 自分で返す → 手本（医師の声）→ 見ずにもう一度。説明の中身は、院長の患者さん向けの説明文から取っています。':'相手の言葉を聞く → 自分で返す → 必要なら手本 → 見ずにもう一度。最後に違う質問にも答えてみます。';
+    var list=scenes.filter(function(s){return s.track===track;}).sort(function(a,b){return String(a.group||'').localeCompare(String(b.group||''),'ja');});
+    $('scBody').innerHTML='<p class="muted">休んだ分のまとめ取りは不要です。今日は使いたい場面を一つ。進み具合はこの端末に保存し、ログイン中は同期します。</p>'+list.map(function(s,n){return (s.group&&(n===0||list[n-1].group!==s.group)?'<h3 class="sc-group">'+esc(s.group)+'</h3>':'')+'<div class="shelf-entry"><h3>'+esc(s.title)+'</h3><p>'+esc(s.goal)+'</p><p class="stat">'+esc(status(s))+'</p>'+button('scChoose','この場面を開く','data-id="'+s.id+'"')+'</div>';}).join('')+'<p class="muted">診療は普段の説明の流れをもとに組み直した練習用会話です。個別の治療判断や患者情報をそのまま収録したものではありません。旅行の返答・時刻・条件も練習用です。</p>';
     $('scActions').innerHTML='';$('scTitle').focus();
   }
   function render(){
@@ -46,7 +46,7 @@
       return;
     }
     var test=p.mode==='test';
-    $('scBody').innerHTML='<p class="stat">'+(challenge?'最後に、違う質問に返す':(i+1)+' / '+s.turns.length+'往復')+' · 1往復で終えてもOK</p>'
+    $('scBody').innerHTML=(s.voices&&!challenge&&i===0?'<div class="card"><p class="muted">まず、診察1回分を通しで聞く（保護者と医師の声・自然な速さ）</p>'+button('scFull','▶ 通しで聞く')+button('scStop','■ 停止')+'</div>':'')+'<p class="stat">'+(challenge?'最後に、違う質問に返す':(i+1)+' / '+s.turns.length+'往復')+' · 1往復で終えてもOK</p>'
       +'<div class="card"><p class="muted">'+esc(s.role)+'の言葉</p>'+button('scHear','相手の言葉を聞く')
       +(test?'<details><summary>相手の英文を見る</summary><p class="en">'+esc(t.heard)+'</p></details>':'<p class="en">'+esc(t.heard)+'</p>')
       +'<details><summary>相手の言葉の意味</summary><p>'+esc(t.heardJa)+'</p></details></div>'
@@ -67,7 +67,9 @@
     }
     if(a==='scList'){stopAudio();selected=null;renderList();return;}
     var s=scene();if(!s||$('scenes').hidden)return;var t=current(s),p=state(s);
-    if(a==='scHear')H.speak(t.heard);
+    if(a==='scFull'){window.HanaseruAudio.say(s.turns.map(function(x){return x.heard+' '+x.en;}).join(' '),{rate:1});H.recordActivity();}
+    else if(a==='scStop')stopAudio();
+    else if(a==='scHear')H.speak(t.heard);
     else if(a==='scModelAudio'){H.speak(t.en);listens++;var counter=$('scListenCount');if(counter)counter.textContent=' 手本の再生：'+listens+'回（発話の採点ではありません）';}
     else if(a==='scChunk'){var parts=chunks(t);if(parts[+el.dataset.chunk])H.speak(parts[+el.dataset.chunk].trim());}
     else if(a==='scModel'){
@@ -75,7 +77,7 @@
       if(model){H.updateScene(s.id,{hinted:true});H.recordActivity();}
       render();
     }else if(a==='scSave'){
-      H.addMine((s.track==='personal'?'【自分のこと】':s.track==='clinic'?'【診療】':'【旅行】')+s.title+'：'+t.intent,t.en);
+      H.addMine((s.track==='personal'?'【自分のこと】':s.track==='clinic'||s.track==='consult'?'【診療】':'【旅行】')+s.title+'：'+t.intent,t.en);
       $('scSaveNote').textContent='保存しました。ことば帳で繰り返し練習できます。';el.disabled=true;
     }else if(a==='scGrade'&&!model&&index(s)<count(s)){
       var results=(p.results||[]).slice();results[index(s)]=el.dataset.result==='again'?'again':p.hinted?'supported':'own';
@@ -86,7 +88,7 @@
     }else if(a==='scRestart'){
       H.updateScene(s.id,{index:0,results:[],hinted:false,mode:'test'});model=false;render();
     }else if(a==='scAI'){
-      H.openTalk();document.dispatchEvent(new CustomEvent('hanaseru:practiceTalk',{detail:{domain:s.track==='personal'?'me':s.track==='clinic'?'medical':'travel',ja:s.context+' 練習の目標：'+s.goal,en:s.turns.map(function(t){return t.en;}).join(' ')}}));
+      H.openTalk();document.dispatchEvent(new CustomEvent('hanaseru:practiceTalk',{detail:{domain:s.track==='personal'?'me':s.track==='clinic'||s.track==='consult'?'medical':'travel',ja:s.context+' 練習の目標：'+s.goal,en:s.turns.map(function(t){return t.en;}).join(' ')}}));
     }
   });
   document.addEventListener('hanaseru:leave',stopAudio);

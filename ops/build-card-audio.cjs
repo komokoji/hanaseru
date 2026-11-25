@@ -2,11 +2,11 @@
 // 使い方：node ops/build-card-audio.cjs   （作成済みのファイルは作り直さない。--dry で件数だけ）
 const fs=require('node:fs'),crypto=require('node:crypto');
 global.window=global;global.self=global;
-['data','trip','visit','gutnutri','me','basics','conversation','patterns','parts','listen','practice-core','scenes-data','personal-scenes'].forEach(f=>require('../'+f+'.js'));
+['data','trip','visit','gutnutri','me','basics','conversation','patterns','parts','listen','practice-core','scenes-data','personal-scenes','clinic-dialogues'].forEach(f=>require('../'+f+'.js'));
 const VOICES={'en-US':'en-US-Standard-F','en-GB':'en-GB-Standard-A'};
 const texts=new Map();   // text -> lang（先に入れた声を優先）
 const norm=t=>String(t==null?'':t).replace(/___/g,'…').trim();
-const add=(t,lang)=>{t=norm(t);if(t&&t.length<=1200&&/[A-Za-z]/.test(t)&&!texts.has(t))texts.set(t,lang||'en-US');};
+const add=(t,lang)=>{t=norm(t);if(t&&t.length<=1200&&/[A-Za-z]/.test(t)&&!texts.has(t)&&!((global.HANASERU_CONSULT_SCENES||[]).some(c=>c.turns.concat([c.challenge]).some(u=>norm(u.en)===t||norm(u.heard)===t))))texts.set(t,lang||'en-US');};
 const Core=global.HanaseruPracticeCore;
 // 聞き取り教材（英国の声の単元を先に）
 (global.HANASERU_LISTEN||[]).forEach(u=>{
@@ -27,8 +27,20 @@ Object.values(global.HANASERU_RESPONSE_CUES||{}).forEach(list=>list.forEach(x=>a
   if(v&&typeof v==='object')Object.keys(v).forEach(k=>walk(v[k],Array.isArray(v)?key:k));
 })(Object.keys(global).filter(k=>/^HANASERU_/.test(k)).map(k=>global[k]),'');
 
+// 🩺 診察を英語で：保護者と医師で声を分ける。通しの会話は1本につなぐ。
+// 短い区切り（I see. など）が既存の教材と同じ文なら、既存の声をそのまま使う。
+const custom=new Map();   // text -> {path, parts:[{text,voice,rate,pause}]}
+const hashOf=s=>crypto.createHash('sha256').update(s).digest('hex').slice(0,20);
+const addCustom=(t,voice,rate)=>{t=norm(t);if(t&&!custom.has(t))custom.set(t,{path:'audio/cards/'+hashOf(voice+':'+rate+':'+t)+'.mp3',parts:[{text:t,voice,rate,pause:0}]});};
+(global.HANASERU_CONSULT_SCENES||[]).forEach(s=>{
+  const all=s.turns.concat([s.challenge]);
+  all.forEach(t=>{addCustom(t.heard,s.voices.heard,1);addCustom(t.en,s.voices.en,0.9);(String(t.en).match(/[^.!?]+[.!?]+|[^.!?]+$/g)||[]).forEach(x=>{if(!texts.has(norm(x)))addCustom(x,s.voices.en,0.9);});});
+  const parts=[];s.turns.forEach(t=>{parts.push({text:t.heard,voice:s.voices.heard,rate:1,pause:350});parts.push({text:t.en,voice:s.voices.en,rate:1,pause:450});});
+  const key=norm(s.turns.map(t=>t.heard+' '+t.en).join(' '));
+  custom.set(key,{path:'audio/cards/'+hashOf('consult-dialogue:'+parts.map(p=>p.voice+':'+p.text).join('|'))+'.mp3',parts});
+});
 const file=(t,lang)=>'audio/cards/'+crypto.createHash('sha256').update(VOICES[lang]+':0.9:'+t).digest('hex').slice(0,20)+'.mp3';
-const list=[...texts].map(([text,lang])=>({text,lang,path:file(text,lang)}));
+const list=[...texts].filter(([text])=>!custom.has(text)).map(([text,lang])=>({text,lang,path:file(text,lang)})).concat([...custom].map(([text,c])=>({text,path:c.path,parts:c.parts})));
 const chars=list.reduce((n,x)=>n+x.text.length,0),todo=list.filter(x=>!fs.existsSync(x.path));
 console.log('texts',list.length,'chars',chars,'to create',todo.length);
 if(process.argv.includes('--dry'))process.exit(0);
@@ -42,9 +54,14 @@ if(process.argv.includes('--dry'))process.exit(0);
     await Promise.all(Array.from({length:5},async()=>{
       while(next<todo.length){
         const x=todo[next++];
-        const r=await client.post('/text:synthesize',{input:{text:x.text},voice:{languageCode:x.lang,name:VOICES[x.lang]},audioConfig:{audioEncoding:'MP3',speakingRate:0.9}},{headers:{'x-goog-user-project':o.project}});
-        if(!r.body.audioContent)throw Error('Missing audio: '+x.text.slice(0,40));
-        fs.writeFileSync(x.path,Buffer.from(r.body.audioContent,'base64'));
+        const parts=x.parts||[{text:x.text,voice:VOICES[x.lang],rate:0.9,plain:true}],bufs=[];
+        const xml=t=>t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        for(const p of parts){
+          const r=await client.post('/text:synthesize',{input:p.plain?{text:p.text}:{ssml:'<speak>'+xml(p.text)+(p.pause?'<break time="'+p.pause+'ms"/>':'')+'</speak>'},voice:{languageCode:p.voice.slice(0,5),name:p.voice},audioConfig:{audioEncoding:'MP3',speakingRate:p.rate}},{headers:{'x-goog-user-project':o.project}});
+          if(!r.body.audioContent)throw Error('Missing audio: '+p.text.slice(0,40));
+          bufs.push(Buffer.from(r.body.audioContent,'base64'));
+        }
+        fs.writeFileSync(x.path,Buffer.concat(bufs));
         if(++done%100===0)console.log('created',done,'/',todo.length);
       }
     }));
