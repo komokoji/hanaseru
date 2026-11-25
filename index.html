@@ -89,6 +89,8 @@
   .fbja{ color:var(--sub); font-size:13px; display:block; }
   .fbtip{ color:var(--amber); font-size:13px; margin-top:4px; }
   .fbok{ color:var(--teal-d); font-weight:700; }
+  .fbphrases{display:grid;gap:4px;margin-top:6px}.fbphrase{display:flex;flex-direction:column;align-items:flex-start;gap:0;text-align:left;padding:6px 10px;border:1px solid #f1e2c4;border-radius:10px;background:#fff;font:inherit}
+  .fbphrase b{color:var(--teal-d);font-size:15px}.fbphrase span{color:var(--sub);font-size:12px}.fbheard{margin:6px 0 0;font-size:13px;color:var(--sub)}.fbheard:empty{display:none}
   .xp{ margin-top:12px; background:#f6fbfa; border:1px solid var(--line); border-radius:12px; padding:10px 12px; font-size:14px; }
   .xpchunks{ display:flex; flex-wrap:wrap; gap:6px 10px; }
   .xpc{ display:flex; flex-direction:column; min-width:120px; }
@@ -170,7 +172,7 @@
       <button type="button" data-nav="talk">AIと会話する</button>
       <button type="button" data-nav="shelfOpen">自分のことば帳</button>
       <button type="button" data-nav="settings">通知の設定</button>
-      <button type="button" data-nav="account">ログイン・同期</button><button type="button" onclick="location.reload()">最新版を読み込む（v73）</button>
+      <button type="button" data-nav="account">ログイン・同期</button><button type="button" onclick="location.reload()">最新版を読み込む（v74）</button>
     </nav>
   </header>
   <aside id="legacySite" class="goal-start" hidden><strong>こちらは旧公開先です</strong><p>ログイン・AI会話・通知は正規版でご利用ください。</p><a class="big" href="https://hanaseru.web.app/?practice=talk">正規版のハナセルを開く →</a><p class="muted">このページの端末内記録は残ります。正規版とは保存先が別です。</p></aside>
@@ -507,8 +509,10 @@
     <div id="tkLog" class="tklog"></div>
     <p class="stat" id="tkNote"></p>
     <textarea id="tkInput" rows="2" placeholder="英語で返す（日本語でも可＝英語にして返します）"></textarea>
+    <p class="muted" style="font-size:12px;margin:4px 0 0">言葉が出ないときは「💡 日本語で言う」。相手は英語で言われたものとして返し、英語の言い方が吹き出しの下に出ます。</p>
     <div class="row" style="margin-top:8px">
       <button class="ng" data-action="tkMic" id="tkMic">🎤 話す</button>
+      <button class="ng" data-action="tkMicJa" id="tkMicJa">💡 日本語で言う</button>
       <button class="ok" data-action="tkSend" id="tkSend">送る</button>
     </div>
     <div class="grid" style="margin-top:8px"><button class="big" data-action="tkReview" id="tkReview">📋 ふり返り（3つの物差し）</button></div>

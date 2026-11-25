@@ -133,10 +133,16 @@ He is in a spoken-English roleplay. Look only at his LAST message in the convers
 - tip: ONE short coaching note in Japanese (30–60字). Explain the most useful correction, or, if
   none is needed, say specifically what communicated well. When it helps the flow of the conversation,
   suggest one linking or opening phrase he could have started with. Do not invent a fault. No lecture.
+- phrases: 1–3 short, reusable words or phrases that would have let him say this more easily and
+  naturally (everyday vocabulary, a phrasal verb, or a linking/opening phrase), taken from "better"
+  or a close natural alternative. Each has en (the phrase only, not a full sentence) and ja (a short
+  Japanese meaning with when to use it). Prefer simple, high-frequency expressions over rare words.
+  Return an empty list if his wording was already natural.
 If his message is in Japanese or mixed, treat it as "I want to say this" and put the English in better.`;
 
 const ReplyOut = z.object({ reply: z.string(), ended: z.boolean() });
-const FeedbackOut = z.object({ better: z.string(), better_ja: z.string(), tip: z.string() });
+const FeedbackOut = z.object({ better: z.string(), better_ja: z.string(), tip: z.string(),
+  phrases: z.array(z.object({ en: z.string(), ja: z.string() })) });
 
 const ChatOut = z.object({
   reply: z.string(),

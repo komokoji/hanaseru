@@ -34,7 +34,7 @@ const BASE = process.env.HANASERU_TEST_URL || 'http://127.0.0.1:8087';
     assert.equal(await page.evaluate(()=>window.TEST_MANUAL_AUDIO),'Why is that important to you?');
     await context.route('https://komokoji.github.io/hanaseru/**',async route=>{
       const u=new URL(route.request().url());const local=BASE+'/'+u.pathname.replace(/^\/hanaseru\//,'')+u.search;
-      const res=await context.request.get(local);await route.fulfill({response:res});
+      let res;for(let n=0;n<3&&!res;n++){try{res=await context.request.get(local);}catch(e){if(n===2)throw e;await new Promise(r=>setTimeout(r,200));}}await route.fulfill({response:res});   // 試験用サーバーの接続切れに備えて3回まで
     });
     await page.goto('https://komokoji.github.io/hanaseru/?practice=talk');
     await page.waitForSelector('#tkCanonical:visible');

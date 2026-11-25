@@ -45,12 +45,13 @@ function stopVoice(message='音声対話を停止しました。') {
   window.HanaseruAudio.stop('');
   voice.stop(message);
 }
-function micToggle(continuous=false) {
+function micToggle(continuous=false, lang='en-US') {
   if(voice.active){stopVoice();return;}
+  stopRetry();
   if(busy||needLogin())return;
   if(!history.some(m=>m.role==='assistant')){setNote('先に場面を選んで、相手の最初の言葉を聞いてください。');return;}
   window.HanaseruAudio.stop('');
-  voice.start(continuous);
+  voice.start(continuous, lang);
 }
 document.addEventListener('hanaseru:leave',()=>{talkVersion++;stopVoice('');});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){talkVersion++;stopVoice('画面を離れたため音声対話を停止しました。');}});
@@ -78,16 +79,46 @@ function addBubble(role, text, extra) {
   log.appendChild(div);
   log.scrollTop = log.scrollHeight;
 }
+// 話した直後に出す「こう言うとより良い」。その場で聞く → 言い直す → 保存、まで1枚で済ませる。
 function feedbackHtml(r, said) {
   const same = r.better.trim() === said.trim();
+  const japanese = /[\u3040-\u30ff\u4e00-\u9fff]/.test(said);
+  const phrases = (Array.isArray(r.phrases) ? r.phrases : []).filter((p) => p && p.en).slice(0, 3);
   return '<div class="fb">'
     + (same ? '<div class="fbok">👍 この言い方で伝わります</div>'
-            : '<div class="fbline">💬 こう言うと伝わりやすい：<b>' + esc(r.better) + '</b><span class="fbja">' + esc(r.better_ja) + '</span></div>')
+            : '<div class="fbline">' + (japanese ? '💬 英語ではこう言えます：' : '💬 こう言うとより良い：') + '<b lang="en">' + esc(r.better) + '</b><span class="fbja">' + esc(r.better_ja) + '</span></div>')
     + '<div class="fbtip">' + esc(r.tip) + '</div>'
-    + '<div class="speakrow"><button class="speak" data-say="' + esc(r.better) + '">🔊 聞く</button>'
+    + (phrases.length ? '<div class="fbphrases"><span class="fbja">次に使える言い回し</span>' + phrases.map((p) => '<button class="fbphrase" data-say="' + esc(p.en) + '" data-keep-voice="1"><b lang="en">' + esc(p.en) + '</b><span>' + esc(p.ja) + '</span></button>').join('') + '</div>' : '')
+    + '<div class="speakrow"><button class="speak" data-say="' + esc(r.better) + '" data-keep-voice="1">🔊 聞く</button>'
+    + (SR ? '<button class="speak" data-retry-en="' + esc(r.better) + '">🎤 言い直してみる</button>' : '')
     + '<button class="speak" data-save-en="' + esc(r.better) + '" data-save-ja="' + esc(r.better_ja) + '">🔖 保存してリピート</button></div>'
+    + '<p class="fbheard" role="status"></p>'
     + '</div>';
 }
+
+// 言い直しの練習：その場で一度だけ声を拾い、聞き取れた言葉を見せる（採点はしない・AIには送らない）。
+let retryRec = null;
+function stopRetry() { const r = retryRec; retryRec = null; if (r) { r.onresult = r.onerror = r.onend = null; try { r.abort(); } catch (_) {} } }
+function sayAgain(target, button) {
+  const out = button.closest('.fb').querySelector('.fbheard');
+  stopVoice('言い直しの練習中です。終わったら、音声対話を再開できます。'); stopRetry();
+  let r; try { r = new SR(); } catch (_) { out.textContent = 'この画面ではマイクを準備できません。声に出すだけでも練習になります。'; return; }
+  retryRec = r; r.lang = 'en-US'; r.interimResults = false; r.continuous = false;
+  out.textContent = '🎤 どうぞ。手本の文を、声に出して言ってみてください。';
+  const timer = setTimeout(() => { if (retryRec === r) { stopRetry(); out.textContent = '声が届きませんでした。もう一度押してどうぞ。'; } }, 12000);
+  r.onresult = (e) => {
+    const heard = Array.from(e.results).map((x) => x[0].transcript).join(' ').trim();
+    const words = (t) => t.toLowerCase().replace(/[^a-z' ]/g, ' ').split(/\s+/).filter(Boolean);
+    const want = words(target), got = new Set(words(heard));
+    const hit = want.filter((w) => got.has(w)).length;
+    out.textContent = '聞き取れた言葉：' + heard + '（手本の ' + want.length + ' 語のうち ' + hit + ' 語。発音の採点ではありません）';
+    H.bumpTalk(1);
+  };
+  r.onerror = (e) => { clearTimeout(timer); if (retryRec === r) { retryRec = null; out.textContent = e.error === 'not-allowed' ? 'マイクが許可されていません。声に出すだけでも練習になります。' : '声を拾えませんでした。もう一度押してどうぞ。'; } };
+  r.onend = () => { clearTimeout(timer); if (retryRec === r) retryRec = null; };
+  try { r.start(); } catch (_) { retryRec = null; out.textContent = 'マイクを開始できませんでした。もう一度押してどうぞ。'; }
+}
+document.addEventListener('hanaseru:leave', stopRetry);
 
 async function start(newScene, practiceCard) {
   if (busy) { setNote("返答を待ってから、もう一度始めてください。"); return; }
@@ -134,7 +165,8 @@ async function ask(opening, said) {
       const mine = $("tkLog").lastElementChild;
       call({ mode: "feedback", ...context }).then((fb) => {
         if (version !== talkVersion || !mine || !mine.isConnected || !fb.data.result) return;
-        mine.insertAdjacentHTML("beforeend", '<details><summary>言い方のヒント・保存</summary>' + feedbackHtml(fb.data.result, said) + '</details>');
+        mine.insertAdjacentHTML("beforeend", feedbackHtml(fb.data.result, said));
+        $("tkLog").scrollTop = $("tkLog").scrollHeight;
       }).catch(() => {});
     }
     const res = await call({ mode: "chat", split: true, ...context });
@@ -334,7 +366,7 @@ async function moStop() {
 }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-say],[data-save-en],[data-action],[data-scene]"); if (!t) return;
+  const t = e.target.closest("[data-say],[data-retry-en],[data-save-en],[data-action],[data-scene]"); if (!t) return;
   if (t.getAttribute("data-action") === "explain") {
     const id = t.getAttribute("data-id");
     const c = id ? H.cards().find(c => c.id === id) : H.current(t.getAttribute("data-where")); if (!c) return;
@@ -343,7 +375,8 @@ document.addEventListener("click", (e) => {
     if (box) t.setAttribute("aria-expanded", String(!box.hidden));
     return;
   }
-  if (t.hasAttribute("data-say")) { stopVoice("もう一度聞いたら、音声対話を再開できます。"); H.speak(t.getAttribute("data-say")); return; }
+  if (t.hasAttribute("data-retry-en")) { sayAgain(t.getAttribute("data-retry-en"), t); return; }
+  if (t.hasAttribute("data-say")) { stopRetry(); stopVoice("もう一度聞いたら、音声対話を再開できます。"); H.speak(t.getAttribute("data-say")); return; }
   if (t.hasAttribute("data-save-en")) {
     const ok = H.addMine(t.getAttribute("data-save-ja"), t.getAttribute("data-save-en"));
     const m = H.getState().mine.find((m) => m.en === t.getAttribute("data-save-en").trim());
@@ -367,6 +400,7 @@ document.addEventListener("click", (e) => {
   else if (a === "talk") { if (!SR) $("tkMic").hidden = true; if (!history.length) start(scene); }
   else if (a === "tkSend") send();
   else if (a === "tkMic") micToggle();
+  else if (a === "tkMicJa") micToggle(false, 'ja-JP');
   else if (a === "tkRestart") start(scene);
   else if (a === "tkReview") review();
   else if (a === "moTopic") { moTopic = +t.getAttribute("data-idx"); moPrev = ""; moRender(); $("moOut").innerHTML = ""; $("moAgain").hidden = true; }
@@ -388,7 +422,7 @@ document.addEventListener("click", (e) => {
     } else document.dispatchEvent(new CustomEvent("hanaseru:practice", { detail: { id: m.id } }));
   }
 });
-if(!SR){$('tkAuto').disabled=true;$('tkMic').hidden=true;$('tkVoiceStatus').textContent='このブラウザでは音声入力を利用できません。文字でAIと会話できます。';}
+if(!SR){$('tkAuto').disabled=true;$('tkMic').hidden=true;$('tkMicJa').hidden=true;$('tkVoiceStatus').textContent='このブラウザでは音声入力を利用できません。文字でAIと会話できます。';}
 $("tkInput") && $("tkInput").addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } });
 
 $("tkLogin").addEventListener('click',async()=>{

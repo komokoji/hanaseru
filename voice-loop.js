@@ -10,8 +10,8 @@
       const r=this.rec;this.rec=null;
       if(r){r.onstart=r.onend=r.onresult=r.onerror=null;try{r.abort();}catch(_){}}
     }
-    start(continuous=true){
-      this.stop('');
+    start(continuous=true,lang='en-US'){
+      this.stop('');this.lang=lang;
       if(!this.o.Recognition){this.o.state('このブラウザでは音声入力を利用できません。文字で返せます。',false);return;}
       this.continuous=continuous;this.active=true;this.turns=0;
       this.timer=setTimeout(()=>this.stop('5分で一区切りにしました。続ける場合はもう一度開始してください。'),300000);
@@ -20,7 +20,7 @@
     listen(){
       if(!this.active||!this.o.visible()){this.stop('');return;}
       const token=++this.serial;let finalText='',draft='',failed=false;
-      let r;try{r=new this.o.Recognition();}catch(_){this.stop("この画面ではマイクを準備できません。入力欄のキーボードのマイクでも話して入力できます。");return;}this.rec=r;r.lang='en-US';r.interimResults=true;r.continuous=false;
+      let r;try{r=new this.o.Recognition();}catch(_){this.stop("この画面ではマイクを準備できません。入力欄のキーボードのマイクでも話して入力できます。");return;}this.rec=r;r.lang=this.lang||'en-US';r.interimResults=true;r.continuous=false;
       this.o.state('マイクの開始を待っています…',true);
       this.startTimer=setTimeout(()=>{if(token===this.serial)this.stop('マイクが開始しませんでした。Safariで開き直すか、入力欄のキーボードのマイクで話して入力できます。');},this.o.startTimeoutMs||10000);
       const resetSilence=()=>{clearTimeout(this.silenceTimer);this.silenceTimer=setTimeout(()=>{if(token===this.serial)this.stop('音声が届かないため停止しました。入力欄に残った言葉を確認して送れます。');},this.o.silenceTimeoutMs||30000);};
