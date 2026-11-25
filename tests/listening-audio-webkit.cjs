@@ -9,7 +9,7 @@ const openMore=async p=>{await p.addInitScript(()=>document.addEventListener('DO
  await p.click('[data-lr=stop]');assert.equal(await p.locator('#hsAudio').evaluate(a=>a.paused),true);
  await p.click('[data-lr=play]');await p.waitForFunction(()=>document.querySelector('#hsAudio').currentTime>0.1);
  await p.click('[data-lr=next]');assert.equal(await p.locator('#hsAudio').evaluate(a=>a.paused),true);
- await p.selectOption('#lrIssue','sound');await p.click('[data-lr=next]');await p.click('[data-lr=chunk-0]');await p.waitForFunction(()=>document.querySelector('#hsAudio').currentTime>0.1);
+ await p.selectOption('#lrIssue','sound');await p.click('[data-lr=next]');await p.click('[data-lr=practice-play]');await p.waitForFunction(()=>document.querySelector('#hsAudio').currentTime>0.1);
  await p.click('#navHome');assert.equal(await p.locator('#hsAudio').evaluate(a=>a.paused),true);
  console.log('PASS WebKit mobile: real MP3 playback, stop/replay, chunk playback, stop on leave; no login or device TTS');
  }finally{await b.close();}})().catch(e=>{console.error(e);process.exit(1)});

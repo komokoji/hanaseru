@@ -33,7 +33,16 @@ const provider = new GoogleAuthProvider();
 
 const H = window.Hanaseru;          // app.js が公開する { getState, applyRemote, onChange, summary }
 let user = null;
-let pushTimer = null;
+let pushTimer = null, authKnown = false, loginBusy = false;
+let resolveAuth;
+H.authReady = new Promise(resolve => { resolveAuth = resolve; });
+H.waitForAuth = () => new Promise((resolve, reject) => {
+  const timer = setTimeout(() => reject(new Error('ログイン状態を確認できません。通信を確認して、もう一度お試しください。')), 12000);
+  H.authReady.then(u => { clearTimeout(timer); resolve(u); });
+});
+// Use durable local persistence for both restored sessions and future logins.
+const persistenceReady = setPersistence(auth, browserLocalPersistence);
+persistenceReady.catch(() => { setStatus('ログインの保存を準備できませんでした。ブラウザの保存設定をご確認ください。', !!user); });
 
 function isStandalone() {
   return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
@@ -42,12 +51,14 @@ function isStandalone() {
 function isIOS() { return /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1); }
 async function login() {
   if(location.hostname==="komokoji.github.io"){location.assign("https://hanaseru.web.app/?practice=talk");return;}
-  await setPersistence(auth, browserLocalPersistence);
+  await persistenceReady;
+  await H.waitForAuth();
+  if (auth.currentUser) return;
   setStatus("Google のログイン画面へ移ります…", false);
   if (isStandalone() || isIOS()) return signInWithRedirect(auth, provider);   // iPhone はポップアップが不安定なので、同じ画面で行って戻る
   try { await signInWithPopup(auth, provider); }
   catch (e) {
-    if (e && /popup/.test(String(e.code))) return signInWithRedirect(auth, provider);
+    if (e && /auth\/(popup-blocked|operation-not-supported-in-this-environment)/.test(String(e.code))) return signInWithRedirect(auth, provider);
     throw e;
   }
 }
@@ -155,20 +166,37 @@ function setStatus(text, loggedIn) {
   const el = document.getElementById("cloudStatus");
   const btn = document.getElementById("cloudBtn");
   if (el) el.textContent = text;
-  if (btn) btn.textContent = loggedIn ? "ログアウト" : "Google でログインして同期";
+  if (btn) btn.textContent = loggedIn ? "ログアウト" : "Google でログイン";
+  const badge = document.getElementById('sessionStatus'), entry = document.getElementById('sessionLogin');
+  if (badge) badge.textContent = loggedIn ? '✓ ログイン済み' : authKnown ? 'AI英訳にはログインが必要です' : 'ログインを確認中…';
+  if (entry) { entry.textContent = loggedIn ? 'アカウント' : 'ログイン'; entry.disabled = loginBusy; }
+  if (document.getElementById('sessionNote')) document.getElementById('sessionNote').textContent = /できません|ログイン画面/.test(text) ? text : '';
 }
 
-document.addEventListener("click", function (e) {
-  const t = e.target.closest("[data-action='cloud']"); if (!t) return;
-  if (user) signOut(auth).then(function () { setStatus("☁️ この端末だけに保存（ログアウト中）", false); });
-  else login().catch(function (err) { setStatus("ログインできませんでした：" + (err && err.code || err), false); });
+document.addEventListener("click", async function (e) {
+  const entry = e.target.closest("[data-action='authEntry']");
+  const footer = e.target.closest("[data-action='cloud']");
+  if (!entry && !footer) return;
+  if (loginBusy) return;
+  try {
+    await H.waitForAuth();
+    if (user && entry) { H.openHome(); const b=document.getElementById('cloudBtn'); b.scrollIntoView({block:'center'}); b.focus({preventScroll:true}); return; }
+    if (user && footer) {
+      if (!window.confirm('ログアウトしますか？次にAIを使うときはログインが必要です。')) return;
+      await signOut(auth); return;
+    }
+    loginBusy = true; setStatus('Google のログイン画面へ移ります…', false);
+    await login();
+  } catch (err) { setStatus('ログインできませんでした：' + (err && (err.message || err.code) || err), !!user); }
+  finally { loginBusy=false; const b=document.getElementById('sessionLogin'); if(b)b.disabled=false; }
 });
 
 getRedirectResult(auth).then(function (r) { if (r && r.user) setStatus("☁️ ログインしました。同期を確認中…", true); })
   .catch(function (err) { setStatus("ログインできませんでした：" + (err && (err.code + " " + err.message) || err), false); });
 
 onAuthStateChanged(auth, function (u) {
-  user = u;
+  user = u; authKnown = true; resolveAuth(u);
+  document.dispatchEvent(new CustomEvent("hanaseru:auth", {detail:{loggedIn:!!u}}));
   if (!u) { setStatus("☁️ この端末だけに保存（ログイン前）", false); return; }
   setStatus("☁️ 同期を確認中…", true);
   pull().catch(function (err) { setStatus("同期できませんでした：" + (err && err.code || err), true); });

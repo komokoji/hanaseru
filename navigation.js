@@ -6,6 +6,7 @@ function close(focus=false){menu.hidden=true;toggle.setAttribute('aria-expanded'
 toggle.addEventListener('click',()=>{const opening=menu.hidden;menu.hidden=!opening;toggle.setAttribute('aria-expanded',String(opening));if(opening)menu.querySelector('button').focus();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!menu.hidden){close(true);}});
 document.addEventListener('click',e=>{
+ if(e.target.closest('[data-action="authEntry"]')&&!window.Hanaseru.login){document.getElementById('sessionNote').textContent='ログインの接続を準備できていません。通信を確認して再読み込みしてください。入力した内容は端末に残ります。';return;}
  const nav=e.target.closest('[data-nav]');
  if(!nav){if(!e.target.closest('.app-header'))close();return;}
  const action=nav.dataset.nav;close();
@@ -20,3 +21,5 @@ document.addEventListener('click',e=>{
 });
 document.addEventListener('hanaseru:leave',()=>close());
 }());
+
+setTimeout(()=>{if(!window.Hanaseru.login){document.getElementById("sessionStatus").textContent="ログイン接続を確認できません";}},10000);

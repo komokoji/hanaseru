@@ -204,6 +204,20 @@ async function ask(opening, said) {
   } finally { setBusy(false); }
 }
 
+// Translation drafts survive the Google redirect and a page reload. Never persist auth tokens here.
+const TRANSLATION_KEY='hanaseru-translation-draft-v1';
+function readTranslation(){try{const d=JSON.parse(localStorage.getItem(TRANSLATION_KEY));return d&&typeof d.text==='string'&&d.text.length<=5000&&Number.isFinite(d.at)&&Date.now()-d.at<86400000?d:null;}catch(_){return null;}}
+function keepTranslation(resume=false){try{localStorage.setItem(TRANSLATION_KEY,JSON.stringify({text:$('trInput').value,source:capturedSource,at:Date.now(),resume}));}catch(_){$('trNote').textContent='文章を端末に保存できません。ログインする前にコピーしておいてください。';}}
+const restoredTranslation=readTranslation();
+if(restoredTranslation){$('trInput').value=restoredTranslation.text;capturedSource=restoredTranslation.source||null;}
+$('trInput').addEventListener('input',()=>keepTranslation(false));
+function resumeTranslation(){
+ const d=readTranslation();if(!d||!d.resume||!getAuth(getApp()).currentUser||legacy)return false;
+ $('trInput').value=d.text;capturedSource=d.source||null;keepTranslation(false);
+ try{sessionStorage.removeItem(PENDING);}catch(_){}
+ H.openSection('coach');translate();return true;
+}
+
 // ---- ✍️ 英訳コーチ ----
 document.addEventListener("hanaseru:capture", (e) => {
   capturedSource = e.detail; translationDraft = null; translationVersion++;
@@ -217,7 +231,12 @@ document.addEventListener("hanaseru:practiceTalk", (e) => {
 document.addEventListener("hanaseru:translateCapture",()=>translate());
 async function translate() {
   if (busy) return;
-  if (needLogin("trNote")) {$("trLogin").hidden=false;return;}
+  const requestedText=$('trInput').value.trim();if(!requestedText)return;
+  keepTranslation(true);
+  if(H.waitForAuth){$('trNote').textContent='ログイン状態を確認しています…';try{await H.waitForAuth();}catch(e){$('trNote').textContent=e.message;$('trLogin').hidden=false;return;}}
+  if (busy) return;
+  if (needLogin("trNote")) {$('trNote').textContent='この文章は端末に保存済みです。下のボタンからログインすると、そのまま英語にします。';$("trLogin").hidden=false;return;}
+  keepTranslation(false);
   $("trLogin").hidden=true;
   const text = $("trInput").value.trim(); if (!text) return;
   const source = capturedSource, version = ++translationVersion;
@@ -444,10 +463,12 @@ $("tkLogin").addEventListener('click',async()=>{
 onAuthStateChanged(getAuth(getApp()),user=>{
   if(user&&!legacy){
     $("tkGate").hidden=true;
+    if(resumeTranslation())return;
     let pending;try{pending=JSON.parse(sessionStorage.getItem(PENDING));}catch(_){}
     if(pending&&Date.now()-pending.at<3600000){H.openTalk();start(pending.scene,pending.card);}
   }else if(!$("talk").hidden)needLogin();
+  if(!user&&restoredTranslation&&restoredTranslation.resume){H.openSection('coach');$('trLogin').hidden=false;$('trNote').textContent='文章を復元しました。ログインして英訳を続けられます。';}
 });
 if(new URLSearchParams(location.search).get('practice')==='talk'){H.openTalk();start('travel');}
 
-$("trLogin").addEventListener("click",async()=>{try{if(!H.login)throw new Error("接続を確認して再読み込みしてください。");await H.login();if(getAuth(getApp()).currentUser&&!legacy)translate();}catch(e){$("trNote").textContent=e.message||"ログインできませんでした。";}});
+$("trLogin").addEventListener("click",async()=>{try{if(!H.login)throw new Error("接続を確認して再読み込みしてください。");keepTranslation(true);$("trLogin").disabled=true;await H.login();resumeTranslation();}catch(e){$("trNote").textContent=e.message||"ログインできませんでした。";}finally{$("trLogin").disabled=false;}});

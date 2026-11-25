@@ -226,3 +226,13 @@ AI会話の手動「聞く」は、認証済み専用Functionで英語MP3を生�
 `data/` はGitとFirebase Hostingの両方から除外する。個人の音声・英文を公開アセットに含めない。
 
 教材の作成：`python3 ops/build-original-audio.py <MP3> <区切りJSON> data/<名前>.hanaseru.json`。区切りJSONは `{title, segments:[{start,end,text}]}`（秒）。文字起こしの照合状況は別途記録する。
+
+
+## ログインと「伝えたい」の続き（v87）
+
+画面上部に「ログイン／アカウント」と認証状態を表示する。同じブラウザ内の認証はFirebase LOCAL永続化を起動時・ログイン時に使い、復元が完了するまで英訳の未ログイン判定を待つ。
+Safariとホーム画面アプリ、別ドメイン、別端末の保存領域は同一とは限らない。ブラウザデータ削除や明示的なログアウト後には再ログインが必要。
+英訳の入力・元のcapture・再開意図は端末内の `hanaseru-translation-draft-v1` に残す（復元対象は24時間以内）。Googleログインのリダイレクト後に1回だけ続行し、通常の再読み込みでは再送信しない。
+英訳待ちで通信・認証に失敗しても、日本語の入力と保存したcaptureは残る。画面上部の「アカウント」はログアウトしない。ログアウトはフッターの専用操作で確認してから行う。
+仕様参照：[Firebase Auth永続化](https://firebase.google.com/docs/auth/web/auth-state-persistence)、[リダイレクトの同一ドメイン設定](https://firebase.google.com/docs/auth/web/redirect-best-practices)。同一ドメインのauthDomain設定は既存を維持。
+認証回帰試験はSDK境界を模擬する。実Googleアカウント・実iPhoneの保持と英訳品質を検証済みとは扱わない。

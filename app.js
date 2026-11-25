@@ -460,6 +460,8 @@
     if(!captured)return;
     capToggle(false); hideMain(); document.getElementById("coach").hidden=false;
     document.getElementById("trInput").value='(' + [captured.scene,captured.obstacle].filter(Boolean).join('・') + ') ' + captured.ja;
+    try { localStorage.setItem('hanaseru-translation-draft-v1', JSON.stringify({text:document.getElementById('trInput').value,source:captured,at:Date.now(),resume:!!immediate})); } catch (_) {}
+    document.getElementById('trNote').textContent = '入力を保存しました。英訳の接続を確認しています…';
     document.dispatchEvent(new CustomEvent("hanaseru:capture",{detail:captured}));
     window.scrollTo(0,0);
     if(immediate)document.dispatchEvent(new CustomEvent("hanaseru:translateCapture"));
