@@ -3,6 +3,8 @@
                ②端末の読み上げは、タップの外で呼ぶと何も起きない
    Run: NODE_PATH=<playwright> node tests/audio-ios-policy.cjs （http.server 8087） */
 const {webkit}=require('playwright');const assert=require('node:assert/strict');const fs=require('node:fs');
+// ホームの「こまかい設定」は折りたたみ。試験では開いておき、中の操作も確かめる。
+const openMore=async p=>{await p.addInitScript(()=>document.addEventListener('DOMContentLoaded',()=>{const d=document.getElementById('homeMore');if(d)d.open=true;}));return p;};
 const BASE=process.env.HANASERU_TEST_URL||'http://127.0.0.1:8087';
 const MP3=fs.readFileSync(__dirname+'/fixtures/speech-check.mp3').toString('base64');
 const policy=`(()=>{
@@ -37,7 +39,7 @@ const paused=p=>p.locator('#hsAudio').evaluate(a=>a.paused);
     const c=await b.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true,serviceWorkers:'block'});
     await c.addInitScript(policy);if(logged)await c.addInitScript('window.TEST_LOGGED_IN=true;');
     await c.route('https://www.gstatic.com/**',firebase);
-    const p=await c.newPage();p.on('pageerror',e=>{throw e;});await p.goto(BASE+path);return p;
+    const p=await openMore(await c.newPage());p.on('pageerror',e=>{throw e;});await p.goto(BASE+path);return p;
   };
 
   // 1) 未ログイン：今日の3分＝公開済みMP3。再生・停止・ホームで停止。端末の読み上げは使わない。

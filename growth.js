@@ -102,28 +102,21 @@
   function menu() { var s = st(), d = H.today(); if (!s.menu || s.menu.d !== d) s.menu = { d: d, done: {} }; return s.menu; }
   function menuDone(k) { var m = menu(); if (!m.done[k]) { m.done[k] = true; H.commit(); } renderHome(); }
   H.menuDone = menuDone;
-  var SPEAK = [   // 日曜から。話す練習は曜日で替える（診察を週3回）
-    { a: 'quickTalk', t: '🗣 AIと自由に話す', s: '5往復から。詰まったら「日本語で言う」' },
-    { a: 'sceneTrack', track: 'consult', t: '🩺 診察を英語で', s: '1本を通しで聞いて、自分で返す' },
-    { a: 'sceneTrack', track: 'links', t: '🔗 会話のつなぎ', s: '聞いて、つなぎの一言から返す' },
-    { a: 'sceneTrack', track: 'consult', t: '🩺 診察を英語で', s: '台本なしで、AIの保護者と通し稽古' },
-    { a: 'sceneTrack', track: 'links', t: '🔗 会話のつなぎ', s: '聞いて、つなぎの一言から返す' },
-    { a: 'sceneTrack', track: 'consult', t: '🩺 診察を英語で', s: '問診の回で、自分から聞く' },
-    { a: 'sceneTrack', track: 'dubai', t: '🎤 ドバイ：発表と質疑', s: '60秒の自己紹介と、質問への返し' }
-  ];
+  // 話す練習は曜日で替える（日曜から。診察を週3回）。ホームのボタンの data-menu と対応する。
+  var SPEAK = ['talk', 'consult', 'links', 'consult', 'links', 'consult', 'dubai'];
   function renderHome() {
-    var box = $('coachMenu'); if (!box) return;
-    var m = menu(), due = Focus.due().length, sp = SPEAK[new Date().getDay()];
-    var heardToday = listenedSec(1), week = Math.round(listenedSec(7) / 60);
+    var tiles = document.querySelectorAll('#homeTiles .tile'); if (!tiles.length) return;
+    var m = menu(), due = Focus.due().length, heardToday = listenedSec(1), week = Math.round(listenedSec(7) / 60);
     if (heardToday >= 40 && !m.done.listen) { m.done.listen = true; H.commit(); }
-    var row = function (done, attrs, title, sub) { return '<button type="button" class="menu-row' + (done ? ' done' : '') + '" ' + attrs + '><span class="menu-mark">' + (done ? '✓' : '') + '</span><span class="menu-text"><b>' + title + '</b><small>' + sub + '</small></span></button>'; };
+    // 今日の3つ：耳 → つまずき直し（無ければ熟語）→ 曜日ごとの話す練習。済んだら ✓
+    var today = { listen: m.done.listen }; /* 2つ目：つまずき直しがあればそれを、無ければ熟語の耳トレ */ var slot = (due || m.done.focus) ? 'focus' : 'pv'; today[slot] = slot === 'focus' ? m.done.focus : m.done.pv; today[SPEAK[new Date().getDay()]] = m.done.speak;
+    Array.prototype.forEach.call(tiles, function (t) {
+      var k = t.dataset.menu, on = k && (k in today);
+      t.classList.toggle('today', !!on && !today[k]); t.classList.toggle('done', !!on && !!today[k]);
+    });
     var a = (st().assess || []).slice(-1)[0], next = a ? a.d + 84 - H.today() : null;
-    box.innerHTML = row(m.done.listen, 'data-action="listeningRoute"', '👂 耳トレ', '今日の会話を聞く（今日 ' + Math.round(heardToday / 60) + '分）')
-      + (due ? row(m.done.focus, 'data-action="focusOpen"', '🔁 つまずき直し', '詰まった言い回し ' + due + ' 件')
-             : row(m.done.focus, 'data-action="quizPhrasal"', '🧩 熟語の耳トレ', '聞いて意味を選ぶ 8問'))
-      + row(m.done.speak, 'data-action="' + sp.a + '"' + (sp.track ? ' data-track="' + sp.track + '"' : ''), sp.t, sp.s)
-      + '<p class="menu-stat">今週 聞いた ' + week + '分 ・ 話した ' + H.talksThisWeek() + '回 ・ '
-      + (a ? (next > 0 ? '次の現在地チェックまで ' + next + '日' : '<b>現在地チェックの時期です</b>') : '<b>まず現在地チェックを1回</b>') + '</p>';
+    $('coachStat').innerHTML = '今週 聞いた ' + week + '分・話した ' + H.talksThisWeek() + '回' + (due ? '・つまずき直し ' + due + '件' : '') + '・'
+      + (a ? (next > 0 ? '現在地チェックまで ' + next + '日' : '<b>現在地チェックの時期</b>') : '<b>まず現在地チェックを1回</b>');
   }
   H.renderGrowth = renderHome;
 

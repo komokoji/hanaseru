@@ -1,6 +1,8 @@
 const {webkit}=require('playwright');const assert=require('node:assert/strict');
+// ホームの「こまかい設定」は折りたたみ。試験では開いておき、中の操作も確かめる。
+const openMore=async p=>{await p.addInitScript(()=>document.addEventListener('DOMContentLoaded',()=>{const d=document.getElementById('homeMore');if(d)d.open=true;}));return p;};
 (async()=>{const b=await webkit.launch({headless:true});try{
- const c=await b.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true,serviceWorkers:'block'});const p=await c.newPage();await p.route('https://**',r=>r.abort());
+ const c=await b.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true,serviceWorkers:'block'});const p=await openMore(await c.newPage());await p.route('https://**',r=>r.abort());
  await p.goto(process.env.HANASERU_TEST_URL||'http://127.0.0.1:8087/?practice=listening');await p.waitForSelector('[data-lr=play]');
  await p.evaluate(()=>{window.speechSynthesis.speak=()=>{throw Error('Device TTS must not be used');};});
  await p.click('[data-lr=play]');await p.waitForFunction(()=>document.querySelector('#hsAudio').currentTime>0.1);assert.match(await p.locator('#lrStatus').innerText(),/再生中/);

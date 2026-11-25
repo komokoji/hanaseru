@@ -29,11 +29,10 @@
     var prev = records().slice(-1)[0], can = SR && H.loggedIn && H.loggedIn();
     H.openSection('assess');
     $('asTitle').textContent = '📏 現在地チェック';
-    $('asBody').innerHTML = '<div class="card"><p>同じ物差しで、いまの力を測ります。<b>聞く10問</b>（約4分）と、<b>話す3問</b>（約3分）。12週ごとが目安です。</p>'
-      + '<p class="muted">アプリ内の目安で、公式の試験ではありません。聞く問題は初見の音声を自然な速さで流します。話す問題は、発音ではなく「伝わる中身」を見ます。</p>'
-      + (can ? '' : '<p class="fbtip">' + (SR ? '話す3問はログインが必要です。ログインしていないときは、聞く10問だけ記録します。' : 'この画面では音声入力が使えないため、聞く10問だけ記録します（iPhone は Safari で開くと使えます）。') + '</p>')
-      + (prev ? '<p>前回：' + date(prev.at) + '（聞く ' + prev.L.score + ' / ' + prev.L.total + (prev.S ? '・話す ' + sum(prev.S) + ' / ' + prev.S.length * 4 : '') + '）</p>' : '<p>今回が1回目です。</p>')
-      + '<p class="muted">静かな所で、通して行ってください。途中でやめると記録されません。</p></div>';
+    $('asBody').innerHTML = '<div class="card"><p><b>聞く10問</b>と<b>話す3問</b>。約7分。静かな所で、通してどうぞ。</p>'
+      + (can ? '' : '<p class="fbtip">' + (SR ? 'ログインしていないので、聞く10問だけ記録します。' : 'この画面では音声入力が使えないので、聞く10問だけ記録します。') + '</p>')
+      + (prev ? '<p class="stat">前回：' + date(prev.at) + '（聞く ' + prev.L.score + ' / ' + prev.L.total + (prev.S ? '・話す ' + sum(prev.S) + ' / ' + prev.S.length * 4 : '') + '）</p>' : '')
+      + '<p class="muted" style="font-size:11px">アプリ内の目安です（公式の試験ではありません）。12週ごとに同じ物差しで測ります。</p></div>';
     $('asActions').innerHTML = '<button class="big" data-as="go">始める（聞く10問から）</button>' + (records().length ? '<button class="speak" data-as="history">これまでの記録を見る</button>' : '') + '<button class="speak" data-action="home">ホームへ</button>';
   }
   function date(ms) { var d = new Date(ms); return d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate(); }

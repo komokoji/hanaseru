@@ -18,7 +18,7 @@
     var picked = run.picks[run.i], answered = picked != null && o.feedback;
     $('qzTitle').textContent = o.title; $('qzProgress').textContent = (run.i + 1) + ' / ' + run.items.length + (o.sub ? ' ・ ' + o.sub : '');
     var limit = o.maxPlays && (run.plays[run.i] || 0) >= o.maxPlays;
-    $('qzBody').innerHTML = '<div class="card"><p class="muted">英文は見ずに、音だけで。' + (o.maxPlays ? '聞けるのは' + o.maxPlays + '回までです。' : '') + '</p>'
+    $('qzBody').innerHTML = '<div class="card">' + (o.maxPlays ? '<p class="muted" style="font-size:12px">聞けるのは' + o.maxPlays + '回まで</p>' : '')
       + '<button class="big" data-qz="play"' + (limit ? ' disabled' : '') + '>▶ 聞く</button>'
       + '<p class="qz-q">' + esc(x.q) + '</p>'
       + x.options.map(function (t, n) {
@@ -69,7 +69,7 @@
       onDone: function (r) {
         var ok = r.items.filter(function (x, i) { return r.picks[i] === x.answer; }).length, log = (H.getState().quiz || {}).pv || {};
         var seen = Object.keys(log).length, total = (window.HANASERU_PHRASALS || []).length;
-        H.openSection('quiz'); H.menuDone('focus');
+        H.openSection('quiz'); H.menuDone('pv');
         $('qzTitle').textContent = '🧩 熟語の耳トレ：' + ok + ' / ' + r.items.length; $('qzProgress').textContent = 'これまでに聞いた熟語 ' + seen + ' / ' + total;
         $('qzBody').innerHTML = '<div class="card">' + r.items.map(function (x, i) { return '<p>' + (r.picks[i] === x.answer ? '✓' : '✗') + ' <b lang="en">' + esc(x.pv.pv) + '</b>　' + esc(x.pv.ja) + '</p>'; }).join('')
           + '<p class="muted">外した熟語は「つまずき直し」に入りました。AI会話の相手も、会話の中でもう一度使います。</p></div>';

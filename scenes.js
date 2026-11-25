@@ -29,9 +29,9 @@
   function openList(t){H.openScenes();track=t;selected=null;model=false;renderList();}
   function renderList(){
     $('scTitle').textContent=track==='links'?'🔗 会話のつなぎ':track==='dubai'?'🎤 ドバイ：発表と質疑':track==='consult'?'🩺 診察を英語で':track==='personal'?'自己紹介・接続表現を練習する':track==='clinic'?'診療で話す':'12月のドイツで話す';
-    $('scContext').textContent=track==='links'?'相手の言葉を聞く → 指定のつなぎの一言から返す → 手本。受ける・時間を稼ぐ・足す・やわらかく反対する・言い換える・確かめる・話題を変える、の7つの働きを反射で出せるようにします。':track==='dubai'?'学会や面談で、自分の仕事・便秘の診療・Clinical AI Core を話し、質問に返す練習。答えの中身は院長の原稿と説明文から取っています。決まっていないことは言い切らない練習も入っています。':track==='consult'?'病気ごとに、診察1回分を通しで。保護者の言葉を聞く → 自分で返す → 手本（医師の声）→ 見ずにもう一度。説明の中身は、院長の患者さん向けの説明文から取っています。':'相手の言葉を聞く → 自分で返す → 必要なら手本 → 見ずにもう一度。最後に違う質問にも答えてみます。';
-    var list=scenes.filter(function(s){return s.track===track;}).sort(function(a,b){return String(a.group||'').localeCompare(String(b.group||''),'ja');});
-    $('scBody').innerHTML='<p class="muted">休んだ分のまとめ取りは不要です。今日は使いたい場面を一つ。進み具合はこの端末に保存し、ログイン中は同期します。</p>'+list.map(function(s,n){return (s.group&&(n===0||list[n-1].group!==s.group)?'<h3 class="sc-group">'+esc(s.group)+'</h3>':'')+'<div class="shelf-entry"><h3>'+esc(s.title)+'</h3><p>'+esc(s.goal)+'</p><p class="stat">'+esc(status(s))+'</p>'+button('scChoose','この場面を開く','data-id="'+s.id+'"')+'</div>';}).join('')+'<p class="muted">診療は普段の説明の流れをもとに組み直した練習用会話です。個別の治療判断や患者情報をそのまま収録したものではありません。旅行の返答・時刻・条件も練習用です。</p>';
+    $('scContext').textContent=track==='links'?'聞く → 指定のつなぎの一言から返す → 手本':track==='dubai'?'聞く → 返す → 手本。決まっていないことは言い切らない':'聞く → 自分で返す → 手本 → 見ずにもう一度';
+    var list=scenes.filter(function(s){return s.track===track;}).sort(function(a,b){var o=['便秘外来','熱・かぜ','咳・ゼーゼー','お腹','栄養外来','皮ふ・けが'],x=o.indexOf(a.group),y=o.indexOf(b.group);return (x<0?99:x)-(y<0?99:y)||String(a.group||'').localeCompare(String(b.group||''),'ja');});   // 診察は便秘外来を先頭に
+    $('scBody').innerHTML=list.map(function(s,n){return (s.group&&(n===0||list[n-1].group!==s.group)?'<h3 class="sc-group">'+esc(s.group)+'</h3>':'')+'<button class="sc-row" data-action="scChoose" data-id="'+s.id+'"><b>'+esc(s.title)+'</b><span>'+esc(status(s))+'</span></button>';}).join('')+'<p class="muted" style="font-size:11px">練習用に組み直した会話です。患者さんの情報は含みません。</p>';
     $('scActions').innerHTML='';$('scTitle').focus();
   }
   function render(){

@@ -1,5 +1,7 @@
 /* Run against local http.server: NODE_PATH=<bundled node_modules> node tests/browser-smoke.cjs */
 const { chromium } = require('playwright');
+// ホームの「こまかい設定」は折りたたみ。試験では開いておき、中の操作も確かめる。
+const openMore=async p=>{await p.addInitScript(()=>document.addEventListener('DOMContentLoaded',()=>{const d=document.getElementById('homeMore');if(d)d.open=true;}));return p;};
 const assert = require('node:assert/strict');
 const BASE = process.env.HANASERU_TEST_URL || 'http://127.0.0.1:8087';
 (async () => {
@@ -17,7 +19,7 @@ const BASE = process.env.HANASERU_TEST_URL || 'http://127.0.0.1:8087';
       route.fulfill({status:200,contentType:'text/javascript',body});
     });
 
-    const page=await context.newPage(), errors=[];page.on('pageerror',e=>errors.push(e.message));
+    const page=await openMore(await context.newPage()), errors=[];page.on('pageerror',e=>errors.push(e.message));
     await page.goto(BASE+"/?practice=listening");
     await page.waitForSelector("#listeningRoute:visible");
     await page.click("#listeningRoute [data-action=home]");

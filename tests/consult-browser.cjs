@@ -1,9 +1,11 @@
 /* 🩺 診察を英語で：一覧 → 通しで聞く → 保護者の言葉 → 手本（医師の声）→ 次の往復。未ログイン・公開済みMP3だけで動くこと。 */
 const {webkit}=require('playwright');const assert=require('node:assert/strict');
+// ホームの「こまかい設定」は折りたたみ。試験では開いておき、中の操作も確かめる。
+const openMore=async p=>{await p.addInitScript(()=>document.addEventListener('DOMContentLoaded',()=>{const d=document.getElementById('homeMore');if(d)d.open=true;}));return p;};
 const BASE=process.env.HANASERU_TEST_URL||'http://127.0.0.1:8087';
 (async()=>{const b=await webkit.launch({headless:true});try{
   const c=await b.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true,serviceWorkers:'block'});
-  const p=await c.newPage();await p.route('https://www.gstatic.com/**',r=>r.abort());const errors=[];p.on('pageerror',e=>errors.push(e.message));
+  const p=await openMore(await c.newPage());await p.route('https://www.gstatic.com/**',r=>r.abort());const errors=[];p.on('pageerror',e=>errors.push(e.message));
   await p.goto(BASE+'/');await p.waitForFunction(()=>window.HANASERU_CONSULT_SCENES&&window.HanaseruAudio);
   await p.evaluate(()=>{window.speechSynthesis.speak=()=>{window.TEST_TTS=(window.TEST_TTS||0)+1;};});
   // 教材データ：医師の手本・保護者の言葉・通しの会話すべてに公開済みMP3がある
@@ -13,7 +15,7 @@ const BASE=process.env.HANASERU_TEST_URL||'http://127.0.0.1:8087';
   assert.match(await p.locator('#sceneHome-consult').innerText(),/0 \/ 42/);
   await p.click('[data-action="sceneTrack"][data-track="consult"]');
   assert.match(await p.locator('#scTitle').innerText(),/診察を英語で/);
-  assert.equal(await p.locator('#scBody .shelf-entry').count(),42);assert(await p.locator('#scBody .sc-group').count()>=3);
+  assert.equal(await p.locator('#scBody .sc-row').count(),42);assert(await p.locator('#scBody .sc-group').count()>=3);
   await p.click('[data-action="scChoose"][data-id="consult-flu"]');
   const playing=()=>p.waitForFunction(()=>{const a=document.querySelector('#hsAudio');return !a.paused&&a.currentTime>0.05;},null,{timeout:8000});
   await p.click('[data-action="scFull"]');await playing();
