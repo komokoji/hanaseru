@@ -5,6 +5,7 @@ global.window=global;global.self=global;
 ['data','trip','visit','gutnutri','me','basics','conversation','patterns','parts','listen','practice-core','scenes-data','personal-scenes'].forEach(f=>require('../'+f+'.js'));
 // 教材ファイルは packs/ の中身を全部読む（足したら自動で対象になる）
 fs.readdirSync(require('node:path').join(__dirname,'..','packs')).filter(f=>f.endsWith('.js')).sort().forEach(f=>require('../packs/'+f));
+require('../priority-data.js');
 const VOICES={'en-US':'en-US-Standard-F','en-GB':'en-GB-Standard-A'};
 const texts=new Map();   // text -> lang（先に入れた声を優先）
 const norm=t=>String(t==null?'':t).replace(/___/g,'…').trim();
@@ -82,5 +83,11 @@ if(process.argv.includes('--dry'))process.exit(0);
   const keep=new Set(list.map(x=>x.path.split('/').pop()));
   fs.readdirSync('audio/cards').forEach(f=>{if(!keep.has(f))fs.unlinkSync('audio/cards/'+f);});
   fs.writeFileSync('card-audio.js','/* Generated model audio for built-in materials; see ops/build-card-audio.cjs. */\nself.HANASERU_CARD_AUDIO='+JSON.stringify(map,null,1)+';\n');
+  const priorityAudio=[...new Set(global.HANASERU_PRIORITY.flatMap(item=>{
+    const scene=global.HANASERU_SCENES.find(s=>s.id===item.scene),t=scene.turns[item.turn];
+    return [t.heard,t.en,item.alternate.heard].map(text=>map[norm(text)]);
+  }))];
+  if(priorityAudio.some(x=>!x))throw Error('Missing priority audio');
+  fs.writeFileSync('priority-audio.js','/* Generated offline audio for the personal 30. */\nself.HANASERU_PRIORITY_AUDIO='+JSON.stringify(priorityAudio,null,1)+';\n');
   console.log('Audio files ready:',list.length);
 })().catch(e=>{console.error(e.message);process.exit(1)});

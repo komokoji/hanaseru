@@ -17,7 +17,7 @@ const payload=x=>({name:'lesson.hanaseru.json',mimeType:'application/json',buffe
  const p=await context.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));
  const uploads=[];p.on('request',r=>{if(r.method()==='POST')uploads.push(r.url());});
  await p.goto(base);await p.waitForFunction(()=>window.Hanaseru);
- const open=async()=>{await p.click('#homeTiles [data-action="skillsOpen"]');await p.click('[data-action="ownAudioOpen"]');await p.waitForSelector('#oaFile',{state:'attached'});};
+ const open=async()=>{if(!await p.locator('#homeTiles').isVisible())await p.click('#homeMore > summary');await p.click('#homeTiles [data-action="skillsOpen"]');await p.click('[data-action="ownAudioOpen"]');await p.waitForSelector('#oaFile',{state:'attached'});};
  await open();await p.setInputFiles('#oaFile',payload(fixture));await p.waitForSelector('#oaAnswer');
  assert.equal(await p.locator('#oaMissing').count(),0,'answer hidden before reveal');
  assert.match(await p.locator('#skProgress').innerText(),/<safe>/,'title displayed as text');

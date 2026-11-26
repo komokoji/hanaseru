@@ -208,7 +208,7 @@
       <button type="button" data-nav="talk">AIと会話する</button>
       <button type="button" data-nav="shelfOpen">自分のことば帳</button>
       <button type="button" data-nav="settings">通知の設定</button>
-      <button type="button" data-nav="account">ログイン・同期</button><button type="button" onclick="location.reload()">最新版を読み込む（v88）</button>
+      <button type="button" data-nav="account">ログイン・同期</button><button type="button" onclick="location.reload()">最新版を読み込む（v89）</button>
     </nav>
   </header>
   <aside id="legacySite" class="goal-start" hidden><strong>こちらは旧公開先です</strong><p>ログイン・AI会話・通知は正規版でご利用ください。</p><a class="big" href="https://hanaseru.web.app/?practice=talk">正規版のハナセルを開く →</a><p class="muted">このページの端末内記録は残ります。正規版とは保存先が別です。</p></aside>
@@ -218,6 +218,14 @@
   <!-- 範囲えらび -->
   <section id="listeningRoute" hidden><div class="bar"><h2 id="lrTitle" tabindex="-1"></h2><button class="link" data-action="home">中断してホームへ</button></div><p id="lrProgress" class="stat"></p><p id="lrStatus" role="status"></p><div id="lrBody" style="overflow-wrap:anywhere"></div><button id="lrBack" data-lr="back">← 一つ前へ</button></section>
   <section id="setup">
+    <div class="quick-start" id="priorityHome">
+      <h2 id="p30HomeTitle">まずは、私のトップ10</h2>
+      <p id="p30HomeProgress" class="stat"></p>
+      <button type="button" class="big" id="p30Start" data-pr="start">今日の練習を始める</button>
+      <p id="p30HomeNote"></p>
+      <details><summary>私の30の会話と進み具合</summary><p>最初の10を別の日にも返せたら、20、30へ進みます。自分の言葉で伝わればOKです。</p><div id="p30Catalog"></div></details>
+    </div>
+    <details class="library" id="homeMore"><summary>ほかの練習・設定</summary>
     <div class="home-tiles" id="homeTiles">
       <button type="button" class="tile" data-action="listeningRoute" data-menu="listen"><i aria-hidden="true">👂</i><b>耳トレ</b></button>
       <button type="button" class="tile" data-action="talk" data-menu="talk"><i aria-hidden="true">🗣</i><b>AIと話す</b></button>
@@ -238,7 +246,7 @@
     </div>
     <p class="menu-stat" id="coachStat"></p>
     <p class="home-line" id="lrHome"></p>
-    <details class="library" id="homeMore"><summary>こまかい設定・教材の一覧・記録</summary>
+
     <div class="quick-start" id="learningPlan">
       <h2>🗣 AIと話す</h2>
       <label for="lpTrack" class="sr-only">場面</label>
@@ -362,10 +370,11 @@
     <footer>
       <div id="cloudStatus">☁️ この端末だけに保存（ログイン前）</div>
       <button class="link" data-action="cloud" id="cloudBtn">Google でログインして同期</button>
-      <div class="muted" style="font-size:11px">ログインすると PC と iPhone で同じ進捗になります（オフラインでも動きます）</div>
+      <div class="muted" style="font-size:11px">ログインすると既存教材の進捗を同期します。トップ30の進捗は、この端末だけに保存します。</div>
     </footer>
   </section>
 
+  <section id="priority" hidden aria-label="私のトップ30"><div class="bar"><h2 id="p30Title" tabindex="-1"></h2><button class="link" data-pr="home">中断してホームへ</button></div><p id="p30Progress" class="stat"></p><div id="p30Body"></div><p id="p30Storage" class="muted" role="status"></p></section>
   <section id="quiz" hidden aria-label="聞いて意味を選ぶ練習"><div class="bar"><h2 id="qzTitle" tabindex="-1"></h2><button class="link" data-action="home">ホームへ</button></div><p id="qzProgress" class="stat"></p><div id="qzBody"></div><div id="qzActions" class="speakrow"></div></section>
   <section id="skills" hidden aria-label="基礎トレ"><div class="bar"><h2 id="skTitle" tabindex="-1"></h2><button class="link" data-action="home">ホームへ</button></div><p id="skProgress" class="stat"></p><div id="skBody"></div><div id="skActions" class="speakrow"></div></section>
   <section id="assess" hidden aria-label="現在地チェック"><div class="bar"><h2 id="asTitle" tabindex="-1"></h2><button class="link" data-action="home">ホームへ</button></div><div id="asBody"></div><div id="asActions" class="speakrow"></div></section>
@@ -673,7 +682,10 @@
 <!-- content:end -->
 <script src="audio-core.js"></script>
 <script src="card-audio.js"></script>
+<script src="priority-data.js"></script>
+<script src="priority-core.js"></script>
 <script src="app.js"></script>
+<script src="priority.js"></script>
 <script src="growth.js"></script>
 <script src="quiz.js"></script>
 <script src="assess.js"></script>
