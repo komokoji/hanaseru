@@ -2935,7 +2935,7 @@ self.HANASERU_CARD_AUDIO={
  "That's why you see more serious cases, I guess. In Japan, parents come quite early.": "./audio/cards/9ab4d551006ceb15e507.mp3",
  "We both work until seven, so dinner ends up around eight thirty, and by the time he's had his bath it's nearly ten, and mornings are just chaos.": "./audio/cards/2b93a2768e7621d0c19a.mp3",
  "So he goes to bed late, which means there's no time for the toilet in the morning. The reason is the schedule, not him.": "./audio/cards/69eb9e75a1ed0d9ed806.mp3",
- "He went twice this week, so I think we can stop coming now, can't we?": "./audio/cards/5d054ce9242730064a20.mp3",
+ "He's had two bowel movements this week. Does he still need to come back for check-ups?": "./audio/cards/97144b3828b0755c6428.mp3",
  "I see what you mean, but I'd like to see him a little longer. Things often slip back if we stop early.": "./audio/cards/d6ceff119d79a986c294.mp3",
  "We have you down for two nights, checking out on Thursday. Is that correct?": "./audio/cards/541deeb74a25a12c181b.mp3",
  "Actually, I booked three nights. I'm checking out on Friday. Could you check again?": "./audio/cards/9c1afaf03d705b9f0403.mp3",
