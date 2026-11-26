@@ -183,8 +183,8 @@ var list = [
   goal: 'クッションの一言から始めて、違う点をはっきり、しかしやわらかく伝える。',
   phrases: ["Actually, ...", "To be honest, ...", "I see what you mean, but ...", "I'm afraid ...", "Having said that, ..."],
   turns: [
-    turn("He went twice this week, so I think we can stop coming now, can't we?",
-      '今週は2回出たので、もう通院はやめてもいいですよね。',
+    turn("He's had two bowel movements this week. Does he still need to come back for check-ups?",
+      '今週は2回うんちが出ました。まだ通院を続ける必要がありますか。',
       '〈やわらかく反対する〉I see what you mean, but ... で受けてから、もう少し続けたいと伝える。',
       "I see what you mean, but I'd like to see him a little longer. Things often slip back if we stop early.",
       '相手の考えを一度認めてから反対する形。but の前で少し間を置くと、きつく聞こえません。'),
